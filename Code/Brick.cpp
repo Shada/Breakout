@@ -1,0 +1,9 @@
+Brick::Brick()
+{
+
+}
+
+Brick::~Brick()
+{
+
+}
