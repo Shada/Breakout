@@ -1,11 +1,18 @@
 #pragma once
-#include <windows.h>
+
+// If compiled on win32 system, windows specific 
+#ifdef _WIN32
+	#include <windows.h>
+#else
+	#include <gl/glew.h>
+	#include <gl/glfw.h>
+#endif
 
 class Windowhandler
 {
 protected:
 
-	virtual HRESULT initWindow() = 0;
+	virtual bool initWindow() = 0;
 
 	virtual void createConsoleLog(const char *winTitle) = 0;
 	virtual int run() = 0;
@@ -13,7 +20,7 @@ public:
 	Windowhandler();
 	~Windowhandler();
 };
-
+#ifdef _WIN32
 class Winhandler : public Windowhandler
 {
 private:
@@ -22,21 +29,23 @@ private:
 
 	void createConsoleLog(const char *winTitle);
 	int run();
-	HRESULT initWindow();
-	HRESULT initWindow(HINSTANCE hInstance, int nCmdShow);
+	bool initWindow();
+	bool initWindow(HINSTANCE hInstance, int nCmdShow);
 public:
 	Winhandler();
 	~Winhandler();
 };
 
+#else
 class Linuxhandler : public Windowhandler
 {
-//#include <gl/glew.h>
 private:
-	HRESULT initWindow();
+	//GLFWwindow *hwnd;
+	bool initWindow();
 	void createConsoleLog(const char *winTitle);
 	int run();
 public:
 	Linuxhandler();
 	~Linuxhandler();
 };
+#endif
