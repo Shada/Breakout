@@ -31,6 +31,7 @@ public:
 
 class Linuxhandler : public Windowhandler
 {
+//#include <gl/glew.h>
 private:
 	HRESULT initWindow();
 	void createConsoleLog(const char *winTitle);

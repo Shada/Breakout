@@ -1,0 +1,4 @@
+1. The header files for GLEW must be located in 
+"C:\Program Files (x86)\Windows Kits\8.0\Include\um\gl\" in windows
+
+This must be set up in the installation.

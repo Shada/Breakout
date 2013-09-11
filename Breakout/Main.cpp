@@ -1,17 +1,13 @@
 #include <crtdbg.h>
 #include "Windowhandler.h"
 
-#define LINUX 0
-#define WINDOWS 1
-
 int main()
 {
 	Windowhandler *wh;
-#if LINUX
-	wh = new Linuxhandler();
-#endif
-#if WINDOWS
+#ifdef _WIN32
 	wh = new Winhandler();
+#else
+	wh = new Linuxhandler();
 #endif
 
 	delete wh;
