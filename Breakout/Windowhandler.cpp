@@ -173,6 +173,8 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 	//hwnd = NULL;
 	//create console? or is it automatic...?
 	initWindow();
+
+	run();
 }
 
 int Linuxhandler::run()
