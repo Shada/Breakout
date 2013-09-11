@@ -6,8 +6,6 @@
 *.suo
 Debug/*.*
 Breakout/Debug/*.*
-*.vcxproj
-*.filters
 
 # Compiled Dynamic libraries
 *.so
