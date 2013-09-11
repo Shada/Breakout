@@ -1,12 +1,12 @@
 #include "Timer.h"
 
-Timer::Timer()
+Logic::Timer::Timer()
 {
 	deltaTime = 0;
 	oldTime = clock();
 }
 
-void Timer::Tick()
+void Logic::Timer::Tick()
 {
 	//Probably a pretty dirty solution...
 	//if(deltaTime == NULL) //This check is done to prevent odd numbers at first tick (where oldTime is undefined).
@@ -22,12 +22,12 @@ void Timer::Tick()
 	oldTime = newTime;
 }
 
-double Timer::getDelta()
+double Logic::Timer::getDelta()
 {
 	return deltaTime;
 }
 
-int Timer::getFPS()
+int Logic::Timer::getFPS()
 {
 	//Lazy, but works.
 	return (int)(1.0 / deltaTime);
