@@ -6,7 +6,7 @@
 int main()
 {
 	Windowhandler *wh;
-#ifdef WINDOWS
+#ifdef _WIN32
 	wh = new Winhandler();
 #else
 	wh = new Linuxhandler();

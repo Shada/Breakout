@@ -1,4 +1,4 @@
-#ifndef WINDOWS
+#ifndef _WIN32
 
 #include "GraphicsOGL4.h"
 #include "Resource.h"

@@ -1,4 +1,4 @@
-#ifdef WINDOWS
+#ifdef _WIN32
 
 #pragma once
 #include "graphicsinterface.h"

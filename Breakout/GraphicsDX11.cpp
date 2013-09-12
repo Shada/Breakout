@@ -1,4 +1,4 @@
-#ifdef WINDOWS
+#ifdef _WIN32
 
 #include "GraphicsDX11.h"
 
@@ -59,4 +59,4 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_DELETE(samplerLinear);
 }
 
-#endif // WINDOWS
+#endif // _WIN32

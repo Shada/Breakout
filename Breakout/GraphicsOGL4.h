@@ -1,4 +1,4 @@
-#ifndef WINDOWS
+#ifndef _WIN32
 
 #ifndef _GRAPHICSOGL4_H_
 #define _GRAPHICSOGL4_H_

@@ -1,7 +1,7 @@
 #pragma once
 
-// If compiled on win32 system, windows specific 
-#ifdef WINDOWS
+// If compiled on win32 system, _WIN32 specific 
+#ifdef _WIN32
 	#include <windows.h>
 #else
 	#include "GraphicsOGL4.h"
@@ -21,7 +21,7 @@ public:
 	// virtual destructor
 	virtual ~Windowhandler();
 };
-#ifdef WINDOWS
+#ifdef _WIN32
 class Winhandler : public Windowhandler
 {
 private:
@@ -29,8 +29,6 @@ private:
 	HINSTANCE hInst;
 
 	void createConsoleLog(const char *winTitle);
-	HRESULT initWindow();
-	HRESULT initWindow(HINSTANCE hInstance, int nCmdShow);
 	bool initWindow();
 	bool initWindow(HINSTANCE hInstance, int nCmdShow);
 public:

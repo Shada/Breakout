@@ -5,6 +5,6 @@
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 
 // temporary, just fr being able to test linux code on win32 environment.
-//#define WINDOWS
+//#define _WIN32
 
 #endif

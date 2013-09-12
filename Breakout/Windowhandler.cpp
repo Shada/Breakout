@@ -22,7 +22,7 @@ Windowhandler::~Windowhandler()
 	int a = 0;
 }
 
-#ifdef WINDOWS
+#ifdef _WIN32
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
