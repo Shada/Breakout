@@ -1,4 +1,12 @@
 1. The header files for GLEW must be located in 
 "C:\Program Files (x86)\Windows Kits\8.0\Include\um\gl\" in windows
 
+compiled lib-files need to be in 
+"C:\Program Files (x86)\Windows Kits\8.0\Lib\win8\um\x86"
+
 This must be set up in the installation.
+
+2. for Linux GLEW must be compiled and then the files needs to be put in the correct directories
+(<insert directory paths here>)
+
+3. Same thing goes for GLFW files

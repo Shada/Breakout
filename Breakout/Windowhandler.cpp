@@ -20,7 +20,7 @@ Windowhandler::~Windowhandler()
 {
 }
 
-
+#ifdef _WIN32
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
@@ -34,7 +34,7 @@ Winhandler::Winhandler() : Windowhandler()
 	run();
 }
 
-HRESULT Winhandler::initWindow()
+bool Winhandler::initWindow()
 {
 	return initWindow(GetModuleHandle(NULL), SW_SHOW);
 	
@@ -63,7 +63,7 @@ LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-HRESULT Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
+bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
 	WNDCLASSEX wcex;
@@ -178,25 +178,74 @@ Winhandler::~Winhandler()
 {
 
 }
-
+#else
 Linuxhandler::Linuxhandler() : Windowhandler()
 {
+	//hwnd = NULL;
+	//create console? or is it automatic...?
+	initWindow();
+
+	run();
 }
 
 int Linuxhandler::run()
 {
+	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
+	glfwEnable(GLFW_STICKY_KEYS);
+	
+	do
+	{
+		//drawing (shall be in render class)
+
+		//swap buffers
+		glfwSwapBuffers();
+	}
+	while(glfwGetKey(GLFW_KEY_ESC) != GLFW_PRESS);
 	return 0;
 }
 
-HRESULT Linuxhandler::initWindow()
+bool Linuxhandler::initWindow()
 {
-	return S_OK;
+	// Initialize GLFW
+	if(!glfwInit())
+	{
+		//print error message to console
+		return false;
+	}
+	
+	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 4); // version 4.3
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
+
+
+	if(!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+	{
+		// PRINT OUT ERROR MESSAGE
+		glfwTerminate();
+		return false;
+	}
+
+	// initialize GLEW
+	glewExperimental = true; // need this for core profile
+	if(glewInit() != GLEW_OK)
+	{
+		//print error message
+		return false;
+	}
+	glfwSetWindowTitle("Breakout for dummies");
+
+	return true;
 }
 
 void Linuxhandler::createConsoleLog(const char *winTitle)
 {
+	//here we should create a console log. Need research
 }
 
 Linuxhandler::~Linuxhandler()
 {
+	glfwCloseWindow();
+	//glfwDestroyWindow(hwnd);
 }
+#endif
