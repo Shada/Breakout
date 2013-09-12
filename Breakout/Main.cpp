@@ -1,5 +1,7 @@
 #include <crtdbg.h>
 #include "Windowhandler.h"
+#include "Resource.h"
+
 
 int main()
 {
@@ -10,8 +12,9 @@ int main()
 	wh = new Linuxhandler();
 #endif
 
-	delete wh;
-	wh = NULL;
+	wh->run();
+
+	SAFE_DELETE(wh);
 
 	_CrtDumpMemoryLeaks();
 }

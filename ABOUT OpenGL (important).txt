@@ -1,4 +1,22 @@
 1. The header files for GLEW must be located in 
 "C:\Program Files (x86)\Windows Kits\8.0\Include\um\gl\" in windows
 
+compiled lib-files need to be in 
+"C:\Program Files (x86)\Windows Kits\8.0\Lib\win8\um\x86"
+
 This must be set up in the installation.
+
+2. for Linux GLEW must be compiled and then the files needs to be put in the correct directories
+(<insert directory paths here>)
+
+3. Same thing goes for GLFW files
+
+OpenGL files can be found here (using glfw 2.7.9):
+
+for Windows (only for testing when on windows environment)
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/glew%20for%20win32.rar
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/GLFW%20win32%20bin.rar
+
+for linux (uncompiled for the moment):
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/glew%20uncompiled.rar
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/GLFW%20source.rar
