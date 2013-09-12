@@ -3,6 +3,14 @@
 #include <iostream>
 #include <fcntl.h>
 
+#ifdef _WIN32
+#include "GraphicsDX11.h"
+#else
+#include "GraphicsOGL4.h"
+#endif
+
+
+
 Windowhandler::Windowhandler()
 {
 	
@@ -29,6 +37,7 @@ Winhandler::Winhandler() : Windowhandler()
 HRESULT Winhandler::initWindow()
 {
 	return initWindow(GetModuleHandle(NULL), SW_SHOW);
+	
 }
 
 LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -124,6 +133,7 @@ int Winhandler::run()
 		{
 			if(GetActiveWindow() == hWnd)
 			{
+
 			}
 
 			time = 0;
@@ -166,6 +176,7 @@ void Winhandler::createConsoleLog(const char *winTitle)
 
 Winhandler::~Winhandler()
 {
+
 }
 
 Linuxhandler::Linuxhandler() : Windowhandler()
