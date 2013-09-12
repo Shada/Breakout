@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{8384589b-638f-4c67-a838-1a6b4e842406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\gs">
+      <UniqueIdentifier>{e18f2ca4-1f43-429b-822a-03c12da157b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ps">
+      <UniqueIdentifier>{c517646c-7ed2-4d60-adee-a311d9620793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\vs">
+      <UniqueIdentifier>{1eda84c7-b438-4de0-ac13-8a5f6d05779d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowhandler.h">
@@ -24,10 +36,10 @@
     <ClInclude Include="linearalgebra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsInterface.h">
+    <ClInclude Include="GraphicsDX11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsDX11.h">
+    <ClInclude Include="TechniqueHLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -39,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsDX11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TechniqueHLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

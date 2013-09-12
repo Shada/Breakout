@@ -68,14 +68,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsDX11.h" />
-    <ClInclude Include="GraphicsInterface.h" />
     <ClInclude Include="linearalgebra.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="TechniqueHLSL.h" />
     <ClInclude Include="Windowhandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsDX11.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TechniqueHLSL.cpp" />
     <ClCompile Include="Windowhandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

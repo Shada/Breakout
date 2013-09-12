@@ -13,7 +13,6 @@
 
 Windowhandler::Windowhandler()
 {
-	
 }
 
 Windowhandler::~Windowhandler()
@@ -31,13 +30,15 @@ Winhandler::Winhandler() : Windowhandler()
 		return;
 	}
 
+	g = GraphicsDX11::getInstance();
+	g->init(&hWnd);
+
 	run();
 }
 
 bool Winhandler::initWindow()
 {
 	return initWindow(GetModuleHandle(NULL), SW_SHOW);
-	
 }
 
 LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -133,7 +134,11 @@ int Winhandler::run()
 		{
 			if(GetActiveWindow() == hWnd)
 			{
+				g->clearRenderTarget(0.1f,0.05f,0.5f);
+				
+				//draw
 
+				g->presentSwapChain();
 			}
 
 			time = 0;
@@ -176,7 +181,7 @@ void Winhandler::createConsoleLog(const char *winTitle)
 
 Winhandler::~Winhandler()
 {
-
+	SAFE_DELETE(g);
 }
 #else
 Linuxhandler::Linuxhandler() : Windowhandler()

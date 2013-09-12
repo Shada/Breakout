@@ -1,22 +1,21 @@
 #pragma once
-#include "graphicsinterface.h"
 #include <d3dcompiler.h>
 #include <d3d11.h>
 #include <D3DX11.h>
 #include <iostream>
 #include "Resource.h"
 
-class GraphicsDX11 :
-	public GraphicsInterface
+class GraphicsDX11
 {
 private:
+	static GraphicsDX11			*instance;
+	GraphicsDX11();
+
+	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
 	D3D_FEATURE_LEVEL			featureLevel;
-	ID3D11Device				*device;
 	
 	IDXGISwapChain				*swapChain;
-
-	ID3D11DeviceContext			*immediateContext;
 
 	//renderTarget
 	ID3D11Texture2D				*renderTargetTex;
@@ -32,7 +31,7 @@ private:
 	D3D11_VIEWPORT				viewPort;
 
 	//blendStates
-	ID3D11BlendState			*blendOption1;
+	ID3D11BlendState			*blendEnable;
 
 	//depthStencilStates
 	ID3D11DepthStencilState		*depthStencilStateEnable;
@@ -45,14 +44,21 @@ private:
 
 
 public:
-	HRESULT						compileShaderFromFile( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
+	ID3D11DeviceContext			*immediateContext;
+	bool						shader5Support;
 
-	GraphicsDX11();
+	static GraphicsDX11			*getInstance()
+	{
+		if(!instance)
+			instance = new GraphicsDX11();
+		return instance;
+	}
 
-	void init();
-	void cleanUp();
-	void compileShader();
+	void init(HWND *hWnd);
+	void clearRenderTarget(float r, float g, float b);
+	HRESULT compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
 	void presentSwapChain();
+
 
 	~GraphicsDX11();
 };
