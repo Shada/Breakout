@@ -1,3 +1,5 @@
+#ifdef WINDOWS
+
 #include "GraphicsDX11.h"
 
 
@@ -56,3 +58,5 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_DELETE(rasterizerFrontface);
 	SAFE_DELETE(samplerLinear);
 }
+
+#endif // WINDOWS

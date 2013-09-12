@@ -1,3 +1,5 @@
+#ifdef WINDOWS
+
 #pragma once
 #include "graphicsinterface.h"
 #include <d3dcompiler.h>
@@ -57,3 +59,4 @@ public:
 	~GraphicsDX11();
 };
 
+#endif // _WIN32

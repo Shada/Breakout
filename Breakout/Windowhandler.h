@@ -4,8 +4,7 @@
 #ifdef WINDOWS
 	#include <windows.h>
 #else
-	#include <gl/glew.h>
-	#include <gl/glfw.h>
+	#include "GraphicsOGL4.h"
 #endif
 
 class Windowhandler
@@ -18,7 +17,9 @@ protected:
 public:
 	virtual int run() = 0;
 	Windowhandler();
-	~Windowhandler();
+
+	// virtual destructor
+	virtual ~Windowhandler();
 };
 #ifdef WINDOWS
 class Winhandler : public Windowhandler
@@ -42,7 +43,7 @@ public:
 class Linuxhandler : public Windowhandler
 {
 private:
-	//GLFWwindow *hwnd;
+
 	bool initWindow();
 	void createConsoleLog(const char *winTitle);
 public:
