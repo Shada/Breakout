@@ -1,7 +1,7 @@
 #pragma once
 
 // If compiled on win32 system, windows specific 
-#ifdef _WIN32
+#ifdef WINDOWS
 	#include <windows.h>
 #else
 	#include <gl/glew.h>
@@ -20,7 +20,7 @@ public:
 	Windowhandler();
 	~Windowhandler();
 };
-#ifdef _WIN32
+#ifdef WINDOWS
 class Winhandler : public Windowhandler
 {
 private:

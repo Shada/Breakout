@@ -12,7 +12,7 @@ Windowhandler::~Windowhandler()
 {
 }
 
-#ifdef _WIN32
+#ifdef WINDOWS
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
@@ -167,25 +167,46 @@ void Winhandler::createConsoleLog(const char *winTitle)
 Winhandler::~Winhandler()
 {
 }
+
 #else
 Linuxhandler::Linuxhandler() : Windowhandler()
 {
 	//hwnd = NULL;
 	//create console? or is it automatic...?
 	initWindow();
+	
+	// maybe need to be moved...
+	// create and bind VAO
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
 
 	run();
 }
+
+//temporary triangle to test drawing
+static const GLfloat g_vertex_buffer_data[] = {
+	-1.f, -1.f, 0.f, 
+	1.f, -1.f, 0.f,
+	0.f, 1.f, 0.f,
+};
 
 int Linuxhandler::run()
 {
 	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
 	glfwEnable(GLFW_STICKY_KEYS);
 	
+	//id to vertex buffer
+	GLuint vertexBuffer;
+
+	// generate the buffer and store the id in vertexBuffer var
+	glGenBuffers
+
+
 	do
 	{
 		//drawing (shall be in render class)
-
+		// also some updating and shit
 		//swap buffers
 		glfwSwapBuffers();
 	}

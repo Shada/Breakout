@@ -5,12 +5,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Breakout", "Breakout\Breako
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|Win32 = Debug|Win32
+		Release|ARM = Release|ARM
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Debug|ARM.Build.0 = Debug|ARM
 		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Debug|Win32.ActiveCfg = Debug|Win32
 		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Debug|Win32.Build.0 = Debug|Win32
+		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Release|ARM.ActiveCfg = Release|ARM
+		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Release|ARM.Build.0 = Release|ARM
 		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Release|Win32.ActiveCfg = Release|Win32
 		{EEFA7176-F2E9-49F5-B1CF-9BF1E28C9769}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

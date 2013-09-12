@@ -10,3 +10,13 @@ This must be set up in the installation.
 (<insert directory paths here>)
 
 3. Same thing goes for GLFW files
+
+OpenGL files can be found here (using glfw 2.7.9):
+
+for Windows (only for testing when on windows environment)
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/glew%20for%20win32.rar
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/GLFW%20win32%20bin.rar
+
+for linux (uncompiled for the moment):
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/glew%20uncompiled.rar
+https://dl.dropboxusercontent.com/u/10317482/OpenGL%20stuff/GLFW%20source.rar
