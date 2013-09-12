@@ -1,7 +1,8 @@
-#pragma once
+#ifndef _LINALGEBRA_H_
+#define _LINALGEBRA_H_
 
-namespace linalgns
-{
+//namespace linearalgebra
+//{
 #include <math.h>
 #include <vector>
 	
@@ -689,4 +690,5 @@ namespace linalgns
 	}
 #pragma endregion
 
-}
+//}
+#endif

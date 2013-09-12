@@ -1,18 +1,24 @@
+#include "Ball.h"
 
-Logic::Ball::Ball()
+namespace Logic
 {
-
+	
+	Ball::Ball() : Object3D()
+	{
+	
+	}
+	
+	Ball::~Ball()
+	{
+	
+	}
+	
+	void Ball::Update(double _dt)
+	{
+		/*
+		Do collision check here
+		*/
+		position += direction*speed;
+	}
 }
 
-Logic::Ball::~Ball()
-{
-
-}
-
-Logic::Ball::update(double _dt)
-{
-	/*
-	Do collision check here
-	*/
-	possition += direction*speed;
-}

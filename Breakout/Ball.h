@@ -1,18 +1,20 @@
-#pragma once
+#ifndef _BALL_H_
+#define _BALL_H_
 
 #include "Object.h"
 
 namespace Logic
 {
-	class Ball : public Object
+	class Ball : public Object3D
 	{
 	public:
-		Ball() : Object();
+		Ball();
 		~Ball();
-		void update(double _dt);
+		void Update(double _dt);
 	private:
-		//float speed;
-		//Vec3 direction;
-		//float radius;
-	}
+		float speed;
+		Vec3 direction;
+		float radius;
+	};
 }
+#endif
