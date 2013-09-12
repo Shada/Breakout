@@ -46,6 +46,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>FreeImage.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,11 +64,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="linearalgebra.h" />
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="LoadHandler.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Windowhandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="LoadHandler.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Windowhandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
