@@ -1,9 +1,12 @@
+#ifdef _WIN32
+
 #pragma once
 #include <d3dcompiler.h>
 #include <d3d11.h>
 #include <D3DX11.h>
 #include <iostream>
 #include "Resource.h"
+#include "TechniqueHLSL.h"
 
 class GraphicsDX11
 {
@@ -63,3 +66,4 @@ public:
 	~GraphicsDX11();
 };
 
+#endif // _WIN32

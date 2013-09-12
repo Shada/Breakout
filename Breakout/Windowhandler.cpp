@@ -2,6 +2,7 @@
 #include <io.h>
 #include <iostream>
 #include <fcntl.h>
+#include "Resource.h"
 
 #ifdef _WIN32
 #include "GraphicsDX11.h"
@@ -17,6 +18,7 @@ Windowhandler::Windowhandler()
 
 Windowhandler::~Windowhandler()
 {
+	int a = 0;
 }
 
 #ifdef _WIN32
@@ -33,7 +35,6 @@ Winhandler::Winhandler() : Windowhandler()
 	g = GraphicsDX11::getInstance();
 	g->init(&hWnd);
 
-	run();
 }
 
 bool Winhandler::initWindow()
@@ -183,25 +184,41 @@ Winhandler::~Winhandler()
 {
 	SAFE_DELETE(g);
 }
+
 #else
 Linuxhandler::Linuxhandler() : Windowhandler()
 {
 	//hwnd = NULL;
 	//create console? or is it automatic...?
 	initWindow();
-
-	run();
+	
 }
+
 
 int Linuxhandler::run()
 {
 	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
 	glfwEnable(GLFW_STICKY_KEYS);
-	
+
+	//temporary triangle to test drawing
+	float g_vertex_buffer_data[] = {
+		-1.f, -1.f, 0.f, 
+		1.f, -1.f, 0.f,
+		0.f, 1.f, 0.f,
+	};
+
+	int startindex = GraphicsOGL4::getInstance()->feedData(1, g_vertex_buffer_data, 9);
+
 	do
 	{
 		//drawing (shall be in render class)
+		
+		//clear screen
+		glClear(GL_COLOR_BUFFER_BIT);
 
+		GraphicsOGL4::getInstance()->draw(1, startindex, 3);
+
+		// also some updating and shit
 		//swap buffers
 		glfwSwapBuffers();
 	}
@@ -240,6 +257,10 @@ bool Linuxhandler::initWindow()
 	}
 	glfwSetWindowTitle("Breakout for dummies");
 
+	// dark blue background color
+	glClearColor(0.f, 0.f, .4f, 0.f);
+
+
 	return true;
 }
 
@@ -251,6 +272,11 @@ void Linuxhandler::createConsoleLog(const char *winTitle)
 Linuxhandler::~Linuxhandler()
 {
 	glfwCloseWindow();
+	
+	GraphicsOGL4 *t = GraphicsOGL4::getInstance();
+
+	SAFE_DELETE(t);
 	//glfwDestroyWindow(hwnd);
+	Windowhandler::~Windowhandler();
 }
 #endif

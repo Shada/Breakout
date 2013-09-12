@@ -1,12 +1,11 @@
 #pragma once
 
-// If compiled on win32 system, windows specific 
+// If compiled on win32 system, _WIN32 specific 
 #ifdef _WIN32
 	#include <windows.h>
 	#include "GraphicsDX11.h"
 #else
-	#include <gl/glew.h>
-	#include <gl/glfw.h>
+	#include "GraphicsOGL4.h"
 #endif
 
 class Windowhandler
@@ -18,7 +17,9 @@ protected:
 public:
 	virtual int run() = 0;
 	Windowhandler();
-	~Windowhandler();
+
+	// virtual destructor
+	virtual ~Windowhandler();
 };
 #ifdef _WIN32
 class Winhandler : public Windowhandler
@@ -42,7 +43,7 @@ public:
 class Linuxhandler : public Windowhandler
 {
 private:
-	//GLFWwindow *hwnd;
+
 	bool initWindow();
 	void createConsoleLog(const char *winTitle);
 public:

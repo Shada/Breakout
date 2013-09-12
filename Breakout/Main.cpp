@@ -2,6 +2,7 @@
 #include "Windowhandler.h"
 #include "Resource.h"
 
+
 int main()
 {
 	Windowhandler *wh;

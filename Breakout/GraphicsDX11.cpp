@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #include "GraphicsDX11.h"
 
 GraphicsDX11	*GraphicsDX11::instance = NULL;
@@ -301,18 +303,21 @@ void GraphicsDX11::presentSwapChain()
 
 GraphicsDX11::~GraphicsDX11()
 {
-	SAFE_DELETE(device);
-	SAFE_DELETE(immediateContext);
-	SAFE_DELETE(renderTargetTex);
-	SAFE_DELETE(renderTargetView);
-	SAFE_DELETE(renderTargetResource);
-	SAFE_DELETE(depthStencilTex);
-	SAFE_DELETE(depthStencilView);
-	SAFE_DELETE(depthStencilResource);
-	SAFE_DELETE(blendEnable);
-	SAFE_DELETE(depthStencilStateEnable);
-	SAFE_DELETE(depthStencilStateDisable);
-	SAFE_DELETE(rasterizerBackface);
-	SAFE_DELETE(rasterizerFrontface);
-	SAFE_DELETE(samplerLinear);
+	SAFE_RELEASE(device);
+	SAFE_RELEASE(immediateContext);
+	SAFE_RELEASE(renderTargetTex);
+	SAFE_RELEASE(renderTargetView);
+	SAFE_RELEASE(renderTargetResource);
+	SAFE_RELEASE(depthStencilTex);
+	SAFE_RELEASE(depthStencilView);
+	SAFE_RELEASE(depthStencilResource);
+	SAFE_RELEASE(blendEnable);
+	SAFE_RELEASE(depthStencilStateEnable);
+	SAFE_RELEASE(depthStencilStateDisable);
+	SAFE_RELEASE(rasterizerBackface);
+	SAFE_RELEASE(rasterizerFrontface);
+	SAFE_RELEASE(samplerLinear);
+	TechniqueHLSL::cleanUp();
 }
+
+#endif // _WIN32
