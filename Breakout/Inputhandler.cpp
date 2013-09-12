@@ -85,7 +85,6 @@ void DInputhandler::update()
 	for(int i = 0; i < 256; i++)
 		prevKeyState[i] = keyState[i];
 
-	HRESULT result;
 	prevMouseState = mouseState;
 
 	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
@@ -94,11 +93,11 @@ void DInputhandler::update()
 	if(FAILED(keyboardInput->GetDeviceState(256, (LPVOID)&keyState)))
 		return;
 
-	for(int i = 0; i < cam.listenerKeys.size(); i++)
-		if(keyState[cam.listenerKeys.at(i)] & 0x80 && !prevKeyState[cam.listenerKeys.at(i)] & 0x80)
+	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
+		if((keyState[cam.listenerKeys.at(i)] & 0x80) && !(prevKeyState[cam.listenerKeys.at(i)] & 0x80))
 			cam.functions.at(i)(mouseState.lX, mouseState.lY);
 
-	for(int i = 0; i < pad.listenerKeys.size(); i++)
+	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
 		if(keyState[pad.listenerKeys.at(i)] & 0x80)
 			pad.functions.at(i)();
 
@@ -120,11 +119,11 @@ void GLInputhandler::update()
 	int prevMouseX = mouseX;
 	glfwGetMousePos(&mouseX, &mouseY);
 
-	for(int i = 0; i < pad.listenerKeys.size(); i++)
+	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
 		if(glfwGetKey(pad.listenerKeys.at(i)) == GLFW_PRESS)
 			pad.functions.at(i)();
 
-	for(int i = 0; i < cam.listenerKeys.size(); i++)
+	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
 		if(glfwGetKey(cam.listenerKeys.at(i)) == GLFW_PRESS)
 			cam.functions.at(i)(mouseX, mouseY);
 

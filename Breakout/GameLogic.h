@@ -1,6 +1,5 @@
 #pragma once
 #include "Map.h"
-
 namespace Logic
 {
 	class GameLogic

@@ -1,11 +1,17 @@
 #include "Brick.h"
-
-Logic::Brick::Brick()
+namespace Logic
 {
+	Brick::Brick()
+	{
 
-}
+	}
 
-Logic::Brick::~Brick()
-{
+	Brick::~Brick()
+	{
 
+	}
+	void Brick::update(double dt)
+	{
+
+	}
 }

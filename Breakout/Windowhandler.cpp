@@ -35,6 +35,8 @@ Winhandler::Winhandler() : Windowhandler()
 	g = GraphicsDX11::getInstance();
 	g->init(&hWnd);
 
+	input = new DInputhandler(&hWnd);
+
 }
 
 bool Winhandler::initWindow()
@@ -82,7 +84,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 	wcex.lpszClassName  = "Huvudkrav";
 	wcex.hIconSm        = 0;
 	if( !RegisterClassEx(&wcex) )
-		return E_FAIL;
+		return false;
 
 	// Create window
 	hInst				= hInstance; 
@@ -101,12 +103,12 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 							hInstance,
 							NULL)))
 	{
-		return E_FAIL;
+		return false;
 	}
 
 	ShowWindow( hWnd, nCmdShow );
 	
-	return S_OK;
+	return true;
 }
 
 int Winhandler::run()
@@ -191,7 +193,7 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 	//hwnd = NULL;
 	//create console? or is it automatic...?
 	initWindow();
-	
+	input = new GLInputhandler();
 }
 
 

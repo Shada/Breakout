@@ -1,7 +1,7 @@
 #ifndef _BALL_H_
 #define _BALL_H_
 
-#include "Object.h"
+#include "Object3D.h"
 
 namespace Logic
 {

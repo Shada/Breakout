@@ -12,4 +12,5 @@ Logic::Gameplay::~Gameplay()
 
 int Logic::Gameplay::Update(/*tid*/)
 {
+	return 0;
 }

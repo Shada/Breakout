@@ -7,7 +7,9 @@
 #else
 	#include "GraphicsOGL4.h"
 #endif
-
+	
+#include "Inputhandler.h"
+	
 class Windowhandler
 {
 protected:
@@ -27,6 +29,7 @@ class Winhandler : public Windowhandler
 private:
 	HWND hWnd;
 	HINSTANCE hInst;
+	Inputhandler *input;
 
 	GraphicsDX11 *g;
 

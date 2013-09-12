@@ -10,7 +10,6 @@ Logic::Pad::~Pad()
 
 }
 
-Logic::Pad::Update()
+void Logic::Pad::update(double dt)
 {
-
 }
