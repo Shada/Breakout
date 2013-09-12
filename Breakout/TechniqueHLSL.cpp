@@ -54,7 +54,7 @@ int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderN
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"vs_5_0",&vertexBlob );
 	if(FAILED(hr))
 	{
-		std::string text = "Failed to compile" + shaderName;
+		std::string text = "Failed to compile " + shaderName;
 		MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 		PostQuitMessage(0);
 		return -1;
@@ -67,7 +67,7 @@ int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderN
 		hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"vs_4_0",&vertexBlob );
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;
@@ -75,7 +75,7 @@ int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderN
 		hr = device->CreateVertexShader(vertexBlob->GetBufferPointer(), vertexBlob->GetBufferSize(), NULL, &shader);
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;
@@ -230,7 +230,7 @@ int TechniqueHLSL::insertGeometryShader(std::string shaderDir, std::string shade
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"gs_5_0",&shaderBlob );
 	if(FAILED(hr))
 	{
-		std::string text = "Failed to compile" + shaderName;
+		std::string text = "Failed to compile " + shaderName;
 		MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 		PostQuitMessage(0);
 		return -1;
@@ -242,7 +242,7 @@ int TechniqueHLSL::insertGeometryShader(std::string shaderDir, std::string shade
 		hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"gs_4_0",&shaderBlob );
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;
@@ -250,7 +250,7 @@ int TechniqueHLSL::insertGeometryShader(std::string shaderDir, std::string shade
 		hr = device->CreateGeometryShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), NULL, &shader);
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;
@@ -293,7 +293,7 @@ int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderNa
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"ps_5_0",&shaderBlob );
 	if(FAILED(hr))
 	{
-		std::string text = "Failed to compile" + shaderName;
+		std::string text = "Failed to compile " + shaderName;
 		MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 		PostQuitMessage(0);
 		return -1;
@@ -305,7 +305,7 @@ int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderNa
 		hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"ps_4_0",&shaderBlob );
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;
@@ -313,7 +313,7 @@ int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderNa
 		hr = device->CreatePixelShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), NULL, &shader);
 		if(FAILED(hr))
 		{
-			std::string text = "Failed to compile" + shaderName;
+			std::string text = "Failed to compile " + shaderName;
 			MessageBox( NULL, text.c_str(),"Shader Error",MB_OK);
 			PostQuitMessage(0);
 			return -1;

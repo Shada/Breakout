@@ -57,8 +57,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TechniqueHLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="GraphicsOGL4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\hlsl\vsSimple.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psSimple.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\resource.fx">
+      <Filter>HLSL</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

@@ -156,6 +156,9 @@ void GraphicsDX11::init(HWND *hWnd)
 	immediateContext->RSSetViewports( 1, &viewPort );
 
 
+	techSimple	= new TechniqueHLSL(device, "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple");
+
+
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
 	{
 		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -163,12 +166,12 @@ void GraphicsDX11::init(HWND *hWnd)
 		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	/*hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techModel->getInputSignature(),techModel->getInputSignatureSize(), &simpleInputLayout);
+	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techSimple->getInputSignature(),techSimple->getInputSignatureSize(), &simpleInputLayout);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create simpleInputLayout","GraphicsDX11 Error",MB_OK);
 		return;
-	}*/
+	}
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayoutInst[] =
 	{
@@ -317,6 +320,9 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(rasterizerBackface);
 	SAFE_RELEASE(rasterizerFrontface);
 	SAFE_RELEASE(samplerLinear);
+	SAFE_RELEASE(simpleInputLayout);
+
+	SAFE_DELETE(techSimple);
 	TechniqueHLSL::cleanUp();
 }
 

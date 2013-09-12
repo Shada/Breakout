@@ -20,6 +20,12 @@ private:
 	
 	IDXGISwapChain				*swapChain;
 
+	//techniques
+	TechniqueHLSL				*techSimple;
+
+	//layouts
+	ID3D11InputLayout			*simpleInputLayout;
+
 	//renderTarget
 	ID3D11Texture2D				*renderTargetTex;
 	ID3D11RenderTargetView		*renderTargetView;
