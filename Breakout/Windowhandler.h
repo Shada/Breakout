@@ -15,8 +15,8 @@ protected:
 	virtual bool initWindow() = 0;
 
 	virtual void createConsoleLog(const char *winTitle) = 0;
-	virtual int run() = 0;
 public:
+	virtual int run() = 0;
 	Windowhandler();
 	~Windowhandler();
 };
@@ -28,10 +28,12 @@ private:
 	HINSTANCE hInst;
 
 	void createConsoleLog(const char *winTitle);
-	int run();
+	HRESULT initWindow();
+	HRESULT initWindow(HINSTANCE hInstance, int nCmdShow);
 	bool initWindow();
 	bool initWindow(HINSTANCE hInstance, int nCmdShow);
 public:
+	int run();
 	Winhandler();
 	~Winhandler();
 };
@@ -43,8 +45,8 @@ private:
 	//GLFWwindow *hwnd;
 	bool initWindow();
 	void createConsoleLog(const char *winTitle);
-	int run();
 public:
+	int run();
 	Linuxhandler();
 	~Linuxhandler();
 };
