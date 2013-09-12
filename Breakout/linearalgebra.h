@@ -1,8 +1,6 @@
 #ifndef _LINALGEBRA_H_
 #define _LINALGEBRA_H_
 
-//namespace linearalgebra
-//{
 #include <math.h>
 #include <vector>
 	
@@ -649,46 +647,44 @@
 		mOut[2][2] = axis.z * axis.z * (1 - cos(angle)) + cos(angle);
 	}
 
-	inline std::vector<Vec4> buildViewFrustum(Matrix view, Matrix proj)
-	{
-		Matrix viewProj = view * proj;
-		std::vector<Vec4> frustum(6);
+	//inline std::vector<Vec4> buildViewFrustum(Matrix view, Matrix proj)
+	//{
+	//	Matrix viewProj = view * proj;
+	//	std::vector<Vec4> frustum(6);
 
-		frustum[0].x = viewProj[0][3] + viewProj[0][0];
-		frustum[0].y = viewProj[1][3] + viewProj[1][0];
-		frustum[0].z = viewProj[2][3] + viewProj[2][0];
-		frustum[0].w = viewProj[3][3] + viewProj[3][0];
+	//	frustum[0].x = viewProj[0][3] + viewProj[0][0];
+	//	frustum[0].y = viewProj[1][3] + viewProj[1][0];
+	//	frustum[0].z = viewProj[2][3] + viewProj[2][0];
+	//	frustum[0].w = viewProj[3][3] + viewProj[3][0];
 
-		frustum[1].x = viewProj[0][3] - viewProj[0][0];
-		frustum[1].y = viewProj[1][3] - viewProj[1][0];
-		frustum[1].z = viewProj[2][3] - viewProj[2][0];
-		frustum[1].w = viewProj[3][3] - viewProj[3][0];
+	//	frustum[1].x = viewProj[0][3] - viewProj[0][0];
+	//	frustum[1].y = viewProj[1][3] - viewProj[1][0];
+	//	frustum[1].z = viewProj[2][3] - viewProj[2][0];
+	//	frustum[1].w = viewProj[3][3] - viewProj[3][0];
 
-		frustum[2].x = viewProj[0][3] - viewProj[0][1];
-		frustum[2].y = viewProj[1][3] - viewProj[1][1];
-		frustum[2].z = viewProj[2][3] - viewProj[2][1];
-		frustum[2].w = viewProj[3][3] - viewProj[3][1];
+	//	frustum[2].x = viewProj[0][3] - viewProj[0][1];
+	//	frustum[2].y = viewProj[1][3] - viewProj[1][1];
+	//	frustum[2].z = viewProj[2][3] - viewProj[2][1];
+	//	frustum[2].w = viewProj[3][3] - viewProj[3][1];
 
-		frustum[3].x = viewProj[0][3] + viewProj[0][1];
-		frustum[3].y = viewProj[1][3] + viewProj[1][1];
-		frustum[3].z = viewProj[2][3] + viewProj[2][1];
-		frustum[3].w = viewProj[3][3] + viewProj[3][1];
+	//	frustum[3].x = viewProj[0][3] + viewProj[0][1];
+	//	frustum[3].y = viewProj[1][3] + viewProj[1][1];
+	//	frustum[3].z = viewProj[2][3] + viewProj[2][1];
+	//	frustum[3].w = viewProj[3][3] + viewProj[3][1];
 
-		frustum[4].x = viewProj[0][2];
-		frustum[4].y = viewProj[1][2];
-		frustum[4].z = viewProj[2][2];
-		frustum[4].w = viewProj[3][2];
+	//	frustum[4].x = viewProj[0][2];
+	//	frustum[4].y = viewProj[1][2];
+	//	frustum[4].z = viewProj[2][2];
+	//	frustum[4].w = viewProj[3][2];
 
-		frustum[5].x = viewProj[0][3] - viewProj[0][2];
-		frustum[5].y = viewProj[1][3] - viewProj[1][2];
-		frustum[5].z = viewProj[2][3] - viewProj[2][2];
-		frustum[5].w = viewProj[3][3] - viewProj[3][2];
+	//	frustum[5].x = viewProj[0][3] - viewProj[0][2];
+	//	frustum[5].y = viewProj[1][3] - viewProj[1][2];
+	//	frustum[5].z = viewProj[2][3] - viewProj[2][2];
+	//	frustum[5].w = viewProj[3][3] - viewProj[3][2];
 
-		for(int i = 0; i < 6; i++)
-			frustum[i].normalize();
-		return frustum;
-	}
+	//	for(int i = 0; i < 6; i++)
+	//		frustum[i].normalize();
+	//	return frustum;
+	//}
 #pragma endregion
-
-//}
 #endif

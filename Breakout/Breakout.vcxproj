@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;glfw.lib;glew32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FreeImage.lib;d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;glfw.lib;glew32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -145,7 +145,6 @@
     <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Inputhandler.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
@@ -155,6 +154,17 @@
     <ClCompile Include="GraphicsDX11.cpp" />
     <ClCompile Include="GraphicsOGL4.cpp" />
     <ClCompile Include="TechniqueHLSL.cpp" />
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="LoadHandler.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="LoadHandler.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Windowhandler.cpp" />
   </ItemGroup>
   <ItemGroup>
