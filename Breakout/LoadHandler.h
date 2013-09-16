@@ -5,17 +5,25 @@
 #include "Model.h"
 #include "Texture.h"
 
-class LoadHandler
+namespace Resources
 {
-private:
-	Loader *loader;
-	std::vector<Model*> models;
-	std::vector<Texture*> textures;
-	std::vector<Texture*> maps;
 
-public:
-	LoadHandler(void);
-	~LoadHandler(void);
-};
+	class LoadHandler
+	{
+	private:
+		Loader *loader;
+		std::vector<Model*> models;
+		std::vector<Texture*> textures;
+		std::vector<Texture*> maps;
+
+	public:
+		LoadHandler(void);
+		~LoadHandler(void);
+		Model* getModel(unsigned int _index){return models.at(_index);};
+		Texture* getTexture(unsigned int _index){return textures.at(_index);}
+		Texture* getMap(unsigned int _index){return maps.at(_index);}
+	};
+
+}
 
 #endif
