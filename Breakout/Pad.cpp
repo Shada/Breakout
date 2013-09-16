@@ -2,18 +2,12 @@
 
 namespace Logic
 {
-<<<<<<< HEAD
 	Vec3 Pad::pos = Vec3(0, 0, 0);
 	Pad::Pad()
 	{
 
 	}
 
-	void Pad::update(double dt)
-	{
-		position = pos;
-	}
-=======
 	Pad::Pad()
 	{
 		movementSpeed = 1.0f;
@@ -29,6 +23,7 @@ namespace Logic
 	void Pad::Update(double _dt)
 	{
 		//Calculate on buffs and debuffs
+		position = pos;
 	}
 
 	void Pad::Move2D(double _dt, float _x)
@@ -48,20 +43,11 @@ namespace Logic
 		position.y = sinf(angle3D);
 	}
 
->>>>>>> Objects and Physics improvements
-
-	void Pad::move(int pixels)
+	void Pad::Move(int pixels)
 	{
 		pos.x += pixels;
 		//position.x += pixels;
 	}
 
-<<<<<<< HEAD
-	Pad::~Pad()
-	{
 
-	}
 }
-=======
-
->>>>>>> Objects and Physics improvements

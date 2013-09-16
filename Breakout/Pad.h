@@ -12,11 +12,9 @@ namespace Logic
 	public:
 		Pad();
 		~Pad();
-<<<<<<< HEAD
 
-		void update(double dt);
-		static void move(int pixels);
-=======
+
+		static void Move(int pixels);
 		void Update(double _dt);
 		void Move2D(double _dt, float _x);
 		void Move3D(double _dt, float _x);
@@ -24,7 +22,6 @@ namespace Logic
 
 	private:
 		float movementSpeed, angle2D, angle3D;
->>>>>>> Objects and Physics improvements
 	};
 }
 #endif
