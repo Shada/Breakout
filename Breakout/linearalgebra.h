@@ -647,6 +647,13 @@
 		mOut[2][2] = axis.z * axis.z * (1 - cos(angle)) + cos(angle);
 	}
 
+	/* Returns the resulting angle of a wall collission. Should hopefully work. */
+	inline Vec3 PlaneReflection(Vec3 _v, Vec3 _n)
+	{
+		return _v - (_v * _n) * _n * 2;
+		//return -( (_n * _v) *  2.0f * _n - _v);
+	}
+
 	//inline std::vector<Vec4> buildViewFrustum(Matrix view, Matrix proj)
 	//{
 	//	Matrix viewProj = view * proj;

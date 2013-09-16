@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PAD_H_
+#define _PAD_H_
 
 #include "Object3D.h"
 
@@ -11,8 +12,19 @@ namespace Logic
 	public:
 		Pad();
 		~Pad();
+<<<<<<< HEAD
 
 		void update(double dt);
 		static void move(int pixels);
+=======
+		void Update(double _dt);
+		void Move2D(double _dt, float _x);
+		void Move3D(double _dt, float _x);
+		void setAngle(float _a)	{ angle2D = _a; };
+
+	private:
+		float movementSpeed, angle2D, angle3D;
+>>>>>>> Objects and Physics improvements
 	};
 }
+#endif

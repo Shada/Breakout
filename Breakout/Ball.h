@@ -11,9 +11,18 @@ namespace Logic
 		Ball();
 		~Ball();
 		void Update(double _dt);
+		float getRadius()	{ return radius; };
+		Vec3 getDirection()	{ return direction; };
+
+		/* Returns position for where ball would be next frame, assuming same deltaTime. */
+		Vec3 getNextFrame(){ return nextFrame; };
+
+		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
+		void setDirection(float _x = NULL, float _y = NULL, float _z = NULL);
+		
 	private:
 		float speed;
-		Vec3 direction;
+		Vec3 direction, nextFrame;
 		float radius;
 	};
 }

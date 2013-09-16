@@ -11,61 +11,82 @@
 #define HEIGHT 30
 
 //#include "linearalgebra.h"
-#include "Object.h"
-#include "Timer.h"
+//#include "Object.h"
+#include "Ball.h"
+//#include "Timer.h"
 
 namespace Logic
 {
 #pragma region Collission
 
-	bool Intersects(Ball* _ball, Object3D* _object)
+	inline bool Intersects(Ball* _ball, Object3D* _object)
 	{
+		Vec3 tBallPos = _ball->getPosition();
+		Vec3 tObjPos = _object->getPosition();
+		float tRadius = _ball->getRadius();
+
 		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
-		Vec3 tDistance = sqrt( ((_ball->position.x - _object->position.x)*(_ball->position.x - _object->position.x)) 
-								+ ((_ball->position.y - _object->position.y)*(_ball->position.y - _object->position.y)) );
+		float tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x)) 
+								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
 
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
-		if(tDistance <= _ball->radius + HEIGHT/2 && tDistance <= _ball->radius + LENGTH/2)
+		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
 			return true;
 		
 		//If position will be withing bounds next frame, assuming same deltaTime
-		//return true;
+		tBallPos = _ball->getNextFrame();
+		tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x)) 
+								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
+
+		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
+			return true; //Might need other type of return to clarify next frame will hit
 
 		return false;
 	}
 
-	void CalculateCollission(Ball* _ball, Object3D* _object)
+	inline void CalculateCollission(Ball* _ball, Object3D* _object)
 	{
-		//Compare X positions
-		if(_ball->position.x < _object->position.x || _ball->position.x > _object->position.x )
-		{
-			_ball->direction.x *= -1;
-		}
+		Vec3 tBallPos = _ball->getPosition();
+		Vec3 tBallDir = _ball->getDirection();
+		Vec3 tObjPos = _object->getPosition();
+		float tRadius = _ball->getRadius();
 
+		//Compare X positions
+		if(tBallPos.x < tObjPos.x || tBallPos.x > tObjPos.x )
+		{
+			tBallDir.x *= -1;
+		}
 
 		//Compare Y positions
-		if(_ball->position.y < _object->position.y || _ball->position.y < _object->position.y)
+		if(tBallPos.y < tObjPos.y || tBallPos.y < tObjPos.y)
 		{
-			_ball->direction.y *= -1;
+			tBallDir.y *= -1;
 		}
+
+		_ball->setDirection(tBallDir.x, tBallDir.y, tBallDir.z);
 
 	}
 
-	bool BorderCollide(Ball* _ball)
+	inline bool BorderCollide(Ball* _ball)
 	{
+		Vec3 tBallPos = _ball->getPosition();
+		Vec3 tBallDir = _ball->getDirection();
+
 		//Compare X
-		if(_ball->position.x < 0 || _ball->position.x > MAX_WIDTH)
+		if(tBallPos.x < 0 || tBallPos.x > MAX_WIDTH)
 		{
-			_ball->direction.x *= -1;
+			tBallDir.x *= -1;
+			_ball->setDirection(tBallDir.x);
 			return true;
 		}
 
 		//Compare Y
-		if(_ball->position.y < 0 || _ball->position.y > MAX_HEIGHT)
+		if(tBallPos.y < 0 || tBallPos.y > MAX_HEIGHT)
 		{
-			_ball->direction.y *= -1;
+			tBallDir.y *= -1;
+			_ball->setDirection(NULL, tBallDir.y);
 			return true;
 		}
 
@@ -73,7 +94,7 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	void Check2DCollissions(Ball* _ball, Object3D* _listOfObjects, int _nrOfObjects)
+	inline void Check2DCollissions(Ball* _ball, Object3D** _listOfObjects, int _nrOfObjects)
 	{
 		//Function could be bool-based if we want effects when colliding. 
 		// Should probably return false on bordercollide then.
@@ -86,16 +107,17 @@ namespace Logic
 
 		for(int i = 0; i < _nrOfObjects; i++)
 		{
-			if(Intersects(_ball, Object[i])
+			if(Intersects(_ball, _listOfObjects[i]) )
 			{
 				//Ball collides with object, calculate new direction and return.
-				CalculateCollission(_ball, Object[i]);
+				CalculateCollission(_ball, _listOfObjects[i]);
 				//"Attack" Object[i]. Destroy? Damage? AoEAttack? Whatever, do it here.
 				return;
 			}
 				
 		}
 	}
+
 #pragma endregion
 
 #pragma region Gravitation
