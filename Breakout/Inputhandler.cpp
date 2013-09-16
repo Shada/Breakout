@@ -4,21 +4,21 @@ Inputhandler::Inputhandler()
 {
 }
 
-void Inputhandler::setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls)
+void Inputhandler::setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls, std::function<void(int)> mouseMove)
 {
 	this->pad.pad = pad;
 	this->pad.listenerKeys = keys;
 	this->pad.functions = functioncalls;
+	this->pad.mouseMove = mouseMove;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
 
-void Inputhandler::setCamera(/*Camera *cam,*/ std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls, std::function<void(int)> mouseMove)
+void Inputhandler::setCamera(Camera *cam, std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls)
 {
-	//this->cam.cam = cam;
+	this->cam.cam = cam;
 	this->cam.listenerKeys = keys;
 	this->cam.functions = functioncalls;
-	this->cam.mouseMove = mouseMove;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
@@ -26,7 +26,7 @@ void Inputhandler::setCamera(/*Camera *cam,*/ std::vector<int> keys, std::vector
 Inputhandler::~Inputhandler()
 {
 	delete pad.pad;
-	//delete cam.cam;
+	delete cam.cam;
 }
 
 #ifdef _WIN32
@@ -35,6 +35,7 @@ DInputhandler::DInputhandler(HWND *hWnd)
 	directInput			= 0;
 	keyboardInput		= 0;
 	mouseInput			= 0;
+
 	if(FAILED(DirectInput8Create(GetModuleHandle(NULL),
 								DIRECTINPUT_VERSION,
 								IID_IDirectInput8,
@@ -44,6 +45,13 @@ DInputhandler::DInputhandler(HWND *hWnd)
 
 	initKeyboard(hWnd);
 	initMouse(hWnd);
+
+	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
+		return;
+	prevMouseState = mouseState;
+
+	/*if(FAILED(keyboardInput->GetDeviceState(256, (LPVOID)&keyState)))
+		return;*/
 }
 
 HRESULT DInputhandler::initKeyboard(HWND* hWnd)
@@ -58,6 +66,9 @@ HRESULT DInputhandler::initKeyboard(HWND* hWnd)
 		return result;
 
 	if(FAILED(result = keyboardInput->SetCooperativeLevel(*hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
+		return result;
+
+	if(FAILED(keyboardInput->Acquire()))
 		return result;
 
 	return result;
@@ -77,6 +88,9 @@ HRESULT DInputhandler::initMouse(HWND* hWnd)
 	if(FAILED(result = mouseInput->SetCooperativeLevel(*hWnd, DISCL_BACKGROUND | DISCL_NONEXCLUSIVE)))
 		return result;
 
+	if(FAILED(mouseInput->Acquire()))
+		return result;
+
 	return result;
 }
 
@@ -87,11 +101,15 @@ void DInputhandler::update()
 
 	prevMouseState = mouseState;
 
-	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
-		return;
+	HRESULT result = mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState);
+	if(FAILED(result))
+		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+			mouseInput->Acquire();
 
-	if(FAILED(keyboardInput->GetDeviceState(256, (LPVOID)&keyState)))
-		return;
+	result = keyboardInput->GetDeviceState(256, (LPVOID)&keyState);
+	if(FAILED(result))
+		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+			keyboardInput->Acquire();
 
 	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
 		if((keyState[cam.listenerKeys.at(i)] & 0x80) && !(prevKeyState[cam.listenerKeys.at(i)] & 0x80))
@@ -101,15 +119,15 @@ void DInputhandler::update()
 		if(keyState[pad.listenerKeys.at(i)] & 0x80)
 			pad.functions.at(i)();
 
-	if(prevMouseState.lX != mouseState.lX)
-		cam.mouseMove(mouseState.lX - prevMouseState.lX);
+	if(prevMouseState.lX != 0)
+		pad.mouseMove(mouseState.lX);
 }
 
 DInputhandler::~DInputhandler()
 {
 }
 
-//#else
+#else
 GLInputhandler::GLInputhandler()
 {
 }
@@ -128,7 +146,7 @@ void GLInputhandler::update()
 			cam.functions.at(i)(mouseX, mouseY);
 
 	if(prevMouseX != mouseX)
-		cam.mouseMove(mouseX - prevMouseX);
+		pad.mouseMove(mouseX - prevMouseX);
 }
 
 GLInputhandler::~GLInputhandler()

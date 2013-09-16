@@ -14,14 +14,14 @@ public:
 	Camera();
 	~Camera();
 
-	void SetPosition(Vec3 _position);
-	void SetRotation(Vec3 rotation);
+	void setPosition(Vec3 position);
+	void setRotation(Vec3 rotation);
 
-	Vec3 GetPosition();
-	Vec3 GetRotation();
-	Matrix GetViewMatrix();
+	Vec3 getPosition();
+	Vec3 getRotation();
+	Matrix getViewMatrix();
 
-	void Update();
+	void update();
 };
 
 #endif

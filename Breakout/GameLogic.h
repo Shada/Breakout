@@ -1,14 +1,17 @@
-#pragma once
+#ifndef _GAMELOGIC_H_
+#define _GAMELOGIC_H_
+
 #include "Map.h"
+#include "Pad.h"
+#include "Inputhandler.h"
+#include "Camera.h"
+#include "Resource.h"
+#include <functional>
+
 namespace Logic
 {
 	class GameLogic
 	{
-	public:
-		GameLogic();
-		~GameLogic();
-
-
 	private:
 		//TODO:
 		//GameplayClass
@@ -17,11 +20,17 @@ namespace Logic
 
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
+		Pad *pad;
+		Camera *camera;
+		Inputhandler *inputHandler;
+		
+	public:
+		GameLogic(Inputhandler *handler);
+		~GameLogic();
 
-		int Update(/*tid*/);
-
-
-
+		void update(double dt);
+		void draw();
 	};
 
 }
+#endif

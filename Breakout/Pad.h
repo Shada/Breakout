@@ -6,10 +6,13 @@ namespace Logic
 {
 	class Pad: public Object3D
 	{
+	private:
+		static Vec3 pos;
 	public:
 		Pad();
 		~Pad();
+
 		void update(double dt);
-	private:
+		static void move(int pixels);
 	};
 }

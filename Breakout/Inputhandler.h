@@ -4,23 +4,23 @@
 #include <vector>
 #include <functional>
 #include "Pad.h"
-//#include "Camera.h"
+#include "Camera.h"
 
 class Inputhandler
 {
 protected:
 	struct CameraControls
 	{
-		//Camera *camera;
+		Camera *cam;
 		std::vector<int> listenerKeys;
 		std::vector<std::function<void(int, int)>> functions;
-		std::function<void(int)> mouseMove;
 	};
 	struct PadControls
 	{
 		Logic::Pad *pad;
 		std::vector<int> listenerKeys;
 		std::vector<std::function<void()>> functions;
+		std::function<void(int)> mouseMove;
 	};
 
 	CameraControls cam;
@@ -31,8 +31,8 @@ public:
 	~Inputhandler();
 
 	virtual void update() = 0;
-	virtual void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls);
-	virtual void setCamera(/*Camera *cam,*/ std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls, std::function<void(int)> mouseMove);
+	virtual void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls, std::function<void(int)> mouseMove);
+	virtual void setCamera(Camera *cam, std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls);
 };
 
 #ifdef _WIN32
@@ -61,7 +61,7 @@ public:
 	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };
 
-//#else
+#else
 
 #define GLFW_INCLUDE_GLU
 #include <GL/glfw.h>

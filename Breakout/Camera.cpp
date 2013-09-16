@@ -11,27 +11,27 @@ Camera::~Camera()
 {
 }
 
-void Camera::SetPosition(Vec3 _position)
+void Camera::setPosition(Vec3 _position)
 {
 	position = _position;
 }
 
-void Camera::SetRotation(Vec3 _rotation)
+void Camera::setRotation(Vec3 _rotation)
 {
 	rotation = _rotation;
 }
 
-Vec3 Camera::GetPosition()
+Vec3 Camera::getPosition()
 {
 	return position;
 }
 
-Vec3 Camera::GetRotation()
+Vec3 Camera::getRotation()
 {
 	return rotation;
 }
 
-void Camera::Update()
+void Camera::update()
 {
 	Vec3 up, pos, lookAt, rot;
 	Matrix rotationMatrix;
@@ -62,7 +62,7 @@ void Camera::Update()
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
 }
 
-Matrix Camera::GetViewMatrix()
+Matrix Camera::getViewMatrix()
 {
 	return viewMatrix;
 }

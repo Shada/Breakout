@@ -9,6 +9,7 @@
 #endif
 	
 #include "Inputhandler.h"
+#include "GameLogic.h"
 	
 class Windowhandler
 {
@@ -16,6 +17,7 @@ protected:
 
 	virtual bool initWindow() = 0;
 	virtual void createConsoleLog(const char *winTitle) = 0;
+	Logic::GameLogic *game;
 public:
 	virtual int run() = 0;
 	Windowhandler();

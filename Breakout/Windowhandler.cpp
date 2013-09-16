@@ -92,7 +92,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	
 	if(!(hWnd = CreateWindow(	"Huvudkrav",
-							"Subterranean City of Huvudkrav",
+							"Break yo face! ",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
@@ -113,6 +113,8 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 
 int Winhandler::run()
 {
+	game = new Logic::GameLogic(input);
+
 	__int64			currTimeStamp = 0, prevTimeStamp = 0, cntsPerSec = 0;
 	QueryPerformanceFrequency( ( LARGE_INTEGER* )&cntsPerSec);
 	double			dt = 0, time = 0;
@@ -137,12 +139,14 @@ int Winhandler::run()
 		{
 			if(GetActiveWindow() == hWnd)
 			{
-				g->clearRenderTarget(0.1f,0.05f,0.5f);
-				
-				//draw
-
-				g->presentSwapChain();
+				game->update(time);
 			}
+
+			g->clearRenderTarget(0.1f,0.05f,0.5f);
+
+			game->draw();
+
+			g->presentSwapChain();
 
 			time = 0;
 		}
