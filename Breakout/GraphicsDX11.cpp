@@ -21,6 +21,10 @@ GraphicsDX11::GraphicsDX11()
 	rasterizerFrontface			= NULL;
 	samplerLinear				= NULL;
 	shader5Support				= true;
+
+	vBufferStatic				= NULL;
+	vBufferDynamic				= NULL;
+	instBuffer					= NULL;
 }
 
 void GraphicsDX11::init(HWND *hWnd)
@@ -304,6 +308,49 @@ void GraphicsDX11::presentSwapChain()
 	swapChain->Present( 0, 0 );
 }
 
+bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_IMMUTABLE;
+	bd.ByteWidth = sizeof( Vertex ) * vertices.size();
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory( &initData, sizeof( initData ) );
+	initData.pSysMem = &vertices[0];
+	if(! createVBuffer(&bd, &initData, &vBufferStatic) )
+		return false;
+	return true;
+}
+
+bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( PerInstance ) * PerInstance.size();
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory( &initData, sizeof( initData ) );
+	initData.pSysMem = &PerInstance[0];
+	if(! createVBuffer(&bd, &initData, &instBuffer) )
+		return false;
+	return true;
+}
+
+bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer )
+{
+	HRESULT hr = device->CreateBuffer( bd, initData, vBuffer );
+	if( FAILED( hr ) )
+	{
+		MessageBox(NULL,"Failed to create vertex buffer!", "GraphicsDX11 Error", S_OK);
+		return false;
+	}
+	return true;
+}
+
 GraphicsDX11::~GraphicsDX11()
 {
 	SAFE_RELEASE(device);
@@ -321,8 +368,14 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(rasterizerFrontface);
 	SAFE_RELEASE(samplerLinear);
 	SAFE_RELEASE(simpleInputLayout);
+	SAFE_RELEASE(swapChain);
 
 	SAFE_DELETE(techSimple);
+
+	SAFE_RELEASE(vBufferStatic);
+	SAFE_RELEASE(vBufferDynamic);
+	SAFE_RELEASE(instBuffer);
+
 	TechniqueHLSL::cleanUp();
 }
 

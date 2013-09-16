@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "Resource.h"
 
 namespace Resources
 {
@@ -15,6 +16,8 @@ namespace Resources
 
 	Texture::~Texture(void)
 	{
+		SAFE_DELETE(dib);
+		SAFE_DELETE(bits);
 	}
 
 }

@@ -1,4 +1,5 @@
 #include "Gameplay.h"
+#include "GraphicsDX11.h"
 
 
 Logic::Gameplay::Gameplay(/*Map*/)
@@ -8,6 +9,7 @@ Logic::Gameplay::Gameplay(/*Map*/)
 
 Logic::Gameplay::~Gameplay()
 {
+
 }
 
 int Logic::Gameplay::Update(/*tid*/)

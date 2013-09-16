@@ -14,6 +14,12 @@ private:
 	static GraphicsDX11			*instance;
 	GraphicsDX11();
 
+	//buffers
+	ID3D11Buffer				*vBufferStatic;
+	ID3D11Buffer				*instBuffer;		//instance buffer
+
+	ID3D11Buffer				*vBufferDynamic;
+
 	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
 	D3D_FEATURE_LEVEL			featureLevel;
@@ -54,20 +60,28 @@ private:
 
 public:
 	ID3D11DeviceContext			*immediateContext;
+	/* is shader model 5 supported? */
 	bool						shader5Support;
-
+	/* obtain the one instance for this class */
 	static GraphicsDX11			*getInstance()
 	{
 		if(!instance)
 			instance = new GraphicsDX11();
 		return instance;
 	}
-
+	/* initialization */
 	void init(HWND *hWnd);
 	void clearRenderTarget(float r, float g, float b);
 	HRESULT compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
 	void presentSwapChain();
-
+	/* create vertex buffer */
+	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
+	/* creates the static vertex buffer with all the static vertices. [immutable] */
+	bool createVBufferStatic( std::vector<Vertex> vertices);
+	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
+	bool createInstanceBuffer( std::vector<PerInstance> PerInstance);
+	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
+	void feedInstanceBuffer( std::vector<PerInstance> perInstance);
 
 	~GraphicsDX11();
 };
