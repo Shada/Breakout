@@ -10,7 +10,7 @@ namespace Logic
 	public:
 		Ball();
 		~Ball();
-		void Update(double _dt);
+		void update(double _dt);
 		float getRadius()	{ return radius; };
 		Vec3 getDirection()	{ return direction; };
 

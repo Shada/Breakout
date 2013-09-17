@@ -25,8 +25,6 @@ void Inputhandler::setCamera(Camera *cam, std::vector<int> keys, std::vector<std
 
 Inputhandler::~Inputhandler()
 {
-	delete pad.pad;
-	delete cam.cam;
 }
 
 #ifdef _WIN32
@@ -49,9 +47,6 @@ DInputhandler::DInputhandler(HWND *hWnd)
 	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
 		return;
 	prevMouseState = mouseState;
-
-	/*if(FAILED(keyboardInput->GetDeviceState(256, (LPVOID)&keyState)))
-		return;*/
 }
 
 HRESULT DInputhandler::initKeyboard(HWND* hWnd)

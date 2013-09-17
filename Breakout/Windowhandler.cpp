@@ -14,11 +14,13 @@
 
 Windowhandler::Windowhandler()
 {
+	timer = new Timer();
 }
 
 Windowhandler::~Windowhandler()
 {
-	int a = 0;
+	SAFE_DELETE(timer);
+	SAFE_DELETE(game);
 }
 
 #ifdef _WIN32
@@ -36,7 +38,7 @@ Winhandler::Winhandler() : Windowhandler()
 	g->init(&hWnd);
 
 	input = new DInputhandler(&hWnd);
-
+	game = new Logic::GameLogic(input);
 }
 
 bool Winhandler::initWindow()
@@ -113,29 +115,32 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 
 int Winhandler::run()
 {
-	game = new Logic::GameLogic(input);
-
-	__int64			currTimeStamp = 0, prevTimeStamp = 0, cntsPerSec = 0;
+	/*__int64			currTimeStamp = 0, prevTimeStamp = 0, cntsPerSec = 0;
 	QueryPerformanceFrequency( ( LARGE_INTEGER* )&cntsPerSec);
 	double			dt = 0, time = 0;
-	double			secsPerCnt = 1.0 / (double)cntsPerSec;
+	double			secsPerCnt = 1.0 / (double)cntsPerSec;*/
+	double time = 0;
 
-	QueryPerformanceCounter( ( LARGE_INTEGER* )&currTimeStamp);
-	prevTimeStamp	= currTimeStamp;
+	//QueryPerformanceCounter( ( LARGE_INTEGER* )&currTimeStamp);
+	//prevTimeStamp	= currTimeStamp;
 	MSG msg			= { 0 };
+
+	timer->Tick();
+
 	while( WM_QUIT != msg.message )
 	{
-		prevTimeStamp = currTimeStamp;
+		/*prevTimeStamp = currTimeStamp;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
-		dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-		time += dt;
+		dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;*/
+		timer->Tick();
+		time += timer->getDelta();
 
 		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE) )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
-		else if(time > 1.f / 60)
+		else if(time >= 0.01)
 		{
 			if(GetActiveWindow() == hWnd)
 			{
@@ -198,8 +203,8 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 	//create console? or is it automatic...?
 	initWindow();
 	input = new GLInputhandler();
+	game = new Logic::GameLogic(input);
 }
-
 
 int Linuxhandler::run()
 {
@@ -213,20 +218,32 @@ int Linuxhandler::run()
 		0.f, 1.f, 0.f,
 	};
 
+	double time = 0;
+	timer->Tick();
+
 	int startindex = GraphicsOGL4::getInstance()->feedData(1, g_vertex_buffer_data, 9);
 
 	do
 	{
 		//drawing (shall be in render class)
-		
-		//clear screen
-		glClear(GL_COLOR_BUFFER_BIT);
+		timer->Tick();
+		time += timer->getDelta();
 
-		GraphicsOGL4::getInstance()->draw(1, startindex, 3);
+		if(time > 1.f / 60)
+		{
+			//clear screen
+			glClear(GL_COLOR_BUFFER_BIT);
 
-		// also some updating and shit
-		//swap buffers
-		glfwSwapBuffers();
+			//if(is active window
+			game->update(time);
+
+			GraphicsOGL4::getInstance()->draw(1, startindex, 3);
+
+			time = 0;
+			// also some updating and shit
+			//swap buffers
+			glfwSwapBuffers();
+		}
 	}
 	while(glfwGetKey(GLFW_KEY_ESC) != GLFW_PRESS);
 	return 0;
@@ -283,6 +300,5 @@ Linuxhandler::~Linuxhandler()
 
 	SAFE_DELETE(t);
 	//glfwDestroyWindow(hwnd);
-	Windowhandler::~Windowhandler();
 }
 #endif

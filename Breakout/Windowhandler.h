@@ -10,14 +10,17 @@
 	
 #include "Inputhandler.h"
 #include "GameLogic.h"
+#include "Timer.h"
 	
 class Windowhandler
 {
 protected:
+	Inputhandler *input;
 
 	virtual bool initWindow() = 0;
 	virtual void createConsoleLog(const char *winTitle) = 0;
 	Logic::GameLogic *game;
+	Timer *timer;
 public:
 	virtual int run() = 0;
 	Windowhandler();
@@ -31,7 +34,6 @@ class Winhandler : public Windowhandler
 private:
 	HWND hWnd;
 	HINSTANCE hInst;
-	Inputhandler *input;
 
 	GraphicsDX11 *g;
 

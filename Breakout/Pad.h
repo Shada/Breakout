@@ -9,19 +9,18 @@ namespace Logic
 	{
 	private:
 		static Vec3 pos;
+		float movementSpeed, angle2D, angle3D;
+
 	public:
 		Pad();
 		~Pad();
 
-
-		static void Move(int pixels);
-		void Update(double _dt);
-		void Move2D(double _dt, float _x);
-		void Move3D(double _dt, float _x);
+		static void move(int pixels);
+		void update(double _dt);
+		void move2D(double _dt, float _x);
+		void move3D(double _dt, float _x);
 		void setAngle(float _a)	{ angle2D = _a; };
 
-	private:
-		float movementSpeed, angle2D, angle3D;
 	};
 }
 #endif

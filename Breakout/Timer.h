@@ -3,22 +3,18 @@
 
 #include <time.h>
 
-namespace Logic
+class Timer
 {
-	class Timer
-	{
 	
-	private:
-		clock_t oldTime, newTime;
-		double deltaTime;
+private:
+	double oldTime, newTime;
+	double deltaTime;
 
-	public:
-		Timer();
-		void Tick();
-		double getDelta();
-		int getFPS();
+public:
+	Timer();
+	void Tick();
+	double getDelta();
+	int getFPS();
 
-	};
-}
-
+};
 #endif

@@ -3,10 +3,10 @@
 namespace Logic
 {
 	Vec3 Pad::pos = Vec3(0, 0, 0);
-	Pad::Pad()
+	/*Pad::Pad()
 	{
 
-	}
+	}*/
 
 	Pad::Pad()
 	{
@@ -20,18 +20,18 @@ namespace Logic
 
 	}
 
-	void Pad::Update(double _dt)
+	void Pad::update(double _dt)
 	{
 		//Calculate on buffs and debuffs
 		position = pos;
 	}
 
-	void Pad::Move2D(double _dt, float _x)
+	void Pad::move2D(double _dt, float _x)
 	{
 		position.x += _x * movementSpeed * _dt;
 	}
 
-	void Pad::Move3D(double _dt, float _x)
+	void Pad::move3D(double _dt, float _x)
 	{
 		//Do 3D movement (in a circle) here.
 		angle3D += _x * movementSpeed * _dt; //Assume degrees
@@ -43,7 +43,7 @@ namespace Logic
 		position.y = sinf(angle3D);
 	}
 
-	void Pad::Move(int pixels)
+	void Pad::move(int pixels)
 	{
 		pos.x += pixels;
 		//position.x += pixels;

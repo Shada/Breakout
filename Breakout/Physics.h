@@ -13,6 +13,7 @@
 //#include "linearalgebra.h"
 //#include "Object.h"
 #include "Ball.h"
+#include <vector>
 //#include "Timer.h"
 
 namespace Logic
@@ -54,47 +55,47 @@ namespace Logic
 		float tRadius = _ball->getRadius();
 
 		//Compare X positions
-		if(tBallPos.x < tObjPos.x || tBallPos.x > tObjPos.x )
-		{
+		if(tBallPos.x + LENGTH/2 < tObjPos.x || tBallPos.x - LENGTH/2 > tObjPos.x )
 			tBallDir.x *= -1;
-		}
 
 		//Compare Y positions
-		if(tBallPos.y < tObjPos.y || tBallPos.y < tObjPos.y)
-		{
+		if(tBallPos.y + HEIGHT/2 < tObjPos.y || tBallPos.y - HEIGHT/2 > tObjPos.y)
 			tBallDir.y *= -1;
-		}
 
-		_ball->setDirection(tBallDir.x, tBallDir.y, tBallDir.z);
-
+		_ball->setDirection(tBallDir.x, tBallDir.y);
 	}
 
 	inline bool BorderCollide(Ball* _ball)
 	{
 		Vec3 tBallPos = _ball->getPosition();
 		Vec3 tBallDir = _ball->getDirection();
+		float tRadius = _ball->getRadius();
+
+		bool collides = false;
 
 		//Compare X
-		if(tBallPos.x < 0 || tBallPos.x > MAX_WIDTH)
+		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > MAX_WIDTH)
 		{
-			tBallDir.x *= -1;
+			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_HEIGHT && tBallDir.x > 0))
+				tBallDir.x *= -1;
 			_ball->setDirection(tBallDir.x);
-			return true;
+			collides = true;
 		}
 
 		//Compare Y
-		if(tBallPos.y < 0 || tBallPos.y > MAX_HEIGHT)
+		if(tBallPos.y - tRadius < 0 || tBallPos.y + tRadius > MAX_HEIGHT)
 		{
-			tBallDir.y *= -1;
+			if((tBallPos.y - tRadius < 0 && tBallDir.y < 0) || (tBallPos.y + tRadius > MAX_HEIGHT && tBallDir.y > 0))
+				tBallDir.y *= -1;
 			_ball->setDirection(NULL, tBallDir.y);
-			return true;
+			collides = true;
 		}
 
-		return false;
+		return collides;
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline void Check2DCollissions(Ball* _ball, Object3D** _listOfObjects, int _nrOfObjects)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Object3D*> _listOfObjects)
 	{
 		//Function could be bool-based if we want effects when colliding. 
 		// Should probably return false on bordercollide then.
@@ -102,20 +103,21 @@ namespace Logic
 		if(BorderCollide(_ball))
 		{
 			//Ball collides with border, calculate new direction and return.
-			return;
+			return -1;
 		}
 
-		for(int i = 0; i < _nrOfObjects; i++)
+		for(unsigned int i = 0; i < _listOfObjects.size(); i++)
 		{
 			if(Intersects(_ball, _listOfObjects[i]) )
 			{
 				//Ball collides with object, calculate new direction and return.
 				CalculateCollission(_ball, _listOfObjects[i]);
 				//"Attack" Object[i]. Destroy? Damage? AoEAttack? Whatever, do it here.
-				return;
+				return i;
 			}
 				
 		}
+		return -1;
 	}
 
 #pragma endregion

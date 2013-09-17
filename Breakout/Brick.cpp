@@ -1,8 +1,9 @@
 #include "Brick.h"
 namespace Logic
 {
-	Brick::Brick()
+	Brick::Brick(Vec3 _pos)
 	{
+		position = _pos;
 		alive = true;
 	}
 
@@ -10,18 +11,19 @@ namespace Logic
 	{
 
 	}
-	void Brick::Update(double _dt)
+
+	void Brick::update(double _dt)
 	{
 		
 	}
 
-	void Brick::Damage()
+	void Brick::damage()
 	{
 		health--;
-		if(health < 0) this->Destroy();
+		if(health < 0) this->destroy();
 	}
 
-	void Brick::Destroy()
+	void Brick::destroy()
 	{
 		//remove hitbox;
 		alive = false;

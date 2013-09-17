@@ -9,13 +9,13 @@ namespace Logic
 	class Brick: public Object3D
 	{
 	public:
-		Brick();
+		Brick(Vec3 _pos);
 		~Brick();
-		void Update(double _dt);
+		void update(double _dt);
 
 		//Possible parameters, like damage dealt and/or effects and such
-		virtual void Damage(); //These 2 could be defined here, or in their respective classes in case they were to function differently
-		virtual void Destroy();
+		virtual void damage(); //These 2 could be defined here, or in their respective classes in case they were to function differently
+		virtual void destroy();
 		
 	protected:
 		int health;
