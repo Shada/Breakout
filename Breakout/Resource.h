@@ -19,6 +19,15 @@ struct PerInstance
 	Vec3	rot;
 	int		typeID;
 };
+struct BBUI
+{
+	Vec2 pos;
+	Vec2 size;
+	float rotation;
+	Vec4 tintAlpha;
+	Vec2 texCoords;
+	int texIndex;
+};
 struct CBWorld
 {
 	Matrix world;
@@ -41,6 +50,7 @@ struct CBOnce
 	Matrix	projectionInv;
 	Vec4	lightPos;
 };
+
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

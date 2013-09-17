@@ -408,6 +408,11 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(vBufferDynamic);
 	SAFE_RELEASE(instBuffer);
 
+	//cbuffers
+	SAFE_RELEASE(cbWorld);
+	SAFE_RELEASE(cbOnce);
+	SAFE_RELEASE(cbCameraMove);
+
 	TechniqueHLSL::cleanUp();
 }
 

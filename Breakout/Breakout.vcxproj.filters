@@ -31,7 +31,7 @@
     <ClCompile Include="Pad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="GraphicsDX11.cpp">
+    <ClCompile Include="GraphicsDX11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TechniqueHLSL.cpp">
@@ -40,7 +40,7 @@
     <ClCompile Include="GraphicsOGL4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="Texture.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="Loader.cpp">
@@ -159,6 +159,15 @@
     </CustomBuild>
     <CustomBuild Include="shaders\hlsl\resource.fx">
       <Filter>HLSL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\gsBBUI.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psBBUI.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsBBUI.fx">
+      <Filter>HLSL\vs</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
