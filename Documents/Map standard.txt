@@ -1,0 +1,42 @@
+Map standard
+
+filformat: bmp
+
+Antal pixlar:	bredd x höjd
+2D		150 x 100
+Scroll		150 x 300
+Cylinder	300 x 100
+Sfär		300 x 100
+
+
+Första punkten innehåller info om banan:
+R = 	lvlnr  (Ordningen de skall spelas i)
+G = 	Typ av bana (tema)
+		0 = testing
+		1 = Wind
+		2 = Water
+		3 = Earth 
+		4 = Fire
+B = 	Svårighet (Hur ofta random event ska ske. 1=simpel, 10=svår)
+
+(Eftersom den första punkten ligger i ett hörn så kommer vi inte sätta något objekt där och hoppa över den när man läser in objekten.)
+
+Resterande punkter innehåller vad som finns i området.
+R = 	Typ av object:
+		0 = Inget
+		1 = Pad startposition
+		2 = Bollens startposition
+		3 = Brick (1 liv)
+		4 = Brick (2 liv)
+		5 = Brick (3 liv)
+		6 = Brick (Oförstörbar)
+		7 = Speed increase
+		8 = Speed decrease
+		9 = Padsize increase
+		10 = Padsize decrease
+		11 = Inverted controlls
+		12 = Rotationspeed increase
+		12 = Rotationspeed decrease
+		14 = Extra liv
+G =	Vilken texture objectet ska ha. (T.ex. viken typ en brick är)
+			
