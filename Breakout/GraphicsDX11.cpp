@@ -1,6 +1,7 @@
 #ifdef _WIN32
 
 #include "GraphicsDX11.h"
+#include <sstream>
 
 GraphicsDX11	*GraphicsDX11::instance = NULL;
 
@@ -192,6 +193,13 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}*/
 
+	if( !createCBuffer(&cbWorld, sizeof(CBWorld), 0))
+		return;
+	if( !createCBuffer(&cbCameraMove, sizeof(CBCameraMove), 1))
+		return;
+	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
+		return;
+
 	//create samplerstates
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory( &sampDesc, sizeof(sampDesc));
@@ -307,7 +315,31 @@ void GraphicsDX11::presentSwapChain()
 {
 	swapChain->Present( 0, 0 );
 }
+bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex)
+{
+	HRESULT hr;
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage			= D3D11_USAGE_DEFAULT;
+	bd.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags	= 0;
+	bd.ByteWidth		= byteWidth;
 
+	hr = device->CreateBuffer( &bd,NULL,cb);
+	if(FAILED(hr))
+	{
+		std::stringstream numb;
+		numb << registerIndex;
+		std::string message = "Failed to create constant buffer " + numb.str();
+		MessageBox( NULL, message.c_str(),"GraphicsCore Error",MB_OK);
+		return false;
+	}
+	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
+	return true;
+}
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
 	D3D11_BUFFER_DESC bd;

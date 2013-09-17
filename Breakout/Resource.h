@@ -33,13 +33,13 @@ struct CBCameraMove
 
 	//byte amount must be dividable by 16
 	Vec2 padding;
-	
 };
 
 struct CBOnce
 {
-	Matrix projection;
-	Matrix projectionInv;
+	Matrix	projection;
+	Matrix	projectionInv;
+	Vec4	lightPos;
 };
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }

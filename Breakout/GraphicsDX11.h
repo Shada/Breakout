@@ -42,6 +42,11 @@ private:
 	ID3D11DepthStencilView		*depthStencilView;
 	ID3D11ShaderResourceView	*depthStencilResource;
 
+	//constant buffer
+	ID3D11Buffer				*cbWorld;
+	ID3D11Buffer				*cbCameraMove;
+	ID3D11Buffer				*cbOnce;
+
 	//viewports
 	D3D11_VIEWPORT				viewPort;
 
@@ -74,6 +79,8 @@ public:
 	void clearRenderTarget(float r, float g, float b);
 	HRESULT compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
 	void presentSwapChain();
+	/* create constant buffer */
+	bool createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
 	/* create vertex buffer */
 	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
