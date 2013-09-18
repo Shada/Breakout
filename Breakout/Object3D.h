@@ -33,4 +33,4 @@ namespace Logic
 	};
 }
 
-#endif
+#endif // ! _OBJECT_H_

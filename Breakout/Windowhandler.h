@@ -1,12 +1,14 @@
-#pragma once
+#ifndef _WINDOWHANDLER_H_
+#define _WINDOWHANDLER_H_
+
 
 // If compiled on win32 system, _WIN32 specific 
 #ifdef _WIN32
 	#include <windows.h>
 	#include "GraphicsDX11.h"
-#else
+#else // _WIN32
 	#include "GraphicsOGL4.h"
-#endif
+#endif // _WIN32
 	
 #include "Inputhandler.h"
 #include "GameLogic.h"
@@ -28,6 +30,7 @@ public:
 	// virtual destructor
 	virtual ~Windowhandler();
 };
+
 #ifdef _WIN32
 class Winhandler : public Windowhandler
 {
@@ -46,7 +49,7 @@ public:
 	~Winhandler();
 };
 
-#else
+#else // _WIN32
 class Linuxhandler : public Windowhandler
 {
 private:
@@ -58,4 +61,6 @@ public:
 	Linuxhandler();
 	~Linuxhandler();
 };
-#endif
+#endif // _WIN32
+
+#endif // !_WINDOWHANDLER_H_

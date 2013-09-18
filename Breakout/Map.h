@@ -25,4 +25,4 @@ namespace Logic
 	};
 }
 
-#endif
+#endif // ! _MAP_H_

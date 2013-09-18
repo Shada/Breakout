@@ -1,4 +1,8 @@
-#pragma once
+#ifdef _WIN32
+
+#ifndef _TECHNIQUEHLSL_H_
+#define _TECHNIQUEHLSL_H_
+
 #include "Resource.h"
 #include <d3d11.h>
 #include <D3DX11.h>
@@ -64,3 +68,6 @@ public:
 	SIZE_T							getInputSignatureSize()	{ return vertexBlob->GetBufferSize(); }
 };
 
+#endif // ! _TECHNIQUEHLSL_H_
+
+#endif // _WIN32

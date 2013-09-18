@@ -22,4 +22,4 @@ namespace Logic
 		bool alive;
 	};
 }
-#endif
+#endif // ! _BRICK_H_

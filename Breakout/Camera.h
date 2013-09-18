@@ -24,4 +24,4 @@ public:
 	void update();
 };
 
-#endif
+#endif // ! _CAMERA_H_

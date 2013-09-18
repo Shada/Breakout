@@ -17,4 +17,4 @@ public:
 	int getFPS();
 
 };
-#endif
+#endif // ! _TIMER_H_

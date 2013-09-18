@@ -1,3 +1,5 @@
+#ifdef _WIN32
+
 #include "TechniqueHLSL.h"
 
 std::vector<VSstruct> *TechniqueHLSL::vertexShaders		= new std::vector<VSstruct>();
@@ -390,3 +392,5 @@ TechniqueHLSL::~TechniqueHLSL()
 	if(vertexBlob)
 		vertexBlob->Release();
 }
+
+#endif // _WIN32

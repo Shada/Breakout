@@ -39,6 +39,6 @@ public:
 	~GraphicsOGL4();
 };
 
-#endif // !_GRAPHICSOGL4_H_
+#endif // ! _GRAPHICSOGL4_H_
 
-#endif // !_WIN32
+#endif // ! _WIN32

@@ -158,6 +158,16 @@ void GLInputhandler::update()
 		pad.mouseMove(mouseX - prevMouseX);
 }
 
+void GLInputhandler::updateGame()
+{
+
+}
+
+void GLInputhandler::updateMenu()
+{
+
+}
+
 GLInputhandler::~GLInputhandler()
 {
 }

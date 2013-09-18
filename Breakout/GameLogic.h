@@ -46,4 +46,4 @@ namespace Logic
 	};
 
 }
-#endif
+#endif // ! _GAMELOGIC_H_

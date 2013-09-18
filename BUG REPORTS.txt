@@ -1,0 +1,14 @@
+Bug:
+I  Linux krashar programmet i GameLogic.cpp rad 57.
+Löst?:
+Nope
+
+Bug: 
+setDirection funkar inte då den har defaultparametrar satta till NULL.
+Löst?:
+Löst genom ful #ifdef så länge. Bör lösas generellt.
+
+Bug:
+_Inout_ funkar inte i Linux
+Löst?:
+Tog bort skiten.

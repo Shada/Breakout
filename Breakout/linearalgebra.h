@@ -442,13 +442,13 @@
 	}
 
 	/* Creates translation matrix */
-    inline void translate(_Inout_ Matrix &mOut, float x, float y, float z)
+    inline void translate(Matrix &mOut, float x, float y, float z)
     {
         mOut.identity();
         mOut[3][0] = x; mOut[3][1] = y; mOut[3][2] = z;
     }
 
-	inline void translate(_Inout_ Matrix &mOut, Vec3 v)
+	inline void translate(Matrix &mOut, Vec3 v)
     {
         mOut.identity();
         mOut[3][0] = v.x; mOut[3][1] = v.y; mOut[3][2] = v.z;

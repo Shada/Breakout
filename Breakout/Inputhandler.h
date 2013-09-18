@@ -28,7 +28,7 @@ protected:
 
 public:
 	Inputhandler();
-	~Inputhandler();
+	virtual ~Inputhandler();
 
 	virtual void updateMenu() = 0;
 	virtual void updateGame() = 0;
@@ -66,13 +66,13 @@ public:
 
 #else
 
-#define GLFW_INCLUDE_GLU
 #include <GL/glfw.h>
 
 class GLInputhandler : public Inputhandler
 {
 private:
 	int mouseX, mouseY;
+	void update();
 public:
 	GLInputhandler();
 	~GLInputhandler();
@@ -83,5 +83,5 @@ public:
 	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };
 
-#endif
-#endif
+#endif // _WIN32
+#endif // ! _INPUTHANDLER_H_

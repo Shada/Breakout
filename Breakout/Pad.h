@@ -24,4 +24,4 @@ namespace Logic
 		static void rotate(int direction);
 	};
 }
-#endif
+#endif // ! _PAD_H_

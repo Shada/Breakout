@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _GAMEPLAY_H_
+#define _GAMEPLAY_H_
+
 #include "Resource.h"
 namespace Logic
 {
@@ -26,3 +28,4 @@ namespace Logic
 	};
 
 }
+#endif // ! _GAMEPLAY_H_
