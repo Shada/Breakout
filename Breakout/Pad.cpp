@@ -41,13 +41,13 @@ namespace Logic
 
 	void Pad::move2D(double _dt, float _x)
 	{
-		position.x += _x * movementSpeed * _dt;
+		position.x += _x * movementSpeed * (float)_dt;
 	}
 
 	void Pad::move3D(double _dt, float _x)
 	{
 		//Do 3D movement (in a circle) here.
-		angle3D += _x * movementSpeed * _dt; //Assume degrees
+		angle3D += _x * movementSpeed * (float)_dt; //Assume degrees
 
 		if(angle3D < 0.0f) angle3D += 360.0f;
 		else if(angle3D >= 360.0f) angle3D -= 360.0f;
@@ -70,8 +70,8 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += 12 * PI / 180 * _direction;
+		rot.x += (float)(12 * PI / 180 * _direction);
 		if(rot.x > 2 * PI)
-			rot.x -= 2 * PI;
+			rot.x -= (float)(2 * PI);
 	}
 }

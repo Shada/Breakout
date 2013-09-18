@@ -19,7 +19,7 @@ void Timer::Tick()
 	
 	//Update new time, calculate deltaTime and finally, set oldTime.
 	newTime = clock();
-	deltaTime = difftime(newTime, oldTime); //(double)(newTime - oldTime);
+	deltaTime = difftime((time_t)newTime, (time_t)oldTime); //(double)(newTime - oldTime);
 	deltaTime /= (double)CLOCKS_PER_SEC; //Transform to seconds instead of nr of clocks.
 	oldTime = newTime;
 }

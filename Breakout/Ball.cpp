@@ -20,8 +20,8 @@ namespace Logic
 	void Ball::update(double _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
-		position += direction * speed * _dt;
-		nextFrame = position + (direction * speed * _dt);
+		position += direction * speed * (float)_dt;
+		nextFrame = position + (direction * speed * (float)_dt);
 	}
 
 	void Ball::setDirection(float _x, float _y, float _z)

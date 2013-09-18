@@ -30,7 +30,6 @@ namespace Resources
 		loader->loadTexture("",tMap);
 
 		maps.push_back(tMap);
-
 	}
 
 
