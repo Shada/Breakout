@@ -5,8 +5,6 @@
 #include "Ball.h"
 #include "Pad.h"
 #include "Brick.h"
-#include "FreeImage.h"
-#include "LoadHandler.h"
 
 namespace Logic
 {

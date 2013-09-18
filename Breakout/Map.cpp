@@ -1,5 +1,8 @@
 #include "Map.h"
 
+#include "LoadHandler.h"
+
+
 namespace Logic
 {
 
@@ -47,9 +50,9 @@ namespace Logic
 					else if(color.rgbRed != 0)
 					{
 						//Set brick property here
-						Brick tBrick;
+						Brick tBrick(Vec3(0,0,0));
 						tBrick.setPosition(Vec3(c,r,0));
-						tBrick.setType(color.rgbRed);
+						//tBrick.setType(color.rgbRed);
 						tBrick.setTextureID(color.rgbGreen);
 						tBrick.setModelID(color.rgbBlue);
 						_bricks->push_back(&tBrick);
