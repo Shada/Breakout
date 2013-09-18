@@ -229,6 +229,8 @@ namespace Resources
 		//if this somehow one of these failed (they shouldn't), return failure
 		if((_texture->getBits() == 0) || (_texture->getWidth() == 0) || (_texture->getHeight() == 0))
 			return;
+
+		_texture->setFilePath(file);
 	}
 
 

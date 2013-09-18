@@ -18,6 +18,8 @@ namespace Resources
 		BYTE* bits;
 		//image width and height
 		unsigned int width, height;
+		/*Data path to the pictures*/
+		char *filePath;
 
 	public:
 		Texture(void);
@@ -37,6 +39,9 @@ namespace Resources
 
 		unsigned int getHeight(){return height;}
 		void setHeight(unsigned int _height){height = _height;}
+
+		char* getFilePath(){return filePath;}
+		void setFilePath(char _filePath[256]){filePath = _filePath;}
 	};
 
 }

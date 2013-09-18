@@ -31,7 +31,7 @@
     <ClCompile Include="Pad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="GraphicsDX11.cpp">
+    <ClCompile Include="GraphicsDX11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TechniqueHLSL.cpp">
@@ -40,7 +40,7 @@
     <ClCompile Include="GraphicsOGL4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="Texture.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="Loader.cpp">
@@ -50,7 +50,7 @@
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="LoadHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +147,7 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="LoadHandler.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
