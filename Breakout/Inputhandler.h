@@ -9,7 +9,7 @@
 class Inputhandler
 {
 protected:
-	struct CameraControls
+	struct MenuControls
 	{
 		Camera *cam;
 		std::vector<int> listenerKeys;
@@ -19,19 +19,20 @@ protected:
 	{
 		Logic::Pad *pad;
 		std::vector<int> listenerKeys;
-		std::vector<std::function<void()>> functions;
-		std::function<void(int)> mouseMove;
+		std::vector<std::function<void(int)>> functions;
+		std::vector<int> directions;
 	};
 
-	CameraControls cam;
+	MenuControls cam;
 	PadControls pad;
 
 public:
 	Inputhandler();
 	~Inputhandler();
 
-	virtual void update() = 0;
-	virtual void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls, std::function<void(int)> mouseMove);
+	virtual void updateMenu() = 0;
+	virtual void updateGame() = 0;
+	virtual void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void(int)>> functioncalls, std::vector<int> directions);
 	virtual void setCamera(Camera *cam, std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls);
 };
 
@@ -51,12 +52,14 @@ private:
 
 	HRESULT initMouse(HWND* hWnd);
 	HRESULT initKeyboard(HWND* hWnd);
+	void update();
 
 public:
 	DInputhandler(HWND *hWnd);
 	~DInputhandler();
 
-	void update();
+	void updateMenu();
+	void updateGame();
 	//void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls);
 	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };
@@ -74,7 +77,8 @@ public:
 	GLInputhandler();
 	~GLInputhandler();
 
-	void update();
+	void updateMenu();
+	void updateGame();
 	//void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls);
 	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };

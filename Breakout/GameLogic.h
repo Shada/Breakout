@@ -21,6 +21,12 @@ namespace Logic
 		//MenuClass
 		//List of Maps
 
+		enum GameState
+		{
+			GAME_MENU = 0,
+			GAME_PLAY = 1
+		};
+
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
 		Pad *pad;
@@ -28,6 +34,8 @@ namespace Logic
 		Ball *ball;
 		Camera *camera;
 		Inputhandler *inputHandler;
+
+		GameState state;
 		
 	public:
 		GameLogic(Inputhandler *handler);

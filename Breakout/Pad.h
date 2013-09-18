@@ -8,7 +8,7 @@ namespace Logic
 	class Pad: public Object3D
 	{
 	private:
-		static Vec3 pos;
+		static Vec3 posKey, posMouse, rot;
 		float movementSpeed, angle2D, angle3D;
 
 	public:
@@ -16,11 +16,12 @@ namespace Logic
 		~Pad();
 
 		static void move(int pixels);
-		void update(double _dt);
-		void move2D(double _dt, float _x);
-		void move3D(double _dt, float _x);
-		void setAngle(float _a)	{ angle2D = _a; };
-
+		static void moveByKeys(int direction);
+		void update(double dt);
+		void move2D(double dt, float x);
+		void move3D(double dt, float x);
+		void setAngle(float a)	{ angle2D = a; };
+		static void rotate(int direction);
 	};
 }
 #endif

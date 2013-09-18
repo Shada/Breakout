@@ -4,21 +4,21 @@ Inputhandler::Inputhandler()
 {
 }
 
-void Inputhandler::setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls, std::function<void(int)> mouseMove)
+void Inputhandler::setPad(Logic::Pad *_pad, std::vector<int> _keys, std::vector<std::function<void(int)>> _functioncalls, std::vector<int> _directions)
 {
-	this->pad.pad = pad;
-	this->pad.listenerKeys = keys;
-	this->pad.functions = functioncalls;
-	this->pad.mouseMove = mouseMove;
+	pad.pad = _pad;
+	pad.listenerKeys = _keys;
+	pad.functions = _functioncalls;
+	pad.directions = _directions;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
 
-void Inputhandler::setCamera(Camera *cam, std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls)
+void Inputhandler::setCamera(Camera *_cam, std::vector<int> _keys, std::vector<std::function<void(int, int)>> _functioncalls)
 {
-	this->cam.cam = cam;
-	this->cam.listenerKeys = keys;
-	this->cam.functions = functioncalls;
+	cam.cam = _cam;
+	cam.listenerKeys = _keys;
+	cam.functions = _functioncalls;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
@@ -105,17 +105,31 @@ void DInputhandler::update()
 	if(FAILED(result))
 		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 			keyboardInput->Acquire();
+}
+
+void DInputhandler::updateGame()
+{
+	update();
+
+	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
+		if(keyState[pad.listenerKeys.at(i)] & 0x80)
+			pad.functions.at(i)(pad.directions.at(i));
+
+	// These cannot be changed, the mouse will always be one way of controlling the pad
+	if(mouseState.lX != 0)
+		pad.pad->move(mouseState.lX);
+
+	if(mouseState.lZ != 0)
+		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+}
+
+void DInputhandler::updateMenu()
+{
+	update();
 
 	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
 		if((keyState[cam.listenerKeys.at(i)] & 0x80) && !(prevKeyState[cam.listenerKeys.at(i)] & 0x80))
 			cam.functions.at(i)(mouseState.lX, mouseState.lY);
-
-	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
-		if(keyState[pad.listenerKeys.at(i)] & 0x80)
-			pad.functions.at(i)();
-
-	if(prevMouseState.lX != 0)
-		pad.mouseMove(mouseState.lX);
 }
 
 DInputhandler::~DInputhandler()

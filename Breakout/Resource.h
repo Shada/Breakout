@@ -14,6 +14,7 @@ struct Vertex
     Vertex(){}
 };
 
+#define PI 3.14159265359
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

@@ -9,13 +9,28 @@ namespace Logic
 		camera = new Camera();
 
 		inputHandler = handler;
-		std::vector<int> keys;
-		std::vector<std::function<void()>> funcs;
+		std::vector<int> keys, directions;
+		std::vector<std::function<void(int)>> funcs;
 		std::vector<std::function<void(int, int)>> funcss;
 
-		std::function<void(int)> padMove = &pad->move;
+		funcs.push_back(&pad->move);
+		funcs.push_back(&pad->move);
+		funcs.push_back(&pad->rotate);
+		funcs.push_back(&pad->rotate);
 
-		inputHandler->setPad(pad, keys, funcs, padMove);
+
+		//Only works for DirectX atm, you need to add a direction as well.
+		//Should rather be functions for right- and left movement, instead of sending directions.
+		//Make a struct with {key, functionptr} pairs?
+		keys.push_back(DIK_RIGHTARROW);
+		directions.push_back(1);
+		keys.push_back(DIK_LEFTARROW);
+		directions.push_back(-1);
+
+
+		//std::function<void(int)> padMove = &pad->move;
+
+		inputHandler->setPad(pad, keys, funcs, directions);
 		inputHandler->setCamera(camera, keys, funcss);
 
 		bricks.push_back(new Brick(Vec3(100, 150, 0)));
@@ -32,24 +47,37 @@ namespace Logic
 		bricks.push_back(new Brick(Vec3(380, 200, 0)));
 		bricks.push_back(new Brick(Vec3(450, 200, 0)));
 		bricks.push_back(new Brick(Vec3(520, 200, 0)));
+
+		state = GAME_PLAY;
 	}
 
-	void GameLogic::update(double dt)
+	void GameLogic::update(double _dt)
 	{
-		inputHandler->update();
-		pad->update(dt);
-		ball->update(dt);
-		int temp = Logic::Check2DCollissions(ball, bricks);
-		if(temp != -1)
+		switch(state)
 		{
-			SAFE_DELETE(bricks.at(temp));
-			bricks.erase(bricks.begin() + temp, bricks.begin() + temp + 1);
-			std::cout << "Collided with a brick yo! Only " << bricks.size() << " left!!!!" << std::endl;
-		}
-		if(bricks.size() == 0)
-			int a = 0;
+		case GAME_PLAY:
+		{
+			inputHandler->updateGame();
+			pad->update(_dt);
+			ball->update(_dt);
+			camera->update();
 
-		camera->update();
+			int collidingObject = Logic::Check2DCollissions(ball, bricks);
+			if(collidingObject != -1)
+			{
+				SAFE_DELETE(bricks.at(collidingObject));
+				bricks.erase(bricks.begin() + collidingObject, bricks.begin() + collidingObject + 1);
+				std::cout << "Collided with a brick yo! Only " << bricks.size() << " left!!!!" << std::endl;
+			}
+
+			//std::cout << pad->getPosition().x << std::endl;
+
+			break;
+		}
+		case GAME_MENU:
+			inputHandler->updateMenu();
+			break;
+		}
 	}
 
 	void GameLogic::draw()
