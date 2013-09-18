@@ -18,6 +18,7 @@ namespace Resources
 	{
 		SAFE_DELETE(dib);
 		SAFE_DELETE(bits);
+		SAFE_DELETE(filePath);
 	}
 
 }

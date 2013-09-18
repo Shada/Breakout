@@ -11,7 +11,7 @@
 #define HEIGHT 30
 
 //#include "linearalgebra.h"
-#include "Object.h"
+#include "Ball.h"
 #include "Timer.h"
 
 namespace Logic
