@@ -1,6 +1,7 @@
 #ifdef _WIN32
 
 #include "GraphicsDX11.h"
+#include <sstream>
 
 GraphicsDX11	*GraphicsDX11::instance = NULL;
 
@@ -21,6 +22,10 @@ GraphicsDX11::GraphicsDX11()
 	rasterizerFrontface			= NULL;
 	samplerLinear				= NULL;
 	shader5Support				= true;
+
+	vBufferStatic				= NULL;
+	vBufferDynamic				= NULL;
+	instBuffer					= NULL;
 }
 
 void GraphicsDX11::init(HWND *hWnd)
@@ -155,8 +160,8 @@ void GraphicsDX11::init(HWND *hWnd)
     viewPort.TopLeftY		= 0;
 	immediateContext->RSSetViewports( 1, &viewPort );
 
-
-	techSimple	= new TechniqueHLSL(device, "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple");
+	techniques = std::vector<TechniqueHLSL*>();
+	techniques.push_back( new TechniqueHLSL(device, "techSimple", "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple") );
 
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
@@ -166,7 +171,7 @@ void GraphicsDX11::init(HWND *hWnd)
 		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techSimple->getInputSignature(),techSimple->getInputSignatureSize(), &simpleInputLayout);
+	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techniques.at(0)->getInputSignature(), techniques.at(0)->getInputSignatureSize(), &simpleInputLayout);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create simpleInputLayout","GraphicsDX11 Error",MB_OK);
@@ -187,6 +192,13 @@ void GraphicsDX11::init(HWND *hWnd)
 		MessageBox( NULL, "Failed to create instancedInputLayout","GraphicsDX11 Error",MB_OK);
 		return;
 	}*/
+
+	if( !createCBuffer(&cbWorld, sizeof(CBWorld), 0))
+		return;
+	if( !createCBuffer(&cbCameraMove, sizeof(CBCameraMove), 1))
+		return;
+	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
+		return;
 
 	//create samplerstates
 	D3D11_SAMPLER_DESC sampDesc;
@@ -303,6 +315,111 @@ void GraphicsDX11::presentSwapChain()
 {
 	swapChain->Present( 0, 0 );
 }
+bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex)
+{
+	HRESULT hr;
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage			= D3D11_USAGE_DEFAULT;
+	bd.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags	= 0;
+	bd.ByteWidth		= byteWidth;
+
+	hr = device->CreateBuffer( &bd,NULL,cb);
+	if(FAILED(hr))
+	{
+		std::stringstream numb;
+		numb << registerIndex;
+		std::string message = "Failed to create constant buffer " + numb.str();
+		MessageBox( NULL, message.c_str(),"GraphicsCore Error",MB_OK);
+		return false;
+	}
+	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
+	return true;
+}
+bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_IMMUTABLE;
+	bd.ByteWidth = sizeof( Vertex ) * vertices.size();
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory( &initData, sizeof( initData ) );
+	initData.pSysMem = &vertices[0];
+	if(! createVBuffer(&bd, &initData, &vBufferStatic) )
+		return false;
+	return true;
+}
+
+bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( PerInstance ) * PerInstance.size();
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory( &initData, sizeof( initData ) );
+	initData.pSysMem = &PerInstance[0];
+	if(! createVBuffer(&bd, &initData, &instBuffer) )
+		return false;
+	return true;
+}
+
+bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer )
+{
+	HRESULT hr = device->CreateBuffer( bd, initData, vBuffer );
+	if( FAILED( hr ) )
+	{
+		MessageBox(NULL,"Failed to create vertex buffer!", "GraphicsDX11 Error", S_OK);
+		return false;
+	}
+	return true;
+}
+
+int GraphicsDX11::getTechIDByName( std::string name )
+{
+	for(unsigned int i = 0; i < techniques.size(); i++)
+		if(techniques.at(i)->getName() == name)
+			return i;
+	return -1;
+}
+
+void GraphicsDX11::useTechnique( unsigned int id )
+{
+	techniques.at(id)->useTechnique();
+}
+
+void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
+{
+	UINT stride = sizeof(Vertex);
+	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, 0 );
+	immediateContext->PSSetSamplers(0,1,&samplerLinear);
+	immediateContext->IASetInputLayout( simpleInputLayout );
+	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	immediateContext->RSSetViewports( 1, &viewPort );
+	immediateContext->RSSetState(rasterizerBackface);
+	float blendFactor[4];
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
+
+	immediateContext->Draw( vertexAmount, startIndex );
+}
+
+void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
+{
+	immediateContext->PSSetShaderResources(startSlot,numberofViews,views);
+}
 
 GraphicsDX11::~GraphicsDX11()
 {
@@ -321,8 +438,21 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(rasterizerFrontface);
 	SAFE_RELEASE(samplerLinear);
 	SAFE_RELEASE(simpleInputLayout);
+	SAFE_RELEASE(swapChain);
 
-	SAFE_DELETE(techSimple);
+	SAFE_RELEASE(vBufferStatic);
+	SAFE_RELEASE(vBufferDynamic);
+	SAFE_RELEASE(instBuffer);
+
+	//techniques
+	for(unsigned int i = 0; i < techniques.size(); i++)
+		SAFE_DELETE( techniques.at(i) );
+
+	//cbuffers
+	SAFE_RELEASE(cbWorld);
+	SAFE_RELEASE(cbOnce);
+	SAFE_RELEASE(cbCameraMove);
+
 	TechniqueHLSL::cleanUp();
 }
 

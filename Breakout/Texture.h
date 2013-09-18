@@ -3,37 +3,47 @@
 
 #include "FreeImage.h"
 
-class Texture
+namespace Resources
 {
-private:
 
-	//image format
-	FREE_IMAGE_FORMAT fif;
-	//pointer to the image, once loaded
-	FIBITMAP *dib;
-	//pointer to the image data
-	BYTE* bits;
-	//image width and height
-	unsigned int width, height;
+	class Texture
+	{
+	private:
 
-public:
-	Texture(void);
-	~Texture(void);
+		//image format
+		FREE_IMAGE_FORMAT fif;
+		//pointer to the image, once loaded
+		FIBITMAP *dib;
+		//pointer to the image data
+		BYTE* bits;
+		//image width and height
+		unsigned int width, height;
+		/*Data path to the pictures*/
+		char *filePath;
 
-	FREE_IMAGE_FORMAT* getFif(){return &fif;}
-	void setFif(FREE_IMAGE_FORMAT _fif){fif = _fif;}
+	public:
+		Texture(void);
+		~Texture(void);
 
-	FIBITMAP* getDib(){return dib;}
-	void setDib(FIBITMAP* _dib){dib = _dib;}
+		FREE_IMAGE_FORMAT* getFif(){return &fif;}
+		void setFif(FREE_IMAGE_FORMAT _fif){fif = _fif;}
 
-	BYTE* getBits(){return bits;}
-	void setBits(BYTE* _bits){bits = _bits;}
+		FIBITMAP* getDib(){return dib;}
+		void setDib(FIBITMAP* _dib){dib = _dib;}
 
-	unsigned int getWidth(){return width;}
-	void setWidth(unsigned int _width){width = _width;}
+		BYTE* getBits(){return bits;}
+		void setBits(BYTE* _bits){bits = _bits;}
 
-	unsigned int getHeight(){return height;}
-	void setHeight(unsigned int _height){height = _height;}
-};
+		unsigned int getWidth(){return width;}
+		void setWidth(unsigned int _width){width = _width;}
+
+		unsigned int getHeight(){return height;}
+		void setHeight(unsigned int _height){height = _height;}
+
+		char* getFilePath(){return filePath;}
+		void setFilePath(char _filePath[256]){filePath = _filePath;}
+	};
+
+}
 
 #endif

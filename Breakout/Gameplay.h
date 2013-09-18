@@ -1,4 +1,5 @@
 #pragma once
+#include "Resource.h"
 namespace Logic
 {
 	class Gameplay
@@ -9,6 +10,9 @@ namespace Logic
 
 
 	private:
+		std::vector<Vertex>			verticesDynamic;
+		std::vector<PerInstance>	verticesPerInstance;
+
 		//Brick bricks[];
 		//Pad pad;
 		//Ball balls[]

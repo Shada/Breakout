@@ -47,19 +47,20 @@ private:
 	int								domainShaderIndex;
 	int								geometryShaderIndex;
 	int								pixelShaderIndex;
-
+	std::string						name;
 	ID3D11Device					*device;
-	ID3DBlob*						vertexBlob;
+	ID3DBlob						*vertexBlob;
 public:
-	TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::string vs, std::string gsPath,std::string gs, std::string psPath, std::string ps);
-	TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::string vs, std::string hsPath,std::string hs,std::string dsPath,std::string ds, std::string psPath, std::string ps);
+	TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string gsPath,std::string gs, std::string psPath, std::string ps);
+	TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string hsPath,std::string hs,std::string dsPath,std::string ds, std::string psPath, std::string ps);
 	~TechniqueHLSL();
 
+	std::string						getName() { return name; };
 
-	static void cleanUp();
-	void useTechnique();
+	static void						cleanUp();
+	void							useTechnique();
 
-	LPVOID getInputSignature()		{ return vertexBlob->GetBufferPointer(); }
-	SIZE_T getInputSignatureSize()	{ return vertexBlob->GetBufferSize(); }
+	LPVOID							getInputSignature()		{ return vertexBlob->GetBufferPointer(); }
+	SIZE_T							getInputSignatureSize()	{ return vertexBlob->GetBufferSize(); }
 };
 
