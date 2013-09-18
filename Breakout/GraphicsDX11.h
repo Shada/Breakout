@@ -27,7 +27,7 @@ private:
 	IDXGISwapChain				*swapChain;
 
 	//techniques
-	TechniqueHLSL				*techSimple;
+	std::vector<TechniqueHLSL*>	techniques;
 
 	//layouts
 	ID3D11InputLayout			*simpleInputLayout;
@@ -89,7 +89,14 @@ public:
 	bool createInstanceBuffer( std::vector<PerInstance> PerInstance);
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
 	void feedInstanceBuffer( std::vector<PerInstance> perInstance);
+	/* get technique index by name. (returns -1 if none were found)*/
+	int getTechIDByName(std::string name);
+	/* set current technique for rendering */
+	void useTechnique(unsigned int index);
 
+	void draw(unsigned int startIndex, unsigned int vertexAmount);
+
+	void useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();
 };
 

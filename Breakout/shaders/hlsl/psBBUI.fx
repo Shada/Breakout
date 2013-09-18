@@ -1,5 +1,5 @@
 #include "resource.fx"
-Texture2DArray tex		: register( t0 );
+//Texture2DArray tex		: register( t0 );
 
 struct PS_Input
 {
@@ -11,6 +11,6 @@ struct PS_Input
 
 float4 ps_simple(PS_Input input) :SV_TARGET0
 {
-	float4 texColor  = tex[input.texIndex].Sample(samLinear, input.texCoord);
+	float4 texColor = float4(0,0,0,0);//tex[input.texIndex].Sample(samLinear, input.texCoord);
 	return texColor * input.tintAlpha;
 }

@@ -160,8 +160,8 @@ void GraphicsDX11::init(HWND *hWnd)
     viewPort.TopLeftY		= 0;
 	immediateContext->RSSetViewports( 1, &viewPort );
 
-
-	techSimple	= new TechniqueHLSL(device, "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple");
+	techniques = std::vector<TechniqueHLSL*>();
+	techniques.push_back( new TechniqueHLSL(device, "techSimple", "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple") );
 
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
@@ -171,7 +171,7 @@ void GraphicsDX11::init(HWND *hWnd)
 		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techSimple->getInputSignature(),techSimple->getInputSignatureSize(), &simpleInputLayout);
+	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techniques.at(0)->getInputSignature(), techniques.at(0)->getInputSignatureSize(), &simpleInputLayout);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create simpleInputLayout","GraphicsDX11 Error",MB_OK);
@@ -383,6 +383,44 @@ bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRE
 	return true;
 }
 
+int GraphicsDX11::getTechIDByName( std::string name )
+{
+	for(unsigned int i = 0; i < techniques.size(); i++)
+		if(techniques.at(i)->getName() == name)
+			return i;
+	return -1;
+}
+
+void GraphicsDX11::useTechnique( unsigned int id )
+{
+	techniques.at(id)->useTechnique();
+}
+
+void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
+{
+	UINT stride = sizeof(Vertex);
+	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, 0 );
+	immediateContext->PSSetSamplers(0,1,&samplerLinear);
+	immediateContext->IASetInputLayout( simpleInputLayout );
+	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	immediateContext->RSSetViewports( 1, &viewPort );
+	immediateContext->RSSetState(rasterizerBackface);
+	float blendFactor[4];
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
+
+	immediateContext->Draw( vertexAmount, startIndex );
+}
+
+void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
+{
+	immediateContext->PSSetShaderResources(startSlot,numberofViews,views);
+}
+
 GraphicsDX11::~GraphicsDX11()
 {
 	SAFE_RELEASE(device);
@@ -402,11 +440,13 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(simpleInputLayout);
 	SAFE_RELEASE(swapChain);
 
-	SAFE_DELETE(techSimple);
-
 	SAFE_RELEASE(vBufferStatic);
 	SAFE_RELEASE(vBufferDynamic);
 	SAFE_RELEASE(instBuffer);
+
+	//techniques
+	for(unsigned int i = 0; i < techniques.size(); i++)
+		SAFE_DELETE( techniques.at(i) );
 
 	//cbuffers
 	SAFE_RELEASE(cbWorld);
