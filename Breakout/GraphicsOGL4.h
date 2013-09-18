@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <gl/glew.h>
-#include <gl/glfw.h>
+#include <GL/glew.h>
+#include <GL/glfw.h>
 
 class GraphicsOGL4
 {
@@ -27,9 +27,9 @@ public:
 
 	static GraphicsOGL4 *getInstance();
 
-	// this will be somewhat a problem.. Maybe need different definitions for different type of data structures? 
+	// this will be somewhat a problem.. Maybe need different definitions for different type of data structures?
 	// Not necessary if all models have same vertex structure, but will this be the case always? This must be researched
-	// will not be vector in future.. Probably better to be vector of structs 
+	// will not be vector in future.. Probably better to be vector of structs
 	/** [in] vertexBufferId - ID of the buffer that is to be fed with data	*
 	 * [in] vertexPoints - an array with all vertex points					*
 	 * [in] numVertices - number of vertices sent in						*

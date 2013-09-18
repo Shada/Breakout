@@ -1,11 +1,11 @@
 #include "Windowhandler.h"
-#include <io.h>
 #include <iostream>
 #include <fcntl.h>
 #include "Resource.h"
 
 #ifdef _WIN32
 #include "GraphicsDX11.h"
+#include <io.h>
 #else
 #include "GraphicsOGL4.h"
 #endif
@@ -27,7 +27,7 @@ Windowhandler::~Windowhandler()
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
-	
+
 	if(FAILED(initWindow()))
 	{
 		MessageBox(0, "Error initializing window!", 0, 0);
@@ -51,7 +51,7 @@ LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HDC hdc;
 
-	switch (message) 
+	switch (message)
 	{
 	case WM_PAINT:
 		hdc = BeginPaint(_hWnd, &ps);
@@ -73,7 +73,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
 	WNDCLASSEX wcex;
-	wcex.cbSize			= sizeof(WNDCLASSEX); 
+	wcex.cbSize			= sizeof(WNDCLASSEX);
 	wcex.style          = CS_HREDRAW | CS_VREDRAW;
 	wcex.lpfnWndProc    = (WNDPROC)wndProc;
 	wcex.cbClsExtra     = 0;
@@ -89,10 +89,10 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 		return false;
 
 	// Create window
-	hInst				= hInstance; 
+	hInst				= hInstance;
 	RECT rc = { 0, 0, 1100, 700 };
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-	
+
 	if(!(hWnd = CreateWindow(	"Huvudkrav",
 							"Break yo face! ",
 							WS_OVERLAPPEDWINDOW,
@@ -109,7 +109,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	ShowWindow( hWnd, nCmdShow );
-	
+
 	return true;
 }
 
@@ -213,7 +213,7 @@ int Linuxhandler::run()
 
 	//temporary triangle to test drawing
 	float g_vertex_buffer_data[] = {
-		-1.f, -1.f, 0.f, 
+		-1.f, -1.f, 0.f,
 		1.f, -1.f, 0.f,
 		0.f, 1.f, 0.f,
 	};
@@ -257,7 +257,7 @@ bool Linuxhandler::initWindow()
 		//print error message to console
 		return false;
 	}
-	
+
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 4); // version 4.3
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
@@ -295,7 +295,7 @@ void Linuxhandler::createConsoleLog(const char *winTitle)
 Linuxhandler::~Linuxhandler()
 {
 	glfwCloseWindow();
-	
+
 	GraphicsOGL4 *t = GraphicsOGL4::getInstance();
 
 	SAFE_DELETE(t);

@@ -148,14 +148,14 @@ void GLInputhandler::update()
 
 	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
 		if(glfwGetKey(pad.listenerKeys.at(i)) == GLFW_PRESS)
-			pad.functions.at(i)();
+			pad.functions.at(i)(pad.directions.at(i));
 
 	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
 		if(glfwGetKey(cam.listenerKeys.at(i)) == GLFW_PRESS)
 			cam.functions.at(i)(mouseX, mouseY);
 
 	if(prevMouseX != mouseX)
-		pad.mouseMove(mouseX - prevMouseX);
+		pad.pad->move(mouseX - prevMouseX);
 }
 
 void GLInputhandler::updateGame()

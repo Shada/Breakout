@@ -1,5 +1,5 @@
 #include "Loader.h"
-
+#include <string.h>
 namespace Resources
 {
 
@@ -45,9 +45,9 @@ namespace Resources
 			{
 				last = false;
 				ObjFile >>x>>y>>z;
-			
+
 				Position.push_back(Vec3((x*(scale/10)*invertX),(y*(scale/10)*invertY),(-z*(scale/10)*invertZ)));
-			
+
 			}
 			else if(0==strcmp(buffer,"vt"))
 			{
@@ -78,7 +78,7 @@ namespace Resources
 					if('/'==ObjFile.peek())         /////  '/'  Ignorieren
 					{
 						ObjFile.ignore();
-						if('/'!=ObjFile.peek()) 
+						if('/'!=ObjFile.peek())
 						{
 
 							ObjFile >>FaceIndex;
@@ -91,7 +91,7 @@ namespace Resources
 					{
 						ObjFile.ignore();
 
-						if('/'!=ObjFile.peek()) 
+						if('/'!=ObjFile.peek())
 						{
 							ObjFile >>FaceIndex;
 							if(FaceIndex < 0)
@@ -195,7 +195,7 @@ namespace Resources
 				}
 				//Data->push_back(pData);
 				_model->addData(pData);
-			}     
+			}
 		}
 
 
@@ -208,7 +208,7 @@ namespace Resources
 		//check the file signature and deduce its format
 		_texture->setFif(FreeImage_GetFileType(file, 0));
 		//if still unknown, try to guess the file format from the file extension
-		if(*_texture->getFif() == FIF_UNKNOWN) 
+		if(*_texture->getFif() == FIF_UNKNOWN)
 			_texture->setFif(FreeImage_GetFIFFromFilename(file));
 		//if still unkown, return failure
 		if(*_texture->getFif() == FIF_UNKNOWN)

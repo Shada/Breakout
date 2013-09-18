@@ -17,7 +17,7 @@ namespace Logic
 		funcs.push_back(&pad->move);
 		funcs.push_back(&pad->rotate);
 		funcs.push_back(&pad->rotate);
-
+#ifdef _WIN32
 
 		//Only works for DirectX atm, you need to add a direction as well.
 		//Should rather be functions for right- and left movement, instead of sending directions.
@@ -26,7 +26,7 @@ namespace Logic
 		directions.push_back(1);
 		keys.push_back(DIK_LEFTARROW);
 		directions.push_back(-1);
-
+#endif
 
 		//std::function<void(int)> padMove = &pad->move;
 
