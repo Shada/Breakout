@@ -2,6 +2,9 @@
 
 namespace Resources
 {
+
+	LoadHandler	*LoadHandler::loadInstance = NULL;
+
 	LoadHandler::LoadHandler(void)
 	{
 		loader = 0;

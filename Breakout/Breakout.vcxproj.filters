@@ -52,6 +52,9 @@
     <ClCompile Include="LoadHandler.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

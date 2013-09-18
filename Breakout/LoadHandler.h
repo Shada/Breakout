@@ -11,13 +11,23 @@ namespace Resources
 	class LoadHandler
 	{
 	private:
+		static LoadHandler			*loadInstance;
+		LoadHandler(void);
+
 		Loader *loader;
 		std::vector<Model*> models;
 		std::vector<Texture*> textures;
 		std::vector<Texture*> maps;
 
 	public:
-		LoadHandler(void);
+
+		static LoadHandler			*getInstance()
+		{
+			if(!loadInstance)
+				loadInstance = new LoadHandler();
+			return loadInstance;
+		}
+
 		~LoadHandler(void);
 		Model* getModel(unsigned int _index){return models.at(_index);};
 		Texture* getTexture(unsigned int _index){return textures.at(_index);}
