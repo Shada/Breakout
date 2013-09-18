@@ -33,6 +33,18 @@ namespace Resources
 
 	LoadHandler::~LoadHandler(void)
 	{
+		SAFE_DELETE(loader);
+		for(unsigned int i = 0; i < models.size(); i++)
+			SAFE_DELETE(models.at(i));
+		models.clear();
+
+		for(unsigned int i = 0; i < textures.size(); i++)
+			SAFE_DELETE(textures.at(i));
+		textures.clear();
+
+		for(unsigned int i = 0; i < maps.size(); i++)
+			SAFE_DELETE(maps.at(i));
+		maps.clear();
 	}
 
 }

@@ -14,9 +14,11 @@ cbuffer cbCameraMove	: register( b1 )
 	matrix viewInv;
 	float3 cameraPos;
 	float3 cameraDir;
+	float2 padding;
 };
 cbuffer cbOnce			: register( b2 )
 {
 	matrix projection;
 	matrix projInv;
+	float4 lightPos;
 };

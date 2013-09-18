@@ -8,7 +8,7 @@ std::vector<PSstruct> *TechniqueHLSL::pixelShaders		= new std::vector<PSstruct>(
 
 #include "GraphicsDX11.h"
 
-TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::string vs, std::string gsPath,std::string gs, std::string psPath, std::string ps)
+TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string gsPath,std::string gs, std::string psPath, std::string ps)
 {
 	this->device		= device;
 	vertexBlob			= NULL;
@@ -17,8 +17,9 @@ TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::stri
 	domainShaderIndex	= -1;
 	geometryShaderIndex	= insertGeometryShader(gsPath,gs);
 	pixelShaderIndex	= insertPixelShader(psPath,ps);
+	this->name			= name;
 }
-TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::string vs, std::string hsPath,std::string hs,std::string dsPath,std::string ds, std::string psPath, std::string ps)
+TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string hsPath,std::string hs,std::string dsPath,std::string ds, std::string psPath, std::string ps)
 {
 	this->device		= device;
 	vertexBlob			= NULL;
@@ -27,6 +28,7 @@ TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string vsPath, std::stri
 	domainShaderIndex	= insertDomainShader(dsPath, ds);
 	geometryShaderIndex	= -1;
 	pixelShaderIndex	= insertPixelShader(psPath,ps);
+	this->name			= name;
 }
 int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderName)
 {
