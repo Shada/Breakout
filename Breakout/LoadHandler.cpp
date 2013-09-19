@@ -1,4 +1,6 @@
 #include "LoadHandler.h"
+#include <iostream>
+#include <fstream>
 
 namespace Resources
 {
@@ -27,9 +29,22 @@ namespace Resources
 		Texture *tMap = 0;
 		tMap = new Texture();
 
-		loader->loadTexture("",tMap);
+		char file[256];
+		std::ifstream myfile ("Textures/texture.txt");
+		if (myfile.is_open())
+		{
+			while(!myfile.eof())
+			{
+				myfile.getline(file,sizeof(myfile));
+				loader->loadTexture(file,tMap);
+				maps.push_back(tMap);
+			}
+		}
+		myfile.close();
+			
 
-		maps.push_back(tMap);
+
+		
 	}
 
 
