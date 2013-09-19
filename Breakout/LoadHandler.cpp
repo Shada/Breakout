@@ -7,7 +7,7 @@ namespace Resources
 
 	LoadHandler	*LoadHandler::loadInstance = NULL;
 
-	LoadHandler::LoadHandler(void)
+	LoadHandler::LoadHandler()
 	{
 		loader = 0;
 		loader = new Loader();
@@ -26,29 +26,24 @@ namespace Resources
 
 		textures.push_back(tTexture);
 
-		Texture *tMap = 0;
-		tMap = new Texture();
 
 		char file[256];
-		std::ifstream myfile ("Textures/texture.txt");
+		std::ifstream myfile ("Textures/textures.txt");
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
 			{
+				Texture *tMap = new Texture();
 				myfile.getline(file,sizeof(myfile));
-				loader->loadTexture(file,tMap);
-				maps.push_back(tMap);
+				loader->loadTexture(file, tMap);
+				textures.push_back(tMap);
+
 			}
 		}
 		myfile.close();
-			
-
-
-		
 	}
 
-
-	LoadHandler::~LoadHandler(void)
+	LoadHandler::~LoadHandler()
 	{
 		SAFE_DELETE(loader);
 		for(unsigned int i = 0; i < models.size(); i++)
@@ -63,5 +58,4 @@ namespace Resources
 			SAFE_DELETE(maps.at(i));
 		maps.clear();
 	}
-
 }

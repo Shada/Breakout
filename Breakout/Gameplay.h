@@ -26,7 +26,7 @@ namespace Logic
 		//TODO:
 		//All logik för spelandet av en bana
 		
-		int Update(/*tid*/);
+		void update(double dt);
 
 
 	};

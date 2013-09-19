@@ -1,4 +1,5 @@
 #include "GameLogic.h"
+#include "LoadHandler.h"
 #include <iostream>
 namespace Logic
 {
@@ -6,6 +7,7 @@ namespace Logic
 	{
 		pad = new Pad();
 		ball = new Ball();
+		ball->setModelID(0);
 		camera = new Camera();
 
 		inputHandler = handler;
@@ -35,6 +37,8 @@ namespace Logic
 		bricks.push_back(new Brick(Vec3(520, 200, 0)));
 
 		state = GAME_PLAY;
+
+		Resources::LoadHandler::getInstance();
 	}
 
 	void GameLogic::update(double _dt)
@@ -69,6 +73,14 @@ namespace Logic
 	void GameLogic::draw()
 	{
 		//pad->draw();
+		//ball->draw();
+
+		Resources::LoadHandler::getInstance()->getModel(ball->getModelID())->draw();
+
+		for(unsigned int i = 0; i < bricks.size(); i++)
+		{
+			
+		}
 	}
 
 	GameLogic::~GameLogic()
@@ -79,5 +91,8 @@ namespace Logic
 		SAFE_DELETE(ball);
 		for(unsigned int i = 0; i < bricks.size(); i++)
 			SAFE_DELETE(bricks.at(i));
+
+		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
+		SAFE_DELETE(lh);
 	}
 }

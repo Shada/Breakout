@@ -4,21 +4,18 @@
 namespace Resources
 {
 
-	Texture::Texture(void)
+	Texture::Texture()
 	{
 		fif = FIF_UNKNOWN;
 		dib = 0;
 		bits = 0;
 		width = 0;
 		height = 0;
+
+		filePath = 0;
 	}
 
-
-	Texture::~Texture(void)
+	Texture::~Texture()
 	{
-		SAFE_DELETE(dib);
-		SAFE_DELETE(bits);
-		SAFE_DELETE(filePath);
 	}
-
 }

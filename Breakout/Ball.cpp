@@ -1,4 +1,6 @@
 #include "Ball.h"
+#include "LoadHandler.h"
+
 namespace Logic
 {
 	
@@ -25,7 +27,9 @@ namespace Logic
 	void Ball::draw()
 	{
 
+		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
 	}
+
 	void Ball::setDirection(float _x, float _y, float _z)
 	{
 		if(_x != NULL) direction.x = _x;
