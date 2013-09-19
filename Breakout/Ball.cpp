@@ -1,5 +1,4 @@
 #include "Ball.h"
-
 namespace Logic
 {
 	
@@ -23,7 +22,10 @@ namespace Logic
 		position += direction * speed * (float)_dt;
 		nextFrame = position + (direction * speed * (float)_dt);
 	}
+	void Ball::draw()
+	{
 
+	}
 	void Ball::setDirection(float _x, float _y, float _z)
 	{
 		if(_x != NULL) direction.x = _x;

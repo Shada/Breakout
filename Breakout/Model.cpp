@@ -1,19 +1,32 @@
 #include "Model.h"
-
-
-Model::Model(void)
+#ifdef _WIN32
+#include "GraphicsDX11.h"
+#endif // _WIN32
+Model::Model()
+{
+	startIndex = 0;
+	vertexAmount = 0;
+}
+Model::~Model()
 {
 }
-
-
-Model::~Model(void)
+void Model::draw()
 {
+#ifdef _WIN32
+	GraphicsDX11::getInstance()->draw(startIndex, vertexAmount);
+#else
+	//linux::draw();
+#endif // _WIN32
 }
-
 
 void Model::addData(Vertex iData)
 {
 	Data.push_back(iData);
+}
+
+void Model::setStartIndex(int _index)
+{
+	startIndex = _index;
 }
 
 void Model::lastFace()

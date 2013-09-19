@@ -66,6 +66,9 @@ private:
 	/*Gives you a pointer to a texture array*/
 	void getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray);
 
+	/* create vertex buffer */
+	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
+>>>>>>> c5ca981c0eb7eae783579578e80c511104c9cf0c
 public:
 	ID3D11DeviceContext			*immediateContext;
 	/* is shader model 5 supported? */
@@ -84,8 +87,7 @@ public:
 	void presentSwapChain();
 	/* create constant buffer */
 	bool createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
-	/* create vertex buffer */
-	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
+	
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
 	bool createVBufferStatic( std::vector<Vertex> vertices);
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
