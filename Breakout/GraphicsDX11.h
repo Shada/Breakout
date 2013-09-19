@@ -14,11 +14,19 @@ private:
 	static GraphicsDX11			*instance;
 	GraphicsDX11();
 
-	//buffers
+	/*---------------------------------------------------------------
+								buffers
+	--------------------------------------------------------------*/
+	/*the vertex buffer for static objects*/
 	ID3D11Buffer				*vBufferStatic;
-	ID3D11Buffer				*instBuffer;		//instance buffer
-
+	/*the instance buffer for static objects (models and such)*/
+	ID3D11Buffer				*instBuffer;
+	/*the vertex buffer for dynamic objects*/
 	ID3D11Buffer				*vBufferDynamic;
+	/*the dynamic billboard buffer for menu UI*/
+	ID3D11Buffer				*uiBufferDynamic;
+
+
 
 	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
@@ -29,10 +37,15 @@ private:
 	//techniques
 	std::vector<TechniqueHLSL*>	techniques;
 
-	//layouts
+	/*---------------------------------------------------------------
+								Layouts
+	--------------------------------------------------------------*/
+	/*simple layout*/
 	ID3D11InputLayout			*simpleInputLayout;
 
-	//renderTarget
+	/*---------------------------------------------------------------
+								RenderTargets
+	--------------------------------------------------------------*/
 	ID3D11Texture2D				*renderTargetTex;
 	ID3D11RenderTargetView		*renderTargetView;
 	ID3D11ShaderResourceView	*renderTargetResource;
@@ -85,6 +98,8 @@ public:
 	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
 	bool createVBufferStatic( std::vector<Vertex> vertices);
+	/* creates the dynamic vertex buffer for menu items*/
+	bool createVBufferUI( unsigned int maxSize );
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
 	bool createInstanceBuffer( std::vector<PerInstance> PerInstance);
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */

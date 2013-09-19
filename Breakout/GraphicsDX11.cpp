@@ -25,6 +25,7 @@ GraphicsDX11::GraphicsDX11()
 
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
+	uiBufferDynamic				= NULL;
 	instBuffer					= NULL;
 }
 
@@ -356,6 +357,8 @@ bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 	return true;
 }
 
+
+
 bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 {
 	D3D11_BUFFER_DESC bd;
@@ -368,6 +371,19 @@ bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 	ZeroMemory( &initData, sizeof( initData ) );
 	initData.pSysMem = &PerInstance[0];
 	if(! createVBuffer(&bd, &initData, &instBuffer) )
+		return false;
+	return true;
+}
+
+bool GraphicsDX11::createVBufferUI( unsigned int maxSize )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( BBUI ) * maxSize;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	if(! createVBuffer(&bd, NULL, &vBufferStatic) )
 		return false;
 	return true;
 }
@@ -441,6 +457,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(swapChain);
 
 	SAFE_RELEASE(vBufferStatic);
+	SAFE_RELEASE(uiBufferDynamic);
 	SAFE_RELEASE(vBufferDynamic);
 	SAFE_RELEASE(instBuffer);
 
