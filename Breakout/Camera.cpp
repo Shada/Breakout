@@ -1,9 +1,26 @@
 #include "Camera.h"
-
+#ifdef _WIN32
+#include "GraphicsDX11.h"
+#endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(0,0,0);
-	rotation = Vec3(0,0,0);
+	position = Vec3(0, 0, 0);
+	rotation = Vec3(0, 0, 0);
+
+	Matrix proj, projInv;
+	CBOnce cbonce;
+
+	perspectiveLH(proj, 1024.f, 720.f, 1.f, 1000.f);
+	cbonce.projection = proj;
+
+	MatrixInversion(projInv, proj);
+	cbonce.projectionInv = projInv;
+
+#ifdef _WIN32
+	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
+#else
+	//send to OpenGL GLSL thingy 
+#endif //_ WIN32
 }
 
 
@@ -60,6 +77,22 @@ void Camera::update()
 
 	//Create view matrix from vectors
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+
+	Matrix viewInv;
+	MatrixInversion(viewInv, viewMatrix);
+
+	CBCameraMove cb;
+
+	cb.cameraPos = pos;
+	cb.cameraDir = lookAt - pos;
+
+	cb.View = viewMatrix;
+	cb.ViewInv = viewInv;
+#ifdef _WIN32
+	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
+#else
+	//Linix send in view shit
+#endif
 }
 
 Matrix Camera::getViewMatrix()
