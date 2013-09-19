@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Resource.h"
 #include "TechniqueHLSL.h"
+#include "LoadHandler.h"
 
 class GraphicsDX11
 {
@@ -62,6 +63,8 @@ private:
 	//samplestates
 	ID3D11SamplerState			*samplerLinear;
 
+	/*Gives you a pointer to a texture array*/
+	void getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray);
 
 public:
 	ID3D11DeviceContext			*immediateContext;

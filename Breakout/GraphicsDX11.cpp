@@ -456,4 +456,24 @@ GraphicsDX11::~GraphicsDX11()
 	TechniqueHLSL::cleanUp();
 }
 
+void GraphicsDX11::getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray)
+{
+	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+
+	ID3D11ShaderResourceView*	texture = NULL;
+
+	D3DX11_IMAGE_LOAD_INFO loadInfo;
+	ZeroMemory( &loadInfo, sizeof(D3DX11_IMAGE_LOAD_INFO) );
+	loadInfo.BindFlags = D3D10_BIND_SHADER_RESOURCE;
+	loadInfo.Format = DXGI_FORMAT_BC1_UNORM;
+
+	for(int i = 0; i < loader->getTextureSize();i++)
+	{
+		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), &loadInfo, NULL, &texture, NULL );
+
+		_textureArray->push_back(texture);
+	}
+
+}
+
 #endif // _WIN32
