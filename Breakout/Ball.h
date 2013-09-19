@@ -11,6 +11,7 @@ namespace Logic
 		Ball();
 		~Ball();
 		void update(double _dt);
+		void draw();
 		float getRadius()	{ return radius; };
 		Vec3 getDirection()	{ return direction; };
 

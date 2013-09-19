@@ -1,6 +1,7 @@
 #ifndef _GAMEPLAY_H_
 #define _GAMEPLAY_H_
 
+#include "Model.h"
 #include "Resource.h"
 namespace Logic
 {
@@ -15,6 +16,9 @@ namespace Logic
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
+		std::vector<Model*>			models;
+		/* called after all models are initialized */
+		void initVertexBuffer();
 		//Brick bricks[];
 		//Pad pad;
 		//Ball balls[]
