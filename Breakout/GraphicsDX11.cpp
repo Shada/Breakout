@@ -335,9 +335,9 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 		return false;
 	}
 	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
-	immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
+	//immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
 	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
-	immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
+	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
 	return true;
 }
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
@@ -399,7 +399,8 @@ void GraphicsDX11::useTechnique( unsigned int id )
 void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 {
 	UINT stride = sizeof(Vertex);
-	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, 0 );
+	UINT offset = 0;
+	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, &offset);
 	immediateContext->PSSetSamplers(0,1,&samplerLinear);
 	immediateContext->IASetInputLayout( simpleInputLayout );
 	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
@@ -411,6 +412,7 @@ void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
 	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
 
 	immediateContext->Draw( vertexAmount, startIndex );

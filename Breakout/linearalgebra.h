@@ -602,7 +602,7 @@
 			}
 		}
 		out *= 1 / determinant(in);
-		//out.transpose();
+		out.transpose();
 	}
  
 	/* Creates projection matrix for left hand coordinate systems */
@@ -614,6 +614,15 @@
 		pOut[2][2] = zf / (zf - zn);		pOut[2][3] = 1;
 		pOut[3][2] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
 	}
+
+	/*inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
+	{
+		float height = cos(w * .5f) / sin(w * .5f);
+		pOut[0][0] = height / h;
+		pOut[1][1] = height;
+		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
+		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+	}*/
 
 	/* Creates a view matrix for left hand coordinate systems */
 	inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
@@ -628,6 +637,19 @@
 		pOut[3][2] = look.dot(-eye);
 		pOut[3][3] = 1;
 	}
+
+	/*inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
+	{
+		Vec3 right = cross(up, look);
+		pOut[0][0] = right.x;	pOut[1][0] = up.x;	pOut[2][0] = look.x;	pOut[3][0] = 0;
+		pOut[0][1] = right.y;	pOut[1][1] = up.y;	pOut[2][1] = look.y;	pOut[3][1] = 0;
+		pOut[0][2] = right.z;	pOut[1][2] = up.z;	pOut[2][2] = look.z;	pOut[3][2] = 0;
+		
+		pOut[0][3] = right.dot(-eye);
+		pOut[1][3] = up.dot(-eye);
+		pOut[2][3] = look.dot(-eye);
+		pOut[3][3] = 1;
+	}*/
 
 	/* Creates rotation matrix for rotation around a given axis */
 	inline void rotationAxis(Matrix &mOut, Vec3 axis, float angle)

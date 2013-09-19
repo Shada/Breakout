@@ -31,6 +31,8 @@ namespace Logic
 		float speed;
 		Vec3 direction, nextFrame;
 		float radius;
+
+		int shaderTechniqueID;
 	};
 }
 #endif // ! _BALL_H_

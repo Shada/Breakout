@@ -3,16 +3,44 @@
 
 namespace Logic
 {
-	Gameplay::Gameplay(/*Map*/)
+	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
 		//tolka Map och skapa object enligt den
-	}
+		pad = new Pad();
+		ball = new Ball();
+		ball->setModelID(0);
+		camera = new Camera();
 
-	Gameplay::~Gameplay()
-	{
-		for(unsigned int i = 0; i < models.size(); i++)
-			SAFE_DELETE(models[i]);
-		models.clear();
+		std::vector<KeyBind> keys;
+		keys.push_back(KeyBind(DIK_UPARROW, &pad->rotateLeft));
+		keys.push_back(KeyBind(DIK_DOWNARROW, &pad->rotateRight));
+		keys.push_back(KeyBind(DIK_LEFTARROW, &pad->moveRight));
+		keys.push_back(KeyBind(DIK_RIGHTARROW, &pad->moveRight));
+
+		_handler->setPad(pad, keys);
+		//inputHandler = handler;
+		
+		//inputHandler->setCamera(camera, keys);
+
+		bricks.push_back(new Brick(Vec3(100, 150, 0)));
+		bricks.push_back(new Brick(Vec3(170, 150, 0)));
+		bricks.push_back(new Brick(Vec3(240, 150, 0)));
+		bricks.push_back(new Brick(Vec3(310, 150, 0)));
+		bricks.push_back(new Brick(Vec3(380, 150, 0)));
+		bricks.push_back(new Brick(Vec3(450, 150, 0)));
+		bricks.push_back(new Brick(Vec3(520, 150, 0)));
+		bricks.push_back(new Brick(Vec3(100, 200, 0)));
+		bricks.push_back(new Brick(Vec3(170, 200, 0)));
+		bricks.push_back(new Brick(Vec3(240, 200, 0)));
+		bricks.push_back(new Brick(Vec3(310, 200, 0)));
+		bricks.push_back(new Brick(Vec3(380, 200, 0)));
+		bricks.push_back(new Brick(Vec3(450, 200, 0)));
+		bricks.push_back(new Brick(Vec3(520, 200, 0)));
+
+		for(int i = 0; i < Resources::LoadHandler::getInstance()->getModelSize(); i++)
+			models.push_back(Resources::LoadHandler::getInstance()->getModel(i));
+
+		initVertexBuffer();
 	}
 
 	void Gameplay::initVertexBuffer()
@@ -35,5 +63,37 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
+		pad->update(_dt);
+		ball->update(_dt);
+		camera->update();
+
+		int collidingObject = Logic::Check2DCollissions(ball, bricks);
+		if(collidingObject != -1)
+		{
+			SAFE_DELETE(bricks.at(collidingObject));
+			bricks.erase(bricks.begin() + collidingObject, bricks.begin() + collidingObject + 1);
+			std::cout << "Collided with a brick yo! Only " << bricks.size() << " left!!!!" << std::endl;
+		}
+	}
+
+	void Gameplay::draw()
+	{
+		//Resources::LoadHandler::getInstance()->getModel(ball->getModelID())->draw();
+		ball->draw();
+
+		for(unsigned int i = 0; i < bricks.size(); i++)
+		{
+			
+		}
+	}
+
+	Gameplay::~Gameplay()
+	{
+		SAFE_DELETE(camera);
+		SAFE_DELETE(pad);
+		SAFE_DELETE(ball);
+		for(unsigned int i = 0; i < bricks.size(); i++)
+			SAFE_DELETE(bricks.at(i));
+		models.clear();
 	}
 }

@@ -4,13 +4,13 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(0, 0, 0);
+	position = Vec3(50, 50, 0);
 	rotation = Vec3(0, 0, 0);
 
 	Matrix proj, projInv;
 	CBOnce cbonce;
 
-	perspectiveLH(proj, 1024.f, 720.f, 1.f, 1000.f);
+	perspectiveLH(proj, PI * 0.3, float(1024 / 720), 0.01, 600);
 	cbonce.projection = proj;
 
 	MatrixInversion(projInv, proj);
@@ -22,7 +22,6 @@ Camera::Camera()
 	//send to OpenGL GLSL thingy 
 #endif //_ WIN32
 }
-
 
 Camera::~Camera()
 {
@@ -52,8 +51,7 @@ void Camera::update()
 {
 	Vec3 up, pos, lookAt, rot;
 	Matrix rotationMatrix;
-	float pi = 3.1415926f;
-	float radianConv = pi/180; //Used to convert from degree to radians
+	float radianConv = PI/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
@@ -73,7 +71,7 @@ void Camera::update()
 	transformCoord(up, up, rotationMatrix);
 
 	//Translate rotated camera position to location of viewer
-	lookAt = pos + lookAt;
+	//lookAt = pos + lookAt;
 
 	//Create view matrix from vectors
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
