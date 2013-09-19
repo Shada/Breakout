@@ -9,29 +9,15 @@ namespace Logic
 		camera = new Camera();
 
 		inputHandler = handler;
-		std::vector<int> keys, directions;
-		std::vector<std::function<void(int)>> funcs;
-		std::vector<std::function<void(int, int)>> funcss;
+		std::vector<KeyBind> keys;
 
-		funcs.push_back(&pad->move);
-		funcs.push_back(&pad->move);
-		funcs.push_back(&pad->rotate);
-		funcs.push_back(&pad->rotate);
+		keys.push_back(KeyBind(DIK_UPARROW, &pad->rotateLeft));
+		keys.push_back(KeyBind(DIK_DOWNARROW, &pad->rotateRight));
+		keys.push_back(KeyBind(DIK_LEFTARROW, &pad->moveRight));
+		keys.push_back(KeyBind(DIK_RIGHTARROW, &pad->moveRight));
 
-
-		//Only works for DirectX atm, you need to add a direction as well.
-		//Should rather be functions for right- and left movement, instead of sending directions.
-		//Make a struct with {key, functionptr} pairs?
-		keys.push_back(DIK_RIGHTARROW);
-		directions.push_back(1);
-		keys.push_back(DIK_LEFTARROW);
-		directions.push_back(-1);
-
-
-		//std::function<void(int)> padMove = &pad->move;
-
-		inputHandler->setPad(pad, keys, funcs, directions);
-		inputHandler->setCamera(camera, keys, funcss);
+		inputHandler->setPad(pad, keys);
+		//inputHandler->setCamera(camera, keys);
 
 		bricks.push_back(new Brick(Vec3(100, 150, 0)));
 		bricks.push_back(new Brick(Vec3(170, 150, 0)));

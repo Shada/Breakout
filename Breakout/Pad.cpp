@@ -31,7 +31,7 @@ namespace Logic
 			position.x = posMouse.x;
 		else if(posKey.x != position.x)
 		{
-			position.x = posKey.x;
+			position.x += (position.x - posKey.x) * _dt * movementSpeed;
 		}
 		//position.x = pos.x;
 		rotation.x = rot.x;
@@ -56,21 +56,35 @@ namespace Logic
 		position.y = sinf(angle3D);
 	}
 
-	void Pad::move(int _pixels)
+	/*void Pad::move(int _pixels)
 	{
 		posMouse.x += _pixels;
 	}
 
-	void Pad::moveByKeys(int _direction)
+	void Pad::moveRight()
 	{
-		_direction > 0 ? posKey.x += 5 : posKey.x -= 5;
+		posKey.x += 5;
 	}
 
-	void Pad::rotate(int _direction)
+	void Pad::moveLeft()
+	{
+		posKey.x -= 5;
+	}*/
+
+	void Pad::rotateRight()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += (float)(12 * PI / 180 * _direction);
+		rot.x += (float)(12 * PI / 180);
+		if(rot.x > 2 * PI)
+			rot.x -= (float)(2 * PI);
+	}
+
+	void Pad::rotateLeft()
+	{
+		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
+		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
+		rot.x += (float)(12 * PI / 180);
 		if(rot.x > 2 * PI)
 			rot.x -= (float)(2 * PI);
 	}

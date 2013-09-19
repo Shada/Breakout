@@ -26,6 +26,7 @@ namespace Logic
 			GAME_MENU = 0,
 			GAME_PLAY = 1
 		};
+		
 
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
