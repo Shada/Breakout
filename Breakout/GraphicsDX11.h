@@ -94,6 +94,10 @@ public:
 	/* set current technique for rendering */
 	void useTechnique(unsigned int index);
 
+	void updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
+	void updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
+	void updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
+
 	void draw(unsigned int startIndex, unsigned int vertexAmount);
 
 	void useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
