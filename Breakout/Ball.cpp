@@ -8,11 +8,11 @@ namespace Logic
 	
 	Ball::Ball() : Object3D()
 	{
-		position = Vec3(50, 50, 0);
+		position = Vec3(0, 0, 0);
 		direction = Vec3(1, 1, 0);
 		radius = 25;
 		direction.normalize();
-		speed = 0;
+		speed = 100;
 
 #ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");

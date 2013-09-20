@@ -4,13 +4,13 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(50, 50, 0);
+	position = Vec3(60, 60, -500);
 	rotation = Vec3(0, 0, 0);
 
 	Matrix proj, projInv;
 	CBOnce cbonce;
 
-	perspectiveLH(proj, PI * 0.3, float(1024 / 720), 0.01, 600);
+	perspectiveLH(proj, PI * 0.3, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
 	cbonce.projection = proj;
 
 	MatrixInversion(projInv, proj);
