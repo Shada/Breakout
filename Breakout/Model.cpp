@@ -16,7 +16,7 @@ Model::~Model()
 void Model::draw()
 {
 #ifdef _WIN32
-	GraphicsDX11::getInstance()->draw(startIndex, vertexAmount);
+	GraphicsDX11::getInstance()->draw(0, 3);
 #else
 	//linux::draw();
 #endif // _WIN32

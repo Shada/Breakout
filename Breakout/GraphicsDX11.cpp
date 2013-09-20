@@ -344,7 +344,7 @@ bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory( &bd, sizeof(bd) );
-	bd.Usage = D3D11_USAGE_IMMUTABLE;
+	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof( Vertex ) * vertices.size();
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;

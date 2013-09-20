@@ -46,13 +46,17 @@ namespace Logic
 	void Gameplay::initVertexBuffer()
 	{
 		std::vector<Vertex> vertices;
-		int start = vertices.size();
+		/*int start = vertices.size();
 		for(unsigned int i = 0; i < models.size(); i++)
 		{
 			models[i]->setStartIndex(start);
 			vertices.insert(vertices.end(), models[i]->getData()->begin(), models[i]->getData()->end());
 			start += models[i]->getData()->size();
-		}
+		}*/
+		models.at(0)->setStartIndex(3);
+		vertices.push_back(Vertex(Vec3(.5, 0, 0), Vec3(0, 1, 0), Vec2(0, 0)));
+		vertices.push_back(Vertex(Vec3(0, 0.5, 0), Vec3(0, 1, 0), Vec2(0, 0)));
+		vertices.push_back(Vertex(Vec3(-.5, 0, 0), Vec3(0, 1, 0), Vec2(0, 0)));
 
 	#ifdef _WIN32
 		GraphicsDX11::getInstance()->createVBufferStatic(vertices);
