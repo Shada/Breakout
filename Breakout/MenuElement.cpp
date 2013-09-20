@@ -1,4 +1,5 @@
 #include "MenuElement.h"
+#include "GraphicsInterface.h"
 
 MenuElement::MenuElement()
 {
@@ -13,6 +14,7 @@ void MenuElement::updateGraphicsArray(std::vector<BBUI> *bbData)
 void MenuElement::draw(double dt)
 {
 	//TODO: call graphical interface's draw().
+	
 }
 
 MenuElement::~MenuElement()

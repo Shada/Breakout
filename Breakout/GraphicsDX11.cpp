@@ -399,7 +399,7 @@ bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRE
 	return true;
 }
 
-int GraphicsDX11::getTechIDByName( std::string name )
+int GraphicsDX11::getTechIDByName( const char *name )
 {
 	for(unsigned int i = 0; i < techniques.size(); i++)
 		if(techniques.at(i)->getName() == name)
@@ -435,6 +435,11 @@ void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
 {
 	immediateContext->PSSetShaderResources(startSlot,numberofViews,views);
+}
+
+void GraphicsDX11::feedInstanceBuffer( std::vector<PerInstance> perInstance)
+{
+
 }
 
 GraphicsDX11::~GraphicsDX11()

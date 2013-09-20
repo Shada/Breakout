@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <gl/glew.h>
 #include <gl/glfw.h>
+#include "GraphicsInterface.h"
 
-class GraphicsOGL4
+class GraphicsOGL4: public GraphicsInterface
 {
 private:
 	// static vertex buffer
@@ -34,7 +35,13 @@ public:
 	 * [in] vertexPoints - an array with all vertex points					*
 	 * [in] numVertices - number of vertices sent in						*
 	 * [return] the start index of the data sent in							**/
-	int feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
+	int		feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
+	int		getTechIDByName(const char *name);
+	void	useTechnique(unsigned int index);
+	void	draw(unsigned int startIndex, unsigned int vertexAmount);
+	void	updateCBOnce(CBOnce cb);
+	void	updateCBCameraMove(CBCameraMove cb);
+	void	updateCBWorld(CBWorld cb);
 
 	~GraphicsOGL4();
 };

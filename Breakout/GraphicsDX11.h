@@ -5,10 +5,10 @@
 #include <d3d11.h>
 #include <D3DX11.h>
 #include <iostream>
-#include "Resource.h"
 #include "TechniqueHLSL.h"
+#include "GraphicsInterface.h"
 
-class GraphicsDX11
+class GraphicsDX11: public GraphicsInterface
 {
 private:
 	static GraphicsDX11			*instance;
@@ -105,7 +105,7 @@ public:
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
 	void feedInstanceBuffer( std::vector<PerInstance> perInstance);
 	/* get technique index by name. (returns -1 if none were found)*/
-	int getTechIDByName(std::string name);
+	int getTechIDByName(const char *name);
 	/* set current technique for rendering */
 	void useTechnique(unsigned int index);
 
