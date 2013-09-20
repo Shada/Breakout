@@ -11,33 +11,48 @@ namespace Resources
 	{
 		loader = 0;
 		loader = new Loader();
-
-		Model *tModel = 0;
-		tModel = new Model();
-
-		loader->LoadObject("Objects/Cube.obj",1,tModel,1,1,1);
-
-		models.push_back(tModel);
-
-		Texture *tTexture = 0;
-		tTexture = new Texture();
-
-		loader->loadTexture("",tTexture);
-
-		textures.push_back(tTexture);
-
-		Texture *tMap = 0;
-		tMap = new Texture();
-
 		char file[256];
-		std::ifstream myfile ("Textures/texture.txt");
+
+
+
+
+		std::ifstream myfile ("Objects/object.txt");
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
 			{
-				myfile.getline(file,sizeof(myfile));
+				Model *tModel = 0;
+				tModel = new Model();
+				loader->LoadObject(file,1,tModel,1,1,1);
+				models.push_back(tModel);
+			}
+		}
+		myfile.close();
+
+
+		myfile.open("Maps/map.txt");
+		if (myfile.is_open())
+		{
+			while(!myfile.eof())
+			{
+				Texture *tMap = 0;
+				tMap = new Texture();
 				loader->loadTexture(file,tMap);
-				maps.push_back(tMap);
+				textures.push_back(tMap);
+			}
+		}
+		myfile.close();
+
+
+		myfile.open("Textures/texture.txt");
+		if (myfile.is_open())
+		{
+			while(!myfile.eof())
+			{
+				Texture *tTexture = new Texture();
+				myfile.getline(file,sizeof(myfile));
+				loader->loadTexture(file,tTexture);
+				textures.push_back(tTexture);
 			}
 		}
 		myfile.close();

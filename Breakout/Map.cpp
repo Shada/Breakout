@@ -45,7 +45,7 @@ namespace Logic
 						_ball->setTextureID(color.rgbGreen);
 
 					}
-					else if(color.rgbRed != 0)
+					else if(color.rgbRed != 0 && color.rgbRed != 255 )
 					{
 						//Set brick property here
 						Brick tBrick(Vec3(0,0,0));

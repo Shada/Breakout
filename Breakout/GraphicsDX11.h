@@ -68,7 +68,7 @@ private:
 
 	/* create vertex buffer */
 	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
->>>>>>> c5ca981c0eb7eae783579578e80c511104c9cf0c
+
 public:
 	ID3D11DeviceContext			*immediateContext;
 	/* is shader model 5 supported? */
