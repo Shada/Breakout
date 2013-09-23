@@ -104,6 +104,8 @@ public:
 	/* create constant buffer */
 	bool	createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
 	
+	void initVertexBuffer();
+
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
 	bool	createVBufferStatic( std::vector<Vertex> vertices);
 	/* creates the dynamic vertex buffer for menu items*/

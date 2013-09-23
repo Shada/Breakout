@@ -11,6 +11,7 @@ namespace Logic
 	public:
 		Object3D(){}
 		virtual void update(double _dt) = 0;
+		virtual void draw() = 0;
 
 		int getModelID()	{ return modelID;	};
 		int getTextureID()	{ return textureID;	};

@@ -11,8 +11,8 @@ namespace Logic
 	class Map
 	{
 	public:
-		Map();
-		~Map();
+		Map(){};
+		~Map(){};
 	void Map::loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad);
 
 		//TODO:
