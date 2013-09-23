@@ -561,10 +561,9 @@
 
 		return a[0][0] * a[1][1] * a[2][2] * a[3][3];
 	}
-
-	inline Matrix MatrixInversion(Matrix A)
+	/* TODO: test if can replace mOut with A completely */
+	inline void MatrixInversion(Matrix &out, Matrix in)
 	{
-		Matrix mOut;
 		int colCount, rowCount;
 		for(int i = 0; i < 4; i++)
 		{
@@ -594,17 +593,16 @@
 							continue;
 						}
 						else
-							B[rowCount][colCount] = A[k][m];
+							B[rowCount][colCount] = in[k][m];
 					}
 				}
-				mOut[i][j] = determinant(B);
+				out[i][j] = determinant(B);
 				if((i + j) % 2 == 1)
-					mOut[i][j] = -mOut[i][j];
+					out[i][j] = -out[i][j];
 			}
 		}
-		mOut *= 1 / determinant(A);
-		mOut.transpose();
-		return mOut;
+		out *= 1 / determinant(in);
+		out.transpose();
 	}
  
 	/* Creates projection matrix for left hand coordinate systems */
@@ -613,12 +611,34 @@
 		float height = cos(w * .5f) / sin(w * .5f);
 		pOut[0][0] = height / h;
 		pOut[1][1] = height;
+		pOut[2][2] = zf / (zf - zn);		pOut[2][3] = 1;
+		pOut[3][2] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+	}
+
+	/*inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
+	{
+		float height = cos(w * .5f) / sin(w * .5f);
+		pOut[0][0] = height / h;
+		pOut[1][1] = height;
 		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
 		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
-	}
+	}*/
 
 	/* Creates a view matrix for left hand coordinate systems */
 	inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
+	{
+		Vec3 right = cross(up, look);
+		pOut[0][0] = right.x;	pOut[0][1] = up.x;	pOut[0][2] = look.x;	pOut[0][3] = 0;
+		pOut[1][0] = right.y;	pOut[1][1] = up.y;	pOut[1][2] = look.y;	pOut[1][3] = 0;
+		pOut[2][0] = right.z;	pOut[2][1] = up.z;	pOut[2][2] = look.z;	pOut[2][3] = 0;
+		
+		pOut[3][0] = right.dot(-eye);
+		pOut[3][1] = up.dot(-eye);
+		pOut[3][2] = look.dot(-eye);
+		pOut[3][3] = 1;
+	}
+
+	/*inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
 	{
 		Vec3 right = cross(up, look);
 		pOut[0][0] = right.x;	pOut[1][0] = up.x;	pOut[2][0] = look.x;	pOut[3][0] = 0;
@@ -629,7 +649,7 @@
 		pOut[1][3] = up.dot(-eye);
 		pOut[2][3] = look.dot(-eye);
 		pOut[3][3] = 1;
-	}
+	}*/
 
 	/* Creates rotation matrix for rotation around a given axis */
 	inline void rotationAxis(Matrix &mOut, Vec3 axis, float angle)

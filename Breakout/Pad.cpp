@@ -6,11 +6,6 @@ namespace Logic
 	Vec3 Pad::posKey = Vec3(0, 0, 0);
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
 	Vec3 Pad::rot = Vec3(0, 0, 0);
-	/*Pad::Pad()
-	{
-
-	}*/
-
 	Pad::Pad()
 	{
 		movementSpeed = 1.0f;
@@ -55,22 +50,7 @@ namespace Logic
 		position.x = cosf(angle3D); //Some sort of radius on the circle should be added.
 		position.y = sinf(angle3D);
 	}
-
-	/*void Pad::move(int _pixels)
-	{
-		posMouse.x += _pixels;
-	}
-
-	void Pad::moveRight()
-	{
-		posKey.x += 5;
-	}
-
-	void Pad::moveLeft()
-	{
-		posKey.x -= 5;
-	}*/
-
+	
 	void Pad::rotateRight()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame

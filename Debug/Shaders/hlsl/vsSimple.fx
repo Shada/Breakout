@@ -9,14 +9,13 @@ struct VS_Input
 struct PS_Input
 {
 	float4 pos		: SV_POSITION;
-	float2 tex		: TEXCOORD0;
+	float4 posWV	: TEXCOORD0;
 	float3 norm		: NORMAL;
-	float4 posWV	: TEXCOORD1;
+	float2 tex		: TEXCOORD1;
 };
 
 PS_Input vs_simple(VS_Input input)
 {
-	
 	PS_Input output = (PS_Input)0;
 	output.pos = mul(world, float4(input.pos,1.0f));
 	output.posWV = mul(view, output.pos);

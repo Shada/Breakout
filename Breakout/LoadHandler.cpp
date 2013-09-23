@@ -7,7 +7,7 @@ namespace Resources
 
 	LoadHandler	*LoadHandler::loadInstance = NULL;
 
-	LoadHandler::LoadHandler(void)
+	LoadHandler::LoadHandler()
 	{
 		loader = 0;
 		loader = new Loader();
@@ -56,14 +56,9 @@ namespace Resources
 			}
 		}
 		myfile.close();
-			
-
-
-		
 	}
 
-
-	LoadHandler::~LoadHandler(void)
+	LoadHandler::~LoadHandler()
 	{
 		SAFE_DELETE(loader);
 		for(unsigned int i = 0; i < models.size(); i++)
@@ -78,5 +73,4 @@ namespace Resources
 			SAFE_DELETE(maps.at(i));
 		maps.clear();
 	}
-
 }

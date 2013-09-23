@@ -1,11 +1,28 @@
 #include "Camera.h"
-
+#ifdef _WIN32
+#include "GraphicsDX11.h"
+#endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(0,0,0);
-	rotation = Vec3(0,0,0);
-}
+	position = Vec3(60, 60, -500);
+	rotation = Vec3(0, 0, 0);
 
+	Matrix proj, projInv;
+	CBOnce cbonce;
+
+	perspectiveLH(proj, PI * 0.3, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
+	cbonce.projection = proj;
+
+	MatrixInversion(projInv, proj);
+	cbonce.projectionInv = projInv;
+	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+
+#ifdef _WIN32
+	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
+#else
+	//send to OpenGL GLSL thingy 
+#endif //_ WIN32
+}
 
 Camera::~Camera()
 {
@@ -35,8 +52,7 @@ void Camera::update()
 {
 	Vec3 up, pos, lookAt, rot;
 	Matrix rotationMatrix;
-	float pi = 3.1415926f;
-	float radianConv = pi/180; //Used to convert from degree to radians
+	float radianConv = PI/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
@@ -56,10 +72,26 @@ void Camera::update()
 	transformCoord(up, up, rotationMatrix);
 
 	//Translate rotated camera position to location of viewer
-	lookAt = pos + lookAt;
+	//lookAt = pos + lookAt;
 
 	//Create view matrix from vectors
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+
+	Matrix viewInv;
+	MatrixInversion(viewInv, viewMatrix);
+
+	CBCameraMove cb;
+
+	cb.cameraPos = pos;
+	cb.cameraDir = lookAt - pos;
+
+	cb.View = viewMatrix;
+	cb.ViewInv = viewInv;
+#ifdef _WIN32
+	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
+#else
+	//Linix send in view shit
+#endif
 }
 
 Matrix Camera::getViewMatrix()

@@ -49,7 +49,6 @@ void GraphicsDX11::init(HWND *hWnd)
 
     D3D_FEATURE_LEVEL featureLevels[] =
     {
-		D3D_FEATURE_LEVEL_11_1,
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
@@ -309,6 +308,7 @@ void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 {
 	float clearColor[4] = {r,g,b,1};
 	immediateContext->ClearRenderTargetView(renderTargetView,clearColor);
+	immediateContext->ClearDepthStencilView(depthStencilView,D3D11_CLEAR_DEPTH,1.0f,0);
 }
 
 void GraphicsDX11::presentSwapChain()
@@ -335,16 +335,16 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 		return false;
 	}
 	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
-	immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
+	//immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
 	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
-	immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
+	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
 	return true;
 }
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory( &bd, sizeof(bd) );
-	bd.Usage = D3D11_USAGE_IMMUTABLE;
+	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof( Vertex ) * vertices.size();
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
@@ -398,20 +398,25 @@ void GraphicsDX11::useTechnique( unsigned int id )
 
 void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 {
-	UINT stride = sizeof(Vertex);
-	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, 0 );
-	immediateContext->PSSetSamplers(0,1,&samplerLinear);
-	immediateContext->IASetInputLayout( simpleInputLayout );
-	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	immediateContext->RSSetViewports( 1, &viewPort );
-	immediateContext->RSSetState(rasterizerBackface);
 	float blendFactor[4];
 	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
 	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, &offset);
+	immediateContext->PSSetSamplers(0,1,&samplerLinear);
+	immediateContext->IASetInputLayout( simpleInputLayout );
+	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	immediateContext->RSSetViewports( 1, &viewPort );
+	immediateContext->RSSetState(rasterizerBackface);
+	
+	
 
 	immediateContext->Draw( vertexAmount, startIndex );
 }

@@ -1,14 +1,18 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
+#include "Resource.h"
 #include "linearalgebra.h"
 
 class Camera
 {
 
 private:
-	Vec3 position, rotation;
-	Matrix viewMatrix;
+	Vec3	position, 
+			rotation;
+	
+	Matrix	viewMatrix,
+			projectionMatrix;
 
 public:
 	Camera();
