@@ -77,9 +77,9 @@
 		<Unit filename="Pad.cpp" />
 		<Unit filename="Pad.h" />
 		<Unit filename="Physics.h" />
+		<Unit filename="ProgramGLSL.cpp" />
+		<Unit filename="ProgramGLSL.h" />
 		<Unit filename="Resource.h" />
-		<Unit filename="TechniqueGLSL.cpp" />
-		<Unit filename="TechniqueGLSL.h" />
 		<Unit filename="TechniqueHLSL.cpp" />
 		<Unit filename="TechniqueHLSL.h" />
 		<Unit filename="Texture.cpp" />

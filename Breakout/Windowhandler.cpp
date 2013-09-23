@@ -213,15 +213,21 @@ int Linuxhandler::run()
 
 	//temporary triangle to test drawing
 	std::vector<float> g_vertex_buffer_data = {
-		-1.f, -1.f, 0.f,
-		1.f, -1.f, 0.f,
-		0.f, 1.f, 0.f,
+	/*v*/	-1.f, -1.f, 0.f,
+	/*n*/   0,0,0,
+	/*t*/   1,0,
+	/*v*/	1.f, -1.f, 0.f,
+	/*n*/   0,0,0,
+	/*t*/   1,1,
+	/*v*/	0.f, 1.f, 0.f,
+	/*n*/   0,0,0,
+	/*t*/   0,0,
 	};
 
 	double time = 0;
 	timer->Tick();
 
-	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data, 9);
+	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data, sizeof(float) * g_vertex_buffer_data.size());
 
 	do
 	{
@@ -237,7 +243,7 @@ int Linuxhandler::run()
 			//if(is active window
 			game->update(time);
 
-			GraphicsOGL4::getInstance()->draw(1, startindex, 3);
+			GraphicsOGL4::getInstance()->draw(startindex, 3);
 
 			time = 0;
 			// also some updating and shit
