@@ -134,6 +134,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MenuElement.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resource.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="Inputhandler.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="ObjectCore.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />

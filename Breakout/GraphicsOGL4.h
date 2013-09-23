@@ -8,10 +8,12 @@
 #include <gl/glew.h>
 #include <gl/glfw.h>
 #include "GraphicsInterface.h"
+#include "ObjectCore.h"
 
 class GraphicsOGL4
 {
 private:
+	Logic::ObjectCore	*objectCore;
 	// static vertex buffer
 	GLuint vertexBufferStatic[2];
 
@@ -35,6 +37,7 @@ public:
 	 * [in] vertexPoints - an array with all vertex points					*
 	 * [in] numVertices - number of vertices sent in						*
 	 * [return] the start index of the data sent in							**/
+	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
 	int		feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
 	int		getTechIDByName(const char *name);
 	void	useTechnique(unsigned int index);

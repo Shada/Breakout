@@ -7,12 +7,15 @@
 #include <iostream>
 #include "TechniqueHLSL.h"
 #include "LoadHandler.h"
+#include "ObjectCore.h"
 
 class GraphicsDX11
 {
 private:
 	static GraphicsDX11			*instance;
 	GraphicsDX11();
+
+	Logic::ObjectCore			*objectCore;
 
 	/*---------------------------------------------------------------
 								buffers
@@ -93,33 +96,34 @@ public:
 		return instance;
 	}
 	/* initialization */
-	void init(HWND *hWnd);
-	void clearRenderTarget(float r, float g, float b);
-	HRESULT compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
-	void presentSwapChain();
+	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
+	void	init(HWND *hWnd);
+	void	clearRenderTarget(float r, float g, float b);
+	HRESULT	compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
+	void	presentSwapChain();
 	/* create constant buffer */
-	bool createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
+	bool	createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
 	
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
-	bool createVBufferStatic( std::vector<Vertex> vertices);
+	bool	createVBufferStatic( std::vector<Vertex> vertices);
 	/* creates the dynamic vertex buffer for menu items*/
-	bool createVBufferUI( unsigned int maxSize );
+	bool	createVBufferUI( unsigned int maxSize );
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
-	bool createInstanceBuffer( std::vector<PerInstance> PerInstance);
+	bool	createInstanceBuffer( std::vector<PerInstance> PerInstance);
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
-	void feedInstanceBuffer( std::vector<PerInstance> perInstance);
+	void	feedInstanceBuffer( std::vector<PerInstance> perInstance);
 	/* get technique index by name. (returns -1 if none were found)*/
-	int getTechIDByName(const char *name);
+	int		getTechIDByName(const char *name);
 	/* set current technique for rendering */
-	void useTechnique(unsigned int index);
+	void	useTechnique(unsigned int index);
 
-	void updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
-	void updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
-	void updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
+	void	updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
+	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
+	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
 
-	void draw(unsigned int startIndex, unsigned int vertexAmount);
+	void	draw(unsigned int startIndex, unsigned int vertexAmount);
 
-	void useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
+	void	useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();
 };
 
