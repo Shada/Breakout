@@ -12,7 +12,9 @@ GraphicsOGL4::GraphicsOGL4()
 	glBindVertexArray(VertexArrayID);
 
 	// generate the buffer and store the id in vertexBuffer var
-	glGenBuffers(2, vertexBufferStatic);
+	glGenBuffers(1, &vertexBufferStatic);
+
+	tech = new TechniqueGLSL("simple", "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/shaders/glsl/vsSimple.glsl", "", "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/shaders/glsl/fsSimple.glsl");
 }
 
 GraphicsOGL4 *GraphicsOGL4::getInstance()
@@ -24,11 +26,13 @@ GraphicsOGL4 *GraphicsOGL4::getInstance()
 	return instance;
 }
 
-void GraphicsOGL4::draw(GLuint vertexBufferID, int startIndex, int numVerts)
+void GraphicsOGL4::draw(GLuint _vertexBufferID, int _startIndex, int _numVerts)
 {
 	// do some buffer magic
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferID);
+
+	// TODO: must find out some way to make this fancy
 	glVertexAttribPointer(
 		0,			// attribute 0. Must match layout in shader
 		3,			// size
@@ -37,20 +41,22 @@ void GraphicsOGL4::draw(GLuint vertexBufferID, int startIndex, int numVerts)
 		0,			// stride
 		(void*)0	// array buffer offset
 		);
-		
+
+    // tech at certain position.. Send it in? or use from object... we'll see!!!
+    tech->useTechnique();
 	//do some drawing
-	glDrawArrays(GL_TRIANGLES, 0, 3); // startindex = 0, num verts = 3
+	glDrawArrays(GL_TRIANGLES, _startIndex, _numVerts); // startindex = 0, num verts = 3
 
 	glDisableVertexAttribArray(0);
 }
 
-int GraphicsOGL4::feedData(GLuint vertexBufferID, float vertexpoints[9], int numVertices)
+int GraphicsOGL4::feedStaticBufferData(std::vector<float> _vertexpoints, int _numVertices)
 {
 	// bind vertex buffer to GPU
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
 
 	// feed data to buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numVertices, vertexpoints, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * _numVertices, &_vertexpoints[0], GL_STATIC_DRAW);
 
 	return 0; // will need to be calculated based on how much there are already
 }
@@ -58,7 +64,7 @@ int GraphicsOGL4::feedData(GLuint vertexBufferID, float vertexpoints[9], int num
 GraphicsOGL4::~GraphicsOGL4()
 {
 	// delete stored buffer from opengl
-	glDeleteBuffers(2, vertexBufferStatic);
+	glDeleteBuffers(1, &vertexBufferStatic);
 	glDeleteVertexArrays(1, &VertexArrayID);
 }
 

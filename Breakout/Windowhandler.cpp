@@ -212,7 +212,7 @@ int Linuxhandler::run()
 	glfwEnable(GLFW_STICKY_KEYS);
 
 	//temporary triangle to test drawing
-	float g_vertex_buffer_data[] = {
+	std::vector<float> g_vertex_buffer_data = {
 		-1.f, -1.f, 0.f,
 		1.f, -1.f, 0.f,
 		0.f, 1.f, 0.f,
@@ -221,7 +221,7 @@ int Linuxhandler::run()
 	double time = 0;
 	timer->Tick();
 
-	int startindex = GraphicsOGL4::getInstance()->feedData(1, g_vertex_buffer_data, 9);
+	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data, 9);
 
 	do
 	{

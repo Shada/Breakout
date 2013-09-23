@@ -7,12 +7,17 @@
 #include <stdlib.h>
 #include <GL/glew.h>
 #include <GL/glfw.h>
+#include <vector>
+
+#include "TechniqueGLSL.h"
 
 class GraphicsOGL4
 {
 private:
 	// static vertex buffer
-	GLuint vertexBufferStatic[2];
+	GLuint vertexBufferStatic;
+
+    TechniqueGLSL *tech;
 
 	// VAO
 	GLuint VertexArrayID;
@@ -34,7 +39,7 @@ public:
 	 * [in] vertexPoints - an array with all vertex points					*
 	 * [in] numVertices - number of vertices sent in						*
 	 * [return] the start index of the data sent in							**/
-	int feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
+	int feedStaticBufferData(std::vector<float> vertexpoints, int numVertices);
 
 	~GraphicsOGL4();
 };
