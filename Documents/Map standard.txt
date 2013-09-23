@@ -23,7 +23,7 @@ B = 	Svårighet (Hur ofta random event ska ske. 1=simpel, 10=svår)
 
 Resterande punkter innehåller vad som finns i området.
 R = 	Typ av object:
-		0 = Inget
+		0 och 255 = Inget
 		1 = Pad startposition
 		2 = Bollens startposition
 		3 = Brick (1 liv)
@@ -39,4 +39,4 @@ R = 	Typ av object:
 		12 = Rotationspeed decrease
 		14 = Extra liv
 G =	Vilken texture objectet ska ha. (T.ex. viken typ en brick är)
-			
+B =	Vilken model som objectet ska använda.	

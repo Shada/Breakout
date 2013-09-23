@@ -16,6 +16,7 @@ namespace Logic
 		~Pad();
 
 		void update(double dt);
+		void draw(){};
 		void move2D(double dt, float x);
 		void move3D(double dt, float x);
 		void setAngle(float a)				{ angle2D = a;			}

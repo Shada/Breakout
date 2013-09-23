@@ -272,6 +272,9 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	rasterDesc.CullMode = D3D11_CULL_FRONT;
 	hr = device->CreateRasterizerState( &rasterDesc, &rasterizerFrontface );
+
+	initVertexBuffer();
+
 	if(FAILED(hr))
 		return;
 }
@@ -308,7 +311,7 @@ void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 {
 	float clearColor[4] = {r, g, b, 1};
 	immediateContext->ClearRenderTargetView(renderTargetView, clearColor);
-	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.01, 0);
+	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void GraphicsDX11::presentSwapChain()
@@ -340,6 +343,28 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
 	return true;
 }
+
+void GraphicsDX11::initVertexBuffer()
+	{
+		Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+		std::vector<Vertex> vertices;
+		int start = vertices.size();
+		for(unsigned int i = 0; i < loader->getModelSize(); i++)
+		{
+			loader->getModel(i)->setStartIndex(start);
+			vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
+			start += loader->getModel(i)->getData()->size();
+		}
+
+	#ifdef _WIN32
+		createVBufferStatic(vertices);
+	#else
+		//linux stuff
+	#endif // _WIN32
+
+		createVBufferStatic(vertices);
+	}
+
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
 	D3D11_BUFFER_DESC bd;
@@ -398,24 +423,25 @@ void GraphicsDX11::useTechnique( unsigned int id )
 
 void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 {
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, &offset);
-	immediateContext->PSSetSamplers(0,1,&samplerLinear);
-	immediateContext->IASetInputLayout( simpleInputLayout );
-	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	immediateContext->RSSetViewports( 1, &viewPort );
-	immediateContext->RSSetState(rasterizerFrontface);
 	float blendFactor[4];
 	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
-	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
 	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
-	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	immediateContext->IASetVertexBuffers(0, 1, &vBufferStatic, &stride, &offset);
+	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
+	immediateContext->IASetInputLayout(simpleInputLayout);
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	immediateContext->RSSetViewports(1, &viewPort);
+	immediateContext->RSSetState(rasterizerBackface);
+
+	immediateContext->Draw(vertexAmount, startIndex);
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
