@@ -161,9 +161,6 @@
     <ClInclude Include="MenuElement.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\hlsl\vsSimple.fx">

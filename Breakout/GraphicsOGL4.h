@@ -9,7 +9,7 @@
 #include <gl/glfw.h>
 #include "GraphicsInterface.h"
 
-class GraphicsOGL4: public GraphicsInterface
+class GraphicsOGL4
 {
 private:
 	// static vertex buffer

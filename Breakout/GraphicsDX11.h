@@ -6,9 +6,8 @@
 #include <D3DX11.h>
 #include <iostream>
 #include "TechniqueHLSL.h"
-#include "GraphicsInterface.h"
 
-class GraphicsDX11: public GraphicsInterface
+class GraphicsDX11
 {
 private:
 	static GraphicsDX11			*instance;

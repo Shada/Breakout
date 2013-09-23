@@ -1,5 +1,4 @@
 #include "MenuElement.h"
-#include "GraphicsInterface.h"
 
 MenuElement::MenuElement()
 {
