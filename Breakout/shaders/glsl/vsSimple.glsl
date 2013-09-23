@@ -6,6 +6,8 @@ layout(location = 2) in vec2 vertexTexCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 projectioninverse;
+uniform mat4 viewinverse;
 
 void main()
 {

@@ -35,10 +35,10 @@ struct CBWorld
 };
 struct CBCameraMove
 {
-	Matrix View;		
-	Matrix ViewInv;		
-	Vec3 cameraPos;		
-	Vec3 cameraDir;		
+	Matrix View;
+	Matrix ViewInv;
+	Vec3 cameraPos;
+	Vec3 cameraDir;
 
 	//byte amount must be dividable by 16
 	Vec2 padding;
@@ -52,6 +52,8 @@ struct CBOnce
 };
 
 #define PI 3.14159265359
+#define SCRWIDTH 1024
+#define SCRHEIGHT 768
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

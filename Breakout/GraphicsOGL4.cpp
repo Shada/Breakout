@@ -81,23 +81,33 @@ void GraphicsOGL4::useStandardVertexAttribLayout()
 
 void GraphicsOGL4::updateModelMatrix(Matrix *_model, GLuint _programID)
 {
-//this has to be changed.... not good to have to ask for id for every new program...
+    //this has to be changed.... not good to have to ask for id for every new program...
     GLuint matrixID = glGetUniformLocation(_programID, "model");
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, &_model->r[0][0]);
 }
 
-void GraphicsOGL4::updateViewMatrix(Matrix *_view, GLuint _programID)
+void GraphicsOGL4::updateViewMatrix(Matrix *_view)
 {
-//this has to be changed.... not good to have to ask for id for every new program...
-    GLuint matrixID = glGetUniformLocation(_programID, "view");
+    GLuint matrixID = glGetUniformLocation(program->getProgramID(), "view");
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, &_view->r[0][0]);
 }
 
-void GraphicsOGL4::updateProjectionMatrix(Matrix *_projection, GLuint _programID)
+void GraphicsOGL4::updateProjectionMatrix(Matrix *_projection)
 {
-//this has to be changed.... not good to have to ask for id for every new program...
-    GLuint matrixID = glGetUniformLocation(_programID, "projection");
+    GLuint matrixID = glGetUniformLocation(program->getProgramID(), "projection");
     glUniformMatrix4fv(matrixID, 1, GL_FALSE, &_projection->r[0][0]);
+}
+
+void GraphicsOGL4::updateProjectionInverseMatrix(Matrix *_projectionInverse)
+{
+    GLuint matrixID = glGetUniformLocation(program->getProgramID(), "projectioninverse");
+    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &_projectionInverse->r[0][0]);
+}
+
+void GraphicsOGL4::updateViewInverseMatrix(Matrix *_viewInverse)
+{
+    GLuint matrixID = glGetUniformLocation(program->getProgramID(), "viewinverse");
+    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &_viewInverse->r[0][0]);
 }
 
 #endif // !_WIN32

@@ -47,8 +47,10 @@ public:
 	void useStandardVertexAttribLayout();
 
 	void updateModelMatrix(Matrix *model, GLuint programID);
-	void updateViewMatrix(Matrix *view, GLuint programID);
-	void updateProjectionMatrix(Matrix *projection, GLuint programID);
+	void updateViewMatrix(Matrix *view);
+	void updateViewInverseMatrix(Matrix *viewInverse);
+	void updateProjectionMatrix(Matrix *projection);
+	void updateProjectionInverseMatrix(Matrix *projectionInverse);
 
 	~GraphicsOGL4();
 };

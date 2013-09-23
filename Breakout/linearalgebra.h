@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <vector>
-	
+
 #pragma region vector2
 	struct Vec2
 	{
@@ -165,7 +165,7 @@
 		}
 	};
 #pragma endregion
-	
+
 #pragma region vector4
 	struct Vec4
 	{
@@ -288,12 +288,12 @@
 			out[0].y = r[0].x * m.r[0].y + r[0].y * m.r[1].y + r[0].z * m.r[2].y + r[0].w * m.r[3].y;
 			out[0].z = r[0].x * m.r[0].z + r[0].y * m.r[1].z + r[0].z * m.r[2].z + r[0].w * m.r[3].z;
 			out[0].w = r[0].x * m.r[0].w + r[0].y * m.r[1].w + r[0].z * m.r[2].w + r[0].w * m.r[3].w;
-			
+
 			out[1].x = r[1].x * m.r[0].x + r[1].y * m.r[1].x + r[1].z * m.r[2].x + r[1].w * m.r[3].x;
 			out[1].y = r[1].x * m.r[0].y + r[1].y * m.r[1].y + r[1].z * m.r[2].y + r[1].w * m.r[3].y;
 			out[1].z = r[1].x * m.r[0].z + r[1].y * m.r[1].z + r[1].z * m.r[2].z + r[1].w * m.r[3].z;
 			out[1].w = r[1].x * m.r[0].w + r[1].y * m.r[1].w + r[1].z * m.r[2].w + r[1].w * m.r[3].w;
-			
+
 			out[2].x = r[2].x * m.r[0].x + r[2].y * m.r[1].x + r[2].z * m.r[2].x + r[2].w * m.r[3].x;
 			out[2].y = r[2].x * m.r[0].y + r[2].y * m.r[1].y + r[2].z * m.r[2].y + r[2].w * m.r[3].y;
 			out[2].z = r[2].x * m.r[0].z + r[2].y * m.r[1].z + r[2].z * m.r[2].z + r[2].w * m.r[3].z;
@@ -325,7 +325,7 @@
 			v.z = r[0].x * m.r[0].z + r[0].y * m.r[1].z + r[0].z * m.r[2].z + r[0].w * m.r[3].z;
 			v.w = r[0].x * m.r[0].w + r[0].y * m.r[1].w + r[0].z * m.r[2].w + r[0].w * m.r[3].w;
 			r[0] = v;
-			
+
 			v.x = r[1].x * m.r[0].x + r[1].y * m.r[1].x + r[1].z * m.r[2].x + r[1].w * m.r[3].x;
 			v.y = r[1].x * m.r[0].y + r[1].y * m.r[1].y + r[1].z * m.r[2].y + r[1].w * m.r[3].y;
 			v.z = r[1].x * m.r[0].z + r[1].y * m.r[1].z + r[1].z * m.r[2].z + r[1].w * m.r[3].z;
@@ -471,7 +471,7 @@
 		mOut[2][0] = cosx * siny;
 		mOut[2][1] = -sinx;
 		mOut[2][2] = cosx * cosy;
-		
+
 		return mOut;
 	}
 
@@ -539,8 +539,8 @@
 					sigma *= -1;
 
 				det += (a[0][arr[c][0]] * a[1][arr[c][1]] * a[2][arr[c][2]] * a[3][arr[c][3]]) * sigma;
-			}	
-		
+			}
+
 			return det;
 		}
 
@@ -562,51 +562,50 @@
 		return a[0][0] * a[1][1] * a[2][2] * a[3][3];
 	}
 
-	inline Matrix MatrixInversion(Matrix A)
-	{
-		Matrix mOut;
-		int colCount, rowCount;
-		for(int i = 0; i < 4; i++)
-		{
-			for(int j = 0; j < 4; j++)
-			{
-				Matrix B;
-				rowCount = -1;
-				for(int k = 0; k < 4; k++)
-				{
-					rowCount++;
+    /* TODO: test if can replace mOut with A completely */
+    inline void MatrixInversion(Matrix &out, Matrix in)
+    {
+        int colCount, rowCount;
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                Matrix B;
+                rowCount = -1;
+                for(int k = 0; k < 4; k++)
+                {
+                    rowCount++;
 
-					colCount = -1;
-					for(int m = 0; m < 4; m++)
-					{
-						colCount++;
-						if(m == j)
-						{
-							if(k == i || m == k)
-								B[rowCount][colCount] = (i + j) % 2 == 1 ? -1.f : 1.f;
-							else
-								B[rowCount][colCount] = 0;
-							continue;
-						}
-						else if(i == k)
-						{
-							B[rowCount][colCount] = 0;
-							continue;
-						}
-						else
-							B[rowCount][colCount] = A[k][m];
-					}
-				}
-				mOut[i][j] = determinant(B);
-				if((i + j) % 2 == 1)
-					mOut[i][j] = -mOut[i][j];
-			}
-		}
-		mOut *= 1 / determinant(A);
-		mOut.transpose();
-		return mOut;
-	}
- 
+                    colCount = -1;
+                    for(int m = 0; m < 4; m++)
+                    {
+                        colCount++;
+                        if(m == j)
+                        {
+                            if(k == i || m == k)
+                                B[rowCount][colCount] = (i + j) % 2 == 1 ? -1.f : 1.f;
+                            else
+                                B[rowCount][colCount] = 0;
+                            continue;
+                        }
+                        else if(i == k)
+                        {
+                            B[rowCount][colCount] = 0;
+                            continue;
+                        }
+                        else
+                            B[rowCount][colCount] = in[k][m];
+                    }
+                }
+                out[i][j] = determinant(B);
+                if((i + j) % 2 == 1)
+                    out[i][j] = -out[i][j];
+            }
+        }
+        out *= 1 / determinant(in);
+        out.transpose();
+    }
+
 	/* Creates projection matrix for left hand coordinate systems */
 	inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
 	{
@@ -614,7 +613,7 @@
 		pOut[0][0] = height / h;
 		pOut[1][1] = height;
 		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
-		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0;
 	}
 
 	/* Creates a view matrix for left hand coordinate systems */
@@ -624,7 +623,7 @@
 		pOut[0][0] = right.x;	pOut[1][0] = up.x;	pOut[2][0] = look.x;	pOut[3][0] = 0;
 		pOut[0][1] = right.y;	pOut[1][1] = up.y;	pOut[2][1] = look.y;	pOut[3][1] = 0;
 		pOut[0][2] = right.z;	pOut[1][2] = up.z;	pOut[2][2] = look.z;	pOut[3][2] = 0;
-		
+
 		pOut[0][3] = right.dot(-eye);
 		pOut[1][3] = up.dot(-eye);
 		pOut[2][3] = look.dot(-eye);
@@ -637,11 +636,11 @@
 		mOut[0][0] = axis.x * axis.x * (1 - cos(angle)) + cos(angle);
 		mOut[0][1] = axis.x * axis.y * (1 - cos(angle)) + axis.z * sin(angle);
 		mOut[0][2] = axis.x * axis.z * (1 - cos(angle)) - axis.y * sin(angle);
-		
+
 		mOut[1][0] = axis.x * axis.y * (1 - cos(angle)) - axis.z * sin(angle);
 		mOut[1][1] = axis.y * axis.y * (1 - cos(angle)) + cos(angle);
 		mOut[1][2] = axis.y * axis.z * (1 - cos(angle)) + axis.x * sin(angle);
-		
+
 		mOut[2][0] = axis.x * axis.z * (1 - cos(angle)) + axis.y * sin(angle);
 		mOut[2][1] = axis.y * axis.z * (1 - cos(angle)) - axis.x * sin(angle);
 		mOut[2][2] = axis.z * axis.z * (1 - cos(angle)) + cos(angle);
