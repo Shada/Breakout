@@ -41,6 +41,23 @@ namespace Logic
 			models.push_back(Resources::LoadHandler::getInstance()->getModel(i));
 
 		initVertexBuffer();
+
+		std::vector<Vertex> *ballPoints = models.at(2)->getData();
+		float xMax = -100, yMax = -100, xMin = 100, yMin = 100;
+		for(int c = 0; c < ballPoints->size(); c++)
+		{
+			if(ballPoints->at(c).pos.x > xMax)
+				xMax = ballPoints->at(c).pos.x;
+			if(ballPoints->at(c).pos.y > yMax)
+				yMax = ballPoints->at(c).pos.y;
+			if(ballPoints->at(c).pos.x < xMin)
+				xMin = ballPoints->at(c).pos.x;
+			if(ballPoints->at(c).pos.y < yMin)
+				yMin = ballPoints->at(c).pos.y;
+		}
+		
+		float radius = (xMax - xMin) * 0.5f;
+		float radiuss = (yMax - yMin) * 0.5f;
 	}
 
 	void Gameplay::initVertexBuffer()

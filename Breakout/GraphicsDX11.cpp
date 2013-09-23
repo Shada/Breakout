@@ -49,7 +49,6 @@ void GraphicsDX11::init(HWND *hWnd)
 
     D3D_FEATURE_LEVEL featureLevels[] =
     {
-		D3D_FEATURE_LEVEL_11_1,
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
@@ -218,8 +217,8 @@ void GraphicsDX11::init(HWND *hWnd)
 	//create blendstates
 	D3D11_BLEND_DESC blendDesc;
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
-	blendDesc.AlphaToCoverageEnable						= FALSE;
-	blendDesc.IndependentBlendEnable					= FALSE;
+	/*blendDesc.AlphaToCoverageEnable						= FALSE;
+	blendDesc.IndependentBlendEnable					= FALSE;*/
 	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
 	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
@@ -307,8 +306,9 @@ HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCST
 
 void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 {
-	float clearColor[4] = {r,g,b,1};
-	immediateContext->ClearRenderTargetView(renderTargetView,clearColor);
+	float clearColor[4] = {r, g, b, 1};
+	immediateContext->ClearRenderTargetView(renderTargetView, clearColor);
+	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.01, 0);
 }
 
 void GraphicsDX11::presentSwapChain()
@@ -405,7 +405,7 @@ void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 	immediateContext->IASetInputLayout( simpleInputLayout );
 	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	immediateContext->RSSetViewports( 1, &viewPort );
-	immediateContext->RSSetState(rasterizerBackface);
+	immediateContext->RSSetState(rasterizerFrontface);
 	float blendFactor[4];
 	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
