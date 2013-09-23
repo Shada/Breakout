@@ -7,8 +7,8 @@
 #define MAX_HEIGHT 768
 
 //Temporary, should be a hitbox of sorts for the bricks.
-#define LENGTH 70
-#define HEIGHT 30
+#define LENGTH 5.03898811 * 1.5
+#define HEIGHT 5.03898811
 
 //#include "linearalgebra.h"
 //#include "Object.h"

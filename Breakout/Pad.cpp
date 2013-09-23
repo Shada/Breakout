@@ -1,5 +1,6 @@
 #include "Pad.h"
 #include "Resource.h"
+#include "GraphicsDX11.h"
 
 namespace Logic
 {
@@ -11,6 +12,9 @@ namespace Logic
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
+#ifdef _WIN32
+		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
+#endif
 	}
 
 	Pad::~Pad()
@@ -24,14 +28,25 @@ namespace Logic
 
 		if(posMouse.x != position.x)
 			position.x = posMouse.x;
-		else if(posKey.x != position.x)
+		else if(posKey.x != 0)
 		{
-			position.x += (position.x - posKey.x) * _dt * movementSpeed;
+			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
 		}
 		//position.x = pos.x;
 		rotation.x = rot.x;
 
-		posMouse.x = posKey.x = position.x;
+		posKey.x = 0;
+	}
+
+	void Pad::draw()
+	{
+		CBWorld cb;
+		cb.world = translationMatrix(position);
+#ifdef _WIN32
+		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
+		GraphicsDX11::getInstance()->updateCBWorld(cb);
+#endif // _WIN32
+		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
 	}
 
 	void Pad::move2D(double _dt, float _x)
