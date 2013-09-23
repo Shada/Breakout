@@ -10,9 +10,9 @@ namespace Logic
 	{
 		position = Vec3(0, 0, 0);
 		direction = Vec3(1, 1, 0);
-		radius = 25;
+		radius = 3.09544444f;
 		direction.normalize();
-		speed = 500;
+		speed = 100;
 
 #ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
@@ -33,7 +33,7 @@ namespace Logic
 	void Ball::draw()
 	{
 		CBWorld cb;
-		cb.world = scalingMatrix(Vec3(10, 10, 10)) * translationMatrix(position);
+		cb.world = translationMatrix(position);
 #ifdef _WIN32
 		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
 		GraphicsDX11::getInstance()->updateCBWorld(cb);

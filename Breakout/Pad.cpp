@@ -1,5 +1,6 @@
 #include "Pad.h"
 #include "Resource.h"
+#include "GraphicsDX11.h"
 
 namespace Logic
 {
@@ -11,6 +12,9 @@ namespace Logic
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
+#ifdef _WIN32
+		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
+#endif
 	}
 
 	Pad::~Pad()
@@ -24,14 +28,25 @@ namespace Logic
 
 		if(posMouse.x != position.x)
 			position.x = posMouse.x;
-		else if(posKey.x != position.x)
+		else if(posKey.x != 0)
 		{
-			position.x += (position.x - posKey.x) * _dt * movementSpeed;
+			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
 		}
 		//position.x = pos.x;
-		rotation.x = rot.x;
+		rotation.z = rot.z;
 
-		posMouse.x = posKey.x = position.x;
+		posKey.x = 0;
+	}
+
+	void Pad::draw()
+	{
+		CBWorld cb;
+		cb.world = scalingMatrix(Vec3(2, 5, 2)) * yawPitchRoll(rotation) * translationMatrix(position);
+#ifdef _WIN32
+		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
+		GraphicsDX11::getInstance()->updateCBWorld(cb);
+#endif // _WIN32
+		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
 	}
 
 	void Pad::move2D(double _dt, float _x)
@@ -55,17 +70,17 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += (float)(12 * PI / 180);
-		if(rot.x > 2 * PI)
-			rot.x -= (float)(2 * PI);
+		rot.z += (float)(12 * PI / 180);
+		if(rot.z > 2 * PI)
+			rot.z -= (float)(2 * PI);
 	}
 
 	void Pad::rotateLeft()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += (float)(12 * PI / 180);
-		if(rot.x > 2 * PI)
-			rot.x -= (float)(2 * PI);
+		rot.z -= (float)(12 * PI / 180);
+		if(rot.z > 2 * PI)
+			rot.z -= (float)(2 * PI);
 	}
 }

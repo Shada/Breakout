@@ -24,7 +24,7 @@ namespace Logic
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(DIK_UPARROW, &objectCore->pad->rotateLeft));
 		keys.push_back(KeyBind(DIK_DOWNARROW, &objectCore->pad->rotateRight));
-		keys.push_back(KeyBind(DIK_LEFTARROW, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(DIK_LEFTARROW, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(DIK_RIGHTARROW, &objectCore->pad->moveRight));
 
 		_handler->setPad(objectCore->pad, keys);
@@ -33,10 +33,7 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		mapLoading->loadMap(0,&objectCore->bricks,objectCore->ball,objectCore->pad);
-
 	}
-
-	
 
 	void Gameplay::update(double _dt)
 	{
@@ -57,6 +54,7 @@ namespace Logic
 	{
 		//Resources::LoadHandler::getInstance()->getModel(ball->getModelID())->draw();
 		objectCore->ball->draw();
+		objectCore->pad->draw();
 
 		for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
 		{

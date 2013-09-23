@@ -4,6 +4,7 @@
 *.o
 *.sdf
 *.suo
+*.opensdf
 Debug/*.*
 Breakout/Debug/*.*
 

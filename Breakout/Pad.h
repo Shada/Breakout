@@ -8,6 +8,7 @@ namespace Logic
 	class Pad: public Object3D
 	{
 	private:
+		int shaderTechniqueID;
 		static Vec3 posKey, posMouse, rot;
 		float movementSpeed, angle2D, angle3D;
 
@@ -16,14 +17,14 @@ namespace Logic
 		~Pad();
 
 		void update(double dt);
-		void draw(){};
+		void draw();
 		void move2D(double dt, float x);
 		void move3D(double dt, float x);
 		void setAngle(float a)				{ angle2D = a;			}
 
 		static void move(int pixels)		{ posMouse.x += pixels; }
-		static void moveLeft()				{ posKey.x -= 5;		}
-		static void moveRight()				{ posKey.x += 5;		}
+		static void moveLeft()				{ posKey.x -= 150;		}
+		static void moveRight()				{ posKey.x += 150;		}
 
 		static void rotateRight();
 		static void rotateLeft();
