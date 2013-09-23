@@ -55,6 +55,9 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MenuElement.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -111,6 +114,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{22dacd55-3147-450c-aa00-f03ee47ff8e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{9b453b7e-afc2-4b21-9d37-b5e2ca8862c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windowhandler.h">
@@ -151,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="LoadHandler.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuElement.h">
+      <Filter>Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
