@@ -33,7 +33,7 @@ namespace Logic
 			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
 		}
 		//position.x = pos.x;
-		rotation.x = rot.x;
+		rotation.z = rot.z;
 
 		posKey.x = 0;
 	}
@@ -41,7 +41,7 @@ namespace Logic
 	void Pad::draw()
 	{
 		CBWorld cb;
-		cb.world = translationMatrix(position);
+		cb.world = scalingMatrix(Vec3(2, 5, 2)) * yawPitchRoll(rotation) * translationMatrix(position);
 #ifdef _WIN32
 		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
 		GraphicsDX11::getInstance()->updateCBWorld(cb);
@@ -70,17 +70,17 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += (float)(12 * PI / 180);
-		if(rot.x > 2 * PI)
-			rot.x -= (float)(2 * PI);
+		rot.z += (float)(12 * PI / 180);
+		if(rot.z > 2 * PI)
+			rot.z -= (float)(2 * PI);
 	}
 
 	void Pad::rotateLeft()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.x += (float)(12 * PI / 180);
-		if(rot.x > 2 * PI)
-			rot.x -= (float)(2 * PI);
+		rot.z -= (float)(12 * PI / 180);
+		if(rot.z > 2 * PI)
+			rot.z -= (float)(2 * PI);
 	}
 }
