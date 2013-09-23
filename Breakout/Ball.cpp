@@ -12,7 +12,7 @@ namespace Logic
 		direction = Vec3(1, 1, 0);
 		radius = 25;
 		direction.normalize();
-		speed = 500;
+		speed = 100;
 
 #ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");

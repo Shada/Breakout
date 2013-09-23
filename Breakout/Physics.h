@@ -3,8 +3,8 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 1024
-#define MAX_HEIGHT 768
+#define MAX_WIDTH 150
+#define MAX_HEIGHT 100
 
 //Temporary, should be a hitbox of sorts for the bricks.
 #define LENGTH 70

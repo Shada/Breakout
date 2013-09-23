@@ -17,7 +17,7 @@ namespace Logic
 			unsigned int hmWidth = FreeImage_GetWidth(pHeightMap);
 		
 			unsigned int displacementX = 7;
-			unsigned int displacementY = 3;
+			unsigned int displacementY = 5;
 
 
 			RGBQUAD color;	
@@ -30,12 +30,15 @@ namespace Logic
 			//Load the rest of the pixel items
 			for (unsigned int r=0; r < hmHeight; r++)
 			{
-				for(unsigned int c=1; c < hmWidth; c++)
+				for(unsigned int c=0; c < hmWidth; c++)
 				{
 					FreeImage_GetPixelColor(pHeightMap,c,r,&color);
 
 					//Creating objects
-					if(color.rgbRed == 1)
+					if(c == 0 && r == 0)
+					{
+					}
+					else if(color.rgbRed == 1)
 					{
 						//Set pad start pos here
 						_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
