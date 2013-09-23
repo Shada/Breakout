@@ -6,7 +6,7 @@
 *.suo
 Debug/*.*
 Breakout/Debug/*.*
-Breakout/bin/*.*
+Breakout/bin/Debug/*.*
 
 # Compiled Dynamic libraries
 *.so
