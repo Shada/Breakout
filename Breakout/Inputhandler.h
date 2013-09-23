@@ -6,21 +6,31 @@
 #include "Pad.h"
 #include "Camera.h"
 
+struct KeyBind
+{
+	int keyCode;
+	std::function<void()> func;
+	KeyBind(int _key, std::function<void()> _func) : keyCode(_key), func(_func) {}
+};
+struct KeyBind2
+{
+	int keyCode;
+	std::function<void(int, int)> func;
+	KeyBind2(int _key, std::function<void(int, int)> _func) : keyCode(_key), func(_func) {}
+};
+
 class Inputhandler
 {
 protected:
 	struct MenuControls
 	{
 		Camera *cam;
-		std::vector<int> listenerKeys;
-		std::vector<std::function<void(int, int)>> functions;
+		std::vector<KeyBind2> keyBindings;
 	};
 	struct PadControls
 	{
 		Logic::Pad *pad;
-		std::vector<int> listenerKeys;
-		std::vector<std::function<void(int)>> functions;
-		std::vector<int> directions;
+		std::vector<KeyBind> keyBindings;
 	};
 
 	MenuControls cam;
@@ -32,8 +42,8 @@ public:
 
 	virtual void updateMenu() = 0;
 	virtual void updateGame() = 0;
-	virtual void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void(int)>> functioncalls, std::vector<int> directions);
-	virtual void setCamera(Camera *cam, std::vector<int> keys, std::vector<std::function<void(int, int)>> functioncalls);
+	virtual void setPad(Logic::Pad *_pad, std::vector<KeyBind> _keys);
+	virtual void setCamera(Camera *cam, std::vector<KeyBind2> keys);
 };
 
 #ifdef _WIN32
@@ -60,12 +70,11 @@ public:
 
 	void updateMenu();
 	void updateGame();
-	//void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls);
-	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };
 
 #else
 
+#include <GL/glew.h>
 #include <GL/glfw.h>
 
 class GLInputhandler : public Inputhandler
@@ -79,8 +88,6 @@ public:
 
 	void updateMenu();
 	void updateGame();
-	//void setPad(Logic::Pad *pad, std::vector<int> keys, std::vector<std::function<void()>> functioncalls);
-	//void setCamera(/*Camera *cam,*/ std::vector<int> keys);
 };
 
 #endif // _WIN32

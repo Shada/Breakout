@@ -11,9 +11,11 @@ namespace Logic
 	class Map
 	{
 	public:
-		Map();
-		~Map();
-	void loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad);
+
+		Map(){};
+		~Map(){};
+		void loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad);
+
 
 		//TODO:
 		//funktion för inladdning av bana

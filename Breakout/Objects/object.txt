@@ -1,0 +1,3 @@
+Objects/Cube.obj
+Objects/Hemisphere.obj
+Objects/Sphere.obj

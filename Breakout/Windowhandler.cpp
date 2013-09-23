@@ -89,8 +89,9 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 		return false;
 
 	// Create window
-	hInst				= hInstance;
-	RECT rc = { 0, 0, 1100, 700 };
+	hInst				= hInstance; 
+	RECT rc = { 0, 0, SCRWIDTH, SCRHEIGHT };
+
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 
 	if(!(hWnd = CreateWindow(	"Huvudkrav",

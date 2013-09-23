@@ -9,6 +9,7 @@
 #include <GL/glfw.h>
 #include <vector>
 
+#include "LoadHandler.h"
 #include "ProgramGLSL.h"
 
 #include "linearalgebra.h"

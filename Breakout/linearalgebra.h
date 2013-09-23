@@ -562,49 +562,49 @@
 		return a[0][0] * a[1][1] * a[2][2] * a[3][3];
 	}
 
-    /* TODO: test if can replace mOut with A completely */
-    inline void MatrixInversion(Matrix &out, Matrix in)
-    {
-        int colCount, rowCount;
-        for(int i = 0; i < 4; i++)
-        {
-            for(int j = 0; j < 4; j++)
-            {
-                Matrix B;
-                rowCount = -1;
-                for(int k = 0; k < 4; k++)
-                {
-                    rowCount++;
+	/* TODO: test if can replace mOut with A completely */
+	inline void MatrixInversion(Matrix &out, Matrix in)
+	{
+		int colCount, rowCount;
+		for(int i = 0; i < 4; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				Matrix B;
+				rowCount = -1;
+				for(int k = 0; k < 4; k++)
+				{
+					rowCount++;
 
-                    colCount = -1;
-                    for(int m = 0; m < 4; m++)
-                    {
-                        colCount++;
-                        if(m == j)
-                        {
-                            if(k == i || m == k)
-                                B[rowCount][colCount] = (i + j) % 2 == 1 ? -1.f : 1.f;
-                            else
-                                B[rowCount][colCount] = 0;
-                            continue;
-                        }
-                        else if(i == k)
-                        {
-                            B[rowCount][colCount] = 0;
-                            continue;
-                        }
-                        else
-                            B[rowCount][colCount] = in[k][m];
-                    }
-                }
-                out[i][j] = determinant(B);
-                if((i + j) % 2 == 1)
-                    out[i][j] = -out[i][j];
-            }
-        }
-        out *= 1 / determinant(in);
-        out.transpose();
-    }
+					colCount = -1;
+					for(int m = 0; m < 4; m++)
+					{
+						colCount++;
+						if(m == j)
+						{
+							if(k == i || m == k)
+								B[rowCount][colCount] = (i + j) % 2 == 1 ? -1.f : 1.f;
+							else
+								B[rowCount][colCount] = 0;
+							continue;
+						}
+						else if(i == k)
+						{
+							B[rowCount][colCount] = 0;
+							continue;
+						}
+						else
+							B[rowCount][colCount] = in[k][m];
+					}
+				}
+				out[i][j] = determinant(B);
+				if((i + j) % 2 == 1)
+					out[i][j] = -out[i][j];
+			}
+		}
+		out *= 1 / determinant(in);
+		out.transpose();
+	}
 
 	/* Creates projection matrix for left hand coordinate systems */
 	inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
@@ -612,12 +612,34 @@
 		float height = cos(w * .5f) / sin(w * .5f);
 		pOut[0][0] = height / h;
 		pOut[1][1] = height;
-		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
-		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0;
+		pOut[2][2] = zf / (zf - zn);		pOut[2][3] = 1;
+		pOut[3][2] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
 	}
+
+	/*inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
+	{
+		float height = cos(w * .5f) / sin(w * .5f);
+		pOut[0][0] = height / h;
+		pOut[1][1] = height;
+		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
+		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+	}*/
 
 	/* Creates a view matrix for left hand coordinate systems */
 	inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
+	{
+		Vec3 right = cross(up, look);
+		pOut[0][0] = right.x;	pOut[0][1] = up.x;	pOut[0][2] = look.x;	pOut[0][3] = 0;
+		pOut[1][0] = right.y;	pOut[1][1] = up.y;	pOut[1][2] = look.y;	pOut[1][3] = 0;
+		pOut[2][0] = right.z;	pOut[2][1] = up.z;	pOut[2][2] = look.z;	pOut[2][3] = 0;
+		
+		pOut[3][0] = right.dot(-eye);
+		pOut[3][1] = up.dot(-eye);
+		pOut[3][2] = look.dot(-eye);
+		pOut[3][3] = 1;
+	}
+
+	/*inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
 	{
 		Vec3 right = cross(up, look);
 		pOut[0][0] = right.x;	pOut[1][0] = up.x;	pOut[2][0] = look.x;	pOut[3][0] = 0;
@@ -628,7 +650,7 @@
 		pOut[1][3] = up.dot(-eye);
 		pOut[2][3] = look.dot(-eye);
 		pOut[3][3] = 1;
-	}
+	}*/
 
 	/* Creates rotation matrix for rotation around a given axis */
 	inline void rotationAxis(Matrix &mOut, Vec3 axis, float angle)

@@ -1,14 +1,8 @@
 #ifndef _GAMELOGIC_H_
 #define _GAMELOGIC_H_
 
-#include "Map.h"
-#include "Pad.h"
-#include "Inputhandler.h"
-#include "Camera.h"
-#include "Ball.h"
-#include "Physics.h"
-#include "Brick.h"
 #include "Resource.h"
+#include "Gameplay.h"
 #include <functional>
 
 namespace Logic
@@ -26,13 +20,11 @@ namespace Logic
 			GAME_MENU = 0,
 			GAME_PLAY = 1
 		};
-
+		
+		Gameplay *gameplay;
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
-		Pad *pad;
-		std::vector<Object3D*> bricks;
-		Ball *ball;
-		Camera *camera;
+		
 		Inputhandler *inputHandler;
 
 		GameState state;

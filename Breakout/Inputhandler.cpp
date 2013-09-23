@@ -4,21 +4,18 @@ Inputhandler::Inputhandler()
 {
 }
 
-void Inputhandler::setPad(Logic::Pad *_pad, std::vector<int> _keys, std::vector<std::function<void(int)>> _functioncalls, std::vector<int> _directions)
+void Inputhandler::setPad(Logic::Pad *_pad, std::vector<KeyBind> _keys)
 {
 	pad.pad = _pad;
-	pad.listenerKeys = _keys;
-	pad.functions = _functioncalls;
-	pad.directions = _directions;
+	pad.keyBindings = _keys;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
 
-void Inputhandler::setCamera(Camera *_cam, std::vector<int> _keys, std::vector<std::function<void(int, int)>> _functioncalls)
+void Inputhandler::setCamera(Camera *_cam, std::vector<KeyBind2> _keys)
 {
 	cam.cam = _cam;
-	cam.listenerKeys = _keys;
-	cam.functions = _functioncalls;
+	cam.keyBindings = _keys;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
@@ -111,25 +108,25 @@ void DInputhandler::updateGame()
 {
 	update();
 
-	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
-		if(keyState[pad.listenerKeys.at(i)] & 0x80)
-			pad.functions.at(i)(pad.directions.at(i));
+	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
+		if(keyState[pad.keyBindings.at(i).keyCode] & 0x80)
+			pad.keyBindings.at(i).func();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
 	if(mouseState.lX != 0)
 		pad.pad->move(mouseState.lX);
 
 	if(mouseState.lZ != 0)
-		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+		mouseState.lZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
 }
 
 void DInputhandler::updateMenu()
 {
 	update();
 
-	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
-		if((keyState[cam.listenerKeys.at(i)] & 0x80) && !(prevKeyState[cam.listenerKeys.at(i)] & 0x80))
-			cam.functions.at(i)(mouseState.lX, mouseState.lY);
+	for(unsigned int i = 0; i < cam.keyBindings.size(); i++)
+		if((keyState[cam.keyBindings.at(i).keyCode] & 0x80) && !(prevKeyState[cam.keyBindings.at(i).keyCode] & 0x80))
+			cam.keyBindings.at(i).func(mouseState.lX, mouseState.lY);
 }
 
 DInputhandler::~DInputhandler()
@@ -141,31 +138,33 @@ GLInputhandler::GLInputhandler()
 {
 }
 
-void GLInputhandler::update()
-{
-	int prevMouseX = mouseX;
-	glfwGetMousePos(&mouseX, &mouseY);
-
-	for(unsigned int i = 0; i < pad.listenerKeys.size(); i++)
-		if(glfwGetKey(pad.listenerKeys.at(i)) == GLFW_PRESS)
-			pad.functions.at(i)(pad.directions.at(i));
-
-	for(unsigned int i = 0; i < cam.listenerKeys.size(); i++)
-		if(glfwGetKey(cam.listenerKeys.at(i)) == GLFW_PRESS)
-			cam.functions.at(i)(mouseX, mouseY);
-
-	if(prevMouseX != mouseX)
-		pad.pad->move(mouseX - prevMouseX);
-}
-
 void GLInputhandler::updateGame()
 {
+	int prevMouseX = mouseX, mouseZ;
+	glfwGetMousePos(&mouseX, &mouseY);
+	mouseZ = glfwGetMouseWheel();
 
+
+	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
+		if(glfwGetKey(pad.keyBindings.at(i).keyCode) == GLFW_PRESS)
+			pad.keyBindings.at(i).func();
+
+	// These cannot be changed, the mouse will always be one way of controlling the pad
+	if(mouseX != 0)
+		pad.pad->move(mouseX);
+
+	if(mouseZ != 0)
+		mouseZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
 }
 
 void GLInputhandler::updateMenu()
 {
+	int prevMouseX = mouseX;
+	glfwGetMousePos(&mouseX, &mouseY);
 
+	for(unsigned int i = 0; i < cam.keyBindings.size(); i++)
+		if(glfwGetKey(cam.keyBindings.at(i).keyCode) == GLFW_PRESS)
+			cam.keyBindings.at(i).func(mouseX, mouseY);
 }
 
 GLInputhandler::~GLInputhandler()

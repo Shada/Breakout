@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Resource.h"
 #include "TechniqueHLSL.h"
+#include "LoadHandler.h"
 
 class GraphicsDX11
 {
@@ -62,6 +63,11 @@ private:
 	//samplestates
 	ID3D11SamplerState			*samplerLinear;
 
+	/*Gives you a pointer to a texture array*/
+	void getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray);
+
+	/* create vertex buffer */
+	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
 
 public:
 	ID3D11DeviceContext			*immediateContext;
@@ -81,8 +87,9 @@ public:
 	void presentSwapChain();
 	/* create constant buffer */
 	bool createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
-	/* create vertex buffer */
-	bool createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer );
+	
+	void initVertexBuffer();
+
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
 	bool createVBufferStatic( std::vector<Vertex> vertices);
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
@@ -93,6 +100,10 @@ public:
 	int getTechIDByName(std::string name);
 	/* set current technique for rendering */
 	void useTechnique(unsigned int index);
+
+	void updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
+	void updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
+	void updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
 
 	void draw(unsigned int startIndex, unsigned int vertexAmount);
 

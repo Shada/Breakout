@@ -12,7 +12,7 @@ namespace Resources
 	{
 	private:
 		static LoadHandler			*loadInstance;
-		LoadHandler(void);
+		LoadHandler();
 
 		Loader *loader;
 		std::vector<Model*> models;
@@ -28,10 +28,14 @@ namespace Resources
 			return loadInstance;
 		}
 
-		~LoadHandler(void);
+		~LoadHandler();
 		Model* getModel(unsigned int _index){return models.at(_index);};
 		Texture* getTexture(unsigned int _index){return textures.at(_index);}
 		Texture* getMap(unsigned int _index){return maps.at(_index);}
+		int getModelSize(){return models.size();}
+		int getTextureSize(){return textures.size();}
+		int getMapSize(){return maps.size();}
+			
 	};
 
 }

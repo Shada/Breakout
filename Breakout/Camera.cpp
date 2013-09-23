@@ -29,12 +29,12 @@ Camera::Camera()
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
 #else
 	GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projInv);
-#endif //_WIN32
+#endif // _WIN32
 
 #ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #else
-	//send to OpenGL GLSL thingy
+	//send to OpenGL GLSL thingy 
 #endif //_ WIN32
 }
 
@@ -107,7 +107,6 @@ void Camera::update()
 #else
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
     GraphicsOGL4::getInstance()->updateViewInverseMatrix(&viewInv);
-	//Linix send in view shit
 #endif
 }
 

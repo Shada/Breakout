@@ -22,8 +22,8 @@ namespace Resources
 		char *filePath;
 
 	public:
-		Texture(void);
-		~Texture(void);
+		Texture();
+		~Texture();
 
 		FREE_IMAGE_FORMAT* getFif(){return &fif;}
 		void setFif(FREE_IMAGE_FORMAT _fif){fif = _fif;}
