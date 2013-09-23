@@ -5,10 +5,10 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		mapLoading = new Map();
 		//tolka Map och skapa object enligt den
 		pad = new Pad();
 		ball = new Ball();
-		ball->setModelID(0);
 		camera = new Camera();
 
 		std::vector<KeyBind> keys;
@@ -22,44 +22,11 @@ namespace Logic
 		
 		//inputHandler->setCamera(camera, keys);
 
-		bricks.push_back(new Brick(Vec3(100, 150, 0)));
-		bricks.push_back(new Brick(Vec3(170, 150, 0)));
-		bricks.push_back(new Brick(Vec3(240, 150, 0)));
-		bricks.push_back(new Brick(Vec3(310, 150, 0)));
-		bricks.push_back(new Brick(Vec3(380, 150, 0)));
-		bricks.push_back(new Brick(Vec3(450, 150, 0)));
-		bricks.push_back(new Brick(Vec3(520, 150, 0)));
-		bricks.push_back(new Brick(Vec3(100, 200, 0)));
-		bricks.push_back(new Brick(Vec3(170, 200, 0)));
-		bricks.push_back(new Brick(Vec3(240, 200, 0)));
-		bricks.push_back(new Brick(Vec3(310, 200, 0)));
-		bricks.push_back(new Brick(Vec3(380, 200, 0)));
-		bricks.push_back(new Brick(Vec3(450, 200, 0)));
-		bricks.push_back(new Brick(Vec3(520, 200, 0)));
+		mapLoading->loadMap(0,&bricks,ball,pad);
 
-		for(int i = 0; i < Resources::LoadHandler::getInstance()->getModelSize(); i++)
-			models.push_back(Resources::LoadHandler::getInstance()->getModel(i));
-
-		initVertexBuffer();
 	}
 
-	void Gameplay::initVertexBuffer()
-	{
-		std::vector<Vertex> vertices;
-		int start = vertices.size();
-		for(unsigned int i = 0; i < models.size(); i++)
-		{
-			models[i]->setStartIndex(start);
-			vertices.insert(vertices.end(), models[i]->getData()->begin(), models[i]->getData()->end());
-			start += models[i]->getData()->size();
-		}
-
-	#ifdef _WIN32
-		GraphicsDX11::getInstance()->createVBufferStatic(vertices);
-	#else
-		//linux stuff
-	#endif // _WIN32
-	}
+	
 
 	void Gameplay::update(double _dt)
 	{
@@ -83,7 +50,7 @@ namespace Logic
 
 		for(unsigned int i = 0; i < bricks.size(); i++)
 		{
-			
+			bricks.at(i)->draw();
 		}
 	}
 
@@ -94,6 +61,5 @@ namespace Logic
 		SAFE_DELETE(ball);
 		for(unsigned int i = 0; i < bricks.size(); i++)
 			SAFE_DELETE(bricks.at(i));
-		models.clear();
 	}
 }

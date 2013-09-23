@@ -3,12 +3,12 @@
 
 #include "Model.h"
 #include "Map.h"
-#include "Pad.h"
+//#include "Pad.h"
 #include "Inputhandler.h"
 #include "Camera.h"
-#include "Ball.h"
+//#include "Ball.h"
 #include "Physics.h"
-#include "Brick.h"
+//#include "Brick.h"
 #include "Resource.h"
 namespace Logic
 {
@@ -18,9 +18,9 @@ namespace Logic
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
-		std::vector<Model*>			models;
+		Map *mapLoading;
+
 		/* called after all models are initialized */
-		void initVertexBuffer();
 		//Brick bricks[];
 		//Pad pad;
 		//Ball balls[]

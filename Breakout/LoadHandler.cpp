@@ -21,8 +21,8 @@ namespace Resources
 		{
 			while(!myfile.eof())
 			{
-				Model *tModel = 0;
-				tModel = new Model();
+				Model *tModel = new Model();
+				myfile.getline(file,sizeof(myfile));
 				loader->LoadObject(file,1,tModel,1,1,1);
 				models.push_back(tModel);
 			}
@@ -35,10 +35,10 @@ namespace Resources
 		{
 			while(!myfile.eof())
 			{
-				Texture *tMap = 0;
-				tMap = new Texture();
+				Texture *tMap = new Texture();
+				myfile.getline(file,sizeof(myfile));
 				loader->loadTexture(file,tMap);
-				textures.push_back(tMap);
+				maps.push_back(tMap);
 			}
 		}
 		myfile.close();

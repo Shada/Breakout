@@ -272,6 +272,9 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	rasterDesc.CullMode = D3D11_CULL_FRONT;
 	hr = device->CreateRasterizerState( &rasterDesc, &rasterizerFrontface );
+
+	initVertexBuffer();
+
 	if(FAILED(hr))
 		return;
 }
@@ -340,6 +343,28 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
 	return true;
 }
+
+void GraphicsDX11::initVertexBuffer()
+	{
+		Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+		std::vector<Vertex> vertices;
+		int start = vertices.size();
+		for(unsigned int i = 0; i < loader->getModelSize(); i++)
+		{
+			loader->getModel(i)->setStartIndex(start);
+			vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
+			start += loader->getModel(i)->getData()->size();
+		}
+
+	#ifdef _WIN32
+		createVBufferStatic(vertices);
+	#else
+		//linux stuff
+	#endif // _WIN32
+
+		createVBufferStatic(vertices);
+	}
+
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
 	D3D11_BUFFER_DESC bd;

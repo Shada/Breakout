@@ -1,7 +1,6 @@
 #include "Map.h"
 #include "LoadHandler.h"
 
-#include "LoadHandler.h"
 
 
 namespace Logic
@@ -17,6 +16,9 @@ namespace Logic
 			unsigned int hmHeight = FreeImage_GetHeight(pHeightMap);
 			unsigned int hmWidth = FreeImage_GetWidth(pHeightMap);
 		
+			unsigned int displacementX = 7;
+			unsigned int displacementY = 3;
+
 
 			RGBQUAD color;	
 			//save map info
@@ -36,14 +38,14 @@ namespace Logic
 					if(color.rgbRed == 1)
 					{
 						//Set pad start pos here
-						_pad->setPosition(Vec3((float)c,(float)r,0.0f));
+						_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						_pad->setModelID(color.rgbBlue);
 						_pad->setTextureID(color.rgbGreen);
 					}
 					else if(color.rgbRed == 2)
 					{
 						//Set ball start pos here
-						_ball->setPosition(Vec3((float)c,(float)r,0.0f));
+						_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						_ball->setModelID(color.rgbBlue);
 						_ball->setTextureID(color.rgbGreen);
 
@@ -51,12 +53,12 @@ namespace Logic
 					else if(color.rgbRed != 0 && color.rgbRed != 255 )
 					{
 						//Set brick property here
-						Brick tBrick(Vec3(0,0,0));
-						tBrick.setPosition(Vec3((float)c,(float)r,0.0f));
+						Brick *tBrick = new Brick(Vec3(0,0,0));
+						tBrick->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						//tBrick.setType(color.rgbRed);
-						tBrick.setTextureID(color.rgbGreen);
-						tBrick.setModelID(color.rgbBlue);
-						_bricks->push_back(&tBrick);
+						tBrick->setTextureID(color.rgbGreen);
+						tBrick->setModelID(color.rgbBlue);
+						_bricks->push_back(tBrick);
 					}
 					
 				}
