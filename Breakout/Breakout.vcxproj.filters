@@ -55,6 +55,12 @@
     <ClCompile Include="Timer.cpp">
       <Filter>External</Filter>
     </ClCompile>
+    <ClCompile Include="MenuElement.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -156,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuElement.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCore.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

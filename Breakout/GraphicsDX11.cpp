@@ -25,6 +25,7 @@ GraphicsDX11::GraphicsDX11()
 
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
+	uiBufferDynamic				= NULL;
 	instBuffer					= NULL;
 }
 
@@ -381,6 +382,8 @@ bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 	return true;
 }
 
+
+
 bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 {
 	D3D11_BUFFER_DESC bd;
@@ -397,6 +400,19 @@ bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 	return true;
 }
 
+bool GraphicsDX11::createVBufferUI( unsigned int maxSize )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( BBUI ) * maxSize;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	if(! createVBuffer(&bd, NULL, &vBufferStatic) )
+		return false;
+	return true;
+}
+
 bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer )
 {
 	HRESULT hr = device->CreateBuffer( bd, initData, vBuffer );
@@ -408,7 +424,7 @@ bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRE
 	return true;
 }
 
-int GraphicsDX11::getTechIDByName( std::string name )
+int GraphicsDX11::getTechIDByName( const char *name )
 {
 	for(unsigned int i = 0; i < techniques.size(); i++)
 		if(techniques.at(i)->getName() == name)
@@ -449,6 +465,11 @@ void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int 
 	immediateContext->PSSetShaderResources(startSlot,numberofViews,views);
 }
 
+void GraphicsDX11::feedInstanceBuffer( std::vector<PerInstance> perInstance)
+{
+
+}
+
 GraphicsDX11::~GraphicsDX11()
 {
 	SAFE_RELEASE(device);
@@ -469,6 +490,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(swapChain);
 
 	SAFE_RELEASE(vBufferStatic);
+	SAFE_RELEASE(uiBufferDynamic);
 	SAFE_RELEASE(vBufferDynamic);
 	SAFE_RELEASE(instBuffer);
 

@@ -5,9 +5,9 @@
 #include <d3d11.h>
 #include <D3DX11.h>
 #include <iostream>
-#include "Resource.h"
 #include "TechniqueHLSL.h"
 #include "LoadHandler.h"
+#include "ObjectCore.h"
 
 class GraphicsDX11
 {
@@ -15,11 +15,21 @@ private:
 	static GraphicsDX11			*instance;
 	GraphicsDX11();
 
-	//buffers
-	ID3D11Buffer				*vBufferStatic;
-	ID3D11Buffer				*instBuffer;		//instance buffer
+	Logic::ObjectCore			*objectCore;
 
+	/*---------------------------------------------------------------
+								buffers
+	--------------------------------------------------------------*/
+	/*the vertex buffer for static objects*/
+	ID3D11Buffer				*vBufferStatic;
+	/*the instance buffer for static objects (models and such)*/
+	ID3D11Buffer				*instBuffer;
+	/*the vertex buffer for dynamic objects*/
 	ID3D11Buffer				*vBufferDynamic;
+	/*the dynamic billboard buffer for menu UI*/
+	ID3D11Buffer				*uiBufferDynamic;
+
+
 
 	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
@@ -30,10 +40,15 @@ private:
 	//techniques
 	std::vector<TechniqueHLSL*>	techniques;
 
-	//layouts
+	/*---------------------------------------------------------------
+								Layouts
+	--------------------------------------------------------------*/
+	/*simple layout*/
 	ID3D11InputLayout			*simpleInputLayout;
 
-	//renderTarget
+	/*---------------------------------------------------------------
+								RenderTargets
+	--------------------------------------------------------------*/
 	ID3D11Texture2D				*renderTargetTex;
 	ID3D11RenderTargetView		*renderTargetView;
 	ID3D11ShaderResourceView	*renderTargetResource;
@@ -81,33 +96,36 @@ public:
 		return instance;
 	}
 	/* initialization */
-	void init(HWND *hWnd);
-	void clearRenderTarget(float r, float g, float b);
-	HRESULT compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
-	void presentSwapChain();
+	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
+	void	init(HWND *hWnd);
+	void	clearRenderTarget(float r, float g, float b);
+	HRESULT	compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
+	void	presentSwapChain();
 	/* create constant buffer */
-	bool createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
+	bool	createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
 	
 	void initVertexBuffer();
 
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
-	bool createVBufferStatic( std::vector<Vertex> vertices);
+	bool	createVBufferStatic( std::vector<Vertex> vertices);
+	/* creates the dynamic vertex buffer for menu items*/
+	bool	createVBufferUI( unsigned int maxSize );
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
-	bool createInstanceBuffer( std::vector<PerInstance> PerInstance);
+	bool	createInstanceBuffer( std::vector<PerInstance> PerInstance);
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
-	void feedInstanceBuffer( std::vector<PerInstance> perInstance);
+	void	feedInstanceBuffer( std::vector<PerInstance> perInstance);
 	/* get technique index by name. (returns -1 if none were found)*/
-	int getTechIDByName(std::string name);
+	int		getTechIDByName(const char *name);
 	/* set current technique for rendering */
-	void useTechnique(unsigned int index);
+	void	useTechnique(unsigned int index);
 
-	void updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
-	void updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
-	void updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
+	void	updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
+	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
+	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
 
-	void draw(unsigned int startIndex, unsigned int vertexAmount);
+	void	draw(unsigned int startIndex, unsigned int vertexAmount);
 
-	void useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
+	void	useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();
 };
 
