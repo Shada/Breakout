@@ -44,9 +44,9 @@ namespace Resources
 			if(0==strcmp(buffer,"v"))
 			{
 				last = false;
-				ObjFile >>x>>y>>z;
+				ObjFile >> x >> y >> z;
 			
-				Position.push_back(Vec3((x*(scale/10)*invertX),(y*(scale/10)*invertY),(-z*(scale/10)*invertZ)));
+				Position.push_back(Vec3(x * invertX, y * invertY, z * invertZ));
 			
 			}
 			else if(0==strcmp(buffer,"vt"))

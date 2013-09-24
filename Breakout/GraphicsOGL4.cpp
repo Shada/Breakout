@@ -55,6 +55,31 @@ int GraphicsOGL4::feedData(GLuint vertexBufferID, float vertexpoints[9], int num
 	return 0; // will need to be calculated based on how much there are already
 }
 
+int		GraphicsOGL4::getTechIDByName(const char *name)
+{
+	return -1;
+}
+void	GraphicsOGL4::useTechnique(unsigned int index)
+{
+
+}
+void	GraphicsOGL4::draw(unsigned int startIndex, unsigned int vertexAmount)
+{
+
+}
+void	GraphicsOGL4::updateCBOnce(CBOnce cb)
+{
+
+}
+void	GraphicsOGL4::updateCBCameraMove(CBCameraMove cb)
+{
+
+}
+void	GraphicsOGL4::updateCBWorld(CBWorld cb)
+{
+
+}
+
 GraphicsOGL4::~GraphicsOGL4()
 {
 	// delete stored buffer from opengl

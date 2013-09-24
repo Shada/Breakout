@@ -6,10 +6,9 @@
 //#include "Pad.h"
 #include "Inputhandler.h"
 #include "Camera.h"
-//#include "Ball.h"
 #include "Physics.h"
-//#include "Brick.h"
 #include "Resource.h"
+#include "ObjectCore.h"
 namespace Logic
 {
 	class Gameplay
@@ -24,9 +23,7 @@ namespace Logic
 		//Brick bricks[];
 		//Pad pad;
 		//Ball balls[]
-		Pad *pad;
-		std::vector<Object3D*> bricks;
-		Ball *ball;
+		ObjectCore *objectCore;
 		Camera *camera;
 		//TODO:
 		//All logik för spelandet av en bana

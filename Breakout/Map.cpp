@@ -51,6 +51,7 @@ namespace Logic
 						_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						_ball->setModelID(color.rgbBlue);
 						_ball->setTextureID(color.rgbGreen);
+						_ball->setModelID(2);
 
 					}
 					else if(color.rgbRed != 0 && color.rgbRed != 255 )

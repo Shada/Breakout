@@ -3,12 +3,12 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 150
-#define MAX_HEIGHT 100
+#define MAX_WIDTH 250
+#define MAX_HEIGHT 150
 
 //Temporary, should be a hitbox of sorts for the bricks.
-#define LENGTH 70
-#define HEIGHT 30
+#define LENGTH 5.03898811
+#define HEIGHT 5.03898811
 
 //#include "linearalgebra.h"
 //#include "Object.h"
