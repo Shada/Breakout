@@ -38,14 +38,14 @@ namespace Logic
 					if(c == 0 && r == 0)
 					{
 					}
-					else if(color.rgbRed == 1)
+					else if(color.rgbRed == 12)
 					{
 						//Set pad start pos here
 						_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						_pad->setModelID(color.rgbBlue);
 						_pad->setTextureID(color.rgbGreen);
 					}
-					else if(color.rgbRed == 2)
+					else if(color.rgbRed == 24)
 					{
 						//Set ball start pos here
 						_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
@@ -63,7 +63,6 @@ namespace Logic
 						tBrick->setModelID(color.rgbBlue);
 						_bricks->push_back(tBrick);
 					}
-					
 				}
 			}
 		}
