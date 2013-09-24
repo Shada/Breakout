@@ -114,10 +114,10 @@ void DInputhandler::updateGame()
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
 	if(mouseState.lX != 0)
-		pad.pad->move(mouseState.lX);
+		pad.pad->move(mouseState.lX / 4);
 
 	if(mouseState.lZ != 0)
-		mouseState.lZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
 }
 
 void DInputhandler::updateMenu()
@@ -133,7 +133,7 @@ DInputhandler::~DInputhandler()
 {
 }
 
-//#else
+#else
 GLInputhandler::GLInputhandler()
 {
 }
@@ -145,15 +145,15 @@ void GLInputhandler::updateGame()
 	mouseZ = glfwGetMouseWheel();
 
 	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
-		if(glfwGetKey(pad.keyBindings.at(i).keyCode) == GLFW_PRESS)
+		if(keyState[pad.keyBindings.at(i).keyCode] & 0x80)
 			pad.keyBindings.at(i).func();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
-	if(mouseX != 0)
-		pad.pad->move(mouseX);
+	if(mouseState.lX != 0)
+		pad.pad->move(mouseState.lX / 2);
 
-	if(mouseZ != 0)
-		mouseZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+	if(mouseState.lZ != 0)
+		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
 }
 
 void GLInputhandler::updateMenu()

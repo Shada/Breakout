@@ -108,7 +108,7 @@ namespace Logic
 
 		for(unsigned int i = 0; i < _listOfObjects.size(); i++)
 		{
-			if(Intersects(_ball, _listOfObjects[i]) )
+			if(Intersects(_ball, _listOfObjects[i]))
 			{
 				//Ball collides with object, calculate new direction and return.
 				CalculateCollission(_ball, _listOfObjects[i]);
@@ -120,7 +120,35 @@ namespace Logic
 		return -1;
 	}
 
+	inline void ballCollision(Ball *_ball, Pad *_pad, float currentRotation)
+	{
+		Vec3 tBallPos = _ball->getPosition();
+		Vec3 tObjPos = _pad->getPosition();
+		float tRadius = _ball->getRadius();
 
+		Vec3 boxMax = _pad->getBoxMax(), boxMin = _pad->getBoxMin();
+		//Matrix rot = _pad->getOrientation();
+		//box = rot * box;// boxMin = rot * boxMin;
+
+		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
+
+		float dist1 = sqrt(((tBallPos.x - tObjPos.x + boxMax.x)*(tBallPos.x - tObjPos.x + boxMax.x)) 
+								+ ((tBallPos.y - tObjPos.y + boxMax.y)*(tBallPos.y - tObjPos.y + boxMax.y)) );
+		float dist2 = sqrt( ((tBallPos.x - boxMin.x + tObjPos.x)*(tBallPos.x - boxMin.x + tObjPos.x)) 
+								+ ((tBallPos.y - tObjPos.y + boxMin.y)*(tBallPos.y - tObjPos.y + boxMin.y)) );
+
+		//If distance is lower than:
+		//		ballradius + objectheight/2 AND ballradius + objectlength/2
+		// that means they intersect.
+		if(dist1 <= tRadius + 1 && dist1 <= tRadius + _pad->getRadius() * _pad->getScale().y
+			|| dist2 <= tRadius + 1 && dist2 <= tRadius + _pad->getRadius() * _pad->getScale().y)
+		{
+			_ball->setDirection(NULL, _ball->getDirection().y * -1);
+		}
+
+		// collision ball vs ball
+
+	}
 
 #pragma endregion
 

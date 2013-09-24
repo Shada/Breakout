@@ -41,6 +41,9 @@ namespace Logic
 		objectCore->ball->update(_dt);
 		camera->update();
 
+		
+		Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+
 		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
 		if(collidingObject != -1)
 		{

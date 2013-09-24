@@ -220,7 +220,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
 	/*blendDesc.AlphaToCoverageEnable						= FALSE;
 	blendDesc.IndependentBlendEnable					= FALSE;*/
-	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
+	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
 	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].BlendOp					= D3D11_BLEND_OP_ADD;

@@ -8,6 +8,9 @@ namespace Logic
 	class Pad: public Object3D
 	{
 	private:
+		Matrix orientation;
+		Vec3 boxMax, boxMin;
+		float radius;
 		int shaderTechniqueID;
 		static Vec3 posKey, posMouse, rot;
 		float movementSpeed, angle2D, angle3D;
@@ -15,6 +18,11 @@ namespace Logic
 	public:
 		Pad();
 		~Pad();
+
+		float getRadius() { return radius; }
+		Vec3 getBoxMax() { return boxMax; }
+		Vec3 getBoxMin() { return boxMin; }
+		Matrix getOrientation() { return orientation; }
 
 		void update(double dt);
 		void draw();
@@ -26,6 +34,7 @@ namespace Logic
 		static void moveLeft()				{ posKey.x -= 150;		}
 		static void moveRight()				{ posKey.x += 150;		}
 
+		static void rotate(int direction);
 		static void rotateRight();
 		static void rotateLeft();
 	};

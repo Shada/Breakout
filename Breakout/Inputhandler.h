@@ -72,7 +72,7 @@ public:
 	void updateGame();
 };
 
-//#else
+#else
 
 #include <GL/glfw.h>
 
