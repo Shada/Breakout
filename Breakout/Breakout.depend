@@ -10,7 +10,7 @@
 1379937028 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Object3D.h
 	"linearalgebra.h"
 
-1379937207 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/linearalgebra.h
+1380032062 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/linearalgebra.h
 	<math.h>
 	<vector>
 
@@ -44,14 +44,14 @@
 1379937028 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Brick.h
 	"Object3D.h"
 
-1379937701 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
+1380032086 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
 	"Camera.h"
 	"GraphicsDX11.h"
-	"GraphicsOGL4.h"
 
-1379934326 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.h
+1380031988 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.h
 	"Resource.h"
 	"linearalgebra.h"
+	"GraphicsOGL4.h"
 
 1379938368 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.cpp
 	"GameLogic.h"
@@ -249,11 +249,11 @@
 	"GraphicsDX11.h"
 	<sstream>
 
-1379935692 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
+1380031872 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
 	"GraphicsOGL4.h"
 	"Resource.h"
 
-1379937923 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
+1380031984 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
 	<stdio.h>
 	<stdlib.h>
 	<GL/glew.h>
@@ -274,7 +274,7 @@
 1379938210 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Inputhandler.cpp
 	"Inputhandler.h"
 
-1379941060 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Loader.cpp
+1380018319 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Loader.cpp
 	"Loader.h"
 	<string.h>
 
@@ -364,7 +364,7 @@
 1379934326 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Timer.cpp
 	"Timer.h"
 
-1379937246 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
+1380022022 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
 	"Windowhandler.h"
 	<iostream>
 	<fcntl.h>
@@ -391,13 +391,254 @@
 	"TechniqueGLSL.h"
 	<fstream>
 
-1379934387 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.h
+1380019012 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.h
 	<string>
 	<vector>
 	<GL/glew.h>
 	<GL/glfw.h>
 
-1379934387 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
+1380019012 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
 	"ProgramGLSL.h"
 	<fstream>
+
+1327493788 /usr/include/glm/glm.hpp
+	"core/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cstdio>
+	"core/setup.hpp"
+	"./core/_detail.hpp"
+	"./core/type.hpp"
+	"./core/func_trigonometric.hpp"
+	"./core/func_exponential.hpp"
+	"./core/func_common.hpp"
+	"./core/func_packing.hpp"
+	"./core/func_geometric.hpp"
+	"./core/func_matrix.hpp"
+	"./core/func_vector_relational.hpp"
+	"./core/func_integer.hpp"
+	"./core/func_noise.hpp"
+	"./core/_swizzle.hpp"
+
+1327496526 /usr/include/glm/core/_fixes.hpp
+	<cmath>
+
+1336593030 /usr/include/glm/core/setup.hpp
+	<immintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1336593030 /usr/include/glm/core/_detail.hpp
+	"setup.hpp"
+	<cassert>
+	<cstdint>
+
+1326229678 /usr/include/glm/core/type.hpp
+	"type_half.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_gentype.hpp"
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat2x2.hpp"
+	"type_mat2x3.hpp"
+	"type_mat2x4.hpp"
+	"type_mat3x2.hpp"
+	"type_mat3x3.hpp"
+	"type_mat3x4.hpp"
+	"type_mat4x2.hpp"
+	"type_mat4x3.hpp"
+	"type_mat4x4.hpp"
+
+1326229678 /usr/include/glm/core/type_half.hpp
+	<cstdlib>
+	"type_half.inl"
+
+1327506822 /usr/include/glm/core/type_half.inl
+	"_detail.hpp"
+
+1326229678 /usr/include/glm/core/type_float.hpp
+	"type_half.hpp"
+	"setup.hpp"
+
+1326229678 /usr/include/glm/core/type_int.hpp
+	"setup.hpp"
+	"_detail.hpp"
+
+1326229678 /usr/include/glm/core/type_gentype.hpp
+	"type_size.hpp"
+
+1326229678 /usr/include/glm/core/type_size.hpp
+	<cstdlib>
+
+1336593030 /usr/include/glm/core/type_vec1.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec1.inl"
+
+1326229678 /usr/include/glm/core/type_vec.hpp
+	"type_gentype.hpp"
+
+1327506822 /usr/include/glm/core/_swizzle.hpp
+	"_swizzle_func.hpp"
+
+1326229678 /usr/include/glm/core/_swizzle_func.hpp
+
+1336593030 /usr/include/glm/core/type_vec1.inl
+
+1336593030 /usr/include/glm/core/type_vec2.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec2.inl"
+
+1336593030 /usr/include/glm/core/type_vec2.inl
+
+1336593030 /usr/include/glm/core/type_vec3.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec3.inl"
+
+1336593030 /usr/include/glm/core/type_vec3.inl
+
+1336593030 /usr/include/glm/core/type_vec4.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec4.inl"
+
+1336593030 /usr/include/glm/core/type_vec4.inl
+
+1336593030 /usr/include/glm/core/type_mat2x2.hpp
+	"type_mat.hpp"
+	"type_mat2x2.inl"
+
+1326229678 /usr/include/glm/core/type_mat.hpp
+	"type_gentype.hpp"
+
+1336593030 /usr/include/glm/core/type_mat2x2.inl
+
+1336593030 /usr/include/glm/core/type_mat2x3.hpp
+	"type_mat.hpp"
+	"type_mat2x3.inl"
+
+1336593030 /usr/include/glm/core/type_mat2x3.inl
+
+1336593030 /usr/include/glm/core/type_mat2x4.hpp
+	"type_mat.hpp"
+	"type_mat2x4.inl"
+
+1336593030 /usr/include/glm/core/type_mat2x4.inl
+
+1336593030 /usr/include/glm/core/type_mat3x2.hpp
+	"type_mat.hpp"
+	"type_mat3x2.inl"
+
+1336593030 /usr/include/glm/core/type_mat3x2.inl
+
+1336593030 /usr/include/glm/core/type_mat3x3.hpp
+	"type_mat.hpp"
+	"type_mat3x3.inl"
+
+1336593030 /usr/include/glm/core/type_mat3x3.inl
+
+1336593030 /usr/include/glm/core/type_mat3x4.hpp
+	"type_mat.hpp"
+	"type_mat3x4.inl"
+
+1336593030 /usr/include/glm/core/type_mat3x4.inl
+
+1336593030 /usr/include/glm/core/type_mat4x2.hpp
+	"type_mat.hpp"
+	"type_mat4x2.inl"
+
+1336593030 /usr/include/glm/core/type_mat4x2.inl
+
+1336593030 /usr/include/glm/core/type_mat4x3.hpp
+	"type_mat.hpp"
+	"type_mat4x3.inl"
+
+1336593030 /usr/include/glm/core/type_mat4x3.inl
+
+1336593030 /usr/include/glm/core/type_mat4x4.hpp
+	"type_mat.hpp"
+	"type_mat4x4.inl"
+
+1336593030 /usr/include/glm/core/type_mat4x4.inl
+
+1326229678 /usr/include/glm/core/func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1326229678 /usr/include/glm/core/func_trigonometric.inl
+	"_vectorize.hpp"
+
+1326229678 /usr/include/glm/core/_vectorize.hpp
+
+1326229678 /usr/include/glm/core/func_exponential.hpp
+	"func_exponential.inl"
+
+1326229678 /usr/include/glm/core/func_exponential.inl
+	"_vectorize.hpp"
+
+1326229678 /usr/include/glm/core/func_common.hpp
+	"_fixes.hpp"
+	"func_common.inl"
+
+1336595894 /usr/include/glm/core/func_common.inl
+	"_vectorize.hpp"
+
+1326229678 /usr/include/glm/core/func_packing.hpp
+	"func_packing.inl"
+
+1326229678 /usr/include/glm/core/func_packing.inl
+
+1326229678 /usr/include/glm/core/func_geometric.hpp
+	"func_geometric.inl"
+
+1326229678 /usr/include/glm/core/func_geometric.inl
+	"_vectorize.hpp"
+
+1326229678 /usr/include/glm/core/func_matrix.hpp
+	"func_matrix.inl"
+
+1336589786 /usr/include/glm/core/func_matrix.inl
+	"_vectorize.hpp"
+
+1326229678 /usr/include/glm/core/func_vector_relational.hpp
+	"_detail.hpp"
+	"func_vector_relational.inl"
+
+1326229678 /usr/include/glm/core/func_vector_relational.inl
+
+1327540988 /usr/include/glm/core/func_integer.hpp
+	"func_integer.inl"
+
+1326229678 /usr/include/glm/core/func_integer.inl
+	"_vectorize.hpp"
+	<intrin.h>
+
+1326229678 /usr/include/glm/core/func_noise.hpp
+	"func_noise.inl"
+
+1326229678 /usr/include/glm/core/func_noise.inl
+
+1336593030 /usr/include/glm/gtc/matrix_transform.hpp
+	"../glm.hpp"
+	"matrix_transform.inl"
+
+1336593030 /usr/include/glm/gtc/matrix_transform.inl
 

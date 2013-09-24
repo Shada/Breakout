@@ -89,7 +89,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 		return false;
 
 	// Create window
-	hInst				= hInstance; 
+	hInst				= hInstance;
 	RECT rc = { 0, 0, SCRWIDTH, SCRHEIGHT };
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
@@ -271,7 +271,7 @@ bool Linuxhandler::initWindow()
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
 
 
-	if(!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
 	{
 		// PRINT OUT ERROR MESSAGE
 		glfwTerminate();
@@ -290,6 +290,10 @@ bool Linuxhandler::initWindow()
 	// dark blue background color
 	glClearColor(0.f, 0.f, .4f, 0.f);
 
+	// enable face culling
+    //glEnable(GL_CULL_FACE);
+
+    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
 
 	return true;
 }

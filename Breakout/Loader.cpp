@@ -40,13 +40,11 @@ namespace Resources
 		int Vertexsize=NULL;
 
         // program gets stuck here.... why??
-		while(!ObjFile.eof())
+		while(ObjFile >> buffer)
 		{
 			pData.normal = Vec3(0,0,0);
 			pData.pos = Vec3(0,0,0);
 			pData.texCoord = Vec2(0,0);
-
-			ObjFile >> buffer;
 
 			if(0==strcmp(buffer,"v"))
 			{

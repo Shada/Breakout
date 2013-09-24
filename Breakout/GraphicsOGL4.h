@@ -47,12 +47,12 @@ public:
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();
 
-	void updateModelMatrix(Matrix *model, GLuint programID);
-	void updateViewMatrix(Matrix *view);
-	void updateViewInverseMatrix(Matrix *viewInverse);
-	void updateProjectionMatrix(Matrix *projection);
-	void updateProjectionInverseMatrix(Matrix *projectionInverse);
-
+	void updateModelMatrix(Matrix model, GLuint programID);
+	void updateViewMatrix(Matrix view);
+	void updateViewInverseMatrix(Matrix viewInverse);
+	void updateProjectionMatrix(Matrix projection);
+	void updateProjectionInverseMatrix(Matrix projectionInverse);
+    void updateMVP(Matrix mvp);
 	~GraphicsOGL4();
 };
 

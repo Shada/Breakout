@@ -36,6 +36,8 @@ class ProgramGLSL
         void useProgram();
         GLuint getProgramID() { return programID; };
 
+        // TODO: static void Cleanup(); to remove static lists
+
     protected:
     private:
         // These are not necessary. Only here to make it similar to HLSL-version
