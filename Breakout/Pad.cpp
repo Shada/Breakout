@@ -9,6 +9,9 @@ namespace Logic
 	Vec3 Pad::rot = Vec3(0, 0, 0);
 	Pad::Pad()
 	{
+		position	= Vec3(0,0,0);
+		rotation	= Vec3(0,0,0);
+		scale		= Vec3(2,5,2);
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
@@ -30,23 +33,12 @@ namespace Logic
 			position.x = posMouse.x;
 		else if(posKey.x != 0)
 		{
-			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
+			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
 		}
 		//position.x = pos.x;
 		rotation.z = rot.z;
 
 		posKey.x = 0;
-	}
-
-	void Pad::draw()
-	{
-		CBWorld cb;
-		cb.world = scalingMatrix(Vec3(2, 5, 2)) * yawPitchRoll(rotation) * translationMatrix(position);
-#ifdef _WIN32
-		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
-		GraphicsDX11::getInstance()->updateCBWorld(cb);
-#endif // _WIN32
-		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
 	}
 
 	void Pad::move2D(double _dt, float _x)

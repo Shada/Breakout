@@ -57,4 +57,13 @@ struct CBOnce
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 
+enum GameState
+{
+	GAME_MENU = 0,
+	GAME_PLAY = 1
+};
+
+//the game state (found in Resource.h)
+static GameState gameState = GAME_MENU;
+
 #endif // ! _RESOURCE_H_

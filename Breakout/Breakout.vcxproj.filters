@@ -55,10 +55,10 @@
     <ClCompile Include="Timer.cpp">
       <Filter>External</Filter>
     </ClCompile>
-    <ClCompile Include="MenuElement.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,9 +130,6 @@
     <ClInclude Include="Pad.h">
       <Filter>Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Object3D.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -163,11 +160,14 @@
     <ClInclude Include="Timer.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="MenuElement.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectCore.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
