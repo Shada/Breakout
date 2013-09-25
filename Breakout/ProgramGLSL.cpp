@@ -64,7 +64,7 @@ ProgramGLSL::ProgramGLSL(std::string _name, std::string _vsPath, std::string _gs
 
 ProgramGLSL::~ProgramGLSL()
 {
-
+    glDeleteProgram(programID);
 }
 
 int ProgramGLSL::insertVertexShader(std::string _vsPath)

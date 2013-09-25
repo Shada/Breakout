@@ -8,36 +8,28 @@ Camera::Camera()
 	position = Vec3(0, 0, -10);
 	rotation = Vec3(0, 0, 0);
 
-	Matrix projInv;
+#ifndef _WIN32
+    // Send pointers to camera matrices to graphic engine
+    GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
+    GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
+    GraphicsOGL4::getInstance()->updateViewInverseMatrix(&viewInv);
+    GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
+#endif
+
 
 #ifdef _WIN32
 	CBOnce cbonce;
-	perspectiveFovLH(proj, PI * 0.3, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
+	perspectiveFovLH(projectionMatrix, PI * 0.3, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
 #else
     perspectiveFovRH(projectionMatrix, PI * 0.3, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
 #endif //_WIN32
+	MatrixInversion(projectionInv, projectionMatrix);
 
 #ifdef _WIN32
-	cbonce.projection = proj;
-#else
-    GraphicsOGL4::getInstance()->updateProjectionMatrix(projectionMatrix);
-#endif //_WIN32
-
-	MatrixInversion(projInv, projectionMatrix);
-#ifdef _WIN32
-	cbonce.projectionInv = projInv;
+	cbonce.projection = projectionMatrix;
+	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
-#else
-	GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(projInv);
-
-	Matrix identity = projectionMatrix * projInv ;
-
-#endif // _WIN32
-
-#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
-#else
-	//send to OpenGL GLSL thingy
 #endif //_ WIN32
 }
 
@@ -96,15 +88,10 @@ void Camera::update()
 #ifdef _WIN32
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
 #else
-
     lookAtRH(viewMatrix, lookAt, up, pos);
-
-
 #endif // _WIN32
 
-	Matrix viewInv;
 	MatrixInversion(viewInv, viewMatrix);
-
 
 #ifdef _WIN32
 	CBCameraMove cb;
@@ -116,12 +103,6 @@ void Camera::update()
 	cb.ViewInv = viewInv;
 
 	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
-#else
-    viewProj = viewMatrix * projectionMatrix;
-    GraphicsOGL4::getInstance()->updateViewMatrix(viewMatrix);
-    GraphicsOGL4::getInstance()->updateViewInverseMatrix(viewInv);
-    GraphicsOGL4::getInstance()->updateMVP(viewProj);
-
 #endif
 }
 

@@ -14,6 +14,8 @@
 
 #include "linearalgebra.h"
 
+
+
 class GraphicsOGL4
 {
 private:
@@ -24,7 +26,7 @@ private:
 
 	// VAO
 	GLuint  VertexArrayID,
-            modelMatrixBlockID;
+            modelMatrixBlockID; /// This will be used later, when known how it works..
 
 	static GraphicsOGL4 *instance;
 
@@ -42,17 +44,20 @@ public:
 	/** [in] vertexPoints - an array with all vertex points					*
 	 * [in] size of vertex data in bytes						*
 	 * [return] the start index of the data sent in							**/
-	int feedStaticBufferData(std::vector<float> vertexpoints, int _size);
+	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();
 
-	void updateModelMatrix(Matrix model, GLuint programID);
-	void updateViewMatrix(Matrix view);
-	void updateViewInverseMatrix(Matrix viewInverse);
-	void updateProjectionMatrix(Matrix projection);
-	void updateProjectionInverseMatrix(Matrix projectionInverse);
-    void updateMVP(Matrix mvp);
+	void updateModelMatrix(Matrix *model);
+	void updateViewMatrix(Matrix *view);
+	void updateViewInverseMatrix(Matrix *viewInverse);
+	void updateProjectionMatrix(Matrix *projection);
+	void updateProjectionInverseMatrix(Matrix *projectionInverse);
+
+	// maybe a little different later, this is temporary
+	void useMatrices(GLuint programID);
+
 	~GraphicsOGL4();
 };
 

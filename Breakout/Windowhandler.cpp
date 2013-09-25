@@ -209,26 +209,24 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
-	glfwEnable(GLFW_STICKY_KEYS);
 
-	//temporary triangle to test drawing
-	std::vector<float> g_vertex_buffer_data = {
-	/*v*/	-1.f, -1.f, 0.f,
-	/*n*/   0,0,0,
-	/*t*/   1,0,
-	/*v*/	1.f, -1.f, 0.f,
-	/*n*/   0,0,0,
-	/*t*/   1,1,
-	/*v*/	0.f, 1.f, 0.f,
-	/*n*/   0,0,0,
-	/*t*/   0,0,
+	//temporary triangle model to test drawing
+	std::vector<Vertex> g_vertex_buffer_data = {
+	/*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(1.f, 0.f)),
+	/*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(1.f, 1.f)),
+	/*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(0.f, 0.f)),
 	};
 
 	double time = 0;
 	timer->Tick();
 
-	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data, sizeof(float) * g_vertex_buffer_data.size());
+	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
 
 	do
 	{
@@ -239,7 +237,7 @@ int Linuxhandler::run()
 		if(time > 1.f / 60)
 		{
 			//clear screen
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			//if(is active window
 			game->update(time);
@@ -273,7 +271,8 @@ bool Linuxhandler::initWindow()
 
 	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
 	{
-		// PRINT OUT ERROR MESSAGE
+		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+
 		glfwTerminate();
 		return false;
 	}
@@ -282,16 +281,25 @@ bool Linuxhandler::initWindow()
 	glewExperimental = true; // need this for core profile
 	if(glewInit() != GLEW_OK)
 	{
-		//print error message
+		fprintf(stderr, "Failed to initialize GLEW\n");
 		return false;
 	}
 	glfwSetWindowTitle("Breakout for dummies");
+
+
+	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
+	glfwEnable(GLFW_STICKY_KEYS);
 
 	// dark blue background color
 	glClearColor(0.f, 0.f, .4f, 0.f);
 
 	// enable face culling
-    //glEnable(GL_CULL_FACE);
+    ///glEnable(GL_CULL_FACE);
+    ///glCullFace(GL_BACK);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glDepthFunc(GL_LESS);
 
     // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
 
@@ -310,6 +318,7 @@ Linuxhandler::~Linuxhandler()
 	GraphicsOGL4 *t = GraphicsOGL4::getInstance();
 
 	SAFE_DELETE(t);
-	//glfwDestroyWindow(hwnd);
+
+	glfwTerminate();
 }
 #endif

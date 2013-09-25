@@ -15,8 +15,9 @@ private:
 			rotation;
 
 	Matrix	viewMatrix,
+            viewInv,
 			projectionMatrix,
-			viewProj;
+			projectionInv;
 
 
 public:

@@ -44,11 +44,11 @@
 1379937028 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Brick.h
 	"Object3D.h"
 
-1380032086 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
+1380101205 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
 	"Camera.h"
 	"GraphicsDX11.h"
 
-1380031988 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.h
+1380097646 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.h
 	"Resource.h"
 	"linearalgebra.h"
 	"GraphicsOGL4.h"
@@ -249,11 +249,11 @@
 	"GraphicsDX11.h"
 	<sstream>
 
-1380031872 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
+1380108778 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
 	"GraphicsOGL4.h"
 	"Resource.h"
 
-1380031984 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
+1380101791 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
 	<stdio.h>
 	<stdlib.h>
 	<GL/glew.h>
@@ -364,7 +364,7 @@
 1379934326 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Timer.cpp
 	"Timer.h"
 
-1380022022 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
+1380108898 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
 	"Windowhandler.h"
 	<iostream>
 	<fcntl.h>
@@ -397,7 +397,7 @@
 	<GL/glew.h>
 	<GL/glfw.h>
 
-1380019012 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
+1380103833 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
 	"ProgramGLSL.h"
 	<fstream>
 
