@@ -34,6 +34,8 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
+		if(GetAsyncKeyState(VK_END) != 0)
+			modelID = 0;
 		//Calculate on buffs and debuffs
 
 		if(posMouse.x != position.x)
