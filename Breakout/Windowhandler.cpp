@@ -140,7 +140,7 @@ int Winhandler::run()
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
-		else if(time >= 0.01)
+		else if(time >= 0)
 		{
 			if(GetActiveWindow() == hWnd)
 			{

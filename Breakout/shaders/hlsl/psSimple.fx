@@ -23,6 +23,6 @@ float4 ps_simple(PS_Input input) : SV_TARGET0
 	float4 texColor  = tex01.Sample(samLinear, input.tex);
 	float4 outColor = float4(ka,0) + float4(kd,0) * max(dot(s,input.norm),0.0) +
 					float4(ks,0) * pow(max(dot(normalize(-s + 2 *dot(s, input.norm) * input.norm),
-									normalize( cameraPosWV - input.posWV.xyz)), 0.0),40);
-	return saturate(texColor + outColor);
+									normalize( cameraPosWV - input.posWV.xyz)), 0.0),5);
+	return saturate(texColor *outColor);
 }
