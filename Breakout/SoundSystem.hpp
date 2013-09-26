@@ -45,11 +45,10 @@ private:
 		//sound[11] = Waves
 		//sound[12] = Wind
 		//sound[13]FINNS EJ ÄN = Eruption
-		//sound[14]FINNS EJ ÄN = Fire balls
+		//sound[14] = Fire balls
 		//sound[15] = Bumpers
 		//sound[16] = Positive effect activated
 		//sound[17] = Negative effect activated
-		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn

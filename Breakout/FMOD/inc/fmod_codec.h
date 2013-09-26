@@ -37,6 +37,9 @@ typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_GETWAVEFORMAT)       (FMOD_CODEC_STA
     Members marked with [in] mean the variable can be written to.  The user can set the value.<br>
     Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
 
+    [PLATFORMS]
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
+
     [SEE_ALSO]
     FMOD_CODEC_STATE
 ]
@@ -77,10 +80,11 @@ typedef struct FMOD_CODEC_DESCRIPTION
     The arrays of format, channel, frequency, length and blockalign should point to arrays of information based on how many subsounds are in the format.  If the number of subsounds is 0 then it should point to 1 of each attribute, the same as if the number of subsounds was 1.  If subsounds was 100 for example, each pointer should point to an array of 100 of each attribute.<br>
     When a sound has 1 or more subsounds, you must play the individual sounds specified by first obtaining the subsound with Sound::getSubSound.
     
+    [PLATFORMS]
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
+
     [SEE_ALSO]
     FMOD_SOUND_FORMAT
-    FMOD_MODE
-    FMOD_CHANNELMASK
     FMOD_FILE_READCALLBACK      
     FMOD_FILE_SEEKCALLBACK      
     FMOD_CODEC_METADATACALLBACK
@@ -100,7 +104,7 @@ struct FMOD_CODEC_WAVEFORMAT
     int                loopstart;     /* [in] Loopstart in decompressed, PCM samples of file. */
     int                loopend;       /* [in] Loopend in decompressed, PCM samples of file. */
     FMOD_MODE          mode;          /* [in] Mode to determine whether the sound should by default load as looping, non looping, 2d or 3d. */
-    FMOD_CHANNELMASK   channelmask;   /* [in] Defined channel bitmask to describe where each channel should pan for the number of channels specified.  See fmod_common.h.  Leave at 0 to play in default speaker order. */
+    unsigned int       channelmask;   /* [in] Microsoft speaker channel mask, as defined for WAVEFORMATEXTENSIBLE and is found in ksmedia.h.  Leave at 0 to play in natural speaker order. */
 };
 
 
@@ -125,6 +129,9 @@ struct FMOD_CODEC_WAVEFORMAT
     The arrays of format, channel, frequency, length and blockalign should point to arrays of information based on how many subsounds are in the format.  If the number of subsounds is 0 then it should point to 1 of each attribute, the same as if the number of subsounds was 1.  If subsounds was 100 for example, each pointer should point to an array of 100 of each attribute.<br>
     When a sound has 1 or more subsounds, you must play the individual sounds specified by first obtaining the subsound with Sound::getSubSound.
     
+    [PLATFORMS]
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
+
     [SEE_ALSO]
     FMOD_SOUND_FORMAT
     FMOD_FILE_READCALLBACK      

@@ -13,6 +13,7 @@ Sound::~Sound()
 
 void Sound::Initialize(FMOD::System *fmodsystem, float vol, char* filename)
 {
+	//Lägg eventuellt till fix på path i Linux
 	timeLeft = -1000;
 	fmodSystem = fmodsystem;
 	result = fmodSystem->createSound(filename, FMOD_DEFAULT, 0, &sound1);
@@ -24,7 +25,7 @@ void Sound::Play()
 {
 	timeLeft = -1000;
 	sound1->setMode(FMOD_DEFAULT);
-	result = fmodSystem->playSound(sound1, 0, false, &channel);
+	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, sound1, false, &channel);
 	channel->setVolume(standardVolume);
 }
 
@@ -32,7 +33,7 @@ void Sound::Play(double lifeTime)
 {
 	timeLeft = lifeTime;
 	sound1->setMode(FMOD_DEFAULT);
-	result = fmodSystem->playSound(sound1, 0, false, &channel);
+	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, sound1, false, &channel);
 	channel->setVolume(standardVolume);
 }
 
@@ -40,7 +41,7 @@ void Sound::PlayLoop()
 {
 	timeLeft = -1000;
 	sound1->setMode(FMOD_LOOP_NORMAL);
-	result = fmodSystem->playSound(sound1, 0, false, &channel);
+	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, sound1, false, &channel);
 	channel->setVolume(standardVolume);
 }
 
@@ -48,7 +49,7 @@ void Sound::PlayLoop(double lifeTime)
 {
 	timeLeft = lifeTime;
 	sound1->setMode(FMOD_LOOP_NORMAL);
-	result = fmodSystem->playSound(sound1, 0, false, &channel);
+	result = fmodSystem->playSound(FMOD_CHANNEL_FREE, sound1, false, &channel);
 	channel->setVolume(standardVolume);
 }
 

@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FreeImage.lib;d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;kernel32.lib;user32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FreeImage.lib;d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;kernel32.lib;user32.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>$(ProjectDir)FMOD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
