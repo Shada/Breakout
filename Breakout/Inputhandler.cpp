@@ -146,6 +146,7 @@ void GLInputhandler::updateGame()
 	glfwGetMousePos(&mouseX, &mouseY);
 	mouseZ = glfwGetMouseWheel();
 
+
 	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
 		if(glfwGetKey(pad.keyBindings.at(i).keyCode) == GLFW_PRESS)
 			pad.keyBindings.at(i).func();

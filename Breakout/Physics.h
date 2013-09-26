@@ -27,7 +27,7 @@ namespace Logic
 		float tRadius = _ball->getRadius();
 
 		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
-		float tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x)) 
+		float tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x))
 								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
 
 		//If distance is lower than:
@@ -35,10 +35,10 @@ namespace Logic
 		// that means they intersect.
 		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
 			return true;
-		
+
 		//If position will be withing bounds next frame, assuming same deltaTime
 		tBallPos = _ball->getNextFrame();
-		tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x)) 
+		tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x))
 								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
 
 		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
@@ -61,8 +61,11 @@ namespace Logic
 		//Compare Y positions
 		if(tBallPos.y + HEIGHT/2 < tObjPos.y || tBallPos.y - HEIGHT/2 > tObjPos.y)
 			tBallDir.y *= -1;
-
+#ifdef _WIN32
 		_ball->setDirection(tBallDir.x, tBallDir.y);
+#else
+		_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
+#endif
 	}
 
 	inline bool BorderCollide(Ball* _ball)
@@ -78,7 +81,11 @@ namespace Logic
 		{
 			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_HEIGHT && tBallDir.x > 0))
 				tBallDir.x *= -1;
+#ifdef _WIN32
 			_ball->setDirection(tBallDir.x);
+#else
+			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
+#endif
 			collides = true;
 		}
 
@@ -87,7 +94,7 @@ namespace Logic
 		{
 			if((tBallPos.y - tRadius < 0 && tBallDir.y < 0) || (tBallPos.y + tRadius > MAX_HEIGHT && tBallDir.y > 0))
 				tBallDir.y *= -1;
-			_ball->setDirection(NULL, tBallDir.y);
+			_ball->setDirection(NULL, tBallDir.y, NULL);
 			collides = true;
 		}
 
@@ -97,7 +104,7 @@ namespace Logic
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
 	inline int Check2DCollissions(Ball* _ball, std::vector<Object3D*> _listOfObjects)
 	{
-		//Function could be bool-based if we want effects when colliding. 
+		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
 
 		if(BorderCollide(_ball))
@@ -115,7 +122,7 @@ namespace Logic
 				//"Attack" Object[i]. Destroy? Damage? AoEAttack? Whatever, do it here.
 				return i;
 			}
-				
+
 		}
 		return -1;
 	}

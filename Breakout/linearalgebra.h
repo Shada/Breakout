@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <vector>
-	
+
 #pragma region vector2
 	struct Vec2
 	{
@@ -165,7 +165,7 @@
 		}
 	};
 #pragma endregion
-	
+
 #pragma region vector4
 	struct Vec4
 	{
@@ -288,12 +288,12 @@
 			out[0].y = r[0].x * m.r[0].y + r[0].y * m.r[1].y + r[0].z * m.r[2].y + r[0].w * m.r[3].y;
 			out[0].z = r[0].x * m.r[0].z + r[0].y * m.r[1].z + r[0].z * m.r[2].z + r[0].w * m.r[3].z;
 			out[0].w = r[0].x * m.r[0].w + r[0].y * m.r[1].w + r[0].z * m.r[2].w + r[0].w * m.r[3].w;
-			
+
 			out[1].x = r[1].x * m.r[0].x + r[1].y * m.r[1].x + r[1].z * m.r[2].x + r[1].w * m.r[3].x;
 			out[1].y = r[1].x * m.r[0].y + r[1].y * m.r[1].y + r[1].z * m.r[2].y + r[1].w * m.r[3].y;
 			out[1].z = r[1].x * m.r[0].z + r[1].y * m.r[1].z + r[1].z * m.r[2].z + r[1].w * m.r[3].z;
 			out[1].w = r[1].x * m.r[0].w + r[1].y * m.r[1].w + r[1].z * m.r[2].w + r[1].w * m.r[3].w;
-			
+
 			out[2].x = r[2].x * m.r[0].x + r[2].y * m.r[1].x + r[2].z * m.r[2].x + r[2].w * m.r[3].x;
 			out[2].y = r[2].x * m.r[0].y + r[2].y * m.r[1].y + r[2].z * m.r[2].y + r[2].w * m.r[3].y;
 			out[2].z = r[2].x * m.r[0].z + r[2].y * m.r[1].z + r[2].z * m.r[2].z + r[2].w * m.r[3].z;
@@ -325,7 +325,7 @@
 			v.z = r[0].x * m.r[0].z + r[0].y * m.r[1].z + r[0].z * m.r[2].z + r[0].w * m.r[3].z;
 			v.w = r[0].x * m.r[0].w + r[0].y * m.r[1].w + r[0].z * m.r[2].w + r[0].w * m.r[3].w;
 			r[0] = v;
-			
+
 			v.x = r[1].x * m.r[0].x + r[1].y * m.r[1].x + r[1].z * m.r[2].x + r[1].w * m.r[3].x;
 			v.y = r[1].x * m.r[0].y + r[1].y * m.r[1].y + r[1].z * m.r[2].y + r[1].w * m.r[3].y;
 			v.z = r[1].x * m.r[0].z + r[1].y * m.r[1].z + r[1].z * m.r[2].z + r[1].w * m.r[3].z;
@@ -471,7 +471,7 @@
 		mOut[2][0] = cosx * siny;
 		mOut[2][1] = -sinx;
 		mOut[2][2] = cosx * cosy;
-		
+
 		return mOut;
 	}
 
@@ -539,8 +539,8 @@
 					sigma *= -1;
 
 				det += (a[0][arr[c][0]] * a[1][arr[c][1]] * a[2][arr[c][2]] * a[3][arr[c][3]]) * sigma;
-			}	
-		
+			}
+
 			return det;
 		}
 
@@ -561,6 +561,7 @@
 
 		return a[0][0] * a[1][1] * a[2][2] * a[3][3];
 	}
+
 	/* TODO: test if can replace mOut with A completely */
 	inline void MatrixInversion(Matrix &out, Matrix in)
 	{
@@ -604,15 +605,36 @@
 		out *= 1 / determinant(in);
 		out.transpose();
 	}
- 
-	/* Creates projection matrix for left hand coordinate systems */
-	inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
+
+	/** Creates projection matrix for left hand coordinate systems.
+     *  [out] the output perspective matrix *
+     *  [in] field of view                  *
+     *  [in] aspect ratio                   *
+     *  [in] near clipping plane            *
+     *  [in] far clipping plane             **/
+	inline void perspectiveFovLH(Matrix &pOut, float fov, float a, float zn, float zf)
 	{
-		float height = cos(w * .5f) / sin(w * .5f);
-		pOut[0][0] = height / h;
-		pOut[1][1] = height;
-		pOut[2][2] = zf / (zf - zn);		pOut[2][3] = 1;
-		pOut[3][2] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+		float yscale = cos(fov * .5f) / sin(fov * .5f);
+
+		pOut[0][0] = yscale / a;        pOut[0][1] = 0;         pOut[0][2] = 0;                         pOut[0][3] = 0;
+		pOut[1][0] = 0;                 pOut[1][1] = yscale;    pOut[1][2] = 0;                         pOut[1][3] = 0;
+		pOut[2][0] = 0;                 pOut[2][1] = 0;         pOut[2][2] = zf / (zf - zn);		    pOut[2][3] = 1;
+		pOut[3][0] = 0;                 pOut[3][1] = 0;         pOut[3][2] = -(zn * zf) / (zf - zn);	pOut[3][3] = 0;
+	}
+	/** Creates projection matrix for right hand coordinate systems.
+     *  [out] the output perspective matrix *
+     *  [in] field of view                  *
+     *  [in] aspect ratio                   *
+     *  [in] near clipping plane            *
+     *  [in] far clipping plane             **/
+	inline void perspectiveFovRH(Matrix &pOut, float fov, float a, float zn, float zf)
+	{
+		float yscale = cos(fov * .5f) / sin(fov * .5f);
+
+		pOut[0][0] = yscale / a;        pOut[0][1] = 0;         pOut[0][2] = 0;                             pOut[0][3] = 0;
+		pOut[1][0] = 0;                 pOut[1][1] = yscale;    pOut[1][2] = 0;                             pOut[1][3] = 0;
+		pOut[2][0] = 0;                 pOut[2][1] = 0;         pOut[2][2] = (zf + zn) / (zn - zf);         pOut[2][3] = -1;
+		pOut[3][0] = 0;                 pOut[3][1] = 0;         pOut[3][2] = (2 * zn * zf) / (zn - zf);     pOut[3][3] = 0;
 	}
 
 	/*inline void perspectiveLH(Matrix &pOut, float w, float h, float zn, float zf)
@@ -621,30 +643,34 @@
 		pOut[0][0] = height / h;
 		pOut[1][1] = height;
 		pOut[2][2] = zf / (zf - zn);		pOut[3][2] = 1;
-		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0; 
+		pOut[2][3] = zn * zf / (zn - zf);	pOut[3][3] = 0;
 	}*/
 
 	/* Creates a view matrix for left hand coordinate systems */
 	inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
 	{
 		Vec3 right = cross(up, look);
-		pOut[0][0] = right.x;	pOut[0][1] = up.x;	pOut[0][2] = look.x;	pOut[0][3] = 0;
-		pOut[1][0] = right.y;	pOut[1][1] = up.y;	pOut[1][2] = look.y;	pOut[1][3] = 0;
-		pOut[2][0] = right.z;	pOut[2][1] = up.z;	pOut[2][2] = look.z;	pOut[2][3] = 0;
-		
-		pOut[3][0] = right.dot(-eye);
-		pOut[3][1] = up.dot(-eye);
-		pOut[3][2] = look.dot(-eye);
-		pOut[3][3] = 1;
+		pOut[0][0] = right.x;	        pOut[0][1] = up.x;	        pOut[0][2] = look.x;	        pOut[0][3] = 0;
+		pOut[1][0] = right.y;	        pOut[1][1] = up.y;	        pOut[1][2] = look.y;	        pOut[1][3] = 0;
+		pOut[2][0] = right.z;	        pOut[2][1] = up.z;	        pOut[2][2] = look.z;	        pOut[2][3] = 0;
+        pOut[3][0] = right.dot(-eye);   pOut[3][1] = up.dot(-eye);  pOut[3][2] = look.dot(-eye);    pOut[3][3] = 1;
 	}
 
+    inline void lookAtRH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
+    {
+        Vec3 left = cross(look, up);
+        pOut[0][0] = left.x;	pOut[0][1] = up.x;	    pOut[0][2] = -look.x;	pOut[0][3] = 0;
+		pOut[1][0] = left.y;	pOut[1][1] = up.y;	    pOut[1][2] = -look.y;	pOut[1][3] = 0;
+		pOut[2][0] = left.z;	pOut[2][1] = -up.z;	    pOut[2][2] = -look.z;	pOut[2][3] = 0;
+		pOut[3][0] = -eye.x;    pOut[3][1] = -eye.y;    pOut[3][2] = eye.z;    pOut[3][3] = 1;
+    }
 	/*inline void lookAtLH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
 	{
 		Vec3 right = cross(up, look);
 		pOut[0][0] = right.x;	pOut[1][0] = up.x;	pOut[2][0] = look.x;	pOut[3][0] = 0;
 		pOut[0][1] = right.y;	pOut[1][1] = up.y;	pOut[2][1] = look.y;	pOut[3][1] = 0;
 		pOut[0][2] = right.z;	pOut[1][2] = up.z;	pOut[2][2] = look.z;	pOut[3][2] = 0;
-		
+
 		pOut[0][3] = right.dot(-eye);
 		pOut[1][3] = up.dot(-eye);
 		pOut[2][3] = look.dot(-eye);
@@ -657,11 +683,11 @@
 		mOut[0][0] = axis.x * axis.x * (1 - cos(angle)) + cos(angle);
 		mOut[0][1] = axis.x * axis.y * (1 - cos(angle)) + axis.z * sin(angle);
 		mOut[0][2] = axis.x * axis.z * (1 - cos(angle)) - axis.y * sin(angle);
-		
+
 		mOut[1][0] = axis.x * axis.y * (1 - cos(angle)) - axis.z * sin(angle);
 		mOut[1][1] = axis.y * axis.y * (1 - cos(angle)) + cos(angle);
 		mOut[1][2] = axis.y * axis.z * (1 - cos(angle)) + axis.x * sin(angle);
-		
+
 		mOut[2][0] = axis.x * axis.z * (1 - cos(angle)) + axis.y * sin(angle);
 		mOut[2][1] = axis.y * axis.z * (1 - cos(angle)) - axis.x * sin(angle);
 		mOut[2][2] = axis.z * axis.z * (1 - cos(angle)) + cos(angle);

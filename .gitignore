@@ -7,10 +7,9 @@
 *.opensdf
 Debug/*.*
 Breakout/Debug/*.*
-*.opensdf
+Breakout/bin/Debug/*
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 
 # Compiled Static libraries

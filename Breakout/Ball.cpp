@@ -1,11 +1,13 @@
 #include "Ball.h"
 #ifdef _WIN32
 #include "GraphicsDX11.h"
+#else
+#include "GraphicsOGL4.h"
 #endif // _WIN32
 
 namespace Logic
 {
-	
+
 	Ball::Ball() : Object3D()
 	{
 		scale		= Vec3(1,1,1);
@@ -21,11 +23,11 @@ namespace Logic
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 #endif
 	}
-	
+
 	Ball::~Ball()
 	{
 	}
-	
+
 	void Ball::update(double _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
@@ -35,10 +37,20 @@ namespace Logic
 		updateWorld();
 	}
 
+#ifdef _WIN32
 	void Ball::setDirection(float _x, float _y, float _z)
 	{
 		if(_x != NULL) direction.x = _x;
 		if(_y != NULL) direction.y = _y;
 		if(_z != NULL) direction.z = _z;
 	}
+#else
+    void Ball::setDirection(float _x, float _y, float _z)
+    {
+        direction.x = _x;
+        direction.y = _y;
+        direction.z = _z;
+    }
+#endif // _WIN32
+
 }

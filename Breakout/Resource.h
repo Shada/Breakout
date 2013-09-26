@@ -35,10 +35,10 @@ struct CBWorld
 };
 struct CBCameraMove
 {
-	Matrix View;		
-	Matrix ViewInv;		
-	Vec3 cameraPos;		
-	Vec3 cameraDir;		
+	Matrix View;
+	Matrix ViewInv;
+	Vec3 cameraPos;
+	Vec3 cameraDir;
 
 	//byte amount must be dividable by 16
 	Vec2 padding;

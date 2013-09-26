@@ -20,8 +20,9 @@ namespace Logic
 		{
 		case GAME_PLAY:
 		{
-			
+			#ifdef _WIN32
 			inputHandler->updateGame();
+			#endif
 			//std::cout << pad->getPosition().x << std::endl;
 			gameplay->update(_dt);
 			break;

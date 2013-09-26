@@ -1,5 +1,5 @@
 #include "Loader.h"
-
+#include <string.h>
 namespace Resources
 {
 
@@ -12,7 +12,7 @@ namespace Resources
 	{
 	}
 
-
+// TODO: Throw away all lines starting with character: #
 	void Loader::LoadObject(char file[256],float scale,Model *_model,float invertX,float invertY,float invertZ)
 	{
 		Vertex pData;
@@ -20,8 +20,14 @@ namespace Resources
 		char buffer[256]="";
 		bool last = false;
 
+        std::string filename = "";
+#ifndef _WIN32
+		filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+#endif // !_WIN32
+		filename += file;
+
 		std::fstream ObjFile;
-		ObjFile.open(file,std::fstream::in | std::fstream::out | std::fstream::app);
+		ObjFile.open(filename,std::fstream::in | std::fstream::out | std::fstream::app);
 
 		std::vector<Vec3> Position;
 		std::vector<Vec3> Normal;
@@ -39,15 +45,12 @@ namespace Resources
 			pData.pos = Vec3(0,0,0);
 			pData.texCoord = Vec2(0,0);
 
-			
-
 			if(0==strcmp(buffer,"v"))
 			{
 				last = false;
 				ObjFile >> x >> y >> z;
 			
 				Position.push_back(Vec3(x * invertX, y * invertY, z * invertZ));
-			
 			}
 			else if(0==strcmp(buffer,"vt"))
 			{
@@ -78,7 +81,7 @@ namespace Resources
 					if('/'==ObjFile.peek())         /////  '/'  Ignorieren
 					{
 						ObjFile.ignore();
-						if('/'!=ObjFile.peek()) 
+						if('/'!=ObjFile.peek())
 						{
 
 							ObjFile >>FaceIndex;
@@ -91,7 +94,7 @@ namespace Resources
 					{
 						ObjFile.ignore();
 
-						if('/'!=ObjFile.peek()) 
+						if('/'!=ObjFile.peek())
 						{
 							ObjFile >>FaceIndex;
 							if(FaceIndex < 0)
@@ -195,7 +198,7 @@ namespace Resources
 				}
 				//Data->push_back(pData);
 				_model->addData(pData);
-			}     
+			}
 		}
 
 
@@ -205,18 +208,24 @@ namespace Resources
 
 	void Loader::loadTexture(char file[256],Texture *_texture)
 	{
+        std::string filename = "";
+#ifndef _WIN32
+        filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+#endif // ! _WIN32
+
+		filename += file;
 		//check the file signature and deduce its format
-		_texture->setFif(FreeImage_GetFileType(file, 0));
+		_texture->setFif(FreeImage_GetFileType(filename.c_str(), 0));
 		//if still unknown, try to guess the file format from the file extension
-		if(*_texture->getFif() == FIF_UNKNOWN) 
-			_texture->setFif(FreeImage_GetFIFFromFilename(file));
+		if(*_texture->getFif() == FIF_UNKNOWN)
+			_texture->setFif(FreeImage_GetFIFFromFilename(filename.c_str()));
 		//if still unkown, return failure
 		if(*_texture->getFif() == FIF_UNKNOWN)
 			return;
 
 		//check that the plugin has reading capabilities and load the file
 		if(FreeImage_FIFSupportsReading(*_texture->getFif()))
-			_texture->setDib(FreeImage_Load(*_texture->getFif(), file));
+			_texture->setDib(FreeImage_Load(*_texture->getFif(), filename.c_str()));
 		//if the image failed to load, return failure
 		if(!_texture->getDib())
 			return;

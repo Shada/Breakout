@@ -1,9 +1,12 @@
 #include "Gameplay.h"
+
 #ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
+#include <iostream>
 #endif
+
 namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
@@ -29,7 +32,7 @@ namespace Logic
 
 		_handler->setPad(objectCore->pad, keys);
 		//inputHandler = handler;
-		
+
 		//inputHandler->setCamera(camera, keys);
 
 		mapLoading->loadMap(0,&objectCore->bricks,objectCore->ball,objectCore->pad);

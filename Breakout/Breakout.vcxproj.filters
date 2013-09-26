@@ -61,6 +61,9 @@
     <ClCompile Include="MenuElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProgramGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramGLSL.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
