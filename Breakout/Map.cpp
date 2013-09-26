@@ -8,7 +8,7 @@ namespace Logic
 
 	void Map::loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad)
 	{
-		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(_mapID)->getDib();
+		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(7)->getDib();
 
 		if ( pHeightMap )
 		{
@@ -19,6 +19,7 @@ namespace Logic
 			unsigned int displacementX = 7;
 			unsigned int displacementY = 5;
 
+			float circleRadie = 50;
 
 			RGBQUAD color;	
 			//save map info
@@ -26,6 +27,9 @@ namespace Logic
 			int lvlnum = color.rgbRed;
 			int maptype = color.rgbGreen;
 			int difficulty = color.rgbBlue;
+			float radWJump = (2*PI)/hmWidth;
+			float radHJump = (2*PI)/hmHeight;
+
 
 			//Load the rest of the pixel items
 			for (unsigned int r=0; r < hmHeight; r++)
@@ -33,6 +37,32 @@ namespace Logic
 				for(unsigned int c=0; c < hmWidth; c++)
 				{
 					FreeImage_GetPixelColor(pHeightMap,c,r,&color);
+
+					Vec3 cylinderDisplace;
+					/*float radWIt = radWJump*(c - (hmWidth/2));
+					float radHIt = radWJump*(r - (hmHeight/2));*/
+
+					float radWIt = radWJump*c;
+					float radHIt = radWJump*r;
+
+					//--------Cylinder
+					//cylinderDisplace.x = sin(radWIt) * circleRadie;
+					//cylinderDisplace.y = r * displacementX;
+					//cylinderDisplace.z = cos(radWIt) * circleRadie;
+					//--------
+
+
+					/*cylinderDisplace.x = cos(radHIt) * circleRadie;
+					cylinderDisplace.y = sin(radHIt) * circleRadie;
+					cylinderDisplace.z = 0;*/
+
+					//cylinderDisplace.x = c*displacementX;
+					//cylinderDisplace.y = sin(radHIt) * circleRadie;// + sin(radWIt) * circleRadie;
+					//cylinderDisplace.z = cos(radHIt) * circleRadie;
+
+					cylinderDisplace.x = cos(radHIt) * circleRadie + sin(radWIt) * circleRadie;
+					cylinderDisplace.y = sin(radHIt) * circleRadie + sin(radHIt) * circleRadie;
+					cylinderDisplace.z = cos(radHIt) * circleRadie + cos(radWIt) * circleRadie;
 
 					//Creating objects
 					if(c == 0 && r == 0)
@@ -58,7 +88,9 @@ namespace Logic
 					{
 						//Set brick property here
 						Brick *tBrick = new Brick(Vec3(0,0,0));
-						tBrick->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+						tBrick->setPosition(Vec3(cylinderDisplace.x,(float)cylinderDisplace.y,cylinderDisplace.z));
+						
+						//tBrick->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						//tBrick.setType(color.rgbRed);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
