@@ -2,6 +2,7 @@
 #include "Brick.h"
 #include "Ball.h"
 #include "Pad.h"
+#include "Resource.h"
 namespace Logic
 {
 	class ObjectCore
@@ -11,6 +12,8 @@ namespace Logic
 		Pad						*pad;
 		std::vector<Object3D*>	bricks;
 		Ball					*ball;
+
+		std::vector<BBUI>		uiBillboards;
 
 		~ObjectCore();
 	};

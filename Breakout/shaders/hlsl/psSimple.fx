@@ -9,7 +9,7 @@ struct PS_Input
 	float4 posWV	: TEXCOORD1;
 };
 
-float4 ps_simple(PS_Input input) : SV_TARGET0
+float4 ps(PS_Input input) : SV_TARGET0
 {
 	//should not be hardcoded
 	float3 kd = float3(0.9280,0.9280,0.9280);

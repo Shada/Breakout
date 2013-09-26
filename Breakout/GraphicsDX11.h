@@ -38,7 +38,9 @@ private:
 	
 	IDXGISwapChain				*swapChain;
 
-	//techniques
+	/*---------------------------------------------------------------
+								Techniques
+	--------------------------------------------------------------*/
 	std::vector<TechniqueHLSL*>	techniques;
 
 	/*---------------------------------------------------------------
@@ -46,6 +48,7 @@ private:
 	--------------------------------------------------------------*/
 	/*simple layout*/
 	ID3D11InputLayout			*simpleInputLayout;
+	ID3D11InputLayout			*uiLayout;
 
 	/*---------------------------------------------------------------
 								RenderTargets

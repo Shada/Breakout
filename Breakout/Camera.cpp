@@ -16,6 +16,7 @@ Camera::Camera()
 	MatrixInversion(projInv, proj);
 	cbonce.projectionInv = projInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
 
 #ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);

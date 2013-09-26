@@ -162,24 +162,41 @@ void GraphicsDX11::init(HWND *hWnd)
 	immediateContext->RSSetViewports( 1, &viewPort );
 
 	techniques = std::vector<TechniqueHLSL*>();
-	techniques.push_back( new TechniqueHLSL(device, "techSimple", "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple") );
+	techniques.push_back( new TechniqueHLSL(device, "techSimple",	"shaders/hlsl/vsSimple.fx",	"vs",	"",							"",		"shaders/hlsl/psSimple.fx",	"ps") );
+	techniques.push_back( new TechniqueHLSL(device, "techUI",		"shaders/hlsl/vsBBUI.fx",	"vs",	"shaders/hlsl/gsBBUI.fx",	"gs",	"shaders/hlsl/psBBUI.fx",	"ps") );
 
-
-	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
+	D3D11_INPUT_ELEMENT_DESC simpleLayoutDesc[] = 
 	{
-		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(float) * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, sizeof(float) * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
-
-	hr = device->CreateInputLayout(simpleLayout, ARRAYSIZE(simpleLayout), techniques.at(0)->getInputSignature(), techniques.at(0)->getInputSignatureSize(), &simpleInputLayout);
+	UINT techIndex = getTechIDByName("techSimple");
+	hr = device->CreateInputLayout( simpleLayoutDesc, ARRAYSIZE(simpleLayoutDesc), techniques.at(techIndex)->getInputSignature(),
+									techniques.at(techIndex)->getInputSignatureSize(), &simpleInputLayout );
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create simpleInputLayout","GraphicsDX11 Error",MB_OK);
 		return;
 	}
+	D3D11_INPUT_ELEMENT_DESC uiLayoutDesc[] =
+	{
+		{ "POSITION",	0, DXGI_FORMAT_R32G32_FLOAT,		0,	0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "SIZE",		0, DXGI_FORMAT_R32G32_FLOAT,		0,	sizeof(float) * 2,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "ROTATION",	0, DXGI_FORMAT_R32_FLOAT,			0,	sizeof(float) * 4,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TINTALPHA",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(float) * 5,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXINDEX",	0, DXGI_FORMAT_R32_UINT,			0,	sizeof(float) * 9,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	techIndex = getTechIDByName("techUI");
+	hr = device->CreateInputLayout(uiLayoutDesc, ARRAYSIZE(uiLayoutDesc), techniques.at(techIndex)->getInputSignature(),
+									techniques.at(techIndex)->getInputSignatureSize(), &uiLayout );
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create uiLayout","GraphicsDX11 Error",MB_OK);
+		return;
+	}
 
-	D3D11_INPUT_ELEMENT_DESC simpleLayoutInst[] =
+	/*D3D11_INPUT_ELEMENT_DESC simpleLayoutInst[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(float) * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -187,7 +204,7 @@ void GraphicsDX11::init(HWND *hWnd)
 		{ "PERINST", 0, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "PERINST", 1, DXGI_FORMAT_R32_FLOAT, 1, sizeof(float) * 3, D3D11_INPUT_PER_INSTANCE_DATA, 1 }
 	};
-	/*hr = device->CreateInputLayout(simpleLayoutInst, ARRAYSIZE(simpleLayoutInst), techInstModel->getInputSignature(),techInstModel->getInputSignatureSize(), &instanceLayout);
+	hr = device->CreateInputLayout(simpleLayoutInst, ARRAYSIZE(simpleLayoutInst), techInstModel->getInputSignature(),techInstModel->getInputSignatureSize(), &instanceLayout);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create instancedInputLayout","GraphicsDX11 Error",MB_OK);
@@ -348,6 +365,7 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 	}
 	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
 	//immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->GSSetConstantBuffers(registerIndex, 1, cb);
 	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
 	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
 	return true;
@@ -425,7 +443,10 @@ bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRE
 	}
 	return true;
 }
-
+/*
+techSimple
+techUI
+*/
 int GraphicsDX11::getTechIDByName( const char *name )
 {
 	for(unsigned int i = 0; i < techniques.size(); i++)
@@ -516,6 +537,37 @@ void GraphicsDX11::draw()
 
 		immediateContext->Draw(vertexAmount, startIndex);
 	}
+
+	//--------------------------------------------------------------------------------
+	//                                     UI
+	//--------------------------------------------------------------------------------
+
+	stride = sizeof( BBUI );
+	offset = 0;
+
+	immediateContext->RSSetState(rasterizerBackface);
+
+	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	techniques.at( getTechIDByName( "techUI" ) )->useTechnique();
+	immediateContext->IASetInputLayout(uiLayout);
+
+	cbWorld.world		= Matrix(	1,0,0,0,
+									0,1,0,0,
+									0,0,1,0,
+									0,0,0,1	);
+
+	cbWorld.worldInv	= Matrix(	1,0,0,0,
+									0,1,0,0,
+									0,0,1,0,
+									0,0,0,1	);
+	updateCBWorld( cbWorld );
+
+	vertexAmount	= objectCore->uiBillboards.size();
+	startIndex		= 0;
+
+	immediateContext->Draw( vertexAmount, startIndex );
+
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)

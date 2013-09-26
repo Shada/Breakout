@@ -25,7 +25,6 @@ struct BBUI
 	Vec2 size;
 	float rotation;
 	Vec4 tintAlpha;
-	Vec2 texCoords;
 	int texIndex;
 };
 struct CBWorld
@@ -49,6 +48,8 @@ struct CBOnce
 	Matrix	projection;
 	Matrix	projectionInv;
 	Vec4	lightPos;
+	Vec2	resolution;
+	Vec2	padding2;
 };
 
 #define PI 3.14159265359

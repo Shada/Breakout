@@ -21,4 +21,6 @@ cbuffer cbOnce			: register( b2 )
 	matrix projection;
 	matrix projInv;
 	float4 lightPos;
+	float2 resolution;
+	float2 padding2;
 };
