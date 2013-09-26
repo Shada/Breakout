@@ -10,6 +10,7 @@
 #include "Brick.h"
 #include "Resource.h"
 #include <functional>
+#include "SoundSystem.hpp"
 
 namespace Logic
 {
@@ -34,6 +35,7 @@ namespace Logic
 		Ball *ball;
 		Camera *camera;
 		Inputhandler *inputHandler;
+		SoundSystem *soundsystem;
 
 		GameState state;
 		

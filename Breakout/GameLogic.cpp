@@ -7,6 +7,10 @@ namespace Logic
 		pad = new Pad();
 		ball = new Ball();
 		camera = new Camera();
+		soundsystem =  new SoundSystem();
+		soundsystem->Initialize();
+		soundsystem->Play(0, 10);
+		soundsystem->PlayLoop(8, 5);
 
 		inputHandler = handler;
 		std::vector<int> keys, directions;
@@ -53,6 +57,7 @@ namespace Logic
 
 	void GameLogic::update(double _dt)
 	{
+		soundsystem->Update(_dt);//test
 		switch(state)
 		{
 		case GAME_PLAY:
