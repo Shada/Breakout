@@ -668,9 +668,9 @@
 	}
 
 	/* Returns the resulting angle of a wall collission. Should hopefully work. */
-	inline Vec3 PlaneReflection(Vec3 _v, Vec3 _n)
+	inline Vec3 planeReflection(Vec3 _v, Vec3 _n)
 	{
-		return _v - (_v * _n) * _n * 2;
+		return _v - _n * (_v.dot(_n)) * 2;
 		//return -( (_n * _v) *  2.0f * _n - _v);
 	}
 

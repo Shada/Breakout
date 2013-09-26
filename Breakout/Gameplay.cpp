@@ -22,10 +22,10 @@ namespace Logic
 		camera = new Camera();
 
 		std::vector<KeyBind> keys;
-		keys.push_back(KeyBind(DIK_UPARROW, &objectCore->pad->rotateLeft));
-		keys.push_back(KeyBind(DIK_DOWNARROW, &objectCore->pad->rotateRight));
-		keys.push_back(KeyBind(DIK_LEFTARROW, &objectCore->pad->moveLeft));
-		keys.push_back(KeyBind(DIK_RIGHTARROW, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
+		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
+		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
+		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
 
 		_handler->setPad(objectCore->pad, keys);
 		//inputHandler = handler;

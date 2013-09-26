@@ -1,12 +1,12 @@
 #include "Pad.h"
-#include "Resource.h"
 #include "GraphicsDX11.h"
 
 namespace Logic
 {
 	Vec3 Pad::posKey = Vec3(0, 0, 0);
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
-	Vec3 Pad::rot = Vec3(0, 0, PI / 2);
+	Vec3 Pad::rotMouse = Vec3(0, 0, PI / 2);
+	Vec3 Pad::rotKey = Vec3(0, 0, PI / 2);
 	Pad::Pad()
 	{
 		movementSpeed = 1.0f;
@@ -16,10 +16,9 @@ namespace Logic
 
 		scale = Vec3(2, 5, 2);
 
-		boxMax = Vec3(radius * scale.y, radius / 2, 1);
-		boxMin = Vec3(-radius * scale.y, radius / 2 - 1, 1);
+		width = radius * scale.y;
 
-		rotation = rot;
+		rotation = rotMouse;
 		rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
 
 #ifdef _WIN32
@@ -34,25 +33,37 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
-		if(GetAsyncKeyState(VK_END) != 0)
-			modelID = 0;
-		//Calculate on buffs and debuffs
-
 		if(posMouse.x != position.x)
+		{
 			position.x = posMouse.x;
+			posKey.x = 0;
+		}
 		else if(posKey.x != 0)
 		{
 			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
 		}
-		//position.x = pos.x;
-		if(rotation.z != rot.z)
+
+		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
 		{
-			rotation.z = rot.z;
+			if(rotation.z != rotMouse.z)
+			{
+				rotation.z = rotMouse.z;
+				rotKey.z = rotation.z;
+			}
+			else
+			{
+				rotation.z = rotKey.z;
+				rotMouse.z = rotation.z;
+			}
+
 			rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
 		}
 
 		if(position.x > 200 || position.x < 0)
+		{
 			position.x = position.x > 200 ? 200 : 0;
+			posMouse.x = posKey.x = position.x;
+		}
 
 		posKey.x = 0;
 	}
@@ -89,26 +100,26 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.z += (float)(12 * PI / 180) * _direction;
-		if(rot.z > 2 * PI)
-			rot.z -= (float)(2 * PI);
+		rotMouse.z += (float)(12 * PI / 180) * _direction;
+		if(rotMouse.z > 2 * PI)
+			rotMouse.z -= (float)(2 * PI);
 	}
 	
 	void Pad::rotateRight()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.z += (float)(2 * PI / 180);
-		if(rot.z > 2 * PI)
-			rot.z -= (float)(2 * PI);
+		rotKey.z += (float)(2 * PI / 180);
+		if(rotKey.z > 2 * PI)
+			rotKey.z -= (float)(2 * PI);
 	}
 
 	void Pad::rotateLeft()
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rot.z -= (float)(2 * PI / 180);
-		if(rot.z > 2 * PI)
-			rot.z -= (float)(2 * PI);
+		rotKey.z -= (float)(2 * PI / 180);
+		if(rotKey.z > 2 * PI)
+			rotKey.z -= (float)(2 * PI);
 	}
 }

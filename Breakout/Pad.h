@@ -2,6 +2,7 @@
 #define _PAD_H_
 
 #include "Object3D.h"
+#include "Resource.h"
 
 namespace Logic
 {
@@ -9,10 +10,10 @@ namespace Logic
 	{
 	private:
 		Matrix orientation;
-		Vec3 boxMax, boxMin;
+		float width, height;
 		float radius;
 		int shaderTechniqueID;
-		static Vec3 posKey, posMouse, rot;
+		static Vec3 posKey, posMouse, rotMouse, rotKey;
 		float movementSpeed, angle2D, angle3D;
 
 	public:
@@ -20,9 +21,9 @@ namespace Logic
 		~Pad();
 
 		float getRadius() { return radius; }
-		Vec3 getBoxMax() { return boxMax; }
-		Vec3 getBoxMin() { return boxMin; }
-		Matrix getOrientation() { return orientation; }
+		float getOrientation() { return rotation.z - PI / 2; }
+		float getPadRotation() { return rotation.z; }
+		float getWidth() { return width; }
 
 		void update(double dt);
 		void draw();

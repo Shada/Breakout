@@ -1,5 +1,5 @@
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#ifndef _OBJECT3D_H_
+#define _OBJECT3D_H_
 
 #include "linearalgebra.h"
 

@@ -122,30 +122,36 @@ namespace Logic
 
 	inline void ballCollision(Ball *_ball, Pad *_pad, float currentRotation)
 	{
-		Vec3 tBallPos = _ball->getPosition();
+		Vec3 tBallPos = _ball->getNextFrame();
+		Vec3 ballDir = _ball->getDirection();
 		Vec3 tObjPos = _pad->getPosition();
 		float tRadius = _ball->getRadius();
 
-		Vec3 boxMax = _pad->getBoxMax(), boxMin = _pad->getBoxMin();
-		//Matrix rot = _pad->getOrientation();
-		//box = rot * box;// boxMin = rot * boxMin;
+		Vec3 padScale = _pad->getScale() * _pad->getRadius();
 
-		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
+		float zrot = _pad->getOrientation();
+		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
+		
+		//rotate p1 and p2
+		Matrix rot; rotationAxis(rot, Vec3(0, 0, 1), zrot);
+		p1 = rot * p1;
+		p2 = rot * p2;
 
-		float dist1 = sqrt(((tBallPos.x - tObjPos.x + boxMax.x)*(tBallPos.x - tObjPos.x + boxMax.x)) 
-								+ ((tBallPos.y - tObjPos.y + boxMax.y)*(tBallPos.y - tObjPos.y + boxMax.y)) );
-		float dist2 = sqrt( ((tBallPos.x - boxMin.x + tObjPos.x)*(tBallPos.x - boxMin.x + tObjPos.x)) 
-								+ ((tBallPos.y - tObjPos.y + boxMin.y)*(tBallPos.y - tObjPos.y + boxMin.y)) );
-
-		//If distance is lower than:
-		//		ballradius + objectheight/2 AND ballradius + objectlength/2
-		// that means they intersect.
-		if(dist1 <= tRadius + 1 && dist1 <= tRadius + _pad->getRadius() * _pad->getScale().y
-			|| dist2 <= tRadius + 1 && dist2 <= tRadius + _pad->getRadius() * _pad->getScale().y)
+		p1 += tObjPos; p2 += tObjPos;
+		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
+		if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x + tRadius * ballDir.x < max(p1.x, p2.x))
 		{
-			_ball->setDirection(NULL, _ball->getDirection().y * -1);
+			float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
+			float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			
+			if(tBallPos.y - tRadius <= yIntersect)
+			{
+				Vec3 padRot = Vec3(cos(zrot + PI / 2), sin(zrot + PI /2), 0);
+				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
+				newDir.normalize();
+				_ball->setDirection(newDir.x, newDir.y);
+			}
 		}
-
 		// collision ball vs ball
 
 	}
