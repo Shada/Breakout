@@ -14,7 +14,7 @@ namespace Resources
 		char file[256];
 
 #ifdef _WIN32
-        std::ifstream myfile ("~./Objects/object.txt");
+        std::ifstream myfile ("Objects/object.txt");
 #else
         std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
 #endif // _WIN32
