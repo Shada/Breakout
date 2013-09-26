@@ -25,18 +25,18 @@ void gs( point GS_Input input[1], inout TriangleStream<PS_Input> triStream )
 	PS_Input output = (PS_Input)0;
 
 	output.pos = float4( input[0].pos, 0, 1 );
-	output.texCoords = float2( 0, 1 );
-	triStream.Append(output);
-
-	output.pos = float4( -1, 1, 0, 1 );
 	output.texCoords = float2( 0, 0 );
 	triStream.Append(output);
 
-	output.pos = float4( 1, -1, 0, 1);
-	output.texCoords = float2( 1, 1 );
+	output.pos = float4( input[0].pos.x, input[0].pos.y + input[0].size.y, 0, 1 );
+	output.texCoords = float2( 0, 1 );
 	triStream.Append(output);
 
-	output.pos = float4( 1, 1, 0, 1 );
+	output.pos = float4( input[0].pos.x + input[0].size.x, input[0].pos.y, 0, 1);
 	output.texCoords = float2( 1, 0 );
+	triStream.Append(output);
+
+	output.pos = float4( input[0].pos.x + input[0].size.x, input[0].pos.y + input[0].size.y, 0, 1 );
+	output.texCoords = float2( 1, 1 );
 	triStream.Append(output);
 }

@@ -25,6 +25,7 @@ GraphicsDX11::GraphicsDX11()
 
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
+	uiBufferDynamic				= NULL;
 	instBuffer					= NULL;
 }
 
@@ -217,9 +218,9 @@ void GraphicsDX11::init(HWND *hWnd)
 	//create blendstates
 	D3D11_BLEND_DESC blendDesc;
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
-	blendDesc.AlphaToCoverageEnable						= FALSE;
-	blendDesc.IndependentBlendEnable					= FALSE;
-	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
+	/*blendDesc.AlphaToCoverageEnable						= FALSE;
+	blendDesc.IndependentBlendEnable					= FALSE;*/
+	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
 	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].BlendOp					= D3D11_BLEND_OP_ADD;
@@ -309,9 +310,9 @@ HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCST
 
 void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 {
-	float clearColor[4] = {r,g,b,1};
-	immediateContext->ClearRenderTargetView(renderTargetView,clearColor);
-	immediateContext->ClearDepthStencilView(depthStencilView,D3D11_CLEAR_DEPTH,1.0f,0);
+	float clearColor[4] = {r, g, b, 1};
+	immediateContext->ClearRenderTargetView(renderTargetView, clearColor);
+	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void GraphicsDX11::presentSwapChain()
@@ -381,6 +382,8 @@ bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 	return true;
 }
 
+
+
 bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 {
 	D3D11_BUFFER_DESC bd;
@@ -397,6 +400,19 @@ bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
 	return true;
 }
 
+bool GraphicsDX11::createVBufferUI( unsigned int maxSize )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( BBUI ) * maxSize;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	if(! createVBuffer(&bd, NULL, &vBufferStatic) )
+		return false;
+	return true;
+}
+
 bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer )
 {
 	HRESULT hr = device->CreateBuffer( bd, initData, vBuffer );
@@ -408,7 +424,7 @@ bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRE
 	return true;
 }
 
-int GraphicsDX11::getTechIDByName( std::string name )
+int GraphicsDX11::getTechIDByName( const char *name )
 {
 	for(unsigned int i = 0; i < techniques.size(); i++)
 		if(techniques.at(i)->getName() == name)
@@ -428,27 +444,30 @@ void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
-	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff );
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
 	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
-	immediateContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
-	immediateContext->IASetVertexBuffers( 0, 1, &vBufferStatic, &stride, &offset);
-	immediateContext->PSSetSamplers(0,1,&samplerLinear);
-	immediateContext->IASetInputLayout( simpleInputLayout );
-	immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	immediateContext->RSSetViewports( 1, &viewPort );
+	immediateContext->IASetVertexBuffers(0, 1, &vBufferStatic, &stride, &offset);
+	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
+	immediateContext->IASetInputLayout(simpleInputLayout);
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	immediateContext->RSSetViewports(1, &viewPort);
 	immediateContext->RSSetState(rasterizerBackface);
-	
-	
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw(vertexAmount, startIndex);
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
 {
 	immediateContext->PSSetShaderResources(startSlot,numberofViews,views);
+}
+
+void GraphicsDX11::feedInstanceBuffer( std::vector<PerInstance> perInstance)
+{
+
 }
 
 GraphicsDX11::~GraphicsDX11()
@@ -471,6 +490,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(swapChain);
 
 	SAFE_RELEASE(vBufferStatic);
+	SAFE_RELEASE(uiBufferDynamic);
 	SAFE_RELEASE(vBufferDynamic);
 	SAFE_RELEASE(instBuffer);
 

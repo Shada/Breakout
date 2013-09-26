@@ -3,12 +3,12 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 1024
-#define MAX_HEIGHT 768
+#define MAX_WIDTH 250
+#define MAX_HEIGHT 150
 
 //Temporary, should be a hitbox of sorts for the bricks.
-#define LENGTH 70
-#define HEIGHT 30
+#define LENGTH 5.03898811
+#define HEIGHT 5.03898811
 
 //#include "linearalgebra.h"
 //#include "Object.h"
@@ -108,7 +108,7 @@ namespace Logic
 
 		for(unsigned int i = 0; i < _listOfObjects.size(); i++)
 		{
-			if(Intersects(_ball, _listOfObjects[i]) )
+			if(Intersects(_ball, _listOfObjects[i]))
 			{
 				//Ball collides with object, calculate new direction and return.
 				CalculateCollission(_ball, _listOfObjects[i]);
@@ -120,7 +120,41 @@ namespace Logic
 		return -1;
 	}
 
+	inline void ballCollision(Ball *_ball, Pad *_pad, float currentRotation)
+	{
+		Vec3 tBallPos = _ball->getNextFrame();
+		Vec3 ballDir = _ball->getDirection();
+		Vec3 tObjPos = _pad->getPosition();
+		float tRadius = _ball->getRadius();
 
+		Vec3 padScale = _pad->getScale() * _pad->getRadius();
+
+		float zrot = _pad->getOrientation();
+		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
+		
+		//rotate p1 and p2
+		Matrix rot; rotationAxis(rot, Vec3(0, 0, 1), zrot);
+		p1 = rot * p1;
+		p2 = rot * p2;
+
+		p1 += tObjPos; p2 += tObjPos;
+		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
+		if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x + tRadius * ballDir.x < max(p1.x, p2.x))
+		{
+			float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
+			float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			
+			if(tBallPos.y - tRadius <= yIntersect)
+			{
+				Vec3 padRot = Vec3(cos(zrot + PI / 2), sin(zrot + PI /2), 0);
+				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
+				newDir.normalize();
+				_ball->setDirection(newDir.x, newDir.y);
+			}
+		}
+		// collision ball vs ball
+
+	}
 
 #pragma endregion
 

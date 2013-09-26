@@ -28,7 +28,7 @@ namespace Logic
 	void Brick::draw()
 	{
 		CBWorld cb;
-		cb.world = scalingMatrix(Vec3(10, 10, 10)) * translationMatrix(position);
+		cb.world = scalingMatrix(Vec3(1.5f, 1, 1)) *  translationMatrix(position);
 #ifdef _WIN32
 		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
 		GraphicsDX11::getInstance()->updateCBWorld(cb);
@@ -47,6 +47,4 @@ namespace Logic
 		//remove hitbox;
 		alive = false;
 	}
-
-	
 }
