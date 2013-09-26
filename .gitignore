@@ -8,7 +8,6 @@ Debug/*.*
 Breakout/Debug/*.*
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 
 # Compiled Static libraries
