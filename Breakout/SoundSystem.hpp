@@ -44,7 +44,7 @@ private:
 		//sound[10] = Pad hit
 		//sound[11] = Waves
 		//sound[12] = Wind
-		//sound[13]FINNS EJ ÄN = Eruption
+		//sound[13] = Eruption (fire)
 		//sound[14] = Fire balls
 		//sound[15] = Bumpers
 		//sound[16] = Positive effect activated
