@@ -7,17 +7,16 @@ namespace Logic
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
 	Vec3 Pad::rotMouse = Vec3(0, 0, PI / 2);
 	Vec3 Pad::rotKey = Vec3(0, 0, PI / 2);
+	bool Pad::releaseBall = false;
 	Pad::Pad()
 	{
-		position	= Vec3(0,0,0);
-		rotation	= Vec3(0,0,0);
-		scale		= Vec3(2,5,2);
+		position	= Vec3(0, 0, 0);
+		rotation	= Vec3(0, 0, 0);
+		scale		= Vec3(2, 5, 2);
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
 		radius = 3.09544396f;
-
-		scale = Vec3(2, 5, 2);
 
 		width = radius * scale.y;
 
@@ -62,6 +61,17 @@ namespace Logic
 			rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
 		}
 
+		if(releaseBall && direction.x == 0 && direction.y == 0)
+			_ejectBall();
+		else
+		{
+			ballPos = Vec3(0, 10, 0);
+			Matrix mRot;
+			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
+			ballPos = mRot * ballPos;
+			ballPos += position;
+		}
+
 		if(position.x > 200 || position.x < 0)
 		{
 			position.x = position.x > 200 ? 200 : 0;
@@ -71,20 +81,6 @@ namespace Logic
 		posKey.x = 0;
 	}
 
-//<<<<<<< HEAD
-//	void Pad::draw()
-//	{
-//		CBWorld cb;
-//		cb.world = scalingMatrix(scale) * orientation * translationMatrix(position);
-//#ifdef _WIN32
-//		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
-//		GraphicsDX11::getInstance()->updateCBWorld(cb);
-//#endif // _WIN32
-//		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
-//	}
-//
-//=======
-//>>>>>>> textures
 	void Pad::move2D(double _dt, float _x)
 	{
 		position.x += _x * movementSpeed * (float)_dt;
@@ -127,5 +123,22 @@ namespace Logic
 		rotKey.z -= (float)(2 * PI / 180);
 		if(rotKey.z > 2 * PI)
 			rotKey.z -= (float)(2 * PI);
+	}
+
+	void Pad::ejectBall()
+	{
+		releaseBall = true;
+	}
+
+	void Pad::_ejectBall()
+	{
+		direction = Vec3(1, 1, 0);
+		//direction = Vec3(cos(rotation.z - PI / 2), sin(rotation.z - PI / 2), 0);
+		direction.normalize();
+		/*Matrix mRot;
+		rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
+		direction = Vec3(1, 1, 0);
+		direction = mRot * direction;
+		direction.normalize();*/
 	}
 }

@@ -90,10 +90,11 @@ enum KeyCodes
 enum GameState
 {
 	GAME_MENU = 0,
-	GAME_PLAY = 1
+	GAME_PLAY = 1,
+	GAME_PLAYING = 2
 };
 
 //the game state (found in Resource.h)
-static GameState gameState = GAME_MENU;
+//static GameState gameState = GameState::GAME_PLAY;
 
 #endif // ! _RESOURCE_H_

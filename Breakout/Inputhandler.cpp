@@ -112,6 +112,9 @@ void DInputhandler::updateGame()
 		if(GetAsyncKeyState(pad.keyBindings.at(i).keyCode) != 0)// keyState[pad.keyBindings.at(i).keyCode] & 0x80)
 			pad.keyBindings.at(i).func();
 
+	if(mouseState.rgbButtons[0])
+		pad.pad->ejectBall();
+
 	// These cannot be changed, the mouse will always be one way of controlling the pad
 	if(mouseState.lX != 0)
 		pad.pad->move(mouseState.lX / 4);

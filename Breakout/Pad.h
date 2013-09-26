@@ -15,6 +15,10 @@ namespace Logic
 		int shaderTechniqueID;
 		static Vec3 posKey, posMouse, rotMouse, rotKey;
 		float movementSpeed, angle2D, angle3D;
+		static bool releaseBall;
+		Vec3 direction, ballPos;
+
+		void _ejectBall();
 
 	public:
 		Pad();
@@ -24,6 +28,11 @@ namespace Logic
 		float getOrientation() { return rotation.z - PI / 2; }
 		float getPadRotation() { return rotation.z; }
 		float getWidth() { return width; }
+
+		void setReleaseBall(bool state)		{ releaseBall = state; }
+		bool getReleaseBall()				{ return releaseBall; }
+		Vec3 getDirection()					{ return direction; }
+		Vec3 getBallPos()					{ return ballPos; }
 
 		void update(double dt);
 		void draw();
@@ -38,6 +47,8 @@ namespace Logic
 		static void rotate(int direction);
 		static void rotateRight();
 		static void rotateLeft();
+
+		static void ejectBall();
 	};
 }
 #endif // ! _PAD_H_

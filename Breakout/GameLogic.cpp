@@ -12,7 +12,7 @@ namespace Logic
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
 		soundSystem->Play(1);
-		gameState = GAME_PLAY;
+		//gameState = GameState::GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();
 	}
@@ -20,21 +20,24 @@ namespace Logic
 	void GameLogic::update(double _dt)
 	{
 		soundSystem->Update(_dt);
-		switch(gameState)
+
+		inputHandler->updateGame();
+		gameplay->update(_dt);
+		/*switch(gameState)
 		{
 		case GAME_PLAY:
 		{
-			#ifdef _WIN32
-			inputHandler->updateGame();
-			#endif
-			//std::cout << pad->getPosition().x << std::endl;
-			gameplay->update(_dt);
+			
 			break;
 		}
+		case GAME_PLAYING:
+			inputHandler->updateGame();
+			gameplay->update(_dt);
+			break;
 		case GAME_MENU:
 			inputHandler->updateMenu();
 			break;
-		}
+		}*/
 	}
 
 	GameLogic::~GameLogic()

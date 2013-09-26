@@ -14,6 +14,7 @@ namespace Logic
 		mapLoading = new Map();
 		//tolka Map och skapa object enligt den
 		objectCore = new ObjectCore();
+		play = false;
 
 		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
@@ -29,6 +30,7 @@ namespace Logic
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
 
 		_handler->setPad(objectCore->pad, keys);
 		//inputHandler = handler;
@@ -41,9 +43,29 @@ namespace Logic
 	void Gameplay::update(double _dt)
 	{
 		objectCore->pad->update(_dt);
-		objectCore->ball->update(_dt);
-		camera->update();
+		if(play)
+			objectCore->ball->update(_dt);
 
+		if(objectCore->ball->getPosition().y < 20)
+		{
+			play = false;
+			objectCore->pad->setReleaseBall(false);
+		}
+		if(!play)
+		{
+			if(objectCore->pad->getReleaseBall())
+			{
+				Vec3 dir = objectCore->pad->getDirection();
+				objectCore->ball->setDirection(dir.x, dir.y);
+				
+				play = true;
+			}
+
+			objectCore->ball->setPosition(objectCore->pad->getBallPos());
+			objectCore->ball->updateWorld();
+		}
+
+		camera->update();
 		
 		Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
 
