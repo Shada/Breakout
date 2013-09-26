@@ -23,8 +23,8 @@ void gs( point VS_Input input[1], inout TriangleStream<PS_Input> triStream )
 {
 	PS_Input output = (PS_Input)0;
 
-	float2 pos =  input[0].pos;
-	float2 size = float2(1024,768);
+	float2 pos =  float2( input[0].pos.x, input[0].pos.y );
+	float2 size = float2( input[0].size.x, input[0].size.y );
 	
 	output.pos = float4( pos.x/resolution.x * 2 - 1, pos.y/resolution.y * 2 - 1, 0, 1 );//output.pos = float4( pos, 0, 1 );
 	output.tintAlpha = input[0].tintAlpha;

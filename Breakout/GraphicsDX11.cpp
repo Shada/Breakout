@@ -169,7 +169,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	{
 		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, sizeof(float) * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(float)* 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, sizeof(float) * 6,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	UINT techIndex = getTechIDByName("techSimple");
 	hr = device->CreateInputLayout( simpleLayoutDesc, ARRAYSIZE(simpleLayoutDesc), techniques.at(techIndex)->getInputSignature(),
@@ -546,6 +546,13 @@ void GraphicsDX11::draw()
 	offset = 0;
 
 	immediateContext->RSSetState(rasterizerBackface);
+	
+	D3D11_MAPPED_SUBRESOURCE updateData;
+	ZeroMemory( &updateData, sizeof( updateData ) );
+
+	immediateContext->Map(uiBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &updateData);
+	memcpy( updateData.pData, &objectCore->uiBillboards[0], sizeof(BBUI)* objectCore->uiBillboards.size() );
+    immediateContext->Unmap(uiBufferDynamic, 0);
 
 	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
