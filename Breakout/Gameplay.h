@@ -33,7 +33,6 @@ namespace Logic
 		~Gameplay();
 
 		void update(double dt);
-		void draw();
 	};
 
 }

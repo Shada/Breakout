@@ -10,7 +10,7 @@ Camera::Camera()
 	Matrix proj, projInv;
 	CBOnce cbonce;
 
-	perspectiveLH(proj, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 50, 600);
+	perspectiveLH(proj, (float)(PI * 0.5), float(SCRWIDTH / SCRHEIGHT), 50, 600);
 	cbonce.projection = proj;
 
 	MatrixInversion(projInv, proj);
@@ -52,7 +52,7 @@ void Camera::update()
 {
 	Vec3 up, pos, lookAt, rot;
 	Matrix rotationMatrix;
-	float radianConv = PI/180; //Used to convert from degree to radians
+	float radianConv = (float)(PI/180); //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);

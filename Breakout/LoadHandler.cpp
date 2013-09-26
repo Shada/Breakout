@@ -44,15 +44,14 @@ namespace Resources
 		myfile.close();
 
 
-		myfile.open("Textures/texture.txt");
+		myfile.open("Textures/textures.txt");
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
 			{
-				Texture *tTexture = new Texture();
+				textures.push_back(new Texture());
 				myfile.getline(file,sizeof(myfile));
-				loader->loadTexture(file,tTexture);
-				textures.push_back(tTexture);
+				loader->loadTexture(file,textures.back());
 			}
 		}
 		myfile.close();

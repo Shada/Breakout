@@ -87,4 +87,13 @@ enum KeyCodes
 	KC_Z = 0x5A,
 };
 
+enum GameState
+{
+	GAME_MENU = 0,
+	GAME_PLAY = 1
+};
+
+//the game state (found in Resource.h)
+static GameState gameState = GAME_MENU;
+
 #endif // ! _RESOURCE_H_

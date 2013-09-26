@@ -53,18 +53,6 @@ namespace Logic
 		}
 	}
 
-	void Gameplay::draw()
-	{
-		//Resources::LoadHandler::getInstance()->getModel(ball->getModelID())->draw();
-		objectCore->ball->draw();
-		objectCore->pad->draw();
-
-		for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
-		{
-			objectCore->bricks.at(i)->draw();
-		}
-	}
-
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(camera);

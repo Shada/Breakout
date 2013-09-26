@@ -117,7 +117,9 @@ void DInputhandler::updateGame()
 		pad.pad->move(mouseState.lX / 4);
 
 	if(mouseState.lZ != 0)
-		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+		mouseState.lZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+
+	pad.pad->updateWorld();
 }
 
 void DInputhandler::updateMenu()
@@ -153,7 +155,9 @@ void GLInputhandler::updateGame()
 		pad.pad->move((mouseX - prevMouseX) / 4);
 
 	if(mouseZ != 0)
-		pad.pad->rotate(mouseZ < 0 ? -1 : 1);
+		mouseZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+
+	pad.pad->updateWorld();
 }
 
 void GLInputhandler::updateMenu()

@@ -8,11 +8,15 @@ namespace Logic
 	Brick::Brick(Vec3 _pos)
 	{
 		position = _pos;
+		scale		= Vec3(1,1,1);
+		rotation	= Vec3(0,0,0);
+
 		alive = true;
 
 		#ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 		#endif
+		updateWorld();
 	}
 
 	Brick::~Brick()
@@ -23,17 +27,6 @@ namespace Logic
 	void Brick::update(double _dt)
 	{
 		
-	}
-
-	void Brick::draw()
-	{
-		CBWorld cb;
-		cb.world = scalingMatrix(Vec3(1.5f, 1, 1)) *  translationMatrix(position);
-#ifdef _WIN32
-		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
-		GraphicsDX11::getInstance()->updateCBWorld(cb);
-#endif // _WIN32
-		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
 	}
 
 	void Brick::damage()

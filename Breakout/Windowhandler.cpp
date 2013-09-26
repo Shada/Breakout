@@ -149,7 +149,7 @@ int Winhandler::run()
 
 			g->clearRenderTarget(0.1f,0.05f,0.5f);
 
-			game->draw();
+			g->draw();
 
 			g->presentSwapChain();
 

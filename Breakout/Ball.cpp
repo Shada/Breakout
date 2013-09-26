@@ -8,7 +8,10 @@ namespace Logic
 	
 	Ball::Ball() : Object3D()
 	{
-		position = Vec3(0, 0, 0);
+		scale		= Vec3(1,1,1);
+		position	= Vec3(0,0,0);
+		rotation	= Vec3(0,0,0);
+
 		direction = Vec3(1, 1, 0);
 		radius = 3.09544444f;
 		direction.normalize();
@@ -21,7 +24,6 @@ namespace Logic
 	
 	Ball::~Ball()
 	{
-		
 	}
 	
 	void Ball::update(double _dt)
@@ -29,16 +31,8 @@ namespace Logic
 		//Check for buffs/debuffs here, and apply them
 		position += direction * speed * (float)_dt;
 		nextFrame = position + (direction * speed * (float)_dt);
-	}
-	void Ball::draw()
-	{
-		CBWorld cb;
-		cb.world = translationMatrix(position);
-#ifdef _WIN32
-		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
-		GraphicsDX11::getInstance()->updateCBWorld(cb);
-#endif // _WIN32
-		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
+
+		updateWorld();
 	}
 
 	void Ball::setDirection(float _x, float _y, float _z)

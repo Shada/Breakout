@@ -9,6 +9,9 @@ namespace Logic
 	Vec3 Pad::rotKey = Vec3(0, 0, PI / 2);
 	Pad::Pad()
 	{
+		position	= Vec3(0,0,0);
+		rotation	= Vec3(0,0,0);
+		scale		= Vec3(2,5,2);
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
@@ -40,7 +43,7 @@ namespace Logic
 		}
 		else if(posKey.x != 0)
 		{
-			posMouse.x = position.x += posKey.x * _dt * movementSpeed;
+			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
 		}
 
 		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
@@ -68,17 +71,20 @@ namespace Logic
 		posKey.x = 0;
 	}
 
-	void Pad::draw()
-	{
-		CBWorld cb;
-		cb.world = scalingMatrix(scale) * orientation * translationMatrix(position);
-#ifdef _WIN32
-		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
-		GraphicsDX11::getInstance()->updateCBWorld(cb);
-#endif // _WIN32
-		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
-	}
-
+//<<<<<<< HEAD
+//	void Pad::draw()
+//	{
+//		CBWorld cb;
+//		cb.world = scalingMatrix(scale) * orientation * translationMatrix(position);
+//#ifdef _WIN32
+//		GraphicsDX11::getInstance()->useTechnique(shaderTechniqueID);
+//		GraphicsDX11::getInstance()->updateCBWorld(cb);
+//#endif // _WIN32
+//		Resources::LoadHandler::getInstance()->getModel(modelID)->draw();
+//	}
+//
+//=======
+//>>>>>>> textures
 	void Pad::move2D(double _dt, float _x)
 	{
 		position.x += _x * movementSpeed * (float)_dt;

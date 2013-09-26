@@ -1,6 +1,7 @@
 #include "GameLogic.h"
 #include "LoadHandler.h"
 #include <iostream>
+#include "Resource.h"
 namespace Logic
 {
 	GameLogic::GameLogic(Inputhandler *handler)
@@ -8,14 +9,14 @@ namespace Logic
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler);
 
-		state = GAME_PLAY;
+		gameState = GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();
 	}
 
 	void GameLogic::update(double _dt)
 	{
-		switch(state)
+		switch(gameState)
 		{
 		case GAME_PLAY:
 		{
@@ -27,18 +28,6 @@ namespace Logic
 		}
 		case GAME_MENU:
 			inputHandler->updateMenu();
-			break;
-		}
-	}
-
-	void GameLogic::draw()
-	{
-		switch(state)
-		{
-		case GAME_PLAY:
-			gameplay->draw();
-			break;
-		case GAME_MENU:
 			break;
 		}
 	}
