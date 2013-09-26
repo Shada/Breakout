@@ -9,6 +9,9 @@ namespace Logic
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler);
 
+		soundSystem = new SoundSystem();
+		soundSystem->Initialize();
+		soundSystem->Play(1);
 		gameState = GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();
@@ -16,6 +19,7 @@ namespace Logic
 
 	void GameLogic::update(double _dt)
 	{
+		soundSystem->Update(_dt);
 		switch(gameState)
 		{
 		case GAME_PLAY:
