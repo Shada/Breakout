@@ -52,18 +52,25 @@ namespace Logic
 					//--------
 
 
-					/*cylinderDisplace.x = cos(radHIt) * circleRadie;
-					cylinderDisplace.y = sin(radHIt) * circleRadie;
-					cylinderDisplace.z = 0;*/
-
-					//cylinderDisplace.x = c*displacementX;
-					//cylinderDisplace.y = sin(radHIt) * circleRadie;// + sin(radWIt) * circleRadie;
-					//cylinderDisplace.z = cos(radHIt) * circleRadie;
-
 					cylinderDisplace.x = cos(radHIt) * circleRadie + sin(radWIt) * circleRadie;
 					cylinderDisplace.y = sin(radHIt) * circleRadie + sin(radHIt) * circleRadie;
 					cylinderDisplace.z = cos(radHIt) * circleRadie + cos(radWIt) * circleRadie;
 
+
+
+					cylinderDisplace.x = cos(radHIt) * circleRadie;
+					cylinderDisplace.y = sin(radHIt) * circleRadie;   //  X Y led
+					cylinderDisplace.z = 0;
+
+					//cylinderDisplace.x = c*displacementX;
+					//cylinderDisplace.y = sin(radHIt) * circleRadie;   // Y Z led
+					//cylinderDisplace.z = cos(radHIt) * circleRadie;
+
+					cylinderDisplace.x = cos(radHIt+radWIt) * circleRadie + sin(radWIt) * circleRadie;
+					cylinderDisplace.y = sin(radHIt) * circleRadie + sin(radHIt) * circleRadie;
+					cylinderDisplace.z = cos(radHIt+radWIt) * circleRadie + cos(radWIt) * circleRadie;
+
+				
 					//Creating objects
 					if(c == 0 && r == 0)
 					{
