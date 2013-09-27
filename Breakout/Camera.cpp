@@ -4,7 +4,8 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(75, 75, -150);
+	//position = Vec3(75, 75, -150);
+	position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
 
 	Matrix proj, projInv;

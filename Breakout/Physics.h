@@ -3,8 +3,8 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 250
-#define MAX_HEIGHT 150
+#define MAX_WIDTH 1024
+#define MAX_HEIGHT 768
 
 //Temporary, should be a hitbox of sorts for the bricks.
 #define LENGTH 5.03898811
@@ -127,6 +127,56 @@ namespace Logic
 #pragma region Gravitation
 	//TODO
 #pragma endregion
+
+	/* Calculates where the frustum has its border points at a given distance.
+		Doesn't return anything at this point, check numbers with breakpoints. */
+	inline void calculateCameraBorders(Vec3 _camPos, float _distance, float _aspectRatio)
+	{
+		/* All vectors need to be normalized. */
+		Vec3 up = Vec3(0,1,0);
+		Vec3 right = Vec3(1,0,0);
+		Vec3 view = Vec3(0,0,1);
+
+		float fov = PI/2; // 90 degrees in radians.
+
+		float height = 2 * tan(fov / 2) * _distance;
+		float width = height * _aspectRatio;
+		Vec3 center = _camPos + view * _distance;
+
+		Vec3 topLeft		= center + (up * (height/2)) - (right * (width/2));
+		Vec3 topRight		= center + (up * (height/2)) + (right * (width/2));
+		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
+		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));		
+	}
+
+	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
+	{
+		Vec3 center;
+		
+		center.x = (_topLeft.x + _topRight.x + _bottomLeft.x + _bottomRight.x) * 0.25f;
+		center.y = (_topLeft.y + _topRight.y + _bottomLeft.y + _bottomRight.y) * 0.25f;
+		center.z = (_topLeft.z + _topRight.z + _bottomLeft.z + _bottomRight.z) * 0.25f;
+
+		return center;
+	}
+
+	/* This assumes you get a flat, rectangular plane. */
+	inline Vec3 fitToScreen(Vec3 _targetTopLeft, Vec3 _targetTopRight, Vec3 _targetBottomLeft, Vec3 _targetBottomRight)
+	{
+		Vec3 pCenter = calculateCenter(_targetTopLeft, _targetTopRight, _targetBottomLeft, _targetBottomRight);
+
+		//Since the triangle will be a right triangle, the distance should be equal to half the height of the picture.
+		float distance = fabs(_targetTopRight.y - _targetBottomRight.y) * 0.5f;
+
+		Vec3 planeNormal = cross((_targetTopLeft - _targetTopRight), (_targetBottomLeft - _targetTopRight));
+		planeNormal = normalize(planeNormal);
+
+		Vec3 pos = pCenter - (planeNormal * distance);
+		
+		return pos;
+	}
+
+
 }
 
 #endif // ! _PHYSICS_H_

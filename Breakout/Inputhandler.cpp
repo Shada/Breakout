@@ -133,7 +133,7 @@ DInputhandler::~DInputhandler()
 {
 }
 
-//#else
+#else
 GLInputhandler::GLInputhandler()
 {
 }

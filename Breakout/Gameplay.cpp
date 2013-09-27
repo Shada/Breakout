@@ -11,11 +11,15 @@ namespace Logic
 		ball = new Ball();
 		camera = new Camera();
 
+		camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(DIK_UPARROW, &pad->rotateLeft));
 		keys.push_back(KeyBind(DIK_DOWNARROW, &pad->rotateRight));
 		keys.push_back(KeyBind(DIK_LEFTARROW, &pad->moveLeft));
 		keys.push_back(KeyBind(DIK_RIGHTARROW, &pad->moveRight));
+
+		
 
 		_handler->setPad(pad, keys);
 		//inputHandler = handler;
@@ -23,6 +27,10 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		mapLoading->loadMap(0,&bricks,ball,pad);
+
+		bricks.at(0)->setPosition((Vec3(1024, 768,0)));
+		float ar = 4.0f/3.0f;
+		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.0f/3.0f);
 		
 	}
 
