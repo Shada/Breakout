@@ -66,12 +66,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
-    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
+    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(SolutionDir)/Breakout/FMOD/inc</IncludePath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)/Breakout/FMOD/lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86;$(SolutionDir)/Breakout/FMOD/lib</LibraryPath>
+    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include;$(SolutionDir)/Breakout/FMOD/inc</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,7 +84,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FreeImage.lib;d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;glfw.lib;glew32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FreeImage.lib;d3d11.lib;d3dcompiler.lib;d3dx11.lib;d3dx9d.lib;dxerr.lib;dinput8.lib;dxguid.lib;winmm.lib;comctl32.lib;opengl32.lib;glfw.lib;glew32.lib;kernel32.lib;user32.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -132,10 +136,15 @@
     <ClInclude Include="Inputhandler.h" />
     <ClInclude Include="linearalgebra.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MenuElement.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="ProgramGLSL.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundSystem.hpp" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +155,12 @@
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Inputhandler.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="ObjectCore.cpp" />
     <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="ProgramGLSL.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
     <ClInclude Include="Windowhandler.h" />

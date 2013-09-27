@@ -4,15 +4,21 @@
 #include "Resource.h"
 #include "linearalgebra.h"
 
+//TODO: move back to .cpp, bastard
+#include "GraphicsOGL4.h"
+
 class Camera
 {
 
 private:
-	Vec3	position, 
+	Vec3	position,
 			rotation;
-	
+
 	Matrix	viewMatrix,
-			projectionMatrix;
+            viewInv,
+			projectionMatrix,
+			projectionInv;
+
 
 public:
 	Camera();

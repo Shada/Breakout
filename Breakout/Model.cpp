@@ -13,15 +13,6 @@ Model::~Model()
 {
 }
 
-void Model::draw()
-{
-#ifdef _WIN32
-	GraphicsDX11::getInstance()->draw(startIndex, vertexAmount);
-#else
-	//linux::draw();
-#endif // _WIN32
-}
-
 void Model::addData(Vertex iData)
 {
 	data.push_back(iData);
