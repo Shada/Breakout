@@ -1,6 +1,7 @@
 #include "GameLogic.h"
 #include "LoadHandler.h"
 #include <iostream>
+#include "Resource.h"
 namespace Logic
 {
 	GameLogic::GameLogic(Inputhandler *handler)
@@ -8,39 +9,35 @@ namespace Logic
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler);
 
-		state = GAME_PLAY;
+		soundSystem = new SoundSystem();
+		soundSystem->Initialize();
+		soundSystem->Play(1);
+		//gameState = GameState::GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();
 	}
 
 	void GameLogic::update(double _dt)
 	{
-		switch(state)
+		soundSystem->Update(_dt);
+
+		inputHandler->updateGame();
+		gameplay->update(_dt);
+		/*switch(gameState)
 		{
 		case GAME_PLAY:
 		{
 			
-			inputHandler->updateGame();
-			//std::cout << pad->getPosition().x << std::endl;
-			gameplay->update(_dt);
 			break;
 		}
+		case GAME_PLAYING:
+			inputHandler->updateGame();
+			gameplay->update(_dt);
+			break;
 		case GAME_MENU:
 			inputHandler->updateMenu();
 			break;
-		}
-	}
-
-	void GameLogic::draw()
-	{
-		switch(state)
-		{
-		case GAME_PLAY:
-			gameplay->draw();
-			break;
-		case GAME_MENU:
-			break;
-		}
+		}*/
 	}
 
 	GameLogic::~GameLogic()
@@ -54,5 +51,6 @@ namespace Logic
 		SAFE_DELETE(gameplay);
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
+		SAFE_DELETE(soundSystem);
 	}
 }

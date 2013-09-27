@@ -13,9 +13,6 @@ private:
 public:
 	Model();
 	~Model();
-	
-	/* draw the model */
-	void draw();
 
 	//Lägger till ett nytt värde i slutet på data
 	void addData(Vertex iData);

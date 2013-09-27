@@ -79,6 +79,7 @@ namespace Logic
 					{
 						//Set pad start pos here
 						_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+						_pad->updateWorld();
 						_pad->setModelID(color.rgbBlue);
 						_pad->setTextureID(color.rgbGreen);
 					}
@@ -86,6 +87,7 @@ namespace Logic
 					{
 						//Set ball start pos here
 						_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+						_ball->updateWorld();
 						_ball->setModelID(color.rgbBlue);
 						_ball->setTextureID(color.rgbGreen);
 						_ball->setModelID(2);
@@ -95,9 +97,12 @@ namespace Logic
 					{
 						//Set brick property here
 						Brick *tBrick = new Brick(Vec3(0,0,0));
+
 						tBrick->setPosition(Vec3(cylinderDisplace.x,(float)cylinderDisplace.y,cylinderDisplace.z));
 						
 						//tBrick->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+						tBrick->updateWorld();
+
 						//tBrick.setType(color.rgbRed);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);

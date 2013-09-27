@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "Gameplay.h"
+#include "SoundSystem.hpp"
 #include <functional>
 
 namespace Logic
@@ -14,20 +15,12 @@ namespace Logic
 		//GameplayClass
 		//MenuClass
 		//List of Maps
-
-		enum GameState
-		{
-			GAME_MENU = 0,
-			GAME_PLAY = 1
-		};
-		
+		SoundSystem *soundSystem;
 		Gameplay *gameplay;
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
 		
 		Inputhandler *inputHandler;
-
-		GameState state;
 		
 	public:
 		GameLogic(Inputhandler *handler);

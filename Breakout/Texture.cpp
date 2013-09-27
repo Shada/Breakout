@@ -12,10 +12,11 @@ namespace Resources
 		width = 0;
 		height = 0;
 
-		filePath = 0;
+		filePath = "";
 	}
 
 	Texture::~Texture()
 	{
+
 	}
 }

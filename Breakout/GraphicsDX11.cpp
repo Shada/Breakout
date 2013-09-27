@@ -16,6 +16,7 @@ GraphicsDX11::GraphicsDX11()
 	depthStencilView			= NULL;
 	depthStencilResource		= NULL;
 	blendEnable					= NULL;
+	blendDisable				= NULL;
 	depthStencilStateEnable		= NULL;
 	depthStencilStateDisable	= NULL;
 	rasterizerBackface			= NULL;
@@ -220,7 +221,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
 	/*blendDesc.AlphaToCoverageEnable						= FALSE;
 	blendDesc.IndependentBlendEnable					= FALSE;*/
-	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
+	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
 	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].BlendOp					= D3D11_BLEND_OP_ADD;
@@ -232,6 +233,13 @@ void GraphicsDX11::init(HWND *hWnd)
 	hr = device->CreateBlendState(&blendDesc,&blendEnable);
 	if(FAILED(hr))
 		return;
+
+	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
+
+	hr = device->CreateBlendState(&blendDesc,&blendDisable);
+	if(FAILED(hr))
+		return;
+	
 
 	//create depthstencil states
 	D3D11_DEPTH_STENCIL_DESC depthDesc;
@@ -273,11 +281,12 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	rasterDesc.CullMode = D3D11_CULL_FRONT;
 	hr = device->CreateRasterizerState( &rasterDesc, &rasterizerFrontface );
-
-	initVertexBuffer();
-
 	if(FAILED(hr))
 		return;
+
+	initVertexBuffer();
+	createVBufferUI(100);
+	getTextureArray(&textures);
 }
 
 HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
@@ -346,25 +355,18 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 }
 
 void GraphicsDX11::initVertexBuffer()
+{
+	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+	std::vector<Vertex> vertices;
+	int start = vertices.size();
+	for(unsigned int i = 0; i < loader->getModelSize(); i++)
 	{
-		Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
-		std::vector<Vertex> vertices;
-		int start = vertices.size();
-		for(unsigned int i = 0; i < loader->getModelSize(); i++)
-		{
-			loader->getModel(i)->setStartIndex(start);
-			vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
-			start += loader->getModel(i)->getData()->size();
-		}
-
-	#ifdef _WIN32
-		createVBufferStatic(vertices);
-	#else
-		//linux stuff
-	#endif // _WIN32
-
-		createVBufferStatic(vertices);
+		loader->getModel(i)->setStartIndex(start);
+		vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
+		start += loader->getModel(i)->getData()->size();
 	}
+	createVBufferStatic(vertices);
+}
 
 bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 {
@@ -384,17 +386,17 @@ bool GraphicsDX11::createVBufferStatic( std::vector<Vertex>	vertices )
 
 
 
-bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> PerInstance )
+bool GraphicsDX11::createInstanceBuffer( std::vector<PerInstance> perInstance )
 {
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory( &bd, sizeof(bd) );
 	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof( PerInstance ) * PerInstance.size();
+	bd.ByteWidth = sizeof( PerInstance ) * perInstance.size();
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	D3D11_SUBRESOURCE_DATA initData;
 	ZeroMemory( &initData, sizeof( initData ) );
-	initData.pSysMem = &PerInstance[0];
+	initData.pSysMem = &perInstance[0];
 	if(! createVBuffer(&bd, &initData, &instBuffer) )
 		return false;
 	return true;
@@ -407,8 +409,9 @@ bool GraphicsDX11::createVBufferUI( unsigned int maxSize )
 	bd.Usage = D3D11_USAGE_DYNAMIC;
 	bd.ByteWidth = sizeof( BBUI ) * maxSize;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-	if(! createVBuffer(&bd, NULL, &vBufferStatic) )
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	if(! createVBuffer(&bd, NULL, &uiBufferDynamic) )
 		return false;
 	return true;
 }
@@ -437,27 +440,87 @@ void GraphicsDX11::useTechnique( unsigned int id )
 	techniques.at(id)->useTechnique();
 }
 
-void GraphicsDX11::draw(unsigned int startIndex, unsigned int vertexAmount)
+void GraphicsDX11::draw()
 {
+	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
+	CBWorld cbWorld;
+
+	unsigned int vertexAmount, startIndex, modelID;
+
 	float blendFactor[4];
 	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
-	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
-	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
-	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
+
+	//om
+	immediateContext->OMSetBlendState(blendDisable, blendFactor, 0xffffffff);
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
+	//ia
 	immediateContext->IASetVertexBuffers(0, 1, &vBufferStatic, &stride, &offset);
-	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
-	immediateContext->IASetInputLayout(simpleInputLayout);
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//rs
 	immediateContext->RSSetViewports(1, &viewPort);
 	immediateContext->RSSetState(rasterizerBackface);
 
+	techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
+
+	//--------------------------------------------------------------------------------
+	//                                    Ball(s)
+	//--------------------------------------------------------------------------------
+	cbWorld.world		= objectCore->ball->getWorld();
+	cbWorld.worldInv	= objectCore->ball->getWorldInv();
+	updateCBWorld(cbWorld);
+
+	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
+	immediateContext->IASetInputLayout(simpleInputLayout);
+
+	modelID			= objectCore->ball->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
 	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------
+	//                                     Pad
+	//--------------------------------------------------------------------------------
+
+	cbWorld.world		= objectCore->pad->getWorld();
+	cbWorld.worldInv	= objectCore->pad->getWorldInv();
+	updateCBWorld(cbWorld);
+
+
+	modelID			= objectCore->pad->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
+	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------
+	//                                     bricks
+	//--------------------------------------------------------------------------------
+
+	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	{
+		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
+		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+		updateCBWorld(cbWorld);
+
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
+		modelID				= objectCore->bricks.at(i)->getModelID();
+		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+		startIndex			= lh->getModel( modelID )->getStartIndex();
+
+		immediateContext->Draw(vertexAmount, startIndex);
+	}
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
@@ -481,6 +544,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(depthStencilView);
 	SAFE_RELEASE(depthStencilResource);
 	SAFE_RELEASE(blendEnable);
+	SAFE_RELEASE(blendDisable);
 	SAFE_RELEASE(depthStencilStateEnable);
 	SAFE_RELEASE(depthStencilStateDisable);
 	SAFE_RELEASE(rasterizerBackface);
@@ -497,6 +561,10 @@ GraphicsDX11::~GraphicsDX11()
 	//techniques
 	for(unsigned int i = 0; i < techniques.size(); i++)
 		SAFE_DELETE( techniques.at(i) );
+
+	//textures
+	for(unsigned int i = 0; i < textures.size(); i++)
+		SAFE_RELEASE( textures.at(i) );
 
 	//cbuffers
 	SAFE_RELEASE(cbWorld);
@@ -519,7 +587,7 @@ void GraphicsDX11::getTextureArray(std::vector<ID3D11ShaderResourceView*> *_text
 
 	for(int i = 0; i < loader->getTextureSize();i++)
 	{
-		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), &loadInfo, NULL, &texture, NULL );
+		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), NULL, NULL, &texture, NULL );
 
 		_textureArray->push_back(texture);
 	}

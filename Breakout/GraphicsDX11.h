@@ -8,6 +8,7 @@
 #include "TechniqueHLSL.h"
 #include "LoadHandler.h"
 #include "ObjectCore.h"
+#include "LoadHandler.h"
 
 class GraphicsDX11
 {
@@ -29,6 +30,10 @@ private:
 	/*the dynamic billboard buffer for menu UI*/
 	ID3D11Buffer				*uiBufferDynamic;
 
+	/*---------------------------------------------------------------
+								textures
+	--------------------------------------------------------------*/
+	std::vector<ID3D11ShaderResourceView*> textures;
 
 
 	ID3D11Device				*device;
@@ -68,6 +73,7 @@ private:
 
 	//blendStates
 	ID3D11BlendState			*blendEnable;
+	ID3D11BlendState			*blendDisable;
 
 	//depthStencilStates
 	ID3D11DepthStencilState		*depthStencilStateEnable;
@@ -123,7 +129,7 @@ public:
 	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
 	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
 
-	void	draw(unsigned int startIndex, unsigned int vertexAmount);
+	void	draw();
 
 	void	useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();

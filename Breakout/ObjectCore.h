@@ -8,10 +8,9 @@ namespace Logic
 	{
 	public:
 		ObjectCore();
-
-		Pad *pad;
-		std::vector<Object3D*> bricks;
-		Ball *ball;
+		Pad						*pad;
+		std::vector<Object3D*>	bricks;
+		Ball					*ball;
 
 		~ObjectCore();
 	};

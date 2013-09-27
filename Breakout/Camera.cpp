@@ -1,26 +1,34 @@
 #include "Camera.h"
 #ifdef _WIN32
 #include "GraphicsDX11.h"
+#else
 #endif // _WIN32
 Camera::Camera()
 {
 	position = Vec3(75, 75, -200);
 	rotation = Vec3(0, 0, 0);
 
-	Matrix proj, projInv;
-	CBOnce cbonce;
-
-	perspectiveLH(proj, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 50, 600);
-	cbonce.projection = proj;
-
-	MatrixInversion(projInv, proj);
-	cbonce.projectionInv = projInv;
-	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+#ifndef _WIN32
+    // Send pointers to camera matrices to graphic engine
+    GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
+    GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
+    GraphicsOGL4::getInstance()->updateViewInverseMatrix(&viewInv);
+    GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
+#endif
 
 #ifdef _WIN32
-	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
+	CBOnce cbonce;
+	perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
 #else
-	//send to OpenGL GLSL thingy 
+    perspectiveFovRH(projectionMatrix, PI * 0.5, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
+#endif //_WIN32
+	MatrixInversion(projectionInv, projectionMatrix);
+
+#ifdef _WIN32
+	cbonce.projection = projectionMatrix;
+	cbonce.projectionInv = projectionInv;
+	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }
 
@@ -52,7 +60,7 @@ void Camera::update()
 {
 	Vec3 up, pos, lookAt, rot;
 	Matrix rotationMatrix;
-	float radianConv = PI/180; //Used to convert from degree to radians
+	float radianConv = (float)(PI/180); //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
@@ -71,15 +79,20 @@ void Camera::update()
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
 
+
 	//Translate rotated camera position to location of viewer
 	//lookAt = pos + lookAt;
 
 	//Create view matrix from vectors
+#ifdef _WIN32
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+#else
+    lookAtRH(viewMatrix, lookAt, up, pos);
+#endif // _WIN32
 
-	Matrix viewInv;
 	MatrixInversion(viewInv, viewMatrix);
 
+#ifdef _WIN32
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;
@@ -87,10 +100,8 @@ void Camera::update()
 
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
-#ifdef _WIN32
+
 	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
-#else
-	//Linix send in view shit
 #endif
 }
 

@@ -38,7 +38,7 @@ DInputhandler::DInputhandler(HWND *hWnd)
 								NULL)))
 		return;
 
-	initKeyboard(hWnd);
+	//initKeyboard(hWnd);
 	initMouse(hWnd);
 
 	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
@@ -88,8 +88,8 @@ HRESULT DInputhandler::initMouse(HWND* hWnd)
 
 void DInputhandler::update()
 {
-	for(int i = 0; i < 256; i++)
-		prevKeyState[i] = keyState[i];
+	//for(int i = 0; i < 256; i++)
+	//	prevKeyState[i] = keyState[i];
 
 	prevMouseState = mouseState;
 
@@ -98,10 +98,10 @@ void DInputhandler::update()
 		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 			mouseInput->Acquire();
 
-	result = keyboardInput->GetDeviceState(256, (LPVOID)&keyState);
-	if(FAILED(result))
-		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
-			keyboardInput->Acquire();
+	//result = keyboardInput->GetDeviceState(256, (LPVOID)&keyState);
+	//if(FAILED(result))
+	//	if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+	//		keyboardInput->Acquire();
 }
 
 void DInputhandler::updateGame()
@@ -109,15 +109,20 @@ void DInputhandler::updateGame()
 	update();
 
 	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
-		if(keyState[pad.keyBindings.at(i).keyCode] & 0x80)
+		if(GetAsyncKeyState(pad.keyBindings.at(i).keyCode) != 0)// keyState[pad.keyBindings.at(i).keyCode] & 0x80)
 			pad.keyBindings.at(i).func();
+
+	if(mouseState.rgbButtons[0])
+		pad.pad->ejectBall();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
 	if(mouseState.lX != 0)
-		pad.pad->move(mouseState.lX);
+		pad.pad->move(mouseState.lX / 4);
 
 	if(mouseState.lZ != 0)
-		mouseState.lZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+
+	pad.pad->updateWorld();
 }
 
 void DInputhandler::updateMenu()
@@ -133,7 +138,7 @@ DInputhandler::~DInputhandler()
 {
 }
 
-//#else
+#else
 GLInputhandler::GLInputhandler()
 {
 }
@@ -144,16 +149,19 @@ void GLInputhandler::updateGame()
 	glfwGetMousePos(&mouseX, &mouseY);
 	mouseZ = glfwGetMouseWheel();
 
+
 	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
 		if(glfwGetKey(pad.keyBindings.at(i).keyCode) == GLFW_PRESS)
 			pad.keyBindings.at(i).func();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
-	if(mouseX != 0)
-		pad.pad->move(mouseX);
+	if(mouseX != prevMouseX)
+		pad.pad->move((mouseX - prevMouseX) / 4);
 
 	if(mouseZ != 0)
-		mouseZ < 0 ? pad.pad->rotateLeft() : pad.pad->rotateRight();
+		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+
+	pad.pad->updateWorld();
 }
 
 void GLInputhandler::updateMenu()

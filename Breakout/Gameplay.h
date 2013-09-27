@@ -11,6 +11,7 @@
 #include "ObjectCore.h"
 namespace Logic
 {
+	//GameState gameState;
 	class Gameplay
 	{
 	private:
@@ -24,6 +25,7 @@ namespace Logic
 		//Pad pad;
 		//Ball balls[]
 		ObjectCore *objectCore;
+		bool play;
 		Camera *camera;
 		//TODO:
 		//All logik för spelandet av en bana
@@ -33,7 +35,6 @@ namespace Logic
 		~Gameplay();
 
 		void update(double dt);
-		void draw();
 	};
 
 }
