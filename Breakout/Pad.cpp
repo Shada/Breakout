@@ -61,9 +61,21 @@ namespace Logic
 			rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
 		}
 
-		if(releaseBall && direction.x == 0 && direction.y == 0)
-			_ejectBall();
-		else
+		if(releaseBall)
+		{
+			//direction = Vec3(1, 1, 0);
+			direction = Vec3(cos(rotation.z), sin(rotation.z), 0);
+			direction.normalize();
+			/*Matrix mRot;
+			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
+			direction = Vec3(1, 1, 0);
+			direction = mRot * direction;
+			direction.normalize();*/
+			
+		}
+		
+		
+		if(!releaseBall)
 		{
 			ballPos = Vec3(0, 10, 0);
 			Matrix mRot;
@@ -128,17 +140,5 @@ namespace Logic
 	void Pad::ejectBall()
 	{
 		releaseBall = true;
-	}
-
-	void Pad::_ejectBall()
-	{
-		direction = Vec3(1, 1, 0);
-		//direction = Vec3(cos(rotation.z - PI / 2), sin(rotation.z - PI / 2), 0);
-		direction.normalize();
-		/*Matrix mRot;
-		rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
-		direction = Vec3(1, 1, 0);
-		direction = mRot * direction;
-		direction.normalize();*/
 	}
 }

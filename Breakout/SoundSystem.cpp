@@ -15,6 +15,8 @@ SoundSystem::SoundSystem()
 
 SoundSystem::~SoundSystem()
 {
+	//for(int i = 0; i < 18; i++)
+	
 	//radera Sounds först
 	result = fmodSystem->close();
     result = fmodSystem->release();

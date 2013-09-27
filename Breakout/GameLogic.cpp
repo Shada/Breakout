@@ -51,5 +51,6 @@ namespace Logic
 		SAFE_DELETE(gameplay);
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
+		SAFE_DELETE(soundSystem);
 	}
 }

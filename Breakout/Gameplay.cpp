@@ -46,7 +46,7 @@ namespace Logic
 		if(play)
 			objectCore->ball->update(_dt);
 
-		if(objectCore->ball->getPosition().y < 20)
+		if(objectCore->ball->getPosition().y < 10)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
@@ -59,6 +59,7 @@ namespace Logic
 				objectCore->ball->setDirection(dir.x, dir.y);
 				
 				play = true;
+				objectCore->pad->setReleaseBall(false);
 			}
 
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());

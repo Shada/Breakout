@@ -18,8 +18,6 @@ namespace Logic
 		static bool releaseBall;
 		Vec3 direction, ballPos;
 
-		void _ejectBall();
-
 	public:
 		Pad();
 		~Pad();

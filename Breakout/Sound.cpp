@@ -4,11 +4,11 @@ Sound::Sound()
 {
 	channel = 0;
 	timeLeft = -1000;
+	sound1 = 0;
 }
 
 Sound::~Sound()
 {
-	result = sound1->release();
 }
 
 void Sound::Initialize(FMOD::System *fmodsystem, float vol, char* filename)
