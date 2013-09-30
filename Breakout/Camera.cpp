@@ -1,14 +1,14 @@
 #include "Camera.h"
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
-#endif // _WIN32
+#endif // BAJSAPA
 Camera::Camera()
 {
 	position = Vec3(75, 75, -150);
 	rotation = Vec3(0, 0, 0);
 
-#ifndef _WIN32
+#ifndef BAJSAPA
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
@@ -16,15 +16,15 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	CBOnce cbonce;
 	perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
 #else
     perspectiveFovRH(projectionMatrix, PI * 0.5, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
-#endif //_WIN32
+#endif //BAJSAPA
 	MatrixInversion(projectionInv, projectionMatrix);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
@@ -84,15 +84,15 @@ void Camera::update()
 	//lookAt = pos + lookAt;
 
 	//Create view matrix from vectors
-#ifdef _WIN32
+#ifdef BAJSAPA
 	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
 #else
     lookAtRH(viewMatrix, lookAt, up, pos);
-#endif // _WIN32
+#endif // BAJSAPA
 
 	MatrixInversion(viewInv, viewMatrix);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;

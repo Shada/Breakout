@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include "Resource.h"
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #include <io.h>
 #else
@@ -23,7 +23,7 @@ Windowhandler::~Windowhandler()
 	SAFE_DELETE(game);
 }
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
@@ -209,26 +209,8 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-
-	//temporary triangle model to test drawing
-	std::vector<Vertex> g_vertex_buffer_data;
-	g_vertex_buffer_data.push_back(Vertex(
-	/*v*/	Vec3(-1.f, -1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 0.f)));
-	g_vertex_buffer_data.push_back(Vertex(
-	/*v*/	Vec3(1.f, -1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 1.f)));
-	g_vertex_buffer_data.push_back(Vertex(
-	/*v*/	Vec3(0.f, 1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(0.f, 0.f)));
-
 	double time = 0;
 	timer->Tick();
-
-	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
 
 	do
 	{
@@ -244,7 +226,7 @@ int Linuxhandler::run()
 			//if(is active window
 			game->update(time);
 
-			GraphicsOGL4::getInstance()->draw(startindex, 3);
+			GraphicsOGL4::getInstance()->draw();
 
 			time = 0;
 			// also some updating and shit

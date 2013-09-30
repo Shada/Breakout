@@ -61,7 +61,7 @@ namespace Logic
 		//Compare Y positions
 		if(tBallPos.y + HEIGHT/2 < tObjPos.y || tBallPos.y - HEIGHT/2 > tObjPos.y)
 			tBallDir.y *= -1;
-#ifdef _WIN32
+#ifndef BAJSAPA
 		_ball->setDirection(tBallDir.x, tBallDir.y);
 #else
 		_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
@@ -81,7 +81,7 @@ namespace Logic
 		{
 			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_HEIGHT && tBallDir.x > 0))
 				tBallDir.x *= -1;
-#ifdef _WIN32
+#ifndef BAJSAPA
 			_ball->setDirection(tBallDir.x);
 #else
 			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
@@ -146,10 +146,10 @@ namespace Logic
 
 		p1 += tObjPos; p2 += tObjPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
-		if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x + tRadius * ballDir.x < max(p1.x, p2.x))
+		if(tBallPos.x + tRadius * ballDir.x > std::min(p1.x, p2.x) && tBallPos.x + tRadius * ballDir.x < std::max(p1.x, p2.x))
 		{
 			float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
-			float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			float yIntersect = std::min(p1.y, p2.y) + (std::max(p1.y, p2.y) - std::min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
 			if(tBallPos.y - tRadius <= yIntersect)
 			{

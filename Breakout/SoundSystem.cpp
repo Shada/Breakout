@@ -6,7 +6,7 @@
 SoundSystem::SoundSystem()
 {
 /*
-#ifdef _WIN32
+#ifdef BAJSAPA
 #else
 	//linuxExtraDriverData = new FMOD_LINUX_EXTRADRIVERDATA
 #endif
@@ -26,7 +26,7 @@ void SoundSystem::Initialize()
 {
 	result = FMOD::System_Create(&fmodSystem);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
 #else
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);

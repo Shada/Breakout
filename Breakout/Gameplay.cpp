@@ -1,6 +1,6 @@
 #include "Gameplay.h"
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
@@ -16,7 +16,7 @@ namespace Logic
 		objectCore = new ObjectCore();
 		play = false;
 
-		#ifdef _WIN32
+		#ifdef BAJSAPA
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
@@ -38,6 +38,12 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		mapLoading->loadMap(0,&objectCore->bricks,objectCore->ball,objectCore->pad);
+
+		#ifdef BAJSAPA
+		//GraphicsDX11::getInstance()->setObjectCore(objectCore);
+		#else
+		GraphicsOGL4::getInstance()->initVertexBuffer();
+		#endif
 	}
 
 	void Gameplay::update(double _dt)

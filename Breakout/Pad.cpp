@@ -23,7 +23,7 @@ namespace Logic
 		rotation = rotMouse;
 		rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 #endif
 	}

@@ -1,9 +1,9 @@
 #include "Ball.h"
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // _WIN32
+#endif // BAJSAPA
 
 namespace Logic
 {
@@ -19,7 +19,7 @@ namespace Logic
 		direction.normalize();
 		speed = 100;
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 #endif
 	}
@@ -37,7 +37,7 @@ namespace Logic
 		updateWorld();
 	}
 
-#ifdef _WIN32
+#ifndef BAJSAPA
 	void Ball::setDirection(float _x, float _y, float _z)
 	{
 		if(_x != NULL) direction.x = _x;
@@ -47,10 +47,10 @@ namespace Logic
 #else
     void Ball::setDirection(float _x, float _y, float _z)
     {
-        direction.x = _x;
-        direction.y = _y;
-        direction.z = _z;
+        if(_x != NULL) direction.x = _x;
+        if(_y != NULL) direction.y = _y;
+        if(_z != NULL) direction.z = _z;
     }
-#endif // _WIN32
+#endif // BAJSAPA
 
 }

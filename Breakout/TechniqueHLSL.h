@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#ifdef BAJSAPA
 
 #ifndef _TECHNIQUEHLSL_H_
 #define _TECHNIQUEHLSL_H_
@@ -70,4 +70,4 @@ public:
 
 #endif // ! _TECHNIQUEHLSL_H_
 
-#endif // _WIN32
+#endif // BAJSAPA

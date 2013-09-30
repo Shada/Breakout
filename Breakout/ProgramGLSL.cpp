@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 
 #include "ProgramGLSL.h"
 

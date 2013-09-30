@@ -1,10 +1,10 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#ifdef _WIN32
 #include <fmod.hpp>
+#ifdef BAJSAPA
 #else
-#include <fmodlinux.h>
+//#include <fmodlinux.h>
 #endif
 
 

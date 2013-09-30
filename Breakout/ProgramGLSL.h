@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 
 #ifndef _PROGRAMGLSL_H_
 #define _PROGRAMGLSL_H_
@@ -7,6 +7,7 @@
 #include <vector>
 #include <GL/glew.h>
 #include <GL/glfw.h>
+#include "Resource.h"
 
 struct VSstruct
 {
@@ -31,7 +32,12 @@ class ProgramGLSL
 
         std::string getName() { return name; };
 
-        static void cleanup();
+        static void cleanup()
+		{
+			SAFE_DELETE(vertexShaders);
+			SAFE_DELETE(geometryShaders);
+			SAFE_DELETE(fragmentShaders);
+		};
 
         void useProgram();
         GLuint getProgramID() { return programID; };
@@ -60,4 +66,4 @@ class ProgramGLSL
 
 #endif // ! _PROGRAMGLSL_H_
 
-#endif // ! _WIN32
+#endif // ! BAJSAPA

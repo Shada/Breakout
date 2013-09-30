@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 
 #include "GraphicsOGL4.h"
 #include "Resource.h"
@@ -29,7 +29,7 @@ GraphicsOGL4::GraphicsOGL4()
 	// generate the buffer and store the id in vertexBufferStatic var
 	glGenBuffers(1, &vertexBufferStatic);
 
-	program = new ProgramGLSL("simple", "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/shaders/glsl/vsSimple.glsl", "", "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/shaders/glsl/fsSimple.glsl");
+	program = new ProgramGLSL("simple", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsSimple.glsl", "", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsSimple.glsl");
 
 	//Get blockID for matrices
 	///modelMatrixBlockID = glGetUniformBlockIndex(program->getProgramID(), "ModelMatrixBlock");
@@ -37,11 +37,11 @@ GraphicsOGL4::GraphicsOGL4()
 
 GraphicsOGL4::~GraphicsOGL4()
 {
+	ProgramGLSL::cleanup();
 	// delete stored buffer from opengl
 	glDeleteBuffers(1, &vertexBufferStatic);
 	SAFE_DELETE(program);
 	glDeleteVertexArrays(1, &VertexArrayID);
-
 }
 
 GraphicsOGL4 *GraphicsOGL4::getInstance()
@@ -80,6 +80,74 @@ void GraphicsOGL4::draw(int _startIndex, int _numVerts)
 	glDisableVertexAttribArray(2);
 }
 
+void GraphicsOGL4::draw()
+{
+	unsigned int vertexAmount, startIndex, modelID;
+
+	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
+	Matrix world;
+
+	program->useProgram();
+
+
+	useStandardVertexAttribLayout();
+
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
+
+	//--------------------------------------------------------------------------------
+	//                                    Ball(s)
+	//--------------------------------------------------------------------------------
+
+	world = objectCore->ball->getWorld();
+	updateModelMatrix(&world);
+
+	useMatrices(program->getProgramID());
+
+	modelID = objectCore->ball->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+
+	//--------------------------------------------------------------------------------
+	//                                     Pad
+	//--------------------------------------------------------------------------------
+
+	world		= objectCore->pad->getWorld();
+	updateModelMatrix(&world);
+	
+	useMatrices(program->getProgramID());
+
+	modelID			= objectCore->pad->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+	
+	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	
+	//--------------------------------------------------------------------------------
+	//                                     bricks
+	//--------------------------------------------------------------------------------
+
+	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	{
+		world		= objectCore->bricks.at(i)->getWorld();
+		updateModelMatrix(&world);
+	
+		useMatrices(program->getProgramID());
+
+		modelID				= objectCore->bricks.at(i)->getModelID();
+		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+		startIndex			= lh->getModel( modelID )->getStartIndex();
+
+		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	}
+
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+}
+
 int GraphicsOGL4::feedStaticBufferData(std::vector<Vertex> _vertexpoints)
 {
 	// bind vertex buffer to GPU
@@ -89,6 +157,20 @@ int GraphicsOGL4::feedStaticBufferData(std::vector<Vertex> _vertexpoints)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * _vertexpoints.size(), &_vertexpoints[0], GL_STATIC_DRAW);
 
 	return 0; // will need to be calculated based on how much there are already
+}
+
+void GraphicsOGL4::initVertexBuffer()
+{
+	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+	std::vector<Vertex> vertices;
+	int start = vertices.size();
+	for(unsigned int i = 0; i < loader->getModelSize(); i++)
+	{
+		loader->getModel(i)->setStartIndex(start);
+		vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
+		start += loader->getModel(i)->getData()->size();
+	}
+	feedStaticBufferData(vertices);
 }
 
 int		GraphicsOGL4::getTechIDByName(const char *name)
@@ -173,4 +255,4 @@ void GraphicsOGL4::useMatrices(GLuint _programID)
 
     matrices.model = NULL;
 }
-#endif // !_WIN32
+#endif // !BAJSAPA

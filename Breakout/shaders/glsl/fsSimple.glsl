@@ -7,13 +7,12 @@ in vec3 lightdir_viewspace;
 
 out vec3 color;
 
-//uniform sampler2D textureSampler;
+uniform sampler2D textureSampler;
 //uniform vec3 lightpos;
 
 void main()
 {
     vec3 lightCol = vec3(1, 1, 1);
-    float lightPow = 500000.f;
 
     vec3 diffuseCol = vec3(1.0,0.0,0.0);//texture2D(textureSampler, UV).rgb;
 
@@ -42,7 +41,7 @@ void main()
     // cosine of angle between eyedir and reflection dir, clamped above 0
     float cosalpha = clamp(dot(e, r), 0, 1);
 
-    color = ambientCol + diffuseCol * lightCol * lightPow * costheta / (dist * dist);// + specularCol * lightCol * lightPow * pow(cosalpha, 5)/ (dist * dist);
+    color = ambientCol + diffuseCol * lightCol * costheta;// / (dist * dist);// + specularCol * lightCol * pow(cosalpha, 5)/ (dist * dist);
     //color = vec3(1,0,0);
 
 }

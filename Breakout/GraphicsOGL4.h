@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 
 #ifndef _GRAPHICSOGL4_H_
 #define _GRAPHICSOGL4_H_
@@ -30,12 +30,14 @@ private:
             modelMatrixBlockID; /// This will be used later, when known how it works..
 
 	static GraphicsOGL4 *instance;
+	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	GraphicsOGL4();
 
 public:
 
 	void draw(int startIndex, int numVertices);
+	void draw();
 
 	static GraphicsOGL4 *getInstance();
 
@@ -53,7 +55,8 @@ public:
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
 	void	updateCBWorld(CBWorld cb);
-	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
+
+	void initVertexBuffer();
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();
@@ -72,4 +75,4 @@ public:
 
 #endif // ! _GRAPHICSOGL4_H_
 
-#endif // ! _WIN32
+#endif // ! BAJSAPA

@@ -12,12 +12,12 @@ namespace Resources
 		loader = 0;
 		loader = new Loader();
 		char file[256];
-
-#ifdef _WIN32
         std::ifstream myfile ("Objects/object.txt");
+
+#ifdef BAJSAPA
 #else
-        std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
-#endif // _WIN32
+        //std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
+#endif // BAJSAPA
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
@@ -30,11 +30,11 @@ namespace Resources
 		}
 		myfile.close();
 
-#ifdef _WIN32
 		myfile.open("Maps/map.txt");
+#ifdef BAJSAPA
 #else
-        myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
-#endif // _WIN32
+        //myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
+#endif // BAJSAPA
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
@@ -47,11 +47,11 @@ namespace Resources
 		}
 		myfile.close();
 
-#ifdef _WIN32
 		myfile.open("Textures/textures.txt");
+#ifdef BAJSAPA
 #else
-        myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
-#endif // _WIN32
+       // myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
+#endif // BAJSAPA
 
 		if (myfile.is_open())
 		{

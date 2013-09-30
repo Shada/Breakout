@@ -104,6 +104,9 @@
     <Filter Include="External">
       <UniqueIdentifier>{13af3ad7-1c22-4a64-91dd-acf4f271fdce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GLSL">
+      <UniqueIdentifier>{77573f21-538b-4789-befd-bdf29a3c469b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linearalgebra.h">
@@ -207,5 +210,13 @@
     <CustomBuild Include="shaders\hlsl\vsBBUI.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\glsl\fsSimple.glsl">
+      <Filter>GLSL</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSimple.glsl">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

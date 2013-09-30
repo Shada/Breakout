@@ -5,12 +5,6 @@
 //#include "stdafx.h"
 #include "Sound.h"
 
-#ifdef _WIN32
-#include <fmod.hpp>
-#else
-#include <fmodlinux.h>
-#endif
-
 class SoundSystem
 {
 public:
@@ -53,7 +47,7 @@ private:
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #else
 	//FMOD_LINUX_EXTRADRIVERDATA linuxExtraDriverData; //TODO Hitta rätt data till denna
 #endif
