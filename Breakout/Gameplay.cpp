@@ -56,7 +56,7 @@ namespace Logic
 			if(objectCore->pad->getReleaseBall())
 			{
 				Vec3 dir = objectCore->pad->getDirection();
-				objectCore->ball->setDirection(dir.x, dir.y);
+				objectCore->ball->setDirection(dir.x, dir.y, NULL);
 				
 				play = true;
 				objectCore->pad->setReleaseBall(false);

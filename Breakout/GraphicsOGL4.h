@@ -5,14 +5,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
-#include <gl/glew.h>
-#include <gl/glfw.h>
-#include "GraphicsInterface.h"
-#include "ObjectCore.h"
-=======
 #include <GL/glew.h>
 #include <GL/glfw.h>
+#include "ObjectCore.h"
 #include <vector>
 
 #include "LoadHandler.h"

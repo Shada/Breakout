@@ -153,10 +153,10 @@ namespace Logic
 			
 			if(tBallPos.y - tRadius <= yIntersect)
 			{
-				Vec3 padRot = Vec3(cos(zrot + PI / 2), sin(zrot + PI /2), 0);
+				Vec3 padRot = Vec3(std::cos(zrot + PI / 2), std::sin(zrot + PI /2), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
 				newDir.normalize();
-				_ball->setDirection(newDir.x, newDir.y);
+				_ball->setDirection(newDir.x, newDir.y, NULL);
 			}
 		}
 		// collision ball vs ball

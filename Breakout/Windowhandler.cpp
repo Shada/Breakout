@@ -211,17 +211,19 @@ int Linuxhandler::run()
 {
 
 	//temporary triangle model to test drawing
-	std::vector<Vertex> g_vertex_buffer_data = {
-	/*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
+	std::vector<Vertex> g_vertex_buffer_data;
+	g_vertex_buffer_data.push_back(Vertex(
+	/*v*/	Vec3(-1.f, -1.f, 0.f),
 	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 0.f)),
-	/*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
+	/*t*/   Vec2(1.f, 0.f)));
+	g_vertex_buffer_data.push_back(Vertex(
+	/*v*/	Vec3(1.f, -1.f, 0.f),
 	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 1.f)),
-	/*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
+	/*t*/   Vec2(1.f, 1.f)));
+	g_vertex_buffer_data.push_back(Vertex(
+	/*v*/	Vec3(0.f, 1.f, 0.f),
 	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(0.f, 0.f)),
-	};
+	/*t*/   Vec2(0.f, 0.f)));
 
 	double time = 0;
 	timer->Tick();

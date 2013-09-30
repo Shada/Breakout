@@ -159,7 +159,7 @@ void GLInputhandler::updateGame()
 		pad.pad->move((mouseX - prevMouseX) / 4);
 
 	if(mouseZ != 0)
-		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+		pad.pad->rotate(mouseZ < 0 ? -1 : 1);
 
 	pad.pad->updateWorld();
 }
