@@ -12,8 +12,6 @@ protected:
 public:
 	MenuElement();
 
-	virtual void draw(double dt);
-
 	void updateGraphicsArray( std::vector<BBUI> *bbData );
 
 	~MenuElement();

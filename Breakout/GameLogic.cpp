@@ -7,9 +7,10 @@ namespace Logic
 	GameLogic::GameLogic(Inputhandler *handler)
 	{
 		inputHandler = handler;
-		gameplay = new Gameplay(inputHandler);
 
-		gameState = GAME_PLAY;
+		menu		= new Menu();
+		gameplay	= new Gameplay(inputHandler);
+		gameState	= GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();
 	}

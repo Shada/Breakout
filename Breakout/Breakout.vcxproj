@@ -132,12 +132,14 @@
     <ClInclude Include="Inputhandler.h" />
     <ClInclude Include="linearalgebra.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuElement.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -148,9 +150,11 @@
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Inputhandler.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuElement.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
     <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
     <ClInclude Include="Windowhandler.h" />
