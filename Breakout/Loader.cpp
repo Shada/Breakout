@@ -147,7 +147,7 @@ namespace Resources
 				}
 				i++;
 				j = 0;
-				FaceIndex = atof(temp);
+				FaceIndex = atoi(temp);
 				if(FaceIndex < 0)
 					FaceIndex*=-1;
 				pData.pos = Position.at(FaceIndex-1);
@@ -169,7 +169,7 @@ namespace Resources
 					}
 					i++;
 					j = 0;
-					FaceIndex = atof(temp);
+					FaceIndex = atoi(temp);
 					if(FaceIndex < 0)
 						FaceIndex*=-1;
 					pData.texCoord = TextureCoord.at(FaceIndex-1);
@@ -188,7 +188,7 @@ namespace Resources
 							i++;
 							j++;
 						}
-						FaceIndex = atof(temp);
+						FaceIndex = atoi(temp);
 						if(FaceIndex < 0)
 							FaceIndex*=-1;
 						pData.normal = Normal.at(FaceIndex-1);

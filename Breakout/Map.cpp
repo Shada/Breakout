@@ -9,7 +9,7 @@ namespace Logic
 	void Map::loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad)
 	{
 		//clear the brick vector, not sure if this should be done here
-		for(int i = 0; i < _bricks->size(); i++)
+		for(unsigned int i = 0; i < _bricks->size(); i++)
 			SAFE_DELETE(_bricks->at(i) );
 		_bricks->clear();
 		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(_mapID)->getDib();
