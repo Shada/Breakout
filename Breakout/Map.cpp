@@ -54,6 +54,7 @@ namespace Logic
 							_pad->setModelID(color.rgbBlue);
 							_pad->setTextureID(color.rgbGreen);
 						}
+						_pad->setReleaseBall(false);
 					}
 					else if(color.rgbRed == 2)
 					{

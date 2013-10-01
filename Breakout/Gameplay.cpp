@@ -84,7 +84,7 @@ namespace Logic
 		{
 			SAFE_DELETE(objectCore->bricks.at(collidingObject));
 			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
-			std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+			//std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
 	}
 	void Gameplay::nextMap()
@@ -94,6 +94,7 @@ namespace Logic
 		if(currentMapIndex >= noMaps)
 			currentMapIndex = 0;
 
+		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
 		play = false;
 	}

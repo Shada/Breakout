@@ -1,3 +1,11 @@
-Maps/BorderMap.png
-Maps/Level1.png
-Maps/test1.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
+Maps/test42.png
