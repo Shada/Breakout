@@ -8,6 +8,10 @@ namespace Logic
 
 	void Map::loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad)
 	{
+		//clear the brick vector, not sure if this should be done here
+		for(int i = 0; i < _bricks->size(); i++)
+			SAFE_DELETE(_bricks->at(i) );
+		_bricks->clear();
 		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(_mapID)->getDib();
 
 		if ( pHeightMap )
@@ -40,20 +44,30 @@ namespace Logic
 					}
 					else if(color.rgbRed == 1)
 					{
-						//Set pad start pos here
-						_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
-						_pad->updateWorld();
-						_pad->setModelID(color.rgbBlue);
-						_pad->setTextureID(color.rgbGreen);
+						//if no pad is desired or the pad from the previously loaded map is wanted
+						//this will be null
+						if(_pad != NULL)
+						{
+							//Set pad start pos here
+							_pad->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+							_pad->updateWorld();
+							_pad->setModelID(color.rgbBlue);
+							_pad->setTextureID(color.rgbGreen);
+						}
 					}
 					else if(color.rgbRed == 2)
 					{
-						//Set ball start pos here
-						_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
-						_ball->updateWorld();
-						_ball->setModelID(color.rgbBlue);
-						_ball->setTextureID(color.rgbGreen);
-						_ball->setModelID(2);
+						//if no balls are desired or the pad from the previously loaded map is wanted
+						//this will be null
+						if( _ball != NULL )
+						{
+							//Set ball start pos here
+							_ball->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
+							_ball->updateWorld();
+							_ball->setModelID(color.rgbBlue);
+							_ball->setTextureID(color.rgbGreen);
+							_ball->setModelID(2);
+						}
 
 					}
 					else if(color.rgbRed != 0 && color.rgbRed != 255 )

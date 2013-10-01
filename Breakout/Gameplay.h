@@ -18,6 +18,7 @@ namespace Logic
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
+		int currentMapIndex;
 		Map *mapLoading;
 
 		/* called after all models are initialized */
@@ -29,7 +30,7 @@ namespace Logic
 		Camera *camera;
 		//TODO:
 		//All logik för spelandet av en bana
-
+		void nextMap();
 	public:
 		Gameplay(Inputhandler *&handler);
 		~Gameplay();

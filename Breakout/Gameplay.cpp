@@ -36,8 +36,8 @@ namespace Logic
 		//inputHandler = handler;
 
 		//inputHandler->setCamera(camera, keys);
-
-		mapLoading->loadMap(0,&objectCore->bricks,objectCore->ball,objectCore->pad);
+		currentMapIndex = 0;
+		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
 	}
 
 	void Gameplay::update(double _dt)
@@ -65,11 +65,20 @@ namespace Logic
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			objectCore->ball->updateWorld();
 		}
-
+		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
+		{
+			nextMap();
+		}
+		if(objectCore->bricks.size() == 0)
+		{
+			nextMap();
+		}
 		camera->update();
 		
 		Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
 
+		// check collision between a ball and the bricks, will return the id of any brick the ball has
+		// collided with, if no collision then -1 is returned
 		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
 		if(collidingObject != -1)
 		{
@@ -78,7 +87,16 @@ namespace Logic
 			std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
 	}
+	void Gameplay::nextMap()
+	{
+		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
+		currentMapIndex++;
+		if(currentMapIndex >= noMaps)
+			currentMapIndex = 0;
 
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		play = false;
+	}
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(camera);
