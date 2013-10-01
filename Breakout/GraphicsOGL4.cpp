@@ -34,6 +34,9 @@ GraphicsOGL4::GraphicsOGL4()
 
 	//Get blockID for matrices
 	///modelMatrixBlockID = glGetUniformBlockIndex(program->getProgramID(), "ModelMatrixBlock");
+
+	lh = Resources::LoadHandler::getInstance();
+	textures = getTextures();
 }
 
 GraphicsOGL4::~GraphicsOGL4()
@@ -43,6 +46,9 @@ GraphicsOGL4::~GraphicsOGL4()
 	glDeleteBuffers(1, &vertexBufferStatic);
 	SAFE_DELETE(program);
 	glDeleteVertexArrays(1, &VertexArrayID);
+	for(unsigned int i = 0; i < textures->size(); i++)
+		glDeleteTextures(1, &textures->at(i));
+	SAFE_DELETE(textures);
 }
 
 GraphicsOGL4 *GraphicsOGL4::getInstance()
@@ -90,6 +96,7 @@ void GraphicsOGL4::draw()
 
 	program->useProgram();
 
+	useTexture(6);
 
 	useStandardVertexAttribLayout();
 
@@ -107,6 +114,7 @@ void GraphicsOGL4::draw()
 	updateModelInvTransMatrix(&worldInvTrans);
 
 	useMatrices(program->getProgramID());
+
 
 	modelID = objectCore->ball->getModelID();
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
@@ -189,6 +197,37 @@ void GraphicsOGL4::initVertexBuffer()
 	feedStaticBufferData(vertices);
 }
 
+std::vector<GLuint> *GraphicsOGL4::getTextures()
+{
+	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
+	//bool TextureManager::LoadTexture(const char* filename, const unsigned int texID, GLenum image_format, GLint internal_format, GLint level, GLint border);
+	GLuint gl_texID;
+	std::vector<GLuint> *back = new std::vector<GLuint>();
+
+	for(int i = 0; i < loader->getTextureSize();i++)
+	{
+
+		//generate an OpenGL texture ID for this texture
+		glGenTextures(1, &gl_texID);
+		//bind to the new texture ID
+		glBindTexture(GL_TEXTURE_2D, gl_texID);
+		//store the texture data for OpenGL use
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loader->getTexture(i)->getWidth(), loader->getTexture(i)->getHeight(), 
+					0, GL_RGB, GL_UNSIGNED_BYTE, loader->getTexture(i)->getBits());
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		// Generate mipmaps, by the way.
+		glGenerateMipmap(GL_TEXTURE_2D);
+		back->push_back(gl_texID);
+	}
+	return back;
+}
+
 int		GraphicsOGL4::getTechIDByName(const char *name)
 {
 	return -1;
@@ -222,6 +261,16 @@ void GraphicsOGL4::useStandardVertexAttribLayout()
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+}
+
+void GraphicsOGL4::useTexture(int _index)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
+
+	GLuint texID = glGetUniformLocation(program->getProgramID(), "textureSampler");
+
+	glUniform1i(texID, 0);
 }
 
 void GraphicsOGL4::updateModelMatrix(Matrix *_model)

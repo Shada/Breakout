@@ -14,7 +14,7 @@ void main()
 {
     vec3 lightCol = vec3(1, 1, 1);
 
-    vec3 diffuseCol = vec3(1.0,0.0,0.0);//texture2D(textureSampler, UV).rgb;
+    vec3 diffuseCol = texture2D(textureSampler, UV).rgb;
 
     // these will have to be sent in to the gpu instead
     vec3 ambientCol = vec3(0.1f, 0.1f, 0.1f);

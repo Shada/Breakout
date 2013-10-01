@@ -19,6 +19,8 @@
 class GraphicsOGL4
 {
 private:
+	std::vector<GLuint> *textures;
+
 	Logic::ObjectCore	*objectCore;
 	// static vertex buffer
 	GLuint vertexBufferStatic;
@@ -28,6 +30,8 @@ private:
 	// VAO
 	GLuint  VertexArrayID,
             modelMatrixBlockID; /// This will be used later, when known how it works..
+
+	Resources::LoadHandler *lh;
 
 	static GraphicsOGL4 *instance;
 	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
@@ -50,7 +54,8 @@ public:
 	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
 	int		feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
 	int		getTechIDByName(const char *name);
-	void	useTechnique(unsigned int index);
+	std::vector<GLuint>* getTextures();
+
 	void	draw(unsigned int startIndex, unsigned int vertexAmount);
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
@@ -58,8 +63,6 @@ public:
 
 	void initVertexBuffer();
 
-	/** Using standard vertex layout with Position, normal and texCoord **/
-	void useStandardVertexAttribLayout();
 
 	void updateModelMatrix(Matrix *model);
 	void updateModelInvTransMatrix(Matrix *modelinvtrans);
@@ -70,6 +73,12 @@ public:
 
 	// maybe a little different later, this is temporary
 	void useMatrices(GLuint programID);
+
+	/** Using standard vertex layout with Position, normal and texCoord **/
+	void useStandardVertexAttribLayout();
+
+	void useTechnique(unsigned int index);
+	void useTexture(int index);
 
 	~GraphicsOGL4();
 };
