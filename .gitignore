@@ -5,7 +5,9 @@
 *.sdf
 *.suo
 *.opensdf
-Debug/*.*
+*.exe
+*.ilk
+*.pdb
 Breakout/Debug/*.*
 Breakout/bin/Debug/*
 
