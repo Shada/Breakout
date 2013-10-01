@@ -80,7 +80,7 @@ public:
 class GLInputhandler : public Inputhandler
 {
 private:
-	int mouseX, mouseY;
+	int mouseX, mouseY, prevMouseZ;
 	void update();
 public:
 	GLInputhandler();

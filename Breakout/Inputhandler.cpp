@@ -149,7 +149,6 @@ void GLInputhandler::updateGame()
 	glfwGetMousePos(&mouseX, &mouseY);
 	mouseZ = glfwGetMouseWheel();
 
-
 	for(unsigned int i = 0; i < pad.keyBindings.size(); i++)
 		if(glfwGetKey(pad.keyBindings.at(i).keyCode) == GLFW_PRESS)
 			pad.keyBindings.at(i).func();
@@ -158,10 +157,11 @@ void GLInputhandler::updateGame()
 	if(mouseX != prevMouseX)
 		pad.pad->move((mouseX - prevMouseX) / 4);
 
-	if(mouseZ != 0)
-		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+	if(mouseZ != prevMouseZ)
+		pad.pad->rotate(mouseZ < 0 ? -1 : 1);
 
 	pad.pad->updateWorld();
+	prevMouseZ = mouseZ;
 }
 
 void GLInputhandler::updateMenu()
