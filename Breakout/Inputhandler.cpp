@@ -154,6 +154,9 @@ void GLInputhandler::updateGame()
 			pad.keyBindings.at(i).func();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
+	if(glfwGetKey(GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+		pad.pad->ejectBall();
+
 	if(mouseX != prevMouseX)
 		pad.pad->move((mouseX - prevMouseX) / 4);
 

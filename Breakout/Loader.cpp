@@ -223,7 +223,7 @@ namespace Resources
 		if(*_texture->getFif() == FIF_UNKNOWN)
 			return;
 
-		//check that the plugin has reading capabilities and load the file
+		//check that the plugin has reading c_WIN32bilities and load the file
 		if(FreeImage_FIFSupportsReading(*_texture->getFif()))
 			_texture->setDib(FreeImage_Load(*_texture->getFif(), filename.c_str()));
 		//if the image failed to load, return failure

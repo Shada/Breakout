@@ -25,7 +25,7 @@ namespace Logic
 		//Pad pad;
 		//Ball balls[]
 		ObjectCore *objectCore;
-		bool play;
+		bool play, ballPadCollided;
 		Camera *camera;
 		//TODO:
 		//All logik för spelandet av en bana

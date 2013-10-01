@@ -11,7 +11,6 @@
 #endif
 
 
-
 Windowhandler::Windowhandler()
 {
 	timer = new Timer();
@@ -211,22 +210,22 @@ int Linuxhandler::run()
 {
 
 	//temporary triangle model to test drawing
-	std::vector<Vertex> g_vertex_buffer_data = {
-	/*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 0.f)),
-	/*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(1.f, 1.f)),
-	/*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
-	/*n*/   Vec3(0.f, 0.f, 1.f),
-	/*t*/   Vec2(0.f, 0.f)),
-	};
+	std::vector<Vertex> g_vertex_buffer_data;// = {
+	///*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
+	///*n*/   Vec3(0.f, 0.f, 1.f),
+	///*t*/   Vec2(1.f, 0.f)),
+	///*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
+	///*n*/   Vec3(0.f, 0.f, 1.f),
+	///*t*/   Vec2(1.f, 1.f)),
+	///*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
+	///*n*/   Vec3(0.f, 0.f, 1.f),
+	///*t*/   Vec2(0.f, 0.f)),
+	//};
 
 	double time = 0;
 	timer->Tick();
 
-	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
+	//int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
 
 	do
 	{
@@ -242,7 +241,7 @@ int Linuxhandler::run()
 			//if(is active window
 			game->update(time);
 
-			GraphicsOGL4::getInstance()->draw(startindex, 3);
+			//GraphicsOGL4::getInstance()->draw(startindex, 3);
 
 			time = 0;
 			// also some updating and shit

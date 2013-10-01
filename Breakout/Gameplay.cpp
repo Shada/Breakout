@@ -12,9 +12,9 @@ namespace Logic
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
 		mapLoading = new Map();
-		//tolka Map och skapa object enligt den
+		//tolka Map och sk_WIN32 object enligt den
 		objectCore = new ObjectCore();
-		play = false;
+		play = ballPadCollided = false;
 
 		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
@@ -25,7 +25,7 @@ namespace Logic
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
 
-		camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+		//camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
@@ -46,7 +46,13 @@ namespace Logic
 	{
 		objectCore->pad->update(_dt);
 		if(play)
+		{
 			objectCore->ball->update(_dt);
+			if(!ballPadCollided)
+				ballPadCollided = Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+			else
+				ballPadCollided = false;
+		}
 
 		if(objectCore->ball->getPosition().y < 10)
 		{
@@ -58,7 +64,7 @@ namespace Logic
 			if(objectCore->pad->getReleaseBall())
 			{
 				Vec3 dir = objectCore->pad->getDirection();
-				objectCore->ball->setDirection(dir.x, dir.y);
+				objectCore->ball->setDirection(dir.x, dir.y, 0);
 				
 				play = true;
 				objectCore->pad->setReleaseBall(false);
@@ -70,7 +76,7 @@ namespace Logic
 
 		camera->update();
 		
-		Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+		
 
 		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
 		if(collidingObject != -1)

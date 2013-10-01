@@ -127,11 +127,12 @@ namespace Logic
 		return -1;
 	}
 
-	inline void ballCollision(Ball *_ball, Pad *_pad, float currentRotation)
+	inline bool ballCollision(Ball *_ball, Pad *_pad, float currentRotation)
 	{
 		Vec3 tBallPos = _ball->getNextFrame();
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 tObjPos = _pad->getPosition();
+		Vec3 prevPadPos = _pad->getPrevPos();
 		float tRadius = _ball->getRadius();
 
 		Vec3 padScale = _pad->getScale() * _pad->getRadius();
@@ -139,6 +140,9 @@ namespace Logic
 		float zrot = _pad->getOrientation();
 		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
 		
+		if(min(tObjPos.x, prevPadPos.x) < tBallPos.x && max(tObjPos.x, prevPadPos.x) > tBallPos.x)
+			tObjPos.x = tBallPos.x;
+
 		//rotate p1 and p2
 		Matrix rot; rotationAxis(rot, Vec3(0, 0, 1), zrot);
 		p1 = rot * p1;
@@ -146,20 +150,47 @@ namespace Logic
 
 		p1 += tObjPos; p2 += tObjPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
-		if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x + tRadius * ballDir.x < max(p1.x, p2.x))
+
+		if(max(p1.x, p2.x) - min(p1.x, p2.x) < tRadius * 5)
 		{
-			float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
-			float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
-			
-			if(tBallPos.y - tRadius <= yIntersect)
+			bool collide = false;
+			float dx = (max(p1.x, p2.x) - min(p1.x, p2.x)) / 10, x = min(p1.x, p2.x);
+			float dy = (max(p1.y, p2.y) - min(p1.y, p2.y)) / 10, y = min(p1.y, p2.y);
+			for(int c = 0; c < 11 && !collide; c++)
 			{
-				Vec3 padRot = Vec3(cos(zrot + PI / 2), sin(zrot + PI /2), 0);
+				collide = (x - tBallPos.x) * (x - tBallPos.x) + (y - tBallPos.y) * (y - tBallPos.y) <= tRadius * tRadius;
+				x += dx;
+				y += dy;
+			}
+
+			if(collide)
+			{
+				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
 				newDir.normalize();
-				_ball->setDirection(newDir.x, newDir.y);
+				_ball->setDirection(newDir.x, newDir.y, 0);
+				return true;
+			}
+		}
+		else
+		{
+			if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x - tRadius * ballDir.x < max(p1.x, p2.x))
+			{
+				float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
+				float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			
+				if(tBallPos.y - tRadius <= yIntersect)
+				{
+					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+					Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
+					newDir.normalize();
+					_ball->setDirection(newDir.x, newDir.y, 0);
+					return true;
+				}
 			}
 		}
 		// collision ball vs ball
+		return false;
 
 	}
 
@@ -178,7 +209,7 @@ namespace Logic
 		Vec3 right = Vec3(1,0,0);
 		Vec3 view = Vec3(0,0,1);
 
-		float fov = PI/2; // 90 degrees in radians.
+		float fov = (float)(PI / 2); // 90 degrees in radians.
 
 		float height = 2 * tan(fov / 2) * _distance;
 		float width = height * _aspectRatio;

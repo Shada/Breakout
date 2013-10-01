@@ -11,6 +11,7 @@ namespace Logic
 	Pad::Pad()
 	{
 		position	= Vec3(0, 0, 0);
+		prevPos		= Vec3(0, 0, 0);
 		rotation	= Vec3(0, 0, 0);
 		scale		= Vec3(2, 5, 2);
 		movementSpeed = 1.0f;
@@ -35,6 +36,7 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
+		prevPos = position;
 		if(posMouse.x != position.x)
 		{
 			position.x = posMouse.x;
@@ -63,18 +65,16 @@ namespace Logic
 
 		if(releaseBall)
 		{
-			//direction = Vec3(1, 1, 0);
 			direction = Vec3(cos(rotation.z), sin(rotation.z), 0);
 			direction.normalize();
-			/*Matrix mRot;
-			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
-			direction = Vec3(1, 1, 0);
-			direction = mRot * direction;
-			direction.normalize();*/
-			
 		}
-		
-		
+
+		if(position.x > 200 || position.x < 0)
+		{
+			position.x = position.x > 200 ? 200 : 0;
+			posMouse.x = posKey.x = position.x;
+		}
+
 		if(!releaseBall)
 		{
 			ballPos = Vec3(0, 10, 0);
@@ -82,12 +82,6 @@ namespace Logic
 			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
 			ballPos = mRot * ballPos;
 			ballPos += position;
-		}
-
-		if(position.x > 200 || position.x < 0)
-		{
-			position.x = position.x > 200 ? 200 : 0;
-			posMouse.x = posKey.x = position.x;
 		}
 
 		posKey.x = 0;
