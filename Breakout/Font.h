@@ -1,22 +1,25 @@
 #pragma once
+#include "Resource.h"
 #include <iostream>
-#include <vector>
 #include <fstream>
 class Font
 {
 private:
 	unsigned int imageIndex;
+	unsigned int imageWidth;
+	unsigned int imageHeight;
+	int spacing;
 	struct Character
 	{
-		float posx;
-		float posy;
-		float width;
+		unsigned int posx;  //pixel position.x in font image
+		unsigned int posy;  //pixel position.y in font image
+		unsigned int width; //pixel width in font image
 	};
 	std::vector<Character> characters;
 public:
 	Font();
-	void loadFontSettings(std::string filePath);
-	void loadText(std::string text);
+	void loadFontSettings(const char *filePath);
+	void loadText(std::vector<BBFont> *outData, const char *text);
 	~Font();
 };
 

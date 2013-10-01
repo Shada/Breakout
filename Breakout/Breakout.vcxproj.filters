@@ -67,6 +67,18 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProgramGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -181,6 +193,18 @@
     <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProgramGLSL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\hlsl\vsSimple.fx">
@@ -199,6 +223,15 @@
       <Filter>HLSL\ps</Filter>
     </CustomBuild>
     <CustomBuild Include="shaders\hlsl\vsBBUI.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\gsFont.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psFont.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsFont.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
   </ItemGroup>

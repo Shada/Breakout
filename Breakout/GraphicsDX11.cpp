@@ -238,7 +238,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
 	/*blendDesc.AlphaToCoverageEnable						= FALSE;
 	blendDesc.IndependentBlendEnable					= FALSE;*/
-	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
+	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
 	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].BlendOp					= D3D11_BLEND_OP_ADD;
@@ -303,6 +303,7 @@ void GraphicsDX11::init(HWND *hWnd)
 
 	initVertexBuffer();
 	createVBufferUI(100);
+	getTextureArray(&textures);
 }
 
 HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
@@ -505,6 +506,7 @@ void GraphicsDX11::draw()
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
 	immediateContext->Draw(vertexAmount, startIndex);
 
 	//--------------------------------------------------------------------------------
@@ -515,10 +517,12 @@ void GraphicsDX11::draw()
 	cbWorld.worldInv	= objectCore->pad->getWorldInv();
 	updateCBWorld(cbWorld);
 
+
 	modelID			= objectCore->pad->getModelID();
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
 	immediateContext->Draw(vertexAmount, startIndex);
 
 	//--------------------------------------------------------------------------------
@@ -531,6 +535,7 @@ void GraphicsDX11::draw()
 		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
 		updateCBWorld(cbWorld);
 
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
 		modelID				= objectCore->bricks.at(i)->getModelID();
 		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
 		startIndex			= lh->getModel( modelID )->getStartIndex();
@@ -616,6 +621,10 @@ GraphicsDX11::~GraphicsDX11()
 	for(unsigned int i = 0; i < techniques.size(); i++)
 		SAFE_DELETE( techniques.at(i) );
 
+	//textures
+	for(unsigned int i = 0; i < textures.size(); i++)
+		SAFE_RELEASE( textures.at(i) );
+
 	//cbuffers
 	SAFE_RELEASE(cbWorld);
 	SAFE_RELEASE(cbOnce);
@@ -637,7 +646,7 @@ void GraphicsDX11::getTextureArray(std::vector<ID3D11ShaderResourceView*> *_text
 
 	for(int i = 0; i < loader->getTextureSize();i++)
 	{
-		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), &loadInfo, NULL, &texture, NULL );
+		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), NULL, NULL, &texture, NULL );
 
 		_textureArray->push_back(texture);
 	}

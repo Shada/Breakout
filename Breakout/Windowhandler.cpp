@@ -1,11 +1,11 @@
 #include "Windowhandler.h"
-#include <io.h>
 #include <iostream>
 #include <fcntl.h>
 #include "Resource.h"
 
 #ifdef _WIN32
 #include "GraphicsDX11.h"
+#include <io.h>
 #else
 #include "GraphicsOGL4.h"
 #endif
@@ -27,7 +27,7 @@ Windowhandler::~Windowhandler()
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");
-	
+
 	if(FAILED(initWindow()))
 	{
 		MessageBox(0, "Error initializing window!", 0, 0);
@@ -51,7 +51,7 @@ LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HDC hdc;
 
-	switch (message) 
+	switch (message)
 	{
 	case WM_PAINT:
 		hdc = BeginPaint(_hWnd, &ps);
@@ -73,7 +73,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
 	WNDCLASSEX wcex;
-	wcex.cbSize			= sizeof(WNDCLASSEX); 
+	wcex.cbSize			= sizeof(WNDCLASSEX);
 	wcex.style          = CS_HREDRAW | CS_VREDRAW;
 	wcex.lpfnWndProc    = (WNDPROC)wndProc;
 	wcex.cbClsExtra     = 0;
@@ -89,10 +89,11 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 		return false;
 
 	// Create window
-	hInst				= hInstance; 
+	hInst				= hInstance;
 	RECT rc = { 0, 0, SCRWIDTH, SCRHEIGHT };
+
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-	
+
 	if(!(hWnd = CreateWindow(	"Huvudkrav",
 							"Break yo face! ",
 							WS_OVERLAPPEDWINDOW,
@@ -109,7 +110,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	ShowWindow( hWnd, nCmdShow );
-	
+
 	return true;
 }
 
@@ -208,20 +209,24 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
-	glfwEnable(GLFW_STICKY_KEYS);
 
-	//temporary triangle to test drawing
-	float g_vertex_buffer_data[] = {
-		-1.f, -1.f, 0.f, 
-		1.f, -1.f, 0.f,
-		0.f, 1.f, 0.f,
+	//temporary triangle model to test drawing
+	std::vector<Vertex> g_vertex_buffer_data = {
+	/*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(1.f, 0.f)),
+	/*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(1.f, 1.f)),
+	/*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
+	/*n*/   Vec3(0.f, 0.f, 1.f),
+	/*t*/   Vec2(0.f, 0.f)),
 	};
 
 	double time = 0;
 	timer->Tick();
 
-	int startindex = GraphicsOGL4::getInstance()->feedData(1, g_vertex_buffer_data, 9);
+	int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
 
 	do
 	{
@@ -232,12 +237,12 @@ int Linuxhandler::run()
 		if(time > 1.f / 60)
 		{
 			//clear screen
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			//if(is active window
 			game->update(time);
 
-			GraphicsOGL4::getInstance()->draw(1, startindex, 3);
+			GraphicsOGL4::getInstance()->draw(startindex, 3);
 
 			time = 0;
 			// also some updating and shit
@@ -257,16 +262,17 @@ bool Linuxhandler::initWindow()
 		//print error message to console
 		return false;
 	}
-	
+
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 4); // version 4.3
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
 
 
-	if(!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
 	{
-		// PRINT OUT ERROR MESSAGE
+		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+
 		glfwTerminate();
 		return false;
 	}
@@ -275,14 +281,27 @@ bool Linuxhandler::initWindow()
 	glewExperimental = true; // need this for core profile
 	if(glewInit() != GLEW_OK)
 	{
-		//print error message
+		fprintf(stderr, "Failed to initialize GLEW\n");
 		return false;
 	}
 	glfwSetWindowTitle("Breakout for dummies");
 
+
+	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
+	glfwEnable(GLFW_STICKY_KEYS);
+
 	// dark blue background color
 	glClearColor(0.f, 0.f, .4f, 0.f);
 
+	// enable face culling
+    ///glEnable(GL_CULL_FACE);
+    ///glCullFace(GL_BACK);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glDepthFunc(GL_LESS);
+
+    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
 
 	return true;
 }
@@ -295,10 +314,11 @@ void Linuxhandler::createConsoleLog(const char *winTitle)
 Linuxhandler::~Linuxhandler()
 {
 	glfwCloseWindow();
-	
+
 	GraphicsOGL4 *t = GraphicsOGL4::getInstance();
 
 	SAFE_DELETE(t);
-	//glfwDestroyWindow(hwnd);
+
+	glfwTerminate();
 }
 #endif

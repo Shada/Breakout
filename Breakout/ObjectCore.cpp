@@ -7,6 +7,7 @@ namespace Logic
 	{
 		pad = new Pad();
 		ball = new Ball();
+		testFont = new Font();
 	}
 
 
@@ -16,5 +17,6 @@ namespace Logic
 		SAFE_DELETE(ball);
 		for(unsigned int i = 0; i < bricks.size(); i++)
 			SAFE_DELETE(bricks.at(i));
+		SAFE_DELETE(testFont);
 	}
 }

@@ -30,6 +30,10 @@ private:
 	/*the dynamic billboard buffer for menu UI*/
 	ID3D11Buffer				*uiBufferDynamic;
 
+	/*---------------------------------------------------------------
+								textures
+	--------------------------------------------------------------*/
+	std::vector<ID3D11ShaderResourceView*> textures;
 
 
 	ID3D11Device				*device;

@@ -2,6 +2,7 @@
 #define _TEXTURE_H_
 
 #include "FreeImage.h"
+#include <string>
 
 namespace Resources
 {
@@ -19,7 +20,7 @@ namespace Resources
 		//image width and height
 		unsigned int width, height;
 		/*Data path to the pictures*/
-		char *filePath;
+		std::string filePath;
 
 	public:
 		Texture();
@@ -40,7 +41,7 @@ namespace Resources
 		unsigned int getHeight(){return height;}
 		void setHeight(unsigned int _height){height = _height;}
 
-		char* getFilePath(){return filePath;}
+		const char* getFilePath(){return filePath.c_str();}
 		void setFilePath(char _filePath[256]){filePath = _filePath;}
 	};
 

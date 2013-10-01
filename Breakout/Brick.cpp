@@ -1,6 +1,8 @@
 #include "Brick.h"
 #ifdef _WIN32
 #include "GraphicsDX11.h"
+#else
+#include "GraphicsOGL4.h"
 #endif // _WIN32
 
 namespace Logic
@@ -26,7 +28,7 @@ namespace Logic
 
 	void Brick::update(double _dt)
 	{
-		
+
 	}
 
 	void Brick::damage()

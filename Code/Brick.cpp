@@ -1,9 +1,0 @@
-Brick::Brick()
-{
-
-}
-
-Brick::~Brick()
-{
-
-}

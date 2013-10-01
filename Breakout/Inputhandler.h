@@ -72,8 +72,9 @@ public:
 	void updateGame();
 };
 
-//#else
+#else
 
+#include <GL/glew.h>
 #include <GL/glfw.h>
 
 class GLInputhandler : public Inputhandler

@@ -10,27 +10,34 @@ namespace Logic
 
 		menu		= new Menu();
 		gameplay	= new Gameplay(inputHandler);
-		gameState	= GAME_PLAY;
+		soundSystem = new SoundSystem();
+		soundSystem->Initialize();
+		soundSystem->Play(1);
 
 		Resources::LoadHandler::getInstance();
 	}
 
 	void GameLogic::update(double _dt)
 	{
-		switch(gameState)
+		soundSystem->Update(_dt);
+
+		inputHandler->updateGame();
+		gameplay->update(_dt);
+		/*switch(gameState)
 		{
 		case GAME_PLAY:
 		{
 			
-			inputHandler->updateGame();
-			//std::cout << pad->getPosition().x << std::endl;
-			gameplay->update(_dt);
 			break;
 		}
+		case GAME_PLAYING:
+			inputHandler->updateGame();
+			gameplay->update(_dt);
+			break;
 		case GAME_MENU:
 			inputHandler->updateMenu();
 			break;
-		}
+		}*/
 	}
 
 	GameLogic::~GameLogic()
@@ -44,5 +51,6 @@ namespace Logic
 		SAFE_DELETE(gameplay);
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
+		SAFE_DELETE(soundSystem);
 	}
 }
