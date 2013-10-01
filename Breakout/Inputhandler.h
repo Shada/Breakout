@@ -52,6 +52,9 @@ class DInputhandler : public Inputhandler
 {
 private:
 
+	POINT setMouse;
+	HWND					hWnd;
+
 	LPDIRECTINPUT8			directInput;
 
 	LPDIRECTINPUTDEVICE8	keyboardInput;

@@ -39,7 +39,16 @@ DInputhandler::DInputhandler(HWND *hWnd)
 		return;
 
 	//initKeyboard(hWnd);
+
+	RECT lp;
+	GetWindowRect(*hWnd, &lp);
+	setMouse.x = lp.left + 400;
+	setMouse.y = lp.top + 400;
+	ShowCursor(false);
+	SetCursorPos(setMouse.x, setMouse.y);
 	initMouse(hWnd);
+
+	this->hWnd = *hWnd;
 
 	if(FAILED(mouseInput->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mouseState)))
 		return;
@@ -112,7 +121,7 @@ void DInputhandler::updateGame()
 		if(GetAsyncKeyState(pad.keyBindings.at(i).keyCode) != 0)// keyState[pad.keyBindings.at(i).keyCode] & 0x80)
 			pad.keyBindings.at(i).func();
 
-	if(mouseState.rgbButtons[0])
+	if(mouseState.rgbButtons[0] && !prevMouseState.rgbButtons[0])
 		pad.pad->ejectBall();
 
 	// These cannot be changed, the mouse will always be one way of controlling the pad
@@ -121,6 +130,12 @@ void DInputhandler::updateGame()
 
 	if(mouseState.lZ != 0)
 		pad.pad->rotate(mouseState.lZ < 0 ? -1 : 1);
+
+	RECT r;
+	GetWindowRect(hWnd, &r);
+	setMouse.x = r.left + 400;
+	setMouse.y = r.top + 400;
+	SetCursorPos(setMouse.x, setMouse.y);
 
 	pad.pad->updateWorld();
 }

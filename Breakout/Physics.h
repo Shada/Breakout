@@ -179,7 +179,7 @@ namespace Logic
 				float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
 				float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
-				if(tBallPos.y - tRadius <= yIntersect)
+				if(tBallPos.y - tRadius <= yIntersect && tBallPos.y - tRadius >= yIntersect - 5)
 				{
 					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
 					Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
