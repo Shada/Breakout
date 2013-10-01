@@ -165,7 +165,7 @@ namespace Logic
 
 			if(collide)
 			{
-				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI /2), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
 				newDir.normalize();
 				_ball->setDirection(newDir.x, newDir.y, 0);

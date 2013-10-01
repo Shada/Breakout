@@ -1,2 +1,3 @@
-Maps/BorderMap.png
-Maps/LevelTest.png
+Maps/test1.png
+Maps/test2.png
+Maps/test3.png
