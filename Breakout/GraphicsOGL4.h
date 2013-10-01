@@ -62,6 +62,7 @@ public:
 	void useStandardVertexAttribLayout();
 
 	void updateModelMatrix(Matrix *model);
+	void updateModelInvTransMatrix(Matrix *modelinvtrans);
 	void updateViewMatrix(Matrix *view);
 	void updateViewInverseMatrix(Matrix *viewInverse);
 	void updateProjectionMatrix(Matrix *projection);

@@ -80,7 +80,7 @@ public:
 class GLInputhandler : public Inputhandler
 {
 private:
-	int mouseX, mouseY;
+	int mouseX, mouseY, prevMouseZ;
 	void update();
 public:
 	GLInputhandler();
@@ -90,5 +90,5 @@ public:
 	void updateGame();
 };
 
-#endif // BAJSAPA
+#endif // _WIN32
 #endif // ! _INPUTHANDLER_H_

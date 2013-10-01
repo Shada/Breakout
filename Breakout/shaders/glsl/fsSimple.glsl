@@ -21,7 +21,7 @@ void main()
     vec3 specularCol = vec3(0.3f, 0.3f, 0.3f);
 
     //lightDistance
-    float dist = length(vec3(0,10,-10) - position_modelspace); /// TODO: use lightpos instead
+    float dist = length(vec3(0, 0, 0) - position_modelspace); /// TODO: use lightpos instead
 
     // normal of fragment
     vec3 n = normalize(normal_viewspace);
@@ -41,7 +41,5 @@ void main()
     // cosine of angle between eyedir and reflection dir, clamped above 0
     float cosalpha = clamp(dot(e, r), 0, 1);
 
-    color = ambientCol + diffuseCol * lightCol * costheta;// / (dist * dist);// + specularCol * lightCol * pow(cosalpha, 5)/ (dist * dist);
-    //color = vec3(1,0,0);
-
+    color = ambientCol + diffuseCol * lightCol * costheta;// * 50 / (dist);// + specularCol * lightCol * pow(cosalpha, 5)/ (dist * dist);
 }

@@ -8,6 +8,7 @@ GraphicsOGL4 *GraphicsOGL4::instance = NULL;
 struct Matrices
 {
     Matrix *model;
+	Matrix *modelInvTrans;
     Matrix *view;
     Matrix *viewInverse;
     Matrix *projection;
@@ -85,7 +86,7 @@ void GraphicsOGL4::draw()
 	unsigned int vertexAmount, startIndex, modelID;
 
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
-	Matrix world;
+	Matrix world, worldInvTrans;
 
 	program->useProgram();
 
@@ -101,6 +102,10 @@ void GraphicsOGL4::draw()
 	world = objectCore->ball->getWorld();
 	updateModelMatrix(&world);
 
+	MatrixInversion(worldInvTrans, world);
+
+	updateModelInvTransMatrix(&worldInvTrans);
+
 	useMatrices(program->getProgramID());
 
 	modelID = objectCore->ball->getModelID();
@@ -115,7 +120,14 @@ void GraphicsOGL4::draw()
 
 	world		= objectCore->pad->getWorld();
 	updateModelMatrix(&world);
-	
+
+	worldInvTrans = world;
+	worldInvTrans.transpose();
+
+	MatrixInversion(worldInvTrans, worldInvTrans);
+
+	updateModelInvTransMatrix(&worldInvTrans);
+
 	useMatrices(program->getProgramID());
 
 	modelID			= objectCore->pad->getModelID();
@@ -132,6 +144,10 @@ void GraphicsOGL4::draw()
 	{
 		world		= objectCore->bricks.at(i)->getWorld();
 		updateModelMatrix(&world);
+
+		MatrixInversion(worldInvTrans, world);
+
+		updateModelInvTransMatrix(&worldInvTrans);
 	
 		useMatrices(program->getProgramID());
 
@@ -213,6 +229,11 @@ void GraphicsOGL4::updateModelMatrix(Matrix *_model)
     matrices.model = _model;
 }
 
+void GraphicsOGL4::updateModelInvTransMatrix(Matrix *_modelinvtrans)
+{
+	matrices.modelInvTrans = _modelinvtrans;
+}
+
 void GraphicsOGL4::updateViewMatrix(Matrix *_view)
 {
     matrices.view = _view;
@@ -237,22 +258,36 @@ void GraphicsOGL4::useMatrices(GLuint _programID)
 {
     //this has to be changed.... not good to have to ask for id for every new program...
     // should have shared blocks/buffers
-
-    GLuint matrixID = glGetUniformLocation(_programID, "model");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.model->r[0][0]);
-
-    matrixID = glGetUniformLocation(program->getProgramID(), "view");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.view->r[0][0]);
-
-    matrixID = glGetUniformLocation(program->getProgramID(), "viewinverse");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.viewInverse->r[0][0]);
-
-    matrixID = glGetUniformLocation(program->getProgramID(), "projection");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projection->r[0][0]);
-
-    matrixID = glGetUniformLocation(program->getProgramID(), "projectioninverse");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projectionInverse->r[0][0]);
-
+	GLuint matrixID;
+	if(matrices.model)
+	{
+		matrixID = glGetUniformLocation(_programID, "model");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.model->r[0][0]);
+	}
+	if(matrices.modelInvTrans)
+	{
+		matrixID = glGetUniformLocation(_programID, "modelInvTrans");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.modelInvTrans->r[0][0]);
+	}
+	if(matrices.view)
+	{
+		matrixID = glGetUniformLocation(program->getProgramID(), "view");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.view->r[0][0]);
+	}
+	if(matrices.viewInverse)
+	{
+		matrixID = glGetUniformLocation(program->getProgramID(), "viewinverse");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.viewInverse->r[0][0]);
+	}
+	if(matrices.projection)
+	{
+		matrixID = glGetUniformLocation(program->getProgramID(), "projection");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projection->r[0][0]);
+	}
+	if(matrices.projectionInverse){
+		matrixID = glGetUniformLocation(program->getProgramID(), "projectioninverse");
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projectionInverse->r[0][0]);
+	}
     matrices.model = NULL;
 }
 #endif // !BAJSAPA

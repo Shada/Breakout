@@ -16,15 +16,12 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-#ifdef BAJSAPA
-	CBOnce cbonce;
-	perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
-#else
-    perspectiveFovRH(projectionMatrix, PI * 0.5, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
-#endif //BAJSAPA
+    perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01f, 600.f);
+
 	MatrixInversion(projectionInv, projectionMatrix);
 
 #ifdef BAJSAPA
+	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
@@ -84,11 +81,7 @@ void Camera::update()
 	//lookAt = pos + lookAt;
 
 	//Create view matrix from vectors
-#ifdef BAJSAPA
-	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
-#else
-    lookAtRH(viewMatrix, lookAt, up, pos);
-#endif // BAJSAPA
+    lookAtLH(viewMatrix, lookAt, up, pos);
 
 	MatrixInversion(viewInv, viewMatrix);
 
