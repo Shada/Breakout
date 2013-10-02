@@ -39,6 +39,7 @@ namespace Logic
 		//inputHandler = handler;
 
 		//inputHandler->setCamera(camera, keys);
+
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
 	}
@@ -95,6 +96,10 @@ namespace Logic
 			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 			//std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
+
+		/*static float diff = 0.0f;
+		diff += 0.5f * _dt;
+		objectCore->pad->setPosition(Logic::from2DToCylinder(objectCore->pad->getPosition(), 105, diff, Vec3(105,0,0)));*/
 	}
 	void Gameplay::nextMap()
 	{

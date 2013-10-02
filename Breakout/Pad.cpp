@@ -11,6 +11,7 @@ namespace Logic
 	bool Pad::releaseBall = false;
 	Pad::Pad()
 	{
+
 		position	= Vec3(0, 0, 0);
 		prevPos		= Vec3(0, 0, 0);
 		rotation	= Vec3(0, 0, 0);
@@ -19,10 +20,11 @@ namespace Logic
 		angle2D = 0.0f;
 		angle3D = 0.0f;
 		radius = 3.09544396f;
-
+		
 		width = radius * scale.y;
 
 		rotation = rotMouse;
+
 		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
 
 #ifdef _WIN32
@@ -33,6 +35,12 @@ namespace Logic
 	Pad::~Pad()
 	{
 
+	}
+
+	void Pad::setPosition(Vec3 _pos)
+	{
+		position = _pos;
+		posMouse = _pos;
 	}
 
 	void Pad::update(double _dt)

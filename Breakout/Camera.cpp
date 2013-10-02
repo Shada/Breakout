@@ -19,9 +19,10 @@ Camera::Camera()
 
 #ifdef _WIN32
 	CBOnce cbonce;
+
 	perspectiveFovLH(projectionMatrix, (float)PI * 0.5f, (float)(SCRWIDTH) / SCRHEIGHT, 0.01f, 600.0f);
 #else
-    perspectiveFovRH(projectionMatrix, (float)PI * 0.5f, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
+    perspectiveFovRH(projectionMatrix, (float)PI * 0.5f, (float)SCRWIDTH/SCRHEIGHT, 0.1f, 600.f);
 #endif //_WIN32
 	MatrixInversion(projectionInv, projectionMatrix);
 

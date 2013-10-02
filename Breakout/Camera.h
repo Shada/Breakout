@@ -26,6 +26,7 @@ public:
 
 	void setPosition(Vec3 position);
 	void setRotation(Vec3 rotation);
+	void setYPos(float _y)				{	position.y = _y; }; //For use in waterworld.
 
 	Vec3 getPosition();
 	Vec3 getRotation();
