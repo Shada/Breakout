@@ -373,7 +373,6 @@ namespace Logic
 
 
 #pragma endregion
-
 }
 
 #endif // ! _PHYSICS_H_

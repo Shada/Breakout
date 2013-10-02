@@ -9,18 +9,29 @@
 #include "Physics.h"
 #include "Resource.h"
 #include "ObjectCore.h"
+#include "Water.h"
 namespace Logic
 {
+	
 	//GameState gameState;
 	class Gameplay
 	{
 	private:
+		enum MapType
+		{
+			eTest,
+			eWind,
+			eWater,
+			eFire,
+			eEarth
+		};
+		MapType mapType;
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
 		int currentMapIndex;
 		Map *mapLoading;
-
+		Water *water;
 		/* called after all models are initialized */
 		//Brick bricks[];
 		//Pad pad;

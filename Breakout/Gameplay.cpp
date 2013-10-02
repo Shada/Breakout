@@ -10,7 +10,9 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		mapType = MapType::eWater;
 		mapLoading = new Map();
+		water = NULL;
 		//tolka Map och sk_WIN32 object enligt den
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
@@ -53,6 +55,8 @@ namespace Logic
 		objectCore->testText->updateTextData();
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
+		if(mapType == MapType::eWater)
+			water = new Water(objectCore->pad->getPosition().y);
 	}
 
 	void Gameplay::update(double _dt)
@@ -94,6 +98,16 @@ namespace Logic
 		{
 			nextMap();
 		}
+		if(mapType == MapType::eWater)
+		{
+			water->update(_dt);
+			Vec3 oldPos = camera->getPosition();
+			// should be the pad that follows water level and then camera follows pad?
+			camera->setPosition(Vec3(oldPos.x, water->getWaterLevel(),oldPos.z)); 
+
+			oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,water->getWaterLevel(),oldPos.z));
+		}
 		camera->update();
 		
 		
@@ -121,11 +135,16 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		if(mapType == MapType::eWater)
+		{
+			water = new Water(objectCore->pad->getPosition().y);
+		}
 		play = false;
 	}
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
+		SAFE_DELETE(water);
 	}
 }

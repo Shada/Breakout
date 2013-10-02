@@ -169,6 +169,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
+    <ClInclude Include="Water.h" />
     <ClInclude Include="Windowhandler.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClCompile Include="Windowhandler.cpp" />
   </ItemGroup>
   <ItemGroup>
