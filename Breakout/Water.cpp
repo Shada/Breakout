@@ -5,9 +5,12 @@ Water::Water(float _waterLevel)
 {
 	waterLevel = _waterLevel;
 	paused = false;
+	maxSpeed = 1.f;
+	acceleration = 0.1f;
+	speed = .4f;
+	speedModifier = 1.0f;
+	pausedDuration = 0;
 	pauseFlow(5.f);
-	maxSpeed = 10.f;
-	speed = 4.f;
 }
 
 void Water::update(double _dt)

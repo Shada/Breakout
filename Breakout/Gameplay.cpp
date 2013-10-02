@@ -12,7 +12,7 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
-		mapType = MapType::eWind;
+		mapType = MapType::eWater;
 		mapLoading = new Map();
 		water = NULL;
 		//tolka Map och sk_WIN32 object enligt den
@@ -43,6 +43,8 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
+		if(mapType == MapType::eWater)
+			water = new Water(objectCore->pad->getPosition().y);
 	}
 
 	void Gameplay::update(double _dt)
@@ -86,7 +88,13 @@ namespace Logic
 		}
 		if(mapType == MapType::eWater)
 		{
+			water->update(_dt);
+			Vec3 oldPos = camera->getPosition();
+			// should be the pad that follows water level and then camera follows pad?
+			camera->setPosition(Vec3(oldPos.x, water->getWaterLevel(),oldPos.z)); 
 
+			oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,water->getWaterLevel(),oldPos.z));
 		}
 		camera->update();
 		
