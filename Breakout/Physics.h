@@ -3,8 +3,6 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 210
-#define MAX_HEIGHT 150
 
 //Temporary, should be a hitbox of sorts for the bricks.
 #define LENGTH 5.03898811
@@ -19,6 +17,8 @@
 namespace Logic
 {
 #pragma region Collission
+	static int borderMaxX = 210;
+	static int borderMaxY = 150;
 
 	inline bool Intersects(Ball* _ball, Object3D* _object)
 	{
@@ -47,6 +47,46 @@ namespace Logic
 		return false;
 	}
 
+	inline void edgeCollision(Ball *_ball, Object3D* _object)
+	{
+		Vec3 ballPos = _ball->getNextFrame();
+		Vec3 objPos = _object->getPosition();
+
+		if(abs(objPos.x + LENGTH / 2 - ballPos.x) < abs(objPos.x - LENGTH / 2 - ballPos.x))
+			objPos.x += LENGTH / 2;
+		else
+			objPos.x -= LENGTH / 2;
+
+		if(abs(objPos.y + HEIGHT / 2 - ballPos.y) < abs(objPos.x - HEIGHT / 2 - ballPos.y))
+			objPos.y += HEIGHT / 2;
+		else
+			objPos.y -= HEIGHT / 2;
+
+		Vec3 dir = ballPos - objPos;
+		dir.normalize();
+
+		float cosAngle = dir.dot(Vec3(1, 0, 0));
+
+		if(cosAngle > PI / 2.05 && cosAngle < PI / 1.95)
+		{
+			Vec3 dir = _ball->getDirection() * -1;
+			_ball->setDirection(dir.x, dir.y, NULL);
+			return;
+		}
+		
+		float sinAngle = cosAngle > 0 ?  1 - cosAngle : 1 + cosAngle;
+		Vec2 newDir = Vec2(cosAngle, sinAngle);
+		newDir.normalize();
+
+		if(newDir.x > 0.9 || newDir.y > 0.9)
+		{
+			newDir.x > 0.95 ? newDir.y += 0.25 : newDir.x += 0.25;
+			newDir.normalize();
+		}
+
+		_ball->setDirection(newDir.x, newDir.y, NULL);
+	}
+
 	inline void CalculateCollission(Ball* _ball, Object3D* _object)
 	{
 		Vec3 tBallPos = _ball->getPosition();
@@ -54,18 +94,29 @@ namespace Logic
 		Vec3 tObjPos = _object->getPosition();
 		float tRadius = _ball->getRadius();
 
+		bool alreadyCollided = false;
+
 		//Compare X positions
 		if(tBallPos.x + LENGTH/2 < tObjPos.x || tBallPos.x - LENGTH/2 > tObjPos.x )
+		{
 			tBallDir.x *= -1;
+			alreadyCollided = true;
+		}
 
 		//Compare Y positions
 		if(tBallPos.y + HEIGHT/2 < tObjPos.y || tBallPos.y - HEIGHT/2 > tObjPos.y)
+		{
 			tBallDir.y *= -1;
-#ifdef _WIN32
-		_ball->setDirection(tBallDir.x, tBallDir.y);
-#else
+			if(alreadyCollided)
+			{
+				tBallDir.y *= -1; tBallDir.x *= -1;
+				edgeCollision(_ball, _object);
+				return;
+			}
+
+		}
+
 		_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
-#endif
 	}
 
 	inline bool BorderCollide(Ball* _ball)
@@ -77,22 +128,19 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > MAX_WIDTH)
+		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > borderMaxX)
 		{
-			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_HEIGHT && tBallDir.x > 0))
+			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxY && tBallDir.x > 0))
 				tBallDir.x *= -1;
-#ifdef _WIN32
-			_ball->setDirection(tBallDir.x);
-#else
+
 			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
-#endif
 			collides = true;
 		}
 
 		//Compare Y
-		if(tBallPos.y - tRadius < 0 || tBallPos.y + tRadius > MAX_HEIGHT)
+		if(tBallPos.y - tRadius < 0 || tBallPos.y + tRadius > borderMaxY)
 		{
-			if((tBallPos.y - tRadius < 0 && tBallDir.y < 0) || (tBallPos.y + tRadius > MAX_HEIGHT && tBallDir.y > 0))
+			if((tBallPos.y - tRadius < 0 && tBallDir.y < 0) || (tBallPos.y + tRadius > borderMaxY && tBallDir.y > 0))
 				tBallDir.y *= -1;
 			_ball->setDirection(NULL, tBallDir.y, NULL);
 			collides = true;
@@ -140,7 +188,7 @@ namespace Logic
 		float zrot = _pad->getOrientation();
 		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
 		
-		if(min(tObjPos.x, prevPadPos.x) < tBallPos.x && max(tObjPos.x, prevPadPos.x) > tBallPos.x)
+		if(_min(tObjPos.x, prevPadPos.x) < tBallPos.x && _max(tObjPos.x, prevPadPos.x) > tBallPos.x)
 			tObjPos.x = tBallPos.x;
 
 		//rotate p1 and p2
@@ -151,11 +199,11 @@ namespace Logic
 		p1 += tObjPos; p2 += tObjPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
 
-		if(max(p1.x, p2.x) - min(p1.x, p2.x) < tRadius * 5)
+		if(_max(p1.x, p2.x) - _min(p1.x, p2.x) < tRadius * 5)
 		{
 			bool collide = false;
-			float dx = (max(p1.x, p2.x) - min(p1.x, p2.x)) / 10, x = min(p1.x, p2.x);
-			float dy = (max(p1.y, p2.y) - min(p1.y, p2.y)) / 10, y = min(p1.y, p2.y);
+			float dx = (_max(p1.x, p2.x) - _min(p1.x, p2.x)) / 10, x = _min(p1.x, p2.x);
+			float dy = (_max(p1.y, p2.y) - _min(p1.y, p2.y)) / 10, y = _min(p1.y, p2.y);
 			for(int c = 0; c < 11 && !collide; c++)
 			{
 				collide = (x - tBallPos.x) * (x - tBallPos.x) + (y - tBallPos.y) * (y - tBallPos.y) <= tRadius * tRadius;
@@ -174,10 +222,10 @@ namespace Logic
 		}
 		else
 		{
-			if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x - tRadius * ballDir.x < max(p1.x, p2.x))
+			if(tBallPos.x + tRadius * ballDir.x > _min(p1.x, p2.x) && tBallPos.x - tRadius * ballDir.x < _max(p1.x, p2.x))
 			{
 				float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
-				float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
 				if(tBallPos.y - tRadius <= yIntersect && tBallPos.y - tRadius >= yIntersect - 5)
 				{
@@ -218,7 +266,10 @@ namespace Logic
 		Vec3 topLeft		= center + (up * (height/2)) - (right * (width/2));
 		Vec3 topRight		= center + (up * (height/2)) + (right * (width/2));
 		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
-		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));		
+		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));
+
+		borderMaxX = (int)topRight.x;
+		borderMaxY = (int)topRight.y;
 	}
 
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
@@ -238,7 +289,7 @@ namespace Logic
 		Vec3 pCenter = calculateCenter(_targetTopLeft, _targetTopRight, _targetBottomLeft, _targetBottomRight);
 
 		//Since the triangle will be a right triangle, the distance should be equal to half the height of the picture.
-		float distance = fabs(_targetTopRight.y - _targetBottomRight.y) * 0.5f;
+		float distance = fabs(_targetTopLeft.x - _targetBottomRight.x) * 0.5f;
 
 		Vec3 planeNormal = cross((_targetTopLeft - _targetTopRight), (_targetBottomLeft - _targetTopRight));
 		planeNormal = normalize(planeNormal);

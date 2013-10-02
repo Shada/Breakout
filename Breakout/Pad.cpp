@@ -1,5 +1,6 @@
 #include "Pad.h"
 #include "GraphicsDX11.h"
+#include "Physics.h"
 
 namespace Logic
 {
@@ -69,15 +70,9 @@ namespace Logic
 			direction.normalize();
 		}
 
-		if(position.x > 200 || position.x < 0)
+		if(position.x > Logic::borderMaxX || position.x < 0)
 		{
-			position.x = position.x > 200 ? 200 : 0;
-			posMouse.x = posKey.x = position.x;
-		}
-
-		if(position.x > 200 || position.x < 0)
-		{
-			position.x = position.x > 200.0f ? 200.0f : 0.0f;
+			position.x = position.x > Logic::borderMaxX ? Logic::borderMaxX : 0.f;
 			posMouse.x = posKey.x = position.x;
 		}
 
