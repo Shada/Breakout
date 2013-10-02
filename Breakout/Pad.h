@@ -19,7 +19,7 @@ namespace Logic
 		Vec3 direction, ballPos;
 
 		int activeEffect; //0 = nothing, 1 = stun, 2 = slow, 3 = speed
-		float effectTimer, effectAcceleration;
+		float effectTimer, effectAcceleration, effectRotation;
 
 	public:
 		Pad();

@@ -37,15 +37,18 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
-		if(posMouse.x != position.x)
-		{
-			position.x = posMouse.x;
-			posKey.x = 0;
-		}
-		else if(posKey.x != 0)
+		if(posKey.x != 0)
 		{
 			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
 		}
+		else if(posMouse.x != position.x)
+		{
+			if (posMouse.x > position.x + 1)
+				 position.x += 150  * (float)_dt * movementSpeed;
+			else if(posMouse.x < position.x - 1)
+				 position.x += -150  * (float)_dt * movementSpeed;
+		}
+		
 
 		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
 		{
@@ -107,6 +110,7 @@ namespace Logic
 			if(movementSpeed > 1.0f)
 			{
 				movementSpeed = 1.0f;
+				effectRotation = 0.4;
 				activeEffect = 0;
 			}
 		} 
@@ -153,6 +157,7 @@ namespace Logic
 			activeEffect = 1;
 			movementSpeed = 0.3;
 			effectAcceleration = 0.1;
+			effectRotation = 0.4;
 		}
 	}
 	

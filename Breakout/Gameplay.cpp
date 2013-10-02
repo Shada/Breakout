@@ -87,25 +87,32 @@ namespace Logic
 		if (temptest != 0)
 		{
 			std::cout << "effect started" << std::endl;
-			if (temptest == 2)
+			if (temptest == 1) //Zapper
+			{
+				//starta förvanande effect och timer
+				//sen ljud och stun
+				objectCore->pad->startStun();
+				soundSystem->Play(6);
+			}
+			else if (temptest == 2) //Wind
 			{
 				objectCore->ball->startWind();
-				soundSystem->Play(12, 0);
+				soundSystem->Play(12, 0.5);
 			}
-			else if (temptest == 7)
+			else if (temptest == 7)//Speed
 			{
 				objectCore->pad->startSpeed();
 				soundSystem->Play(16);
 			}
-			else if (temptest == 8)
+			else if (temptest == 8)//Slow
 			{
 				objectCore->pad->startSlow();
 				soundSystem->Play(17);
 			}
-			else if (temptest == 15)
+			else if (temptest == 15)//Stun
 			{
 				objectCore->pad->startStun();
-				soundSystem->Play(17);
+				soundSystem->Play(6);
 			}
 		}
 	}
