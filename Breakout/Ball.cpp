@@ -15,9 +15,9 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		direction = Vec3(1, 1, 0);
-		radius = 3.09544444f;
+		radius = 3.09543991;
 		direction.normalize();
-		speed = 100;
+		speed = 200;
 
 #ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");

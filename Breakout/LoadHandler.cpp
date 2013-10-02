@@ -30,6 +30,15 @@ namespace Resources
 		}
 		myfile.close();
 
+		std::vector<Vertex> *ve = models.at(1)->getData();
+		float ymax = -1, ymin = 1;
+		for(int c = 0; c < ve->size(); c++)
+		{
+			if(ve->at(c).pos.y < ymin)	ymin = ve->at(c).pos.y;
+			if(ve->at(c).pos.y > ymax)	ymax = ve->at(c).pos.y;
+		}
+
+
 #ifdef _WIN32
 		myfile.open("Maps/map.txt");
 #else

@@ -585,7 +585,7 @@ void GraphicsDX11::getTextureArray(std::vector<ID3D11ShaderResourceView*> *_text
 	loadInfo.BindFlags = D3D10_BIND_SHADER_RESOURCE;
 	loadInfo.Format = DXGI_FORMAT_BC1_UNORM;
 
-	for(int i = 0; i < loader->getTextureSize();i++)
+	for(unsigned int i = 0; i < loader->getTextureSize();i++)
 	{
 		D3DX11CreateShaderResourceViewFromFile( device, loader->getTexture(i)->getFilePath(), NULL, NULL, &texture, NULL );
 

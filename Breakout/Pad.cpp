@@ -1,16 +1,21 @@
 #include "Pad.h"
+#include "GraphicsDX11.h"
+#include "Physics.h"
 
 namespace Logic
 {
 	Vec3 Pad::posKey = Vec3(0, 0, 0);
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
-	Vec3 Pad::rotMouse = Vec3(0, 0, PI / 2);
-	Vec3 Pad::rotKey = Vec3(0, 0, PI / 2);
+	Vec3 Pad::rotMouse = Vec3(0, 0, (float)PI / 2);
+	Vec3 Pad::rotKey = Vec3(0, 0, (float)PI / 2);
 	bool Pad::releaseBall = false;
 	Pad::Pad()
 	{
+
+		position	= Vec3(0, 0, 0);
+		prevPos		= Vec3(0, 0, 0);
 		rotation	= Vec3(0, 0, 0);
-		scale		= Vec3(2, 5, 2);
+		scale		= Vec3(2.0f, 5.0f, 2.0f);
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
@@ -19,7 +24,12 @@ namespace Logic
 		width = radius * scale.y;
 
 		rotation = rotMouse;
-		rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
+
+		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
+
+#ifdef _WIN32
+		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
+#endif
 	}
 
 	Pad::~Pad()
@@ -35,6 +45,7 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
+		prevPos = position;
 		if(posMouse.x != position.x)
 		{
 			position.x = posMouse.x;
@@ -66,21 +77,26 @@ namespace Logic
 			direction = Vec3(cos(rotation.z), sin(rotation.z), 0);
 			direction.normalize();
 		}
-		
-		
-		if(!releaseBall)
-		{
-			ballPos = Vec3(0, 10, 0);
-			Matrix mRot;
-			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
-			ballPos = mRot * ballPos;
-			ballPos += position;
-		}
 
 		if(position.x > 200 || position.x < 0)
 		{
 			position.x = position.x > 200 ? 200 : 0;
 			posMouse.x = posKey.x = position.x;
+		}
+
+		if(position.x > 200 || position.x < 0)
+		{
+			position.x = position.x > 200.0f ? 200.0f : 0.0f;
+			posMouse.x = posKey.x = position.x;
+		}
+
+		if(!releaseBall)
+		{
+			ballPos = Vec3(0, 10, 0);
+			Matrix mRot;
+			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - (float)PI / 2);
+			ballPos = mRot * ballPos;
+			ballPos += position;
 		}
 
 		posKey.x = 0;
