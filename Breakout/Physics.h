@@ -49,15 +49,15 @@ namespace Logic
 		Vec3 ballPos = _ball->getNextFrame();
 		Vec3 objPos = _object->getPosition();
 
-		if(abs(objPos.x + LENGTH / 2 - ballPos.x) < abs(objPos.x - LENGTH / 2 - ballPos.x))
-			objPos.x += LENGTH / 2;
+		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
+			objPos.x += (float)LENGTH / 2;
 		else
-			objPos.x -= LENGTH / 2;
+			objPos.x -= (float)LENGTH / 2;
 
-		if(abs(objPos.y + HEIGHT / 2 - ballPos.y) < abs(objPos.x - HEIGHT / 2 - ballPos.y))
-			objPos.y += HEIGHT / 2;
+		if(abs(objPos.y + (float)HEIGHT / 2 - ballPos.y) < abs(objPos.x - (float)HEIGHT / 2 - ballPos.y))
+			objPos.y += (float)HEIGHT / 2;
 		else
-			objPos.y -= HEIGHT / 2;
+			objPos.y -= (float)HEIGHT / 2;
 
 		Vec3 dir = ballPos - objPos;
 		dir.normalize();
@@ -309,11 +309,11 @@ namespace Logic
 	{
 		Vec3 result;
 
-		float diff = _pos.x/(float)MAX_WIDTH;
+		float diff = _pos.x/(float)borderMaxX;
 		
-		result.x = _cylCenter.x + _radius * sinf( diff * 2 * PI);
+		result.x = _cylCenter.x + _radius * sinf( diff * 2 * (float)PI);
 		result.y = _cylCenter.y + _pos.y;
-		result.z = _cylCenter.z + _radius * cosf( diff * 2 * PI);
+		result.z = _cylCenter.z + _radius * cosf( diff * 2 * (float)PI);
 
 		return result;
 	}
