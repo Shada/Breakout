@@ -1,5 +1,6 @@
 #include "Gameplay.h"
 
+
 #ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
@@ -11,7 +12,9 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		mapType = MapType::eWind;
 		mapLoading = new Map();
+		water = NULL;
 		//tolka Map och sk_WIN32 object enligt den
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
@@ -81,6 +84,10 @@ namespace Logic
 		{
 			nextMap();
 		}
+		if(mapType == MapType::eWater)
+		{
+
+		}
 		camera->update();
 		
 		
@@ -104,11 +111,16 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		if(mapType == MapType::eWater)
+		{
+			water = new Water(objectCore->pad->getPosition().y);
+		}
 		play = false;
 	}
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
+		SAFE_DELETE(water);
 	}
 }
