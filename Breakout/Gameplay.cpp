@@ -28,7 +28,8 @@ namespace Logic
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
 
-		//camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
+		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
@@ -41,6 +42,7 @@ namespace Logic
 		//inputHandler = handler;
 
 		//inputHandler->setCamera(camera, keys);
+
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
 		if(mapType == MapType::eWater)
@@ -59,7 +61,7 @@ namespace Logic
 				ballPadCollided = false;
 		}
 
-		if(objectCore->ball->getPosition().y < 10)
+		if(objectCore->ball->getPosition().y < 0)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
@@ -109,6 +111,10 @@ namespace Logic
 			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 			//std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
+
+		/*static float diff = 0.0f;
+		diff += 0.5f * _dt;
+		objectCore->pad->setPosition(Logic::from2DToCylinder(objectCore->pad->getPosition(), 105, diff, Vec3(105,0,0)));*/
 	}
 	void Gameplay::nextMap()
 	{

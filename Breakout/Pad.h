@@ -22,6 +22,7 @@ namespace Logic
 		Pad();
 		~Pad();
 
+		void setPosition(Vec3 pos);
 		float getRadius() { return radius; }
 		float getOrientation() { return rotation.z - (float)(PI / 2); }
 		float getPadRotation() { return rotation.z; }
