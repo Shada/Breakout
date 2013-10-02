@@ -58,6 +58,14 @@ LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		EndPaint(_hWnd, &ps);
 		break;
 
+	case WM_KEYDOWN:
+		switch(wParam)
+		{
+		case VK_ESCAPE:
+			PostQuitMessage(0);
+			break;
+		}
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

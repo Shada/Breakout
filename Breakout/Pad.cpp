@@ -1,5 +1,4 @@
 #include "Pad.h"
-#include "GraphicsDX11.h"
 
 namespace Logic
 {
@@ -10,27 +9,28 @@ namespace Logic
 	bool Pad::releaseBall = false;
 	Pad::Pad()
 	{
-		position	= Vec3(0, 0, 0);
 		rotation	= Vec3(0, 0, 0);
 		scale		= Vec3(2, 5, 2);
 		movementSpeed = 1.0f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
 		radius = 3.09544396f;
-
+		
 		width = radius * scale.y;
 
 		rotation = rotMouse;
 		rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
-
-#ifdef _WIN32
-		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
-#endif
 	}
 
 	Pad::~Pad()
 	{
 
+	}
+
+	void Pad::setPosition(Vec3 _pos)
+	{
+		position = _pos;
+		posMouse = _pos;
 	}
 
 	void Pad::update(double _dt)
@@ -63,15 +63,8 @@ namespace Logic
 
 		if(releaseBall)
 		{
-			//direction = Vec3(1, 1, 0);
 			direction = Vec3(cos(rotation.z), sin(rotation.z), 0);
 			direction.normalize();
-			/*Matrix mRot;
-			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - PI / 2);
-			direction = Vec3(1, 1, 0);
-			direction = mRot * direction;
-			direction.normalize();*/
-			
 		}
 		
 		

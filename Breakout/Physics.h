@@ -3,9 +3,8 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 210
-#define MAX_HEIGHT 150
-
+#define MAX_WIDTH 300
+#define MAX_HEIGHT 200
 //Temporary, should be a hitbox of sorts for the bricks.
 #define LENGTH 5.03898811
 #define HEIGHT 5.03898811
@@ -178,16 +177,22 @@ namespace Logic
 		Vec3 right = Vec3(1,0,0);
 		Vec3 view = Vec3(0,0,1);
 
+		float distance = fabs(_distance);
+
 		float fov = PI/2; // 90 degrees in radians.
 
-		float height = 2 * tan(fov / 2) * _distance;
-		float width = height * _aspectRatio;
-		Vec3 center = _camPos + view * _distance;
+		/*float height = 2 * tan(fov / 2) * distance;
+		float width = height * _aspectRatio;*/
+		float width = 2 * tan(fov / 2) * distance * _aspectRatio;
+		float height = width / _aspectRatio;
+		Vec3 center = _camPos + view * distance;
 
 		Vec3 topLeft		= center + (up * (height/2)) - (right * (width/2));
 		Vec3 topRight		= center + (up * (height/2)) + (right * (width/2));
 		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
-		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));		
+		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));	
+
+		int i = 42;
 	}
 
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
@@ -202,12 +207,13 @@ namespace Logic
 	}
 
 	/* This assumes you get a flat, rectangular plane. */
-	inline Vec3 fitToScreen(Vec3 _targetTopLeft, Vec3 _targetTopRight, Vec3 _targetBottomLeft, Vec3 _targetBottomRight)
+	inline Vec3 fitToScreen(Vec3 _targetTopLeft, Vec3 _targetTopRight, Vec3 _targetBottomLeft, Vec3 _targetBottomRight, float _aspectRatio = (4.f/3.f))
 	{
 		Vec3 pCenter = calculateCenter(_targetTopLeft, _targetTopRight, _targetBottomLeft, _targetBottomRight);
 
 		//Since the triangle will be a right triangle, the distance should be equal to half the height of the picture.
-		float distance = fabs(_targetTopRight.y - _targetBottomRight.y) * 0.5f;
+		float distance = fabs(_targetTopLeft.x - _targetBottomRight.x) * 0.5f;
+		distance /= _aspectRatio;
 
 		Vec3 planeNormal = cross((_targetTopLeft - _targetTopRight), (_targetBottomLeft - _targetTopRight));
 		planeNormal = normalize(planeNormal);
@@ -217,6 +223,78 @@ namespace Logic
 		return pos;
 	}
 
+#pragma region Coordinate Transforms
+
+	/* Converts a position from 2D to a fitting Cylinder position. 
+		Default assumes the Cylinder is centered at (0,0,0). */
+	inline Vec3 from2DToCylinder(Vec3 _pos , float _radius, Vec3 _cylCenter = Vec3(0,0,0))
+	{
+		Vec3 result;
+
+		float diff = _pos.x/(float)MAX_WIDTH;
+		
+		result.x = _cylCenter.x + _radius * sinf( diff * 2 * PI);
+		result.y = _cylCenter.y + _pos.y;
+		result.z = _cylCenter.z + _radius * cosf( diff * 2 * PI);
+
+		return result;
+	}
+
+	/* Transform a cartesian (X,Y,Z) coordinate to a spherical (Theta, Phi, R).
+		x = Azimuth Theta, y = elevation Phi and z = radius R. */
+	inline Vec3 cart2Sph(Vec3 _pos)
+	{
+		Vec3 result;
+
+		float temp = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );
+
+		result.x = atan2(sqrt(_pos.x * _pos.x + _pos.y * _pos.y ), _pos.z);		// theta = atan2(sqrt(x^2 + y^2), z );
+		result.y = atan2(_pos.y, _pos.x);										// phi = atan2(y,x);
+		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y + _pos.z * _pos.z);	// r = sqrt(x^2 + y^2 + z^2);
+
+		return result;
+	}
+
+	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, Rho, z) 
+		x = Theta, y = Rho. */
+	inline Vec3 cart2Cyl(Vec3 _pos)
+	{
+		Vec3 result;
+
+		result.x = atan2(_pos.y, _pos.x);						// Theta = atan2(y,x);
+		result.y = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
+		result.z = _pos.z;										// z = z;
+																
+
+		return result;
+	}
+
+	/* Transforms a spherical coordinate (Theta, Phi, R) to a cartesian (X, Y, Z). */
+	inline Vec3 sph2Cart(Vec3 _pos)
+	{
+		Vec3 result;
+
+		result.x = _pos.z * sin(_pos.x) * cos(_pos.y);	// x = r * sin(Theta) * cos(Phi)
+		result.y = _pos.z * sin(_pos.x) * sin(_pos.y);	// y = r * sin(Theta) * sin(Phi)
+		result.z = _pos.z * cos(_pos.x);				// z = r * cos(Theta)
+
+		return result;
+	}
+
+	/* Transforms a cylindrical coordinate (Theta, Rho, z) to a cartesian (X, Y, Z). */
+	inline Vec3 cyl2Cart(Vec3 _pos)
+	{
+		Vec3 result;
+
+		result.x = _pos.y * cos(_pos.x);	//x = Rho * cos(Theta)
+		result.y = _pos.y * sin(_pos.x);	//y = Rho * sin(Theta)
+		result.z = _pos.z;					//z = z
+
+		return result;
+	}
+
+
+#pragma endregion
 
 }
 
