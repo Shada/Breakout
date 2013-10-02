@@ -18,6 +18,7 @@ private:
 	std::vector<Character> characters;
 public:
 	Font();
+	void setImageIndex(unsigned int index) { imageIndex = index; }
 	void loadFontSettings(const char *filePath);
 	void loadText(std::vector<BBFont> *outData, const char *text);
 	~Font();

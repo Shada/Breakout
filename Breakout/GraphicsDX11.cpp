@@ -27,6 +27,7 @@ GraphicsDX11::GraphicsDX11()
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
 	uiBufferDynamic				= NULL;
+	textBufferDynamic			= NULL;
 	instBuffer					= NULL;
 }
 
@@ -164,6 +165,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	techniques = std::vector<TechniqueHLSL*>();
 	techniques.push_back( new TechniqueHLSL(device, "techSimple",	"shaders/hlsl/vsSimple.fx",	"vs",	"",							"",		"shaders/hlsl/psSimple.fx",	"ps") );
 	techniques.push_back( new TechniqueHLSL(device, "techUI",		"shaders/hlsl/vsBBUI.fx",	"vs",	"shaders/hlsl/gsBBUI.fx",	"gs",	"shaders/hlsl/psBBUI.fx",	"ps") );
+	techniques.push_back( new TechniqueHLSL(device, "techFont",		"shaders/hlsl/vsFont.fx",	"vs",	"shaders/hlsl/gsFont.fx",	"gs",	"shaders/hlsl/psFont.fx",	"ps") );
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayoutDesc[] = 
 	{
@@ -196,6 +198,20 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}
 
+	D3D11_INPUT_ELEMENT_DESC fontLayoutDesc[] =
+	{
+		{ "POSITION",	0, DXGI_FORMAT_R32G32_FLOAT,		0,	0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(float) * 2,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	techIndex = getTechIDByName("techFont");
+	hr = device->CreateInputLayout(fontLayoutDesc, ARRAYSIZE(fontLayoutDesc), techniques.at(techIndex)->getInputSignature(),
+									techniques.at(techIndex)->getInputSignatureSize(), &fontLayout );
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create fontLayout","GraphicsDX11 Error",MB_OK);
+		return;
+	}
+
 	/*D3D11_INPUT_ELEMENT_DESC simpleLayoutInst[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -216,6 +232,8 @@ void GraphicsDX11::init(HWND *hWnd)
 	if( !createCBuffer(&cbCameraMove, sizeof(CBCameraMove), 1))
 		return;
 	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
+		return;
+	if( !createCBuffer(&cbFont, sizeof(CBFont), 3))
 		return;
 
 	//create samplerstates
@@ -303,6 +321,7 @@ void GraphicsDX11::init(HWND *hWnd)
 
 	initVertexBuffer();
 	createVBufferUI(100);
+	createVBufferFont(100);
 	getTextureArray(&textures);
 }
 
@@ -434,6 +453,20 @@ bool GraphicsDX11::createVBufferUI( unsigned int maxSize )
 	return true;
 }
 
+bool GraphicsDX11::createVBufferFont( unsigned int maxSize )
+{
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory( &bd, sizeof(bd) );
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof( BBFont ) * maxSize;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	if(! createVBuffer(&bd, NULL, &textBufferDynamic) )
+		return false;
+	return true;
+}
+
 bool GraphicsDX11::createVBuffer( const D3D11_BUFFER_DESC *bd, const D3D11_SUBRESOURCE_DATA *initData, ID3D11Buffer **vBuffer )
 {
 	HRESULT hr = device->CreateBuffer( bd, initData, vBuffer );
@@ -464,7 +497,7 @@ void GraphicsDX11::useTechnique( unsigned int id )
 void GraphicsDX11::draw()
 {
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
-	CBWorld cbWorld;
+	CBWorld cb0;
 
 	unsigned int vertexAmount, startIndex, modelID;
 
@@ -495,9 +528,9 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
-	cbWorld.world		= objectCore->ball->getWorld();
-	cbWorld.worldInv	= objectCore->ball->getWorldInv();
-	updateCBWorld(cbWorld);
+	cb0.world		= objectCore->ball->getWorld();
+	cb0.worldInv	= objectCore->ball->getWorldInv();
+	updateCBWorld(cb0);
 
 	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
 	immediateContext->IASetInputLayout(simpleInputLayout);
@@ -513,9 +546,9 @@ void GraphicsDX11::draw()
 	//                                     Pad
 	//--------------------------------------------------------------------------------
 
-	cbWorld.world		= objectCore->pad->getWorld();
-	cbWorld.worldInv	= objectCore->pad->getWorldInv();
-	updateCBWorld(cbWorld);
+	cb0.world		= objectCore->pad->getWorld();
+	cb0.worldInv	= objectCore->pad->getWorldInv();
+	updateCBWorld(cb0);
 
 
 	modelID			= objectCore->pad->getModelID();
@@ -531,9 +564,9 @@ void GraphicsDX11::draw()
 
 	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
 	{
-		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
-		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
-		updateCBWorld(cbWorld);
+		cb0.world		= objectCore->bricks.at(i)->getWorld();
+		cb0.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+		updateCBWorld(cb0);
 
 		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
 		modelID				= objectCore->bricks.at(i)->getModelID();
@@ -564,22 +597,55 @@ void GraphicsDX11::draw()
 	techniques.at( getTechIDByName( "techUI" ) )->useTechnique();
 	immediateContext->IASetInputLayout(uiLayout);
 
-	cbWorld.world		= Matrix(	1,0,0,0,
+	cb0.world		= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
 
-	cbWorld.worldInv	= Matrix(	1,0,0,0,
+	cb0.worldInv	= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
-	updateCBWorld( cbWorld );
+	updateCBWorld( cb0 );
 
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 
+	//--------------------------------------------------------------------------------
+	//                                     Text
+	//--------------------------------------------------------------------------------
+	stride = sizeof( BBFont );
+	offset = 0;
+
+	CBFont cb1;
+
+	immediateContext->RSSetState(rasterizerBackface);
+
+	D3D11_MAPPED_SUBRESOURCE textData;
+	ZeroMemory( &textData, sizeof( textData ) );
+
+	immediateContext->Map(textBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &textData);
+	memcpy( textData.pData, &objectCore->fontBillboards[0], sizeof(BBFont)* objectCore->fontBillboards.size() );
+    immediateContext->Unmap(textBufferDynamic, 0);
+
+	immediateContext->IASetVertexBuffers( 0, 1, &textBufferDynamic, &stride, &offset );
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	techniques.at( getTechIDByName( "techFont" ) )->useTechnique();
+	immediateContext->IASetInputLayout(fontLayout);
+
+	vertexAmount		= objectCore->testText->getTextSize();
+	startIndex			= objectCore->testText->getVBStartIndex();
+
+	cb1.pos			= objectCore->testText->getPosition();
+	cb1.scale		= objectCore->testText->getScale();
+	cb1.rotation		= objectCore->testText->getRotation();
+	cb1.tintAlpha	= objectCore->testText->getTintAlpha();
+
+	updateCBFont(cb1);
+
+	immediateContext->Draw( vertexAmount, startIndex );
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
@@ -615,6 +681,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(vBufferStatic);
 	SAFE_RELEASE(uiBufferDynamic);
 	SAFE_RELEASE(vBufferDynamic);
+	SAFE_RELEASE(textBufferDynamic);
 	SAFE_RELEASE(instBuffer);
 
 	//techniques
@@ -629,6 +696,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(cbWorld);
 	SAFE_RELEASE(cbOnce);
 	SAFE_RELEASE(cbCameraMove);
+	SAFE_RELEASE(cbFont);
 
 	TechniqueHLSL::cleanUp();
 }

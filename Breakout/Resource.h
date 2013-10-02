@@ -34,10 +34,12 @@ struct BBFont
 };
 struct CBFont
 {
-	Vec2 pos;
-	Vec2 scale;
-	float rotation;
-	Vec4 tintAlpha;
+	Vec2 pos;				//world position
+	Vec2 scale;				//world scale
+	float rotation;			//world rotation
+	Vec4 tintAlpha;			//rgb tint, a alpha
+	unsigned int texIndex;	//texture index
+	Vec2 padding;
 };
 struct CBWorld
 {

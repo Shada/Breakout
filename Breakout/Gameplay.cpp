@@ -47,8 +47,9 @@ namespace Logic
 
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
 		std::vector<BBFont> test = std::vector<BBFont>();
-		objectCore->testFont->loadText(&test, "AZ az 1234567890");
-
+		objectCore->testFont->setImageIndex(7);
+		objectCore->testText->setFont(objectCore->testFont);
+		objectCore->testText->updateTextData();
 	}
 
 	void Gameplay::update(double _dt)

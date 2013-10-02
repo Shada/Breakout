@@ -4,6 +4,7 @@
 Font::Font()
 {
 	spacing = 5;
+	characters = std::vector<Character>();
 }
 
 void Font::loadFontSettings(const char *filePath)
@@ -33,7 +34,11 @@ void Font::loadText(std::vector<BBFont> *outData, const char *text)
 	unsigned int size = strlen(text);
 	BBFont current;
 	int posx = 0;
-
+	if(characters.size() == 0)
+	{
+		std::cout << "Error: No font loaded for text ( " << text << " )";
+		return;
+	}
 	for(unsigned int i = 0; i < size; i++)
 	{
 		if(text[i] >= 33 && text[i] < 127)

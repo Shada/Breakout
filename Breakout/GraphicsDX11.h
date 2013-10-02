@@ -29,6 +29,8 @@ private:
 	ID3D11Buffer				*vBufferDynamic;
 	/*the dynamic billboard buffer for menu UI*/
 	ID3D11Buffer				*uiBufferDynamic;
+	/*the dynamic buffer for text*/
+	ID3D11Buffer				*textBufferDynamic;
 
 	/*---------------------------------------------------------------
 								textures
@@ -53,6 +55,7 @@ private:
 	/*simple layout*/
 	ID3D11InputLayout			*simpleInputLayout;
 	ID3D11InputLayout			*uiLayout;
+	ID3D11InputLayout			*fontLayout;
 
 	/*---------------------------------------------------------------
 								RenderTargets
@@ -70,6 +73,7 @@ private:
 	ID3D11Buffer				*cbWorld;
 	ID3D11Buffer				*cbCameraMove;
 	ID3D11Buffer				*cbOnce;
+	ID3D11Buffer				*cbFont;
 
 	//viewports
 	D3D11_VIEWPORT				viewPort;
@@ -119,6 +123,8 @@ public:
 	bool	createVBufferStatic( std::vector<Vertex> vertices);
 	/* creates the dynamic vertex buffer for menu items*/
 	bool	createVBufferUI( unsigned int maxSize );
+	/* creates the dynamic vertex buffer for text*/
+	bool	createVBufferFont( unsigned int maxSize );
 	/* creates the instance buffer for the static vertex buffer. [dynamic]*/
 	bool	createInstanceBuffer( std::vector<PerInstance> PerInstance);
 	/* Feeds the instance buffer with instance data. (For the static vertex buffer) [dynamic] */
@@ -128,9 +134,10 @@ public:
 	/* set current technique for rendering */
 	void	useTechnique(unsigned int index);
 
-	void	updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
-	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
-	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
+	void	updateCBOnce(CBOnce cb)				{ immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); }
+	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); }
+	void	updateCBWorld(CBWorld cb)			{ immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); }
+	void	updateCBFont(CBFont cb)				{ immediateContext->UpdateSubresource(cbFont, 0, NULL, &cb, 0, 0); }
 
 	void	draw();
 

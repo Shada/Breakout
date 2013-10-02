@@ -3,7 +3,7 @@
 #include "Ball.h"
 #include "Pad.h"
 #include "Resource.h"
-#include "Font.h"
+#include "Text.h"
 namespace Logic
 {
 	class ObjectCore
@@ -15,8 +15,10 @@ namespace Logic
 		Ball					*ball;
 
 		std::vector<BBUI>		uiBillboards;
+		std::vector<BBFont>		fontBillboards;
 
 		Font					*testFont;
+		Text					*testText;
 
 		~ObjectCore();
 	};

@@ -1,5 +1,4 @@
 #include "resource.fx"
-
 struct PS_Input
 {
 	float4	pos			: SV_POSITION;
