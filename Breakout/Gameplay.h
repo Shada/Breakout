@@ -9,6 +9,9 @@
 #include "Physics.h"
 #include "Resource.h"
 #include "ObjectCore.h"
+#include "EventSystem.h"
+#include "SoundSystem.hpp"
+
 namespace Logic
 {
 	//GameState gameState;
@@ -21,17 +24,18 @@ namespace Logic
 		Map *mapLoading;
 
 		/* called after all models are initialized */
-		//Brick bricks[];
-		//Pad pad;
-		//Ball balls[]
+		
 		ObjectCore *objectCore;
 		bool play;
 		Camera *camera;
-		//TODO:
-		//All logik för spelandet av en bana
+
+
+		SoundSystem *soundSystem;
+		EventSystem *eventSystem;
+
 
 	public:
-		Gameplay(Inputhandler *&handler);
+		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
 		~Gameplay();
 
 		void update(double dt);

@@ -6,12 +6,14 @@ namespace Logic
 {
 	GameLogic::GameLogic(Inputhandler *handler)
 	{
-		inputHandler = handler;
-		gameplay = new Gameplay(inputHandler);
-
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
 		soundSystem->Play(1);
+
+		inputHandler = handler;
+		gameplay = new Gameplay(inputHandler, soundSystem);
+
+
 		//gameState = GameState::GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();

@@ -2,6 +2,8 @@
 #define _BALL_H_
 
 #include "Object3D.h"
+#include <cstdlib>
+#include <time.h>
 
 namespace Logic
 {
@@ -12,6 +14,7 @@ namespace Logic
 		~Ball();
 
 		void update(double dt);
+		void startWind();					//Wind effect
 		void draw();
 
 		float getRadius()		{ return radius; };
@@ -33,6 +36,10 @@ namespace Logic
 		float radius;
 
 		int shaderTechniqueID;
+
+		int activeEffect; //0 = nothing, 1 = Wind
+		Vec3 effectDirection;
+		float effectTimer, effectAcceleration, effectSpeed;
 	};
 }
 #endif // ! _BALL_H_

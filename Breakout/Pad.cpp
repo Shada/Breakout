@@ -26,6 +26,8 @@ namespace Logic
 #ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 #endif
+
+		activeEffect = 0;
 	}
 
 	Pad::~Pad()
@@ -91,6 +93,87 @@ namespace Logic
 		}
 
 		posKey.x = 0;
+
+		//effect calculations
+		if (activeEffect == 1)//stun
+		{
+			effectTimer -= _dt;
+			if (effectTimer < 0)
+			{
+				movementSpeed += (effectAcceleration * _dt);
+				effectAcceleration = effectAcceleration * 1.2;
+			}
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 2)//slow
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed <= 0.6f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = 0.005;
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 3) //speed
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed >= 1.3f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = -0.005;
+
+			if(movementSpeed < 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+
+	}
+
+	void Pad::startStun()
+	{
+		if (activeEffect == 0)
+		{
+			effectTimer = 0.5;
+			activeEffect = 1;
+			movementSpeed = 0.3;
+			effectAcceleration = 0.1;
+		}
+	}
+	
+	void Pad::startSlow()
+	{
+		if (activeEffect == 0)
+		{
+			effectTimer = 5;
+			activeEffect = 2;
+			effectAcceleration = -0.005;
+		}
+	}
+	
+	void Pad::startSpeed()
+	{
+		if (activeEffect == 0)
+		{
+			effectTimer = 5;
+			activeEffect = 3;
+			effectAcceleration = 0.005;
+		}
 	}
 
 	void Pad::move2D(double _dt, float _x)

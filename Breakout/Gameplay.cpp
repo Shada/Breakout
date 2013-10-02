@@ -9,12 +9,15 @@
 
 namespace Logic
 {
-	Gameplay::Gameplay(Inputhandler *&_handler)
+	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
 	{
 		mapLoading = new Map();
 		//tolka Map och skapa object enligt den
 		objectCore = new ObjectCore();
 		play = false;
+
+		soundSystem = soundSys;
+		eventSystem = new EventSystem(0,5); // testvärde
 
 		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
@@ -77,10 +80,39 @@ namespace Logic
 			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 			std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
+
+		//effect test
+		//if(play)
+		int temptest = eventSystem->Update(_dt);
+		if (temptest != 0)
+		{
+			std::cout << "effect started" << std::endl;
+			if (temptest == 2)
+			{
+				objectCore->ball->startWind();
+				soundSystem->Play(12, 0);
+			}
+			else if (temptest == 7)
+			{
+				objectCore->pad->startSpeed();
+				soundSystem->Play(16);
+			}
+			else if (temptest == 8)
+			{
+				objectCore->pad->startSlow();
+				soundSystem->Play(17);
+			}
+			else if (temptest == 15)
+			{
+				objectCore->pad->startStun();
+				soundSystem->Play(17);
+			}
+		}
 	}
 
 	Gameplay::~Gameplay()
 	{
+		SAFE_DELETE(eventSystem);
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
 	}
