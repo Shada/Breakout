@@ -30,6 +30,5 @@ cbuffer cbFont			: register( b3 )
 	float2 textSize;
 	float textRotation;
 	float4 textTintAlpha;
-	unsigned int textTexIndex;
 	float2 padding3;
 }

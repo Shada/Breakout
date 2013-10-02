@@ -5,12 +5,6 @@
 //#include "stdafx.h"
 #include "Sound.h"
 
-#ifdef _WIN32
-#include <fmod.hpp>
-#else
-#include <fmodlinux.h>
-#endif
-
 class SoundSystem
 {
 public:

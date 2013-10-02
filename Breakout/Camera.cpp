@@ -6,6 +6,7 @@
 Camera::Camera()
 {
 	position = Vec3(75, 75, -150);
+	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
 
 #ifndef _WIN32
@@ -18,9 +19,10 @@ Camera::Camera()
 
 #ifdef _WIN32
 	CBOnce cbonce;
-	perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
+
+	perspectiveFovLH(projectionMatrix, (float)PI * 0.5f, (float)(SCRWIDTH) / SCRHEIGHT, 0.01f, 600.0f);
 #else
-    perspectiveFovRH(projectionMatrix, PI * 0.5, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
+    perspectiveFovRH(projectionMatrix, (float)PI * 0.5f, (float)SCRWIDTH/SCRHEIGHT, 0.1f, 600.f);
 #endif //_WIN32
 	MatrixInversion(projectionInv, projectionMatrix);
 

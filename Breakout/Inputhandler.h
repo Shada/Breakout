@@ -52,6 +52,9 @@ class DInputhandler : public Inputhandler
 {
 private:
 
+	POINT setMouse;
+	HWND					hWnd;
+
 	LPDIRECTINPUT8			directInput;
 
 	LPDIRECTINPUTDEVICE8	keyboardInput;
@@ -80,7 +83,7 @@ public:
 class GLInputhandler : public Inputhandler
 {
 private:
-	int mouseX, mouseY;
+	int mouseX, mouseY, prevMouseZ;
 	void update();
 public:
 	GLInputhandler();

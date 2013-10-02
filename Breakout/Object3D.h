@@ -24,7 +24,7 @@ namespace Logic
 
 		void setModelID(int _modelID) { modelID = _modelID; };
 		void setTextureID(int _textureID) { textureID = _textureID; };
-		void setPosition(Vec3 _pos) { position = _pos; };
+		virtual void setPosition(Vec3 _pos) { position = _pos; };
 		void setRotation(Vec3 _rot) { rotation = _rot; };
 		void setScale(Vec3 _scale)	{ scale = _scale; };
 		void updateWorld()

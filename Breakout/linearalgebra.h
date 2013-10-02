@@ -656,6 +656,18 @@
         pOut[3][0] = right.dot(-eye);   pOut[3][1] = up.dot(-eye);  pOut[3][2] = look.dot(-eye);    pOut[3][3] = 1;
 	}
 
+	/* Creates a view matrix for left hand coordinate systems */
+	inline void lookAtLHP(Matrix &pOut, Vec3 pos, Vec3 up, Vec3 eye)
+	{
+		Vec3 look = eye - pos;
+		look.normalize();
+		Vec3 right = cross(up, look);
+		pOut[0][0] = right.x;	        pOut[0][1] = up.x;	        pOut[0][2] = look.x;	        pOut[0][3] = 0;
+		pOut[1][0] = right.y;	        pOut[1][1] = up.y;	        pOut[1][2] = look.y;	        pOut[1][3] = 0;
+		pOut[2][0] = right.z;	        pOut[2][1] = up.z;	        pOut[2][2] = look.z;	        pOut[2][3] = 0;
+        pOut[3][0] = right.dot(-eye);   pOut[3][1] = up.dot(-eye);  pOut[3][2] = look.dot(-eye);    pOut[3][3] = 1;
+	}
+
     inline void lookAtRH(Matrix &pOut, Vec3 look, Vec3 up, Vec3 eye)
     {
         Vec3 left = cross(look, up);
@@ -739,5 +751,10 @@
 	//		frustum[i].normalize();
 	//	return frustum;
 	//}
+
+#define _max(a,b)            (((a) > (b)) ? (a) : (b))
+
+#define _min(a,b)            (((a) < (b)) ? (a) : (b))
+
 #pragma endregion
 #endif

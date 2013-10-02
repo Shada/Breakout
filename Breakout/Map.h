@@ -14,6 +14,8 @@ namespace Logic
 
 		Map(){};
 		~Map(){};
+		/*	load a map, ball and pad can be NULL if no balls or no pad are desired 
+			for example when changing from another map */
 		void loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad);
 
 
