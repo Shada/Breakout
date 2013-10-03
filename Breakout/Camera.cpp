@@ -5,7 +5,7 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(75, 75, -150);
+	position = Vec3(75, 75, -200);
 	rotation = Vec3(0, 0, 0);
 
 #ifndef _WIN32

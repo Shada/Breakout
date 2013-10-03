@@ -1,2 +1,8 @@
 Maps/BorderMap.png
 Maps/LevelTest.png
+Maps/Level1.png
+Maps/Level2.png
+Maps/Level3.png
+Maps/Level4.png
+Maps/CylinderTest.png
+Maps/SphereTest.png
