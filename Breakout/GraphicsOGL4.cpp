@@ -89,37 +89,48 @@ void GraphicsOGL4::draw(int _startIndex, int _numVerts)
 
 void GraphicsOGL4::draw()
 {
+	// local variables
 	unsigned int vertexAmount, startIndex, modelID;
-
-	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 	Matrix world, worldInvTrans;
-
+	
+	// fetch the load handler
+	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
+	
+	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
 
-	useTexture(6);
-
+	// set buffer attribute layout
 	useStandardVertexAttribLayout();
 
+	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
 
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
 
+	// fetch world matrix
 	world = objectCore->ball->getWorld();
+	// update model matrix in graphics class.
 	updateModelMatrix(&world);
 
+	// invert model matrix, used for normal calculation on GPU
 	MatrixInversion(worldInvTrans, world);
-
+	// update inverse model matrix in graphics class
 	updateModelInvTransMatrix(&worldInvTrans);
 
+	// use all matrices. Maybe have one for model matrices and one for camera matrices.. 
+	// redundant to send in camera matrices for every object....
 	useMatrices(program->getProgramID());
-
-
+	// use texture for ball
+	useTexture(objectCore->ball->getTextureID());
+	// get modelid for ball.
 	modelID = objectCore->ball->getModelID();
+	// fetch vertexamout and startid for ball model
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 
+	// draw ball
 	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
 
 	//--------------------------------------------------------------------------------
@@ -138,6 +149,8 @@ void GraphicsOGL4::draw()
 
 	useMatrices(program->getProgramID());
 
+	useTexture(objectCore->pad->getTextureID());
+	
 	modelID			= objectCore->pad->getModelID();
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
@@ -158,6 +171,8 @@ void GraphicsOGL4::draw()
 		updateModelInvTransMatrix(&worldInvTrans);
 	
 		useMatrices(program->getProgramID());
+		
+		useTexture(objectCore->bricks[i]->getTextureID());
 
 		modelID				= objectCore->bricks.at(i)->getModelID();
 		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
@@ -166,7 +181,8 @@ void GraphicsOGL4::draw()
 		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
 	}
 
-
+	// disable vertex attributes 
+	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -188,7 +204,7 @@ void GraphicsOGL4::initVertexBuffer()
 	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
 	std::vector<Vertex> vertices;
 	int start = vertices.size();
-	for(unsigned int i = 0; i < loader->getModelSize(); i++)
+	for(int i = 0; i < loader->getModelSize(); i++)
 	{
 		loader->getModel(i)->setStartIndex(start);
 		vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());

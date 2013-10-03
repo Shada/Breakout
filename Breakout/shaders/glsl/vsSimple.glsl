@@ -41,7 +41,7 @@ void main()
     eyedirection_viewspace = vec3(0,0,0) - vertexPos_viewspace; /// TODO: use camerapos instead
 
     // vector that goes from vertex to light, in view space
-    vec3 lightpos_viewspace = (view * vec4(0,0,0, 1)).xyz; /// TODO: use lightpos instead
+    vec3 lightpos_viewspace = (view * vec4(100,200,-100, 1)).xyz; /// TODO: use lightpos instead
     lightdir_viewspace = lightpos_viewspace + eyedirection_viewspace;
 
     //normal of vertex in view space
