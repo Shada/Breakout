@@ -78,10 +78,13 @@ namespace Logic
 						// y = r * sin(theta) * sin(phi)
 						// z = r * cos(theta) * 
 						
-
-						displace.x = circleRadie * sin(radWIt) * cos(radHIt);
-						displace.y = circleRadie * sin(radWIt) * sin(radHIt);
+					/*	displace.x = circleRadie * sin(radWIt) * cos(radHIt);
+						displace.y = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt z
 						displace.z = circleRadie * cos(radWIt);
+*/
+						displace.x = circleRadie * sin(radWIt) * cos(radHIt);
+						displace.z = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt y
+						displace.y = circleRadie * cos(radWIt);
 
 						
 					}
