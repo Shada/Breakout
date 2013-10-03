@@ -62,7 +62,7 @@ namespace Logic
 						Brick *tBrick = new Brick(Vec3(0,0,0));
 						tBrick->setPosition(Vec3((float)c*displacementX,(float)r*displacementY,0.0f));
 						tBrick->updateWorld();
-						//tBrick.setType(color.rgbRed);
+						tBrick->setType(color.rgbRed);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
 						_bricks->push_back(tBrick);

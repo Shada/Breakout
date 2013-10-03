@@ -1,2 +1,3 @@
+Maps/BrickLifeTest2.png
 Maps/BorderMap.png
 Maps/LevelTest.png

@@ -76,43 +76,55 @@ namespace Logic
 		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
 		if(collidingObject != -1)
 		{
-			SAFE_DELETE(objectCore->bricks.at(collidingObject));
-			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
-			std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+			Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
+			tempBrick->damage();
+			if(tempBrick->isDestroyed() == true)
+			{
+				SAFE_DELETE(objectCore->bricks.at(collidingObject));
+				objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
+				std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+			}
+			else
+				std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
 		}
 
-		//effect test
+		//effects
 		//if(play)
 		int temptest = eventSystem->Update(_dt);
 		if (temptest != 0)
 		{
-			std::cout << "effect started" << std::endl;
+			std::cout << "effect started: ";// << std::endl;
 			if (temptest == 1) //Zapper
 			{
 				//starta förvanande effect och timer
 				//sen ljud och stun
 				objectCore->pad->startStun();
 				soundSystem->Play(6);
+				std::cout << "Zapper" << std::endl;
 			}
 			else if (temptest == 2) //Wind
 			{
 				objectCore->ball->startWind();
 				soundSystem->Play(12, 0.5);
+				std::cout << "Wind" << std::endl;
 			}
 			else if (temptest == 7)//Speed
 			{
 				objectCore->pad->startSpeed();
 				soundSystem->Play(16);
+				std::cout << "Speed" << std::endl;
 			}
 			else if (temptest == 8)//Slow
 			{
 				objectCore->pad->startSlow();
 				soundSystem->Play(17);
+				std::cout << "Slow" << std::endl;
 			}
 			else if (temptest == 15)//Stun
 			{
 				objectCore->pad->startStun();
 				soundSystem->Play(6);
+				std::cout << "Stun" << std::endl;
 			}
 		}
 	}
