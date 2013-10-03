@@ -47,6 +47,8 @@ namespace Logic
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
+		
 	}
 
 	void Gameplay::update(double _dt)

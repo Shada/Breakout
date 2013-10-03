@@ -3,6 +3,7 @@
 #include "Ball.h"
 #include "Pad.h"
 #include "Water.h"
+#include "Skybox.h"
 namespace Logic
 {
 	class ObjectCore
@@ -22,6 +23,7 @@ namespace Logic
 		std::vector<Object3D*>	bricks;
 		Ball					*ball;
 		Water					*water;
+		Skybox					*skybox;
 		~ObjectCore();
 	};
 }

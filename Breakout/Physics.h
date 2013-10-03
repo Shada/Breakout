@@ -127,7 +127,7 @@ namespace Logic
 		//Compare X
 		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > borderMaxX)
 		{
-			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxY && tBallDir.x > 0))
+			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
 
 			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
