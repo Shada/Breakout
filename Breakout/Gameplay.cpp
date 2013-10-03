@@ -12,9 +12,8 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
-		mapType = MapType::eWater;
+		
 		mapLoading = new Map();
-		water = NULL;
 		//tolka Map och sk_WIN32 object enligt den
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
@@ -24,6 +23,7 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
+		objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
@@ -45,8 +45,8 @@ namespace Logic
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
-		if(mapType == MapType::eWater)
-			water = new Water(objectCore->pad->getPosition().y);
+		if(objectCore->mapType == objectCore->MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
 	}
 
 	void Gameplay::update(double _dt)
@@ -88,15 +88,17 @@ namespace Logic
 		{
 			nextMap();
 		}
-		if(mapType == MapType::eWater)
+		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
-			water->update(_dt);
+			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
+			Vec3 oldLookat = camera->getLookAt();
 			// should be the pad that follows water level and then camera follows pad?
-			camera->setPosition(Vec3(oldPos.x, water->getWaterLevel(),oldPos.z)); 
+			camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
+			camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
 			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 			oldPos = objectCore->pad->getPosition();
-			objectCore->pad->setPosition(Vec3(oldPos.x,water->getWaterLevel(),oldPos.z));
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 		}
 		camera->update();
 		
@@ -125,9 +127,10 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
-		if(mapType == MapType::eWater)
+		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
-			water = new Water(objectCore->pad->getPosition().y);
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
 		}
 		play = false;
 	}
@@ -135,6 +138,5 @@ namespace Logic
 	{
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
-		SAFE_DELETE(water);
 	}
 }
