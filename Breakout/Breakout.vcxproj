@@ -223,9 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\glsl\fsBBUI.glsl" />
+    <None Include="shaders\glsl\fsFont.glsl" />
     <None Include="shaders\glsl\fsSimple.glsl" />
     <None Include="shaders\glsl\gsBBUI.glsl" />
+    <None Include="shaders\glsl\gsFont.glsl" />
     <None Include="shaders\glsl\vsBBUI.glsl" />
+    <None Include="shaders\glsl\vsFont.glsl" />
     <None Include="shaders\glsl\vsSimple.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -236,5 +236,14 @@
     <None Include="shaders\glsl\vsBBUI.glsl">
       <Filter>GLSL\vs</Filter>
     </None>
+    <None Include="shaders\glsl\fsFont.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\gsFont.glsl">
+      <Filter>GLSL\gs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsFont.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
   </ItemGroup>
 </Project>
