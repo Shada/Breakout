@@ -15,7 +15,11 @@
 
 #include "linearalgebra.h"
 
-
+struct tempBBUI
+{
+	Vec2 pos;
+	Vec2 size;
+};
 class GraphicsOGL4
 {
 private:
@@ -24,8 +28,11 @@ private:
 	Logic::ObjectCore	*objectCore;
 	// static vertex buffer
 	GLuint vertexBufferStatic;
+	// dynamic buffer for UI elements
+	GLuint uiBufferDynamic;
 
-    ProgramGLSL *program;
+    ProgramGLSL *program,
+				*billboardProgram;
 
 	// VAO
 	GLuint  VertexArrayID,
@@ -45,14 +52,8 @@ public:
 
 	static GraphicsOGL4 *getInstance();
 
-	// this will be somewhat a problem.. Maybe need different definitions for different type of data structures?
-	// Not necessary if all models have same vertex structure, but will this be the case always? This must be researched
-	// will not be vector in future.. Probably better to be vector of structs
-	/** [in] vertexPoints - an array with all vertex points					*
-	 * [in] size of vertex data in bytes						*
-	 * [return] the start index of the data sent in							**/
 	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
-	int		feedData(GLuint vertexBufferID, float vertexpoints[], int numVertices);
+	
 	int		getTechIDByName(const char *name);
 	std::vector<GLuint>* getTextures();
 
@@ -62,7 +63,7 @@ public:
 	void	updateCBWorld(CBWorld cb);
 
 	void initVertexBuffer();
-
+	int feedUIBufferData(std::vector<tempBBUI> _points);
 
 	void updateModelMatrix(Matrix *model);
 	void updateModelInvTransMatrix(Matrix *modelinvtrans);
@@ -76,6 +77,8 @@ public:
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();
+	/** Using billboard vertex layout with Position and size **/
+	void useBillboardVertexAttribLayout();
 
 	void useTechnique(unsigned int index);
 	void useTexture(int index);

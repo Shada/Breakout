@@ -12,11 +12,7 @@ out vec3 lightdir_viewspace;
 uniform mat4 model;
 uniform mat4 modelInvTrans;
 uniform mat4 projection;
-///uniform mat4 projectioninverse;
 uniform mat4 view;
-///uniform mat4 viewinverse;
-
-///uniform mat4 MVP;
 
 ///uniform vec3 ka;
 ///uniform vec3 kd;

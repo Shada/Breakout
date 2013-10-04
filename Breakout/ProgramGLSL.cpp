@@ -32,12 +32,12 @@ ProgramGLSL::ProgramGLSL(std::string _name, std::string _vsPath, std::string _gs
     }
     if(geometryShaderIndex >= 0)
     {
-        printf("Attaching vertexshader %i to the %s technique.\n", geometryShaderIndex, name.c_str());
+        printf("Attaching geometryshader %i to the %s technique.\n", geometryShaderIndex, name.c_str());
         glAttachShader(programID, geometryShaderIndex);
     }
     if(fragmentShaderIndex >= 0)
     {
-        printf("Attaching vertexshader %i to the %s technique.\n", fragmentShaderIndex, name.c_str());
+        printf("Attaching fragmentshader %i to the %s technique.\n", fragmentShaderIndex, name.c_str());
         glAttachShader(programID, fragmentShaderIndex);
     }
 

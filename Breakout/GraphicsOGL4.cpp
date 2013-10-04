@@ -15,6 +15,7 @@ struct Matrices
     Matrix *projectionInverse;
 }matrices;
 
+
 GraphicsOGL4::GraphicsOGL4()
 {
     // Initiate matrices so that they all are pointing to
@@ -27,16 +28,34 @@ GraphicsOGL4::GraphicsOGL4()
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	// generate the buffer and store the id in vertexBufferStatic var
+	// generate buffers
 	glGenBuffers(1, &vertexBufferStatic);
+	glGenBuffers(1, &uiBufferDynamic);
 
+	//compile shader programs
 	program = new ProgramGLSL("simple", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsSimple.glsl", "", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsSimple.glsl");
+
+	billboardProgram = new ProgramGLSL("billy", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsBBUI.glsl", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/gsBBUI.glsl", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsBBUI.glsl");
+
 
 	//Get blockID for matrices
 	///modelMatrixBlockID = glGetUniformBlockIndex(program->getProgramID(), "ModelMatrixBlock");
 
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
+
+
+	//*****************************//
+	//!!!!! THIS IS JUST A TEST !!!!!
+	//*****************************//
+
+	std::vector<tempBBUI> uiData;
+	tempBBUI bbui;
+	bbui.pos = Vec2(0, 0);
+	bbui.size = Vec2(150, 768);
+	uiData.push_back(bbui);
+
+	feedUIBufferData(uiData);
 }
 
 GraphicsOGL4::~GraphicsOGL4()
@@ -93,17 +112,15 @@ void GraphicsOGL4::draw()
 	unsigned int vertexAmount, startIndex, modelID;
 	Matrix world, worldInvTrans;
 	
-	// fetch the load handler
-	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
-	
 	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
 
-	// set buffer attribute layout
-	useStandardVertexAttribLayout();
 
 	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
+
+	// set buffer attribute layout
+	useStandardVertexAttribLayout();
 
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
@@ -180,47 +197,70 @@ void GraphicsOGL4::draw()
 
 		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
 	}
-
 	// disable vertex attributes 
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+
+	//---------------------------------------------------------------------------------
+	//                            billboard
+	//---------------------------------------------------------------------------------
+	billboardProgram->useProgram();
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
+
+	useBillboardVertexAttribLayout();
+
+	useTexture(0);
+	glDrawArrays(GL_POINTS, 0, 1);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);	
+}
+void GraphicsOGL4::initVertexBuffer()
+{
+	std::vector<Vertex> vertices;
+	int start = vertices.size();
+	int nModels = lh->getModelSize();
+	for(int i = 0; i < nModels; i++)
+	{
+		lh->getModel(i)->setStartIndex(start);
+		vertices.insert(vertices.end(), lh->getModel(i)->getData()->begin(), lh->getModel(i)->getData()->end());
+		start += lh->getModel(i)->getData()->size();
+	}
+	feedStaticBufferData(vertices);
 }
 
 int GraphicsOGL4::feedStaticBufferData(std::vector<Vertex> _vertexpoints)
 {
 	// bind vertex buffer to GPU
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
-    int s = sizeof(Vertex) * _vertexpoints.size();
 	// feed data to buffer
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * _vertexpoints.size(), &_vertexpoints[0], GL_STATIC_DRAW);
 
-	return 0; // will need to be calculated based on how much there are already
+	return 0; // will need to be calculated based on how much there are already //....WTF!??!?! What the hell did I mean with this !?!?! 
 }
 
-void GraphicsOGL4::initVertexBuffer()
+int GraphicsOGL4::feedUIBufferData(std::vector<tempBBUI> _points)
 {
-	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
-	std::vector<Vertex> vertices;
-	int start = vertices.size();
-	for(int i = 0; i < loader->getModelSize(); i++)
-	{
-		loader->getModel(i)->setStartIndex(start);
-		vertices.insert(vertices.end(), loader->getModel(i)->getData()->begin(), loader->getModel(i)->getData()->end());
-		start += loader->getModel(i)->getData()->size();
-	}
-	feedStaticBufferData(vertices);
+	// bind vertex buffer to GPU
+	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
+    int s = sizeof(Vertex) * _points.size();
+	// feed data to buffer
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tempBBUI) * _points.size(), &_points[0], GL_STATIC_DRAW);
+
+	return 0;
 }
 
 std::vector<GLuint> *GraphicsOGL4::getTextures()
 {
-	Resources::LoadHandler *loader = Resources::LoadHandler::getInstance();
 	//bool TextureManager::LoadTexture(const char* filename, const unsigned int texID, GLenum image_format, GLint internal_format, GLint level, GLint border);
 	GLuint gl_texID;
 	std::vector<GLuint> *back = new std::vector<GLuint>();
 
-	for(int i = 0; i < loader->getTextureSize();i++)
+	for(int i = 0; i < lh->getTextureSize();i++)
 	{
 
 		//generate an OpenGL texture ID for this texture
@@ -228,8 +268,8 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 		//bind to the new texture ID
 		glBindTexture(GL_TEXTURE_2D, gl_texID);
 		//store the texture data for OpenGL use
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loader->getTexture(i)->getWidth(), loader->getTexture(i)->getHeight(), 
-					0, GL_RGB, GL_UNSIGNED_BYTE, loader->getTexture(i)->getBits());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
+					0, GL_BGR, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -277,6 +317,14 @@ void GraphicsOGL4::useStandardVertexAttribLayout()
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+}
+
+void GraphicsOGL4::useBillboardVertexAttribLayout()
+{
+	glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
+	glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(sizeof(float) * 2));
 }
 
 void GraphicsOGL4::useTexture(int _index)

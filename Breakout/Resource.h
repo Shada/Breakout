@@ -25,7 +25,6 @@ struct BBUI
 	Vec2 size;
 	float rotation;
 	Vec4 tintAlpha;
-	Vec2 texCoords;
 	int texIndex;
 };
 struct CBWorld
