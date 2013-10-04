@@ -22,6 +22,7 @@ GraphicsDX11::GraphicsDX11()
 	rasterizerBackface			= NULL;
 	rasterizerFrontface			= NULL;
 	samplerLinear				= NULL;
+	samplerSkybox				= NULL;
 	shader5Support				= true;
 
 	vBufferStatic				= NULL;
@@ -213,6 +214,13 @@ void GraphicsDX11::init(HWND *hWnd)
 	sampDesc.MaxLOD			= D3D11_FLOAT32_MAX;
 
 	hr = device->CreateSamplerState( &sampDesc, &samplerLinear);
+	if(FAILED(hr))
+		return;
+
+	sampDesc.AddressU		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDesc.AddressV		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDesc.AddressW		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	hr = device->CreateSamplerState( &sampDesc, &samplerSkybox);
 	if(FAILED(hr))
 		return;
 
@@ -477,6 +485,7 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	//                                     skybox
 	//-------------------------------------------------------------------------------
+	immediateContext->PSSetSamplers(0, 1, &samplerSkybox);
 	techniques.at( getTechIDByName( "techSkybox" ) )->useTechnique();
 	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
 	modelID					= objectCore->skybox->getModelID();
