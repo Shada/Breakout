@@ -229,6 +229,7 @@
     <None Include="shaders\glsl\fsBBUI.glsl" />
     <None Include="shaders\glsl\fsFont.glsl" />
     <None Include="shaders\glsl\fsSimple.glsl" />
+    <None Include="shaders\glsl\fsSkybox.glsl" />
     <None Include="shaders\glsl\gsBBUI.glsl" />
     <None Include="shaders\glsl\gsFont.glsl" />
     <None Include="shaders\glsl\vsBBUI.glsl" />
@@ -244,6 +245,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
     </CustomBuild>
+    <None Include="shaders\glsl\vsSkybox.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,14 +34,16 @@ private:
 	GLuint	modelMatID,
 			modelInvMatID,
 			projMatID,
-			projInvMatID,
 			viewMatID,
-			viewInvMatID;
+			viewSkybox,
+			projSkybox;
 
-	GLuint diffuseTexID;
+	GLuint diffuseTexID,
+			skyboxTexID;
 
     ProgramGLSL *program,
-				*billboardProgram;
+				*billboardProgram,
+				*skyboxProgram;
 
 	// VAO
 	GLuint  VertexArrayID,
@@ -80,7 +82,7 @@ public:
 	void updateProjectionInverseMatrix(Matrix *projectionInverse);
 
 	// maybe a little different later, this is temporary
-	void useMatrices(GLuint programID);
+	void useMatrices();
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();

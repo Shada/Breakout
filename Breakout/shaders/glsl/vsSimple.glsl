@@ -14,17 +14,9 @@ uniform mat4 modelInvTrans;
 uniform mat4 projection;
 uniform mat4 view;
 
-///uniform vec3 ka;
-///uniform vec3 kd;
-///uniform vec3 ks;
-//uniform vec3 lightpos;
-//uniform vec3 camerapos;
-
 void main()
 {
-	mat4 negZscale;
-	negZscale = mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
-	mat4 modelView = view * model * negZscale;
+	mat4 modelView = view * model;
 	
     // Output position of the vertex in clip space
     gl_Position = projection * modelView * vec4(vertexPos, 1);
@@ -41,7 +33,7 @@ void main()
     lightdir_viewspace = lightpos_viewspace + eyedirection_viewspace;
 
     //normal of vertex in view space
-    normal_viewspace = (view * model * negZscale * vec4(vertexNorm, 0)).xyz; // Maybe need to use inverse transpose of model matrix. depends on scaling
+    normal_viewspace = (view * model * vec4(vertexNorm, 0)).xyz; // Maybe need to use inverse transpose of model matrix. depends on scaling
 
     UV = vertexUV;
 }

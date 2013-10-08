@@ -286,15 +286,16 @@ bool Linuxhandler::initWindow()
 	glClearColor(0.f, 0.f, .4f, 0.f);
 
 	// enable face culling
-    ///glEnable(GL_CULL_FACE);
-    ///glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     glEnable(GL_DEPTH_TEST);
 
     glDepthFunc(GL_LESS);
 
-    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
+	glFrontFace(GL_CW);
 
+    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
 	return true;
 }
 

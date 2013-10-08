@@ -8,7 +8,6 @@ in vec3 lightdir_viewspace;
 out vec3 color;
 
 uniform sampler2D textureSampler;
-//uniform vec3 lightpos;
 
 void main()
 {

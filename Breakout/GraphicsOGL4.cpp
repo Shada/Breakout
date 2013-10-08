@@ -32,11 +32,9 @@ GraphicsOGL4::GraphicsOGL4()
 	//compile shader programs
 	program = new ProgramGLSL("simple", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsSimple.glsl", "", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsSimple.glsl");
 
-	billboardProgram = new ProgramGLSL("billy", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsBBUI.glsl", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/gsBBUI.glsl", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsBBUI.glsl");
-
-
-	//Get blockID for matrices
-	///modelMatrixBlockID = glGetUniformBlockIndex(program->getProgramID(), "ModelMatrixBlock");
+	billboardProgram = new ProgramGLSL("billy", "shaders/glsl/vsBBUI.glsl", "shaders/glsl/gsBBUI.glsl", "shaders/glsl/fsBBUI.glsl");
+	
+	skyboxProgram = new ProgramGLSL("skybox", "shaders/glsl/vsSkybox.glsl", "", "shaders/glsl/fsSkybox.glsl");
 
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
@@ -44,11 +42,13 @@ GraphicsOGL4::GraphicsOGL4()
 	modelMatID		= glGetUniformLocation(program->getProgramID(), "model");
 	modelInvMatID	= glGetUniformLocation(program->getProgramID(), "modelInvTrans");
 	projMatID		= glGetUniformLocation(program->getProgramID(), "projection");
-	projInvMatID	= glGetUniformLocation(program->getProgramID(), "projectioninverse");
 	viewMatID		= glGetUniformLocation(program->getProgramID(), "view");
-	viewInvMatID	= glGetUniformLocation(program->getProgramID(), "viewinverse");
+
+	projSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "projection");
+	viewSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "view");
 
 	diffuseTexID = glGetUniformLocation(program->getProgramID(), "textureSampler");
+	skyboxTexID = glGetUniformLocation(skyboxProgram->getProgramID(), "textureSampler");
 
 	//*****************************//
 	//!!!!! THIS IS JUST A TEST !!!!!
@@ -86,24 +86,25 @@ GraphicsOGL4 *GraphicsOGL4::getInstance()
 
 void GraphicsOGL4::draw()
 {
+
 	// local variables
 	unsigned int vertexAmount, startIndex, modelID;
 	
-	// use default program. program id might need to be fetched from object? 
-	program->useProgram();
+	
+	//--------------------------------------------------------------------------------
+	//									  Skybox
+	//--------------------------------------------------------------------------------
+	glDisable(GL_DEPTH_TEST);
+    glCullFace(GL_FRONT);
+	skyboxProgram->useProgram();
 
 	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
 
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
-
-	useMatrices(program->getProgramID());
-
-	//--------------------------------------------------------------------------------
-	//									  Skybox
-	//--------------------------------------------------------------------------------
-	updateModelMatrix(&Matrix());
+	
+	useMatrices();
 
 	useTexture(objectCore->skybox->getTextureID());
 
@@ -113,10 +114,23 @@ void GraphicsOGL4::draw()
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 
 	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
-
+	
+    glCullFace(GL_BACK);
+    glEnable(GL_DEPTH_TEST);
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
+	
+	// use default program. program id might need to be fetched from object? 
+	program->useProgram();
+	
+	useMatrices();
+
+	// bind static vertex buffer. holds all data for static objects
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
+
+	// set buffer attribute layout
+	useStandardVertexAttribLayout();
 
 	// update model matrix in graphics class.
 	updateModelMatrix(&objectCore->ball->getWorld());
@@ -170,6 +184,11 @@ void GraphicsOGL4::draw()
 		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
 	}
 	
+	// disable vertex attributes 
+	// (maybe should be in function, so that not to many of few attributes are disabled...)
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	//---------------------------------------------------------------------------------
 	//                            billboard
 	//---------------------------------------------------------------------------------
@@ -180,8 +199,13 @@ void GraphicsOGL4::draw()
 
 	useBillboardVertexAttribLayout();
 
-	useTexture(0);
+	useTexture(7);
 	glDrawArrays(GL_POINTS, 0, 1);
+	// disable vertex attributes 
+	// (maybe should be in function, so that not to many of few attributes are disabled...)
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+
 
 	// disable vertex attributes 
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
@@ -303,7 +327,10 @@ void GraphicsOGL4::useTexture(int _index)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
 
-	glUniform1i(diffuseTexID, 0);
+	glUniform1i(skyboxTexID, 0);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
+	glUniform1i(diffuseTexID, 2);
 }
 
 void GraphicsOGL4::updateModelMatrix(Matrix *_model)
@@ -336,18 +363,20 @@ void GraphicsOGL4::updateViewInverseMatrix(Matrix *_viewInverse)
     matrices.viewInverse = _viewInverse;
 }
 
-void GraphicsOGL4::useMatrices(GLuint _programID)
+void GraphicsOGL4::useMatrices()
 {
     //this has to be changed.... not good to have to ask for id for every new program...
     // should have shared blocks/buffers
 	
 	if(matrices.view)
+	{
 		glUniformMatrix4fv(viewMatID, 1, GL_FALSE, &matrices.view->r[0][0]);
-	if(matrices.viewInverse)
-		glUniformMatrix4fv(viewInvMatID, 1, GL_FALSE, &matrices.viewInverse->r[0][0]);
+		glUniformMatrix4fv(viewSkybox, 1, GL_FALSE, &matrices.view->r[0][0]);
+	}
 	if(matrices.projection)
+	{
 		glUniformMatrix4fv(projMatID, 1, GL_FALSE, &matrices.projection->r[0][0]);
-	if(matrices.projectionInverse)
-		glUniformMatrix4fv(projInvMatID, 1, GL_FALSE, &matrices.projectionInverse->r[0][0]);
+		glUniformMatrix4fv(projSkybox, 1, GL_FALSE, &matrices.projection->r[0][0]);
+	}
 }
 #endif // !BAJSAPA
