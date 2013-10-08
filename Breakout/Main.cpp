@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifndef BAJSAPA
 #include <crtdbg.h>
 #endif  // BAJSAPA
 #include "Windowhandler.h"
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	wh->run();
 
 	SAFE_DELETE(wh);
-#ifdef BAJSAPA
+#ifndef BAJSAPA
 	_CrtDumpMemoryLeaks();
 #endif
 }

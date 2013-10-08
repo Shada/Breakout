@@ -35,5 +35,5 @@ void main()
     //normal of vertex in view space
     normal_viewspace = (view * model * vec4(vertexNorm, 0)).xyz; // Maybe need to use inverse transpose of model matrix. depends on scaling
 
-    UV = vertexUV;
+    UV = vec2(vertexUV.x, 1 - vertexUV.y);
 }

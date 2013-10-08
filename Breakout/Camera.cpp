@@ -59,7 +59,7 @@ void Camera::update()
 {
 	Vec3 up, pos, rot;
 	Matrix rotationMatrix;
-	float radianConv = (float)(PI/180); //Used to convert from degree to radians
+	float radianConv = (float)(PI)/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);

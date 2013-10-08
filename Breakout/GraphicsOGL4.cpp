@@ -68,7 +68,10 @@ GraphicsOGL4::~GraphicsOGL4()
 	ProgramGLSL::cleanup();
 	// delete stored buffer from opengl
 	glDeleteBuffers(1, &vertexBufferStatic);
+	glDeleteBuffers(1, &uiBufferDynamic);
 	SAFE_DELETE(program);
+	SAFE_DELETE(skyboxProgram);
+	SAFE_DELETE(billboardProgram);
 	glDeleteVertexArrays(1, &VertexArrayID);
 	for(unsigned int i = 0; i < textures->size(); i++)
 		glDeleteTextures(1, &textures->at(i));
@@ -238,6 +241,7 @@ int GraphicsOGL4::feedStaticBufferData(std::vector<Vertex> _vertexpoints)
 	return 0; // will need to be calculated based on how much there are already //....WTF!??!?! What the hell did I mean with this !?!?! 
 }
 
+//will be dynamic buffer or what!?
 int GraphicsOGL4::feedUIBufferData(std::vector<tempBBUI> _points)
 {
 	// bind vertex buffer to GPU
@@ -327,10 +331,7 @@ void GraphicsOGL4::useTexture(int _index)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
 
-	glUniform1i(skyboxTexID, 0);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
-	glUniform1i(diffuseTexID, 2);
+	glUniform1i(0, 0);
 }
 
 void GraphicsOGL4::updateModelMatrix(Matrix *_model)
