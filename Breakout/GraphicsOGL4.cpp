@@ -98,6 +98,22 @@ void GraphicsOGL4::draw()
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
 
+	useMatrices(program->getProgramID());
+
+	//--------------------------------------------------------------------------------
+	//									  Skybox
+	//--------------------------------------------------------------------------------
+	updateModelMatrix(&Matrix());
+
+	useTexture(objectCore->skybox->getTextureID());
+
+	modelID = objectCore->skybox->getModelID();
+
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
@@ -108,9 +124,6 @@ void GraphicsOGL4::draw()
 	// update inverse model matrix in graphics class
 	updateModelInvTransMatrix(&objectCore->ball->getWorldInv());
 
-	// use all matrices. Maybe have one for model matrices and one for camera matrices.. 
-	// redundant to send in camera matrices for every object....
-	useMatrices(program->getProgramID());
 	// use texture for ball
 	useTexture(objectCore->ball->getTextureID());
 	// get modelid for ball.
