@@ -13,7 +13,7 @@ namespace Logic
 		scale		= Vec3(1,1,1);
 		position	= Vec3(0,0,0);
 		rotation	= Vec3(0,0,0);
-
+		textureID = 0;
 		direction = Vec3(1, 1, 0);
 		radius = 3.09543991f;
 		direction.normalize();
@@ -28,11 +28,16 @@ namespace Logic
 	{
 	}
 
+	void Ball::setPosition(Vec3 _pos)
+	{
+		position = _pos;
+	}
+
 	void Ball::update(double _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
+		lastFrame = position;
 		position += direction * speed * (float)_dt;
-		nextFrame = position + (direction * speed * (float)_dt);
 
 		updateWorld();
 	}

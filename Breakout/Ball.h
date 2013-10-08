@@ -9,7 +9,7 @@ namespace Logic
 	{
 	private:
 		float speed;
-		Vec3 direction, nextFrame;
+		Vec3 direction, lastFrame;
 		float radius;
 
 		int shaderTechniqueID;
@@ -25,10 +25,12 @@ namespace Logic
 		Vec3 getDirection()		{ return direction; };
 
 		/* Returns position for where ball would be next frame, assuming same deltaTime. */
-		Vec3 getNextFrame()		{ return nextFrame; };
+		Vec3 getLastFrame()		{ return lastFrame; };
+		float getSpeed()		{ return speed; }
 
 		/* Sets the direction-variables. Use NULL if you want them to remain unchanged. */
 		void setDirection(float x, float y, float z);
+		void setPosition(Vec3 _pos);
 	};
 }
 #endif // ! _BALL_H_
