@@ -18,7 +18,11 @@ void Model::addData(Vertex iData)
 	data.push_back(iData);
 	vertexAmount++;
 }
-
+void Model::addData(std::vector<Vertex> _data)
+{
+	data.insert(data.end(),_data.begin(),_data.end());
+	vertexAmount+=_data.size();
+}
 void Model::setStartIndex(int _index)
 {
 	startIndex = _index;

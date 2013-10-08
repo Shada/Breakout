@@ -52,6 +52,9 @@ class DInputhandler : public Inputhandler
 {
 private:
 
+	POINT setMouse;
+	HWND					hWnd;
+
 	LPDIRECTINPUT8			directInput;
 
 	LPDIRECTINPUTDEVICE8	keyboardInput;
@@ -90,5 +93,5 @@ public:
 	void updateGame();
 };
 
-#endif // _WIN32
+#endif // BAJSAPA
 #endif // ! _INPUTHANDLER_H_

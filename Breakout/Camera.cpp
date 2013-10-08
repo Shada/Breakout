@@ -6,7 +6,9 @@
 Camera::Camera()
 {
 	position = Vec3(75, 75, -150);
+	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
+	lookAt = Vec3(0,0,1);
 
 #ifndef BAJSAPA
     // Send pointers to camera matrices to graphic engine
@@ -16,8 +18,8 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-    perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01f, 600.f);
-
+    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
+	
 	MatrixInversion(projectionInv, projectionMatrix);
 
 #ifdef BAJSAPA
@@ -55,14 +57,13 @@ Vec3 Camera::getRotation()
 
 void Camera::update()
 {
-	Vec3 up, pos, lookAt, rot;
+	Vec3 up, pos, rot;
 	Matrix rotationMatrix;
 	float radianConv = (float)(PI/180); //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
 	pos = position;
-	lookAt = Vec3(0,0,1);
 
 	//Set yaw, pitch and roll rotations in radians
 	rot.x = rotation.x * radianConv;
@@ -78,10 +79,11 @@ void Camera::update()
 
 
 	//Translate rotated camera position to location of viewer
-	//lookAt = pos + lookAt;
+	lookAt = pos + Vec3(0,0,1);
 
 	//Create view matrix from vectors
-    lookAtLH(viewMatrix, lookAt, up, pos);
+
+    lookAtLHP(viewMatrix, lookAt, up, pos);
 
 	MatrixInversion(viewInv, viewMatrix);
 

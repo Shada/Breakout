@@ -1,7 +1,7 @@
 #include "LoadHandler.h"
 #include <iostream>
 #include <fstream>
-
+#include "Skybox.h"
 namespace Resources
 {
 
@@ -63,6 +63,13 @@ namespace Resources
 			}
 		}
 		myfile.close();
+
+		// add the skybox model
+		// might be exchanged with having a obj file
+		// instead of generating the vertices
+		Model* tModel = new Model();
+		tModel->addData(Skybox::generateVertices());
+		models.push_back(tModel);
 	}
 
 	LoadHandler::~LoadHandler()

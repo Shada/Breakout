@@ -1,0 +1,1058 @@
+﻿Build started 2013-10-04 14:41:56.
+     1>Project "C:\Users\Torrebjörne\Documents\GitHub\Breakout\Breakout\Breakout.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppCommon.targets(172,5): warning MSB8018: No outputs specified for item "shaders\hlsl\gsBBUI.fx". Its custom build command will be skipped.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Ball.cpp Brick.cpp Camera.cpp GameLogic.cpp Gameplay.cpp Inputhandler.cpp Map.cpp MenuElement.cpp ObjectCore.cpp Pad.cpp ProgramGLSL.cpp Skybox.cpp Sound.cpp SoundSystem.cpp Timer.cpp GraphicsDX11.cpp GraphicsOGL4.cpp TechniqueHLSL.cpp Loader.cpp LoadHandler.cpp Main.cpp Model.cpp Texture.cpp Water.cpp Windowhandler.cpp
+         Ball.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\excpt.h(29): error C2143: syntax error : missing ';' before 'string'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\excpt.h(29): error C2059: syntax error : 'string'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\excpt.h(29): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\excpt.h(29): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1246): error C2143: syntax error : missing ';' before '__stdcall'
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1246): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1252): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1254): error C2143: syntax error : missing ';' before '*'
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1254): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1254): error C2365: 'Logic::EXCEPTION_ROUTINE' : redefinition; previous definition was 'function'
+                 C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(1247) : see declaration of 'Logic::EXCEPTION_ROUTINE'
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(10749): error C2146: syntax error : missing ';' before identifier 'Handler'
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\um\winnt.h(10749): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(89): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(107): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2039: '_Collvec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2146: syntax error : missing ';' before identifier '_Collvec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2602: 'Logic::std::_Locinfo::_Collvec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57) : see declaration of 'Logic::std::_Locinfo::_Collvec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2868: 'Logic::std::_Locinfo::_Collvec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2039: '_Ctypevec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2146: syntax error : missing ';' before identifier '_Ctypevec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2602: 'Logic::std::_Locinfo::_Ctypevec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58) : see declaration of 'Logic::std::_Locinfo::_Ctypevec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2868: 'Logic::std::_Locinfo::_Ctypevec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2039: '_Cvtvec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2146: syntax error : missing ';' before identifier '_Cvtvec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2602: 'Logic::std::_Locinfo::_Cvtvec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59) : see declaration of 'Logic::std::_Locinfo::_Cvtvec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2868: 'Logic::std::_Locinfo::_Cvtvec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2039: '_Timevec' : is not a member of 'std'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2146: syntax error : missing ';' before identifier '_Timevec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2602: 'Logic::std::_Locinfo::_Timevec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60) : see declaration of 'Logic::std::_Locinfo::_Timevec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2868: 'Logic::std::_Locinfo::_Timevec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(225): error C2146: syntax error : missing ';' before identifier '_Lock'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(225): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(76): error C2614: 'Logic::std::_Locinfo' : illegal member initialization: '_Lock' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(78): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(87): error C2614: 'Logic::std::_Locinfo' : illegal member initialization: '_Lock' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(89): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(101): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(107): error C2065: '_Newlocname' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(107): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(112): error C2039: '_Getcoll' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(117): error C2039: '_Getctype' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(122): error C2039: '_Getcvt' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(132): error C2039: '_Gettnames' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(137): error C2039: '_Getdays' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(141): error C2039: '_Days' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2065: '_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(151): error C2039: '_Getmonths' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(155): error C2039: '_Months' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2065: '_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(177): error C2039: '_Getdateorder' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(182): error C2039: '_W_Gettnames' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(187): error C2039: '_W_Getdays' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(187): error C2440: 'initializing' : cannot convert from 'const unsigned short *' to 'const wchar_t *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(191): error C2039: '_W_Days' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(194): error C2065: '_W_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(194): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(195): error C2065: '_W_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(195): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(202): error C2039: '_W_Getmonths' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(202): error C2440: 'initializing' : cannot convert from 'const unsigned short *' to 'const wchar_t *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(206): error C2039: '_W_Months' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(209): error C2065: '_W_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(209): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(210): error C2065: '_W_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(210): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(255): error C2664: 'Logic::_Strcoll' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(263): error C2664: 'Logic::_Wcscoll' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(285): error C2664: 'Logic::_Strxfrm' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(294): error C2664: 'Logic::_Wcsxfrm' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(156): error C2146: syntax error : missing ';' before identifier '_Refs'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(156): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(253): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(253): error C2143: syntax error : missing ',' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(296): error C2460: 'Logic::std::locale::_Uninitialized' : uses 'Logic::std::locale', which is being defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(63) : see declaration of 'Logic::std::locale'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(296): error C2473: '_Uninitialized' : looks like a function definition, but there is no parameter list.
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(322): error C2039: '_Ptr' : is not a member of 'Logic::std::locale'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(63) : see declaration of 'Logic::std::locale'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(323): error C2550: 'Logic::std::locale' : constructor initializer lists are only allowed on constructor definitions
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(324): error C2065: '_Ptr' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(324): error C2227: left of '->_Incref' must point to class/struct/union/generic type
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(144): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(149): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2065: '_Atomic_integral_t' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2146: syntax error : missing ')' before identifier '_Initrefs'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2059: syntax error : ')'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(206): error C2614: 'Logic::std::locale::_Locimp' : illegal member initialization: '_Name' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(212): error C2039: '_Name' : is not a member of 'Logic::std::locale::_Locimp'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(179) : see declaration of 'Logic::std::locale::_Locimp'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(212): error C2228: left of '.c_str' must have class/struct/union
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(213): error C2614: 'Logic::std::locale::_Locimp' : illegal member initialization: '_Name' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(328): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(328): error C3861: '_Init': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(328): fatal error C1003: error count exceeds 100; stopping compilation
+         Brick.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>Brick.cpp(11): error C2888: 'Logic::Brick::Brick(Vec3)' : symbol cannot be defined within namespace 'Logic'
+     1>Brick.cpp(25): error C2888: 'Logic::Brick::~Brick(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Brick.cpp(30): error C2888: 'void Logic::Brick::update(double)' : symbol cannot be defined within namespace 'Logic'
+     1>Brick.cpp(35): error C2888: 'void Logic::Brick::damage(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Brick.cpp(41): error C2888: 'void Logic::Brick::destroy(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Brick.cpp(46): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         Camera.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>Camera.cpp(7): error C2888: 'Camera::Camera(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(21): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Camera.cpp(35): error C2888: 'Camera::~Camera(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(39): error C2888: 'void Camera::setPosition(Vec3)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(44): error C2888: 'void Camera::setRotation(Vec3)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(49): error C2888: 'Vec3 Camera::getPosition(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(54): error C2888: 'Vec3 Camera::getRotation(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(59): error C2888: 'void Camera::update(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(104): error C2888: 'Matrix Camera::getViewMatrix(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Camera.cpp(107): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         GameLogic.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(25): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(31) : see reference to class template instantiation 'Logic::std::plus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(36): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(42) : see reference to class template instantiation 'Logic::std::minus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(47): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(53) : see reference to class template instantiation 'Logic::std::multiplies<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(58): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(64) : see reference to class template instantiation 'Logic::std::divides<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(69): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(75) : see reference to class template instantiation 'Logic::std::modulus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(80): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(86) : see reference to class template instantiation 'Logic::std::negate<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(94): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(100) : see reference to class template instantiation 'Logic::std::not_equal_to<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(105): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(111) : see reference to class template instantiation 'Logic::std::greater<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(119): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(125) : see reference to class template instantiation 'Logic::std::greater_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(130): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(136) : see reference to class template instantiation 'Logic::std::less_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(141): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(147) : see reference to class template instantiation 'Logic::std::logical_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(152): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(158) : see reference to class template instantiation 'Logic::std::logical_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(163): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(169) : see reference to class template instantiation 'Logic::std::logical_not<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(175): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(181) : see reference to class template instantiation 'Logic::std::bit_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(186): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(192) : see reference to class template instantiation 'Logic::std::bit_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(197): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(203) : see reference to class template instantiation 'Logic::std::bit_xor<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(224) : see reference to class template instantiation 'Logic::std::unary_negate<_Fn1>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(253) : see reference to class template instantiation 'Logic::std::binary_negate<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(237): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(293) : see reference to class template instantiation 'Logic::std::binder1st<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(266): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(270): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2868: 'Logic::std::binder1st<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2868: 'Logic::std::binder1st<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(335) : see reference to class template instantiation 'Logic::std::binder2nd<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(308): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(312): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2868: 'Logic::std::binder2nd<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2868: 'Logic::std::binder2nd<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(351): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(366) : see reference to class template instantiation 'Logic::std::pointer_to_unary_function<_Arg,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(374): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(389) : see reference to class template instantiation 'Logic::std::pointer_to_binary_function<_Arg1,_Arg2,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(492): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(507) : see reference to class template instantiation 'Logic::std::mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(514): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(529) : see reference to class template instantiation 'Logic::std::mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(535): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(550) : see reference to class template instantiation 'Logic::std::const_mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(557): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(572) : see reference to class template instantiation 'Logic::std::const_mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(620): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(635) : see reference to class template instantiation 'Logic::std::mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(642): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(657) : see reference to class template instantiation 'Logic::std::mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(663): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(678) : see reference to class template instantiation 'Logic::std::const_mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(685): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(700) : see reference to class template instantiation 'Logic::std::const_mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(89): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(107): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2976: 'Logic::std::_Is_nothrow_constructible' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(38): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2974: 'Logic::std::_Is_nothrow_constructible' : invalid template argument for '_Tuple1', type expected
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2977: 'Logic::std::_Is_nothrow_constructible' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2447: '{' : missing function header (old-style formal list?)
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2976: 'Logic::std::_Is_nothrow_assignable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2953: 'Logic::std::_Is_nothrow_assignable' : class template has already been defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(64): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(83): error C2977: 'Logic::std::_Is_nothrow_assignable' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(97): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(98): error C2143: syntax error : missing ';' before '}'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2947: expecting '>' to terminate template-argument-list, found '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: '_Src0' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2976: 'Logic::std::_Tuple_enable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C3381: 'Logic::std::_Tuple_enable' : assembly access specifiers are only available in code compiled with a /clr option
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2913: explicit specialization; 'Logic::std::_Tuple_enable' is not a specialization of a class template
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : 'public'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): fatal error C1003: error count exceeds 100; stopping compilation
+         Gameplay.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(25): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(31) : see reference to class template instantiation 'Logic::std::plus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(36): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(42) : see reference to class template instantiation 'Logic::std::minus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(47): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(53) : see reference to class template instantiation 'Logic::std::multiplies<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(58): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(64) : see reference to class template instantiation 'Logic::std::divides<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(69): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(75) : see reference to class template instantiation 'Logic::std::modulus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(80): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(86) : see reference to class template instantiation 'Logic::std::negate<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(94): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(100) : see reference to class template instantiation 'Logic::std::not_equal_to<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(105): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(111) : see reference to class template instantiation 'Logic::std::greater<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(119): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(125) : see reference to class template instantiation 'Logic::std::greater_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(130): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(136) : see reference to class template instantiation 'Logic::std::less_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(141): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(147) : see reference to class template instantiation 'Logic::std::logical_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(152): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(158) : see reference to class template instantiation 'Logic::std::logical_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(163): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(169) : see reference to class template instantiation 'Logic::std::logical_not<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(175): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(181) : see reference to class template instantiation 'Logic::std::bit_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(186): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(192) : see reference to class template instantiation 'Logic::std::bit_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(197): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(203) : see reference to class template instantiation 'Logic::std::bit_xor<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(224) : see reference to class template instantiation 'Logic::std::unary_negate<_Fn1>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(253) : see reference to class template instantiation 'Logic::std::binary_negate<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(237): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(293) : see reference to class template instantiation 'Logic::std::binder1st<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(266): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(270): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2868: 'Logic::std::binder1st<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2868: 'Logic::std::binder1st<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(335) : see reference to class template instantiation 'Logic::std::binder2nd<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(308): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(312): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2868: 'Logic::std::binder2nd<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2868: 'Logic::std::binder2nd<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(351): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(366) : see reference to class template instantiation 'Logic::std::pointer_to_unary_function<_Arg,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(374): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(389) : see reference to class template instantiation 'Logic::std::pointer_to_binary_function<_Arg1,_Arg2,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(492): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(507) : see reference to class template instantiation 'Logic::std::mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(514): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(529) : see reference to class template instantiation 'Logic::std::mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(535): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(550) : see reference to class template instantiation 'Logic::std::const_mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(557): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(572) : see reference to class template instantiation 'Logic::std::const_mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(620): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(635) : see reference to class template instantiation 'Logic::std::mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(642): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(657) : see reference to class template instantiation 'Logic::std::mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(663): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(678) : see reference to class template instantiation 'Logic::std::const_mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(685): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(700) : see reference to class template instantiation 'Logic::std::const_mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(89): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(107): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2976: 'Logic::std::_Is_nothrow_constructible' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(38): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2974: 'Logic::std::_Is_nothrow_constructible' : invalid template argument for '_Tuple1', type expected
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2977: 'Logic::std::_Is_nothrow_constructible' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2447: '{' : missing function header (old-style formal list?)
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2976: 'Logic::std::_Is_nothrow_assignable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2953: 'Logic::std::_Is_nothrow_assignable' : class template has already been defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(64): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(83): error C2977: 'Logic::std::_Is_nothrow_assignable' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(97): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(98): error C2143: syntax error : missing ';' before '}'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2947: expecting '>' to terminate template-argument-list, found '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: '_Src0' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2976: 'Logic::std::_Tuple_enable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C3381: 'Logic::std::_Tuple_enable' : assembly access specifiers are only available in code compiled with a /clr option
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2913: explicit specialization; 'Logic::std::_Tuple_enable' is not a specialization of a class template
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : 'public'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): fatal error C1003: error count exceeds 100; stopping compilation
+         Inputhandler.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+         Map.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(8): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(9): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(9): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(89): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\typeinfo(107): error C2504: 'exception' : base class undefined
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2039: '_Collvec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2146: syntax error : missing ';' before identifier '_Collvec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2602: 'Logic::std::_Locinfo::_Collvec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57) : see declaration of 'Logic::std::_Locinfo::_Collvec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(57): error C2868: 'Logic::std::_Locinfo::_Collvec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2039: '_Ctypevec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2146: syntax error : missing ';' before identifier '_Ctypevec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2602: 'Logic::std::_Locinfo::_Ctypevec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58) : see declaration of 'Logic::std::_Locinfo::_Ctypevec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(58): error C2868: 'Logic::std::_Locinfo::_Ctypevec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2039: '_Cvtvec' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2146: syntax error : missing ';' before identifier '_Cvtvec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2602: 'Logic::std::_Locinfo::_Cvtvec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59) : see declaration of 'Logic::std::_Locinfo::_Cvtvec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(59): error C2868: 'Logic::std::_Locinfo::_Cvtvec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2039: '_Timevec' : is not a member of 'std'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2146: syntax error : missing ';' before identifier '_Timevec'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2602: 'Logic::std::_Locinfo::_Timevec' is not a member of a base class of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60) : see declaration of 'Logic::std::_Locinfo::_Timevec'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(60): error C2868: 'Logic::std::_Locinfo::_Timevec' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(225): error C2146: syntax error : missing ';' before identifier '_Lock'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(225): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(228): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(229): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(230): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(231): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(232): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(233): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(76): error C2614: 'Logic::std::_Locinfo' : illegal member initialization: '_Lock' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(78): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(87): error C2614: 'Logic::std::_Locinfo' : illegal member initialization: '_Lock' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(89): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(101): error C3861: 'runtime_error': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(107): error C2065: '_Newlocname' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(107): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(112): error C2039: '_Getcoll' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(117): error C2039: '_Getctype' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(122): error C2039: '_Getcvt' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(132): error C2039: '_Gettnames' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(137): error C2039: '_Getdays' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(141): error C2039: '_Days' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2065: '_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(144): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(151): error C2039: '_Getmonths' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(155): error C2039: '_Months' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2065: '_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(158): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(177): error C2039: '_Getdateorder' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(182): error C2039: '_W_Gettnames' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(187): error C2039: '_W_Getdays' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(187): error C2440: 'initializing' : cannot convert from 'const unsigned short *' to 'const wchar_t *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(191): error C2039: '_W_Days' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(194): error C2065: '_W_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(194): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(195): error C2065: '_W_Days' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(195): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(202): error C2039: '_W_Getmonths' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(202): error C2440: 'initializing' : cannot convert from 'const unsigned short *' to 'const wchar_t *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(206): error C2039: '_W_Months' : is not a member of 'Logic::std::_Locinfo'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(55) : see declaration of 'Logic::std::_Locinfo'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(209): error C2065: '_W_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(209): error C2228: left of '._Empty' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(210): error C2065: '_W_Months' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(210): error C2228: left of '._C_str' must have class/struct/union
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(255): error C2664: 'Logic::_Strcoll' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(263): error C2664: 'Logic::_Wcscoll' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(285): error C2664: 'Logic::_Strxfrm' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocinfo(294): error C2664: 'Logic::_Wcsxfrm' : cannot convert parameter 5 from 'const Logic::std::_Locinfo::_Collvec *' to 'const Logic::_Collvec *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(156): error C2146: syntax error : missing ';' before identifier '_Refs'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(156): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(240): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(253): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(253): error C2143: syntax error : missing ',' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(296): error C2460: 'Logic::std::locale::_Uninitialized' : uses 'Logic::std::locale', which is being defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(63) : see declaration of 'Logic::std::locale'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(296): error C2473: '_Uninitialized' : looks like a function definition, but there is no parameter list.
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(322): error C2039: '_Ptr' : is not a member of 'Logic::std::locale'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(63) : see declaration of 'Logic::std::locale'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(323): error C2550: 'Logic::std::locale' : constructor initializer lists are only allowed on constructor definitions
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(324): error C2065: '_Ptr' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(324): error C2227: left of '->_Incref' must point to class/struct/union/generic type
+                 type is ''unknown-type''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(144): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(149): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2065: '_Refs' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2065: '_Atomic_integral_t' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2146: syntax error : missing ')' before identifier '_Initrefs'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(161): error C2059: syntax error : ')'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(206): error C2614: 'Logic::std::locale::_Locimp' : illegal member initialization: '_Name' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(212): error C2039: '_Name' : is not a member of 'Logic::std::locale::_Locimp'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(179) : see declaration of 'Logic::std::locale::_Locimp'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(212): error C2228: left of '.c_str' must have class/struct/union
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(213): error C2614: 'Logic::std::locale::_Locimp' : illegal member initialization: '_Name' is not a base or member
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(328): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(328): error C3861: '_Init': identifier not found
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(329): error C2550: 'Logic::std::locale' : constructor initializer lists are only allowed on constructor definitions
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(330): warning C4508: 'Logic::std::locale' : function should return a value; 'void' return type assumed
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(332): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(332): error C2143: syntax error : missing ',' before '&'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(334): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(334): error C2653: '_Locimp' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(334): error C2065: '_Loc' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(334): error C2228: left of '._Ptr' must have class/struct/union
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xlocale(334): fatal error C1003: error count exceeds 100; stopping compilation
+         MenuElement.cpp
+         ObjectCore.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(8): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(9): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Resource.h(9): error C2447: '{' : missing function header (old-style formal list?)
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Skybox.h(12): error C2065: 'Vertex' : undeclared identifier
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Skybox.h(12): error C2923: 'std::vector' : 'Vertex' is not a valid template type argument for parameter '_Ty'
+     1>ObjectCore.cpp(32): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         Pad.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Water.h(2): error C2236: unexpected token 'class'. Did you forget a ';'?
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Water.h(3): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Water.h(3): error C2447: '{' : missing function header (old-style formal list?)
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\ObjectCore.h(25): error C2143: syntax error : missing ';' before '*'
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\ObjectCore.h(25): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>Pad.cpp(7): error C2888: 'Vec3 Logic::Pad::posKey' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(8): error C2888: 'Vec3 Logic::Pad::posMouse' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(9): error C2888: 'Vec3 Logic::Pad::rotMouse' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(10): error C2888: 'Vec3 Logic::Pad::rotKey' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(11): error C2888: 'bool Logic::Pad::releaseBall' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(13): error C2888: 'Logic::Pad::Pad(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(36): error C2888: 'Logic::Pad::~Pad(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(41): error C2888: 'void Logic::Pad::setPosition(Vec3)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(47): error C2888: 'void Logic::Pad::update(double)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(100): error C2888: 'void Logic::Pad::move2D(double,float)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(105): error C2888: 'void Logic::Pad::move3D(double,float)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(117): error C2888: 'void Logic::Pad::rotate(int)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(126): error C2888: 'void Logic::Pad::rotateRight(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(135): error C2888: 'void Logic::Pad::rotateLeft(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(144): error C2888: 'void Logic::Pad::ejectBall(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Pad.cpp(148): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         ProgramGLSL.cpp
+         Skybox.cpp
+         Sound.cpp
+         SoundSystem.cpp
+         Timer.cpp
+         GraphicsDX11.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>GraphicsDX11.cpp(630): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         GraphicsOGL4.cpp
+         TechniqueHLSL.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>TechniqueHLSL.cpp(14): error C2888: 'TechniqueHLSL::TechniqueHLSL(ID3D11Device *,std::string,std::string,std::string,std::string,std::string,std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(25): error C2888: 'TechniqueHLSL::TechniqueHLSL(ID3D11Device *,std::string,std::string,std::string,std::string,std::string,std::string,std::string,std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(36): error C2888: 'int TechniqueHLSL::insertVertexShader(std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(98): error C2888: 'int TechniqueHLSL::insertHullShader(std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(156): error C2888: 'int TechniqueHLSL::insertDomainShader(std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(214): error C2888: 'int TechniqueHLSL::insertGeometryShader(std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(274): error C2888: 'int TechniqueHLSL::insertPixelShader(std::string,std::string)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(337): error C2888: 'void TechniqueHLSL::useTechnique(void)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(367): error C2888: 'void TechniqueHLSL::cleanUp(void)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(391): error C2888: 'TechniqueHLSL::~TechniqueHLSL(void)' : symbol cannot be defined within namespace 'Logic'
+     1>TechniqueHLSL.cpp(397): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         Loader.cpp
+         LoadHandler.cpp
+         Compiling...
+         Main.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(25): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(31) : see reference to class template instantiation 'Logic::std::plus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(36): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(42) : see reference to class template instantiation 'Logic::std::minus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(47): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(53) : see reference to class template instantiation 'Logic::std::multiplies<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(58): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(64) : see reference to class template instantiation 'Logic::std::divides<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(69): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(75) : see reference to class template instantiation 'Logic::std::modulus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(80): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(86) : see reference to class template instantiation 'Logic::std::negate<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(94): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(100) : see reference to class template instantiation 'Logic::std::not_equal_to<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(105): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(111) : see reference to class template instantiation 'Logic::std::greater<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(119): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(125) : see reference to class template instantiation 'Logic::std::greater_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(130): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(136) : see reference to class template instantiation 'Logic::std::less_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(141): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(147) : see reference to class template instantiation 'Logic::std::logical_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(152): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(158) : see reference to class template instantiation 'Logic::std::logical_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(163): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(169) : see reference to class template instantiation 'Logic::std::logical_not<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(175): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(181) : see reference to class template instantiation 'Logic::std::bit_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(186): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(192) : see reference to class template instantiation 'Logic::std::bit_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(197): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(203) : see reference to class template instantiation 'Logic::std::bit_xor<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(224) : see reference to class template instantiation 'Logic::std::unary_negate<_Fn1>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(253) : see reference to class template instantiation 'Logic::std::binary_negate<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(237): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(293) : see reference to class template instantiation 'Logic::std::binder1st<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(266): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(270): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2868: 'Logic::std::binder1st<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2868: 'Logic::std::binder1st<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(335) : see reference to class template instantiation 'Logic::std::binder2nd<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(308): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(312): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2868: 'Logic::std::binder2nd<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2868: 'Logic::std::binder2nd<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(351): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(366) : see reference to class template instantiation 'Logic::std::pointer_to_unary_function<_Arg,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(374): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(389) : see reference to class template instantiation 'Logic::std::pointer_to_binary_function<_Arg1,_Arg2,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(492): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(507) : see reference to class template instantiation 'Logic::std::mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(514): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(529) : see reference to class template instantiation 'Logic::std::mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(535): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(550) : see reference to class template instantiation 'Logic::std::const_mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(557): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(572) : see reference to class template instantiation 'Logic::std::const_mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(620): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(635) : see reference to class template instantiation 'Logic::std::mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(642): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(657) : see reference to class template instantiation 'Logic::std::mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(663): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(678) : see reference to class template instantiation 'Logic::std::const_mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(685): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(700) : see reference to class template instantiation 'Logic::std::const_mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2976: 'Logic::std::_Is_nothrow_constructible' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(38): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2974: 'Logic::std::_Is_nothrow_constructible' : invalid template argument for '_Tuple1', type expected
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2977: 'Logic::std::_Is_nothrow_constructible' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2447: '{' : missing function header (old-style formal list?)
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2976: 'Logic::std::_Is_nothrow_assignable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2953: 'Logic::std::_Is_nothrow_assignable' : class template has already been defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(64): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(83): error C2977: 'Logic::std::_Is_nothrow_assignable' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(97): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(98): error C2143: syntax error : missing ';' before '}'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2947: expecting '>' to terminate template-argument-list, found '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: '_Src0' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2976: 'Logic::std::_Tuple_enable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C3381: 'Logic::std::_Tuple_enable' : assembly access specifiers are only available in code compiled with a /clr option
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2913: explicit specialization; 'Logic::std::_Tuple_enable' is not a specialization of a class template
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : 'public'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2039: 'value' : is not a member of 'Logic::std::_Tuple_enable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): fatal error C1003: error count exceeds 100; stopping compilation
+         Model.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>Model.cpp(7): error C2888: 'Model::Model(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Model.cpp(13): error C2888: 'Model::~Model(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Model.cpp(17): error C2888: 'void Model::addData(Vertex)' : symbol cannot be defined within namespace 'Logic'
+     1>Model.cpp(22): error C2888: 'void Model::addData(std::vector<_Ty>)' : symbol cannot be defined within namespace 'Logic'
+                 with
+                 [
+                     _Ty=Vertex
+                 ]
+     1>Model.cpp(27): error C2888: 'void Model::setStartIndex(int)' : symbol cannot be defined within namespace 'Logic'
+     1>Model.cpp(32): error C2888: 'void Model::lastFace(void)' : symbol cannot be defined within namespace 'Logic'
+     1>Model.cpp(36): fatal error C1075: end of file found before the left brace '{' at 'c:\users\torrebjörne\documents\github\breakout\breakout\Ball.h(7)' was matched
+         Texture.cpp
+         Water.cpp
+         Windowhandler.cpp
+     1>c:\users\torrebjörne\documents\github\breakout\breakout\Pad.h(7): error C2143: syntax error : missing ';' before 'namespace'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(25): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(31) : see reference to class template instantiation 'Logic::std::plus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(36): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(42) : see reference to class template instantiation 'Logic::std::minus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(47): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(53) : see reference to class template instantiation 'Logic::std::multiplies<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(58): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(64) : see reference to class template instantiation 'Logic::std::divides<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(69): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(75) : see reference to class template instantiation 'Logic::std::modulus<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(80): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(86) : see reference to class template instantiation 'Logic::std::negate<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(94): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(100) : see reference to class template instantiation 'Logic::std::not_equal_to<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(105): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(111) : see reference to class template instantiation 'Logic::std::greater<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(119): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(125) : see reference to class template instantiation 'Logic::std::greater_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(130): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(136) : see reference to class template instantiation 'Logic::std::less_equal<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(141): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(147) : see reference to class template instantiation 'Logic::std::logical_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(152): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(158) : see reference to class template instantiation 'Logic::std::logical_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(163): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(169) : see reference to class template instantiation 'Logic::std::logical_not<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(175): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(181) : see reference to class template instantiation 'Logic::std::bit_and<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(186): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(192) : see reference to class template instantiation 'Logic::std::bit_or<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(197): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(203) : see reference to class template instantiation 'Logic::std::bit_xor<_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(224) : see reference to class template instantiation 'Logic::std::unary_negate<_Fn1>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(209): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(253) : see reference to class template instantiation 'Logic::std::binary_negate<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(236): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(237): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(293) : see reference to class template instantiation 'Logic::std::binder1st<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(265): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(266): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(269): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(270): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(271): error C2868: 'Logic::std::binder1st<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(272): error C2868: 'Logic::std::binder1st<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(335) : see reference to class template instantiation 'Logic::std::binder2nd<_Fn2>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(307): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(308): error C2518: keyword 'typename' illegal in base class list; ignored
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(311): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(312): error C2238: unexpected token(s) preceding ';'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2146: syntax error : missing ';' before identifier 'argument_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(313): error C2868: 'Logic::std::binder2nd<_Fn2>::argument_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2653: '_Base' : is not a class or namespace name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2146: syntax error : missing ';' before identifier 'result_type'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(314): error C2868: 'Logic::std::binder2nd<_Fn2>::result_type' : illegal syntax for using-declaration; expected qualified-name
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(351): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(366) : see reference to class template instantiation 'Logic::std::pointer_to_unary_function<_Arg,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(374): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(389) : see reference to class template instantiation 'Logic::std::pointer_to_binary_function<_Arg1,_Arg2,_Result,_Fn>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(492): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(507) : see reference to class template instantiation 'Logic::std::mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(514): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(529) : see reference to class template instantiation 'Logic::std::mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(535): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(550) : see reference to class template instantiation 'Logic::std::const_mem_fun_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(557): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(572) : see reference to class template instantiation 'Logic::std::const_mem_fun1_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(620): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(635) : see reference to class template instantiation 'Logic::std::mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(642): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(657) : see reference to class template instantiation 'Logic::std::mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(663): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(678) : see reference to class template instantiation 'Logic::std::const_mem_fun_ref_t<_Result,_Ty>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(685): error C2143: syntax error : missing ',' before '<'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\xfunctional(700) : see reference to class template instantiation 'Logic::std::const_mem_fun1_ref_t<_Result,_Ty,_Arg>' being compiled
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2976: 'Logic::std::_Is_nothrow_constructible' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(36): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(38): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(39): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2974: 'Logic::std::_Is_nothrow_constructible' : invalid template argument for '_Tuple1', type expected
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2977: 'Logic::std::_Is_nothrow_constructible' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2039: 'value' : is not a member of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(57): error C2447: '{' : missing function header (old-style formal list?)
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(22) : see declaration of 'Logic::std::_Is_nothrow_constructible'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2976: 'Logic::std::_Is_nothrow_assignable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2953: 'Logic::std::_Is_nothrow_assignable' : class template has already been defined
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(62): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2143: syntax error : missing ';' before '<'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(63): error C2086: 'int Logic::std::integral_constant' : redefinition
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(37) : see declaration of 'Logic::std::integral_constant'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(64): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(65): error C2447: '{' : missing function header (old-style formal list?)
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(83): error C2977: 'Logic::std::_Is_nothrow_assignable' : too many template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(30) : see declaration of 'Logic::std::_Is_nothrow_assignable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(95): error C2059: syntax error : '>>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(97): error C2143: syntax error : missing ';' before '{'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(98): error C2143: syntax error : missing ';' before '}'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2947: expecting '>' to terminate template-argument-list, found '>'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2236: unexpected token 'struct'. Did you forget a ';'?
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: 'tuple' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2065: '_Src0' : undeclared identifier
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2976: 'Logic::std::_Tuple_enable' : too few template arguments
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C3381: 'Logic::std::_Tuple_enable' : assembly access specifiers are only available in code compiled with a /clr option
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2143: syntax error : missing ';' before ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2913: explicit specialization; 'Logic::std::_Tuple_enable' is not a specialization of a class template
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : ','
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2059: syntax error : 'public'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2039: 'value' : is not a member of '`global namespace''
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): error C2039: 'value' : is not a member of 'Logic::std::_Tuple_enable'
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(90) : see declaration of 'Logic::std::_Tuple_enable'
+     1>C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\tuple(113): fatal error C1003: error count exceeds 100; stopping compilation
+     1>Done Building Project "C:\Users\Torrebjörne\Documents\GitHub\Breakout\Breakout\Breakout.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:11.34

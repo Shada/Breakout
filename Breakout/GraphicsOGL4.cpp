@@ -7,8 +7,6 @@ GraphicsOGL4 *GraphicsOGL4::instance = NULL;
 
 struct Matrices
 {
-    Matrix *model;
-	Matrix *modelInvTrans;
     Matrix *view;
     Matrix *viewInverse;
     Matrix *projection;
@@ -19,7 +17,6 @@ struct Matrices
 GraphicsOGL4::GraphicsOGL4()
 {
     // Initiate matrices so that they all are pointing to
-    matrices.model = NULL;
     matrices.view = NULL;
     matrices.viewInverse = NULL;
     matrices.projection = NULL;
@@ -44,6 +41,14 @@ GraphicsOGL4::GraphicsOGL4()
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
 
+	modelMatID		= glGetUniformLocation(program->getProgramID(), "model");
+	modelInvMatID	= glGetUniformLocation(program->getProgramID(), "modelInvTrans");
+	projMatID		= glGetUniformLocation(program->getProgramID(), "projection");
+	projInvMatID	= glGetUniformLocation(program->getProgramID(), "projectioninverse");
+	viewMatID		= glGetUniformLocation(program->getProgramID(), "view");
+	viewInvMatID	= glGetUniformLocation(program->getProgramID(), "viewinverse");
+
+	diffuseTexID = glGetUniformLocation(program->getProgramID(), "textureSampler");
 
 	//*****************************//
 	//!!!!! THIS IS JUST A TEST !!!!!
@@ -79,42 +84,13 @@ GraphicsOGL4 *GraphicsOGL4::getInstance()
 	return instance;
 }
 
-void GraphicsOGL4::draw(int _startIndex, int _numVerts)
-{
-
-    // program at certain position.. Send it in? or use from object... we'll see!!!
-    program->useProgram();
-
-
-    Matrix model;
-    //Test if can update model matrix
-	updateModelMatrix(&model);
-    useMatrices(program->getProgramID());
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
-
-	// use vertex layout
-	useStandardVertexAttribLayout();
-
-
-	//do some drawing
-	glDrawArrays(GL_TRIANGLES, _startIndex, _numVerts); // startindex = 0, num verts = 3
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-}
-
 void GraphicsOGL4::draw()
 {
 	// local variables
 	unsigned int vertexAmount, startIndex, modelID;
-	Matrix world, worldInvTrans;
 	
 	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
-
 
 	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
@@ -126,15 +102,11 @@ void GraphicsOGL4::draw()
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
 
-	// fetch world matrix
-	world = objectCore->ball->getWorld();
 	// update model matrix in graphics class.
-	updateModelMatrix(&world);
+	updateModelMatrix(&objectCore->ball->getWorld());
 
-	// invert model matrix, used for normal calculation on GPU
-	MatrixInversion(worldInvTrans, world);
 	// update inverse model matrix in graphics class
-	updateModelInvTransMatrix(&worldInvTrans);
+	updateModelInvTransMatrix(&objectCore->ball->getWorldInv());
 
 	// use all matrices. Maybe have one for model matrices and one for camera matrices.. 
 	// redundant to send in camera matrices for every object....
@@ -154,17 +126,9 @@ void GraphicsOGL4::draw()
 	//                                     Pad
 	//--------------------------------------------------------------------------------
 
-	world		= objectCore->pad->getWorld();
-	updateModelMatrix(&world);
+	updateModelMatrix(&objectCore->pad->getWorld());
 
-	worldInvTrans = world;
-	worldInvTrans.transpose();
-
-	MatrixInversion(worldInvTrans, worldInvTrans);
-
-	updateModelInvTransMatrix(&worldInvTrans);
-
-	useMatrices(program->getProgramID());
+	updateModelInvTransMatrix(&objectCore->pad->getWorldInv());
 
 	useTexture(objectCore->pad->getTextureID());
 	
@@ -180,14 +144,9 @@ void GraphicsOGL4::draw()
 
 	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
 	{
-		world		= objectCore->bricks.at(i)->getWorld();
-		updateModelMatrix(&world);
+		updateModelMatrix(&objectCore->bricks.at(i)->getWorld());
 
-		MatrixInversion(worldInvTrans, world);
-
-		updateModelInvTransMatrix(&worldInvTrans);
-	
-		useMatrices(program->getProgramID());
+		updateModelInvTransMatrix(&objectCore->bricks.at(i)->getWorldInv());
 		
 		useTexture(objectCore->bricks[i]->getTextureID());
 
@@ -197,12 +156,7 @@ void GraphicsOGL4::draw()
 
 		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
 	}
-	// disable vertex attributes 
-	// (maybe should be in function, so that not to many of few attributes are disabled...)
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-
+	
 	//---------------------------------------------------------------------------------
 	//                            billboard
 	//---------------------------------------------------------------------------------
@@ -216,9 +170,13 @@ void GraphicsOGL4::draw()
 	useTexture(0);
 	glDrawArrays(GL_POINTS, 0, 1);
 
+	// disable vertex attributes 
+	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);	
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 }
+
 void GraphicsOGL4::initVertexBuffer()
 {
 	std::vector<Vertex> vertices;
@@ -260,7 +218,7 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 	GLuint gl_texID;
 	std::vector<GLuint> *back = new std::vector<GLuint>();
 
-	for(int i = 0; i < lh->getTextureSize();i++)
+	for(unsigned int i = 0; i < lh->getTextureSize();i++)
 	{
 
 		//generate an OpenGL texture ID for this texture
@@ -332,19 +290,17 @@ void GraphicsOGL4::useTexture(int _index)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures->at(_index));
 
-	GLuint texID = glGetUniformLocation(program->getProgramID(), "textureSampler");
-
-	glUniform1i(texID, 0);
+	glUniform1i(diffuseTexID, 0);
 }
 
 void GraphicsOGL4::updateModelMatrix(Matrix *_model)
 {
-    matrices.model = _model;
+	glUniformMatrix4fv(modelMatID, 1, GL_FALSE, &_model->r[0][0]);
 }
 
 void GraphicsOGL4::updateModelInvTransMatrix(Matrix *_modelinvtrans)
 {
-	matrices.modelInvTrans = _modelinvtrans;
+	glUniformMatrix4fv(modelInvMatID, 1, GL_FALSE, &_modelinvtrans->r[0][0]);
 }
 
 void GraphicsOGL4::updateViewMatrix(Matrix *_view)
@@ -371,36 +327,14 @@ void GraphicsOGL4::useMatrices(GLuint _programID)
 {
     //this has to be changed.... not good to have to ask for id for every new program...
     // should have shared blocks/buffers
-	GLuint matrixID;
-	if(matrices.model)
-	{
-		matrixID = glGetUniformLocation(_programID, "model");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.model->r[0][0]);
-	}
-	if(matrices.modelInvTrans)
-	{
-		matrixID = glGetUniformLocation(_programID, "modelInvTrans");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.modelInvTrans->r[0][0]);
-	}
+	
 	if(matrices.view)
-	{
-		matrixID = glGetUniformLocation(program->getProgramID(), "view");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.view->r[0][0]);
-	}
+		glUniformMatrix4fv(viewMatID, 1, GL_FALSE, &matrices.view->r[0][0]);
 	if(matrices.viewInverse)
-	{
-		matrixID = glGetUniformLocation(program->getProgramID(), "viewinverse");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.viewInverse->r[0][0]);
-	}
+		glUniformMatrix4fv(viewInvMatID, 1, GL_FALSE, &matrices.viewInverse->r[0][0]);
 	if(matrices.projection)
-	{
-		matrixID = glGetUniformLocation(program->getProgramID(), "projection");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projection->r[0][0]);
-	}
-	if(matrices.projectionInverse){
-		matrixID = glGetUniformLocation(program->getProgramID(), "projectioninverse");
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &matrices.projectionInverse->r[0][0]);
-	}
-    matrices.model = NULL;
+		glUniformMatrix4fv(projMatID, 1, GL_FALSE, &matrices.projection->r[0][0]);
+	if(matrices.projectionInverse)
+		glUniformMatrix4fv(projInvMatID, 1, GL_FALSE, &matrices.projectionInverse->r[0][0]);
 }
 #endif // !BAJSAPA

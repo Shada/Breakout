@@ -50,7 +50,7 @@ ProgramGLSL::ProgramGLSL(std::string _name, std::string _vsPath, std::string _gs
     //7. check program
     glGetProgramiv(programID, GL_LINK_STATUS, &result);
     glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &infoLogLength);
-    std::vector<char> programErrorMessage(std::max(infoLogLength, int(1)));
+    std::vector<char> programErrorMessage(_max(infoLogLength, int(1)));
     glGetShaderInfoLog(programID, infoLogLength, NULL, &programErrorMessage[0]);
     fprintf(stdout, "Program Message: %s\n", &programErrorMessage[0]);
     if(result == GL_FALSE)

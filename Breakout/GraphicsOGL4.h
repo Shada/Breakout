@@ -31,6 +31,15 @@ private:
 	// dynamic buffer for UI elements
 	GLuint uiBufferDynamic;
 
+	GLuint	modelMatID,
+			modelInvMatID,
+			projMatID,
+			projInvMatID,
+			viewMatID,
+			viewInvMatID;
+
+	GLuint diffuseTexID;
+
     ProgramGLSL *program,
 				*billboardProgram;
 
@@ -46,8 +55,6 @@ private:
 	GraphicsOGL4();
 
 public:
-
-	void draw(int startIndex, int numVertices);
 	void draw();
 
 	static GraphicsOGL4 *getInstance();

@@ -11,7 +11,6 @@
 #endif
 
 
-
 Windowhandler::Windowhandler()
 {
 	timer = new Timer();
@@ -56,6 +55,15 @@ LRESULT CALLBACK wndProc(HWND _hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(_hWnd, &ps);
 		EndPaint(_hWnd, &ps);
+		break;
+
+	case WM_KEYDOWN:
+		switch(wParam)
+		{
+		case VK_ESCAPE:
+			PostQuitMessage(0);
+			break;
+		}
 		break;
 
 	case WM_DESTROY:
@@ -218,7 +226,7 @@ int Linuxhandler::run()
 		timer->Tick();
 		time += timer->getDelta();
 
-		if(time > 1.f / 60)
+		if(time > 1.f / 600)
 		{
 			//clear screen
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

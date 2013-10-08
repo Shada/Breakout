@@ -15,9 +15,9 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		direction = Vec3(1, 1, 0);
-		radius = 3.09544444f;
+		radius = 3.09543991f;
 		direction.normalize();
-		speed = 100;
+		speed = 200;
 
 #ifdef BAJSAPA
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
@@ -37,20 +37,10 @@ namespace Logic
 		updateWorld();
 	}
 
-#ifndef BAJSAPA
-	void Ball::setDirection(float _x, float _y, float _z)
-	{
-		if(_x != NULL) direction.x = _x;
-		if(_y != NULL) direction.y = _y;
-		if(_z != NULL) direction.z = _z;
-	}
-#else
     void Ball::setDirection(float _x, float _y, float _z)
     {
         if(_x != NULL) direction.x = _x;
         if(_y != NULL) direction.y = _y;
         if(_z != NULL) direction.z = _z;
     }
-#endif // BAJSAPA
-
 }

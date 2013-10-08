@@ -11,19 +11,24 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		
 		mapLoading = new Map();
-		//tolka Map och skapa object enligt den
+		//tolka Map och skBAJSAPA object enligt den
 		objectCore = new ObjectCore();
-		play = false;
+		play = ballPadCollided = false;
 
 		#ifdef BAJSAPA
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
+		objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
+
+		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
+		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
@@ -37,22 +42,32 @@ namespace Logic
 
 		//inputHandler->setCamera(camera, keys);
 
-		mapLoading->loadMap(0,&objectCore->bricks,objectCore->ball,objectCore->pad);
 
-		#ifdef BAJSAPA
-		//GraphicsDX11::getInstance()->setObjectCore(objectCore);
-		#else
+
+		currentMapIndex = 0;
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		if(objectCore->mapType == objectCore->MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
+		#ifndef BAJSAPA
 		GraphicsOGL4::getInstance()->initVertexBuffer();
 		#endif
+
 	}
 
 	void Gameplay::update(double _dt)
 	{
 		objectCore->pad->update(_dt);
 		if(play)
+		{
 			objectCore->ball->update(_dt);
+			if(!ballPadCollided)
+				ballPadCollided = Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+			else
+				ballPadCollided = false;
+		}
 
-		if(objectCore->ball->getPosition().y < 10)
+		if(objectCore->ball->getPosition().y < 0)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
@@ -71,20 +86,62 @@ namespace Logic
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			objectCore->ball->updateWorld();
 		}
-
+#ifdef BAJSAPA
+		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
+		{
+			nextMap();
+		}
+#endif
+		if(objectCore->bricks.size() == 0)
+		{
+			nextMap();
+		}
+		if(objectCore->mapType == objectCore->MapType::eWater)
+		{
+			objectCore->water->update(_dt);
+			Vec3 oldPos = camera->getPosition();
+			Vec3 oldLookat = camera->getLookAt();
+			// should be the pad that follows water level and then camera follows pad?
+			camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
+			camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
+			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+			oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
+		}
 		camera->update();
 		
-		Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+		
 
+		// check collision between a ball and the bricks, will return the id of any brick the ball has
+		// collided with, if no collision then -1 is returned
 		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
 		if(collidingObject != -1)
 		{
 			SAFE_DELETE(objectCore->bricks.at(collidingObject));
 			objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
-			std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+			//std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 		}
-	}
 
+		/*static float diff = 0.0f;
+		diff += 0.5f * _dt;
+		objectCore->pad->setPosition(Logic::from2DToCylinder(objectCore->pad->getPosition(), 105, diff, Vec3(105,0,0)));*/
+	}
+	void Gameplay::nextMap()
+	{
+		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
+		currentMapIndex++;
+		if(currentMapIndex >= noMaps)
+			currentMapIndex = 0;
+
+		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		if(objectCore->mapType == objectCore->MapType::eWater)
+		{
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
+		}
+		play = false;
+	}
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(camera);
