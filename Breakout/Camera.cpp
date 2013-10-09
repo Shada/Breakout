@@ -1,8 +1,8 @@
 #include "Camera.h"
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
-#endif // _WIN32
+#endif // BAJSAPA
 Camera::Camera()
 {
 	position = Vec3(75, 75, -150);
@@ -10,7 +10,7 @@ Camera::Camera()
 	rotation = Vec3(0, 0, 0);
 	lookAt = Vec3(0,0,1);
 
-#ifndef _WIN32
+#ifndef BAJSAPA
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
@@ -22,7 +22,7 @@ Camera::Camera()
 	
 	MatrixInversion(projectionInv, projectionMatrix);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
@@ -87,7 +87,7 @@ void Camera::update()
 
 	MatrixInversion(viewInv, viewMatrix);
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;

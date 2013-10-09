@@ -46,7 +46,7 @@ public:
 	virtual void setCamera(Camera *cam, std::vector<KeyBind2> keys);
 };
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include <dinput.h>
 class DInputhandler : public Inputhandler
 {
@@ -93,5 +93,5 @@ public:
 	void updateGame();
 };
 
-#endif // _WIN32
+#endif // BAJSAPA
 #endif // ! _INPUTHANDLER_H_

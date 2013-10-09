@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include "Resource.h"
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #include <io.h>
 #else
@@ -22,7 +22,7 @@ Windowhandler::~Windowhandler()
 	SAFE_DELETE(game);
 }
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 Winhandler::Winhandler() : Windowhandler()
 {
 	createConsoleLog("Output Console");

@@ -1,6 +1,6 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 #include <crtdbg.h>
-#endif  // _WIN32
+#endif  // BAJSAPA
 #include "Windowhandler.h"
 #include "Resource.h"
 
@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     // have not gotten relative paths to work, so this might be used instead!!
     printf("running: %s\n\n", argv[0]);
 	Windowhandler *wh;
-#ifdef _WIN32
+#ifdef BAJSAPA
 	wh = new Winhandler();
 #else
 	wh = new Linuxhandler();
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	wh->run();
 
 	SAFE_DELETE(wh);
-#ifndef _WIN32
+#ifndef BAJSAPA
 	_CrtDumpMemoryLeaks();
 #endif
 }

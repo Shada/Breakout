@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#ifndef BAJSAPA
 
 #ifndef _GRAPHICSOGL4_H_
 #define _GRAPHICSOGL4_H_
@@ -97,4 +97,4 @@ public:
 
 #endif // ! _GRAPHICSOGL4_H_
 
-#endif // ! _WIN32
+#endif // ! BAJSAPA

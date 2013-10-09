@@ -1,6 +1,6 @@
 #include "Gameplay.h"
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
@@ -21,7 +21,7 @@ namespace Logic
 		eventSystem = new EventSystem(0,5); // testvärde
 		srand (time(NULL));
 
-		#ifdef _WIN32
+		#ifdef BAJSAPA
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
@@ -54,7 +54,7 @@ namespace Logic
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
 
-		#ifndef _WIN32
+		#ifndef BAJSAPA
 		GraphicsOGL4::getInstance()->initVertexBuffer();
 		#endif
 
@@ -91,7 +91,7 @@ namespace Logic
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			objectCore->ball->updateWorld();
 		}
-#ifdef _WIN32
+#ifdef BAJSAPA
 		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
 		{
 			nextMap();

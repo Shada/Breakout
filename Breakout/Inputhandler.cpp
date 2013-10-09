@@ -24,7 +24,7 @@ Inputhandler::~Inputhandler()
 {
 }
 
-#ifdef _WIN32
+#ifdef BAJSAPA
 DInputhandler::DInputhandler(HWND *hWnd)
 {
 	directInput			= 0;

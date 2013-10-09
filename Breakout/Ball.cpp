@@ -1,9 +1,9 @@
 #include "Ball.h"
-#ifdef _WIN32
+#ifdef BAJSAPA
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // _WIN32
+#endif // BAJSAPA
 
 namespace Logic
 {

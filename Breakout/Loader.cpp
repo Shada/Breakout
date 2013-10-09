@@ -21,9 +21,9 @@ namespace Resources
 		bool last = false;
 
         std::string filename = "";
-#ifndef _WIN32
+#ifndef BAJSAPA
 		//filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
-#endif // !_WIN32
+#endif // !BAJSAPA
 		filename += file;
 
 		std::fstream ObjFile;
@@ -209,9 +209,9 @@ namespace Resources
 	void Loader::loadTexture(char file[256],Texture *_texture)
 	{
         std::string filename = "";
-#ifndef _WIN32
+#ifndef BAJSAPA
         //filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
-#endif // ! _WIN32
+#endif // ! BAJSAPA
 
 		filename += file;
 		//check the file signature and deduce its format
