@@ -18,6 +18,9 @@ namespace Logic
 		static bool releaseBall;
 		Vec3 direction, ballPos, prevPos;
 
+		int activeEffect; //0 = nothing, 1 = stun, 2 = slow, 3 = speed
+		float effectTimer, effectAcceleration, effectRotation;
+
 	public:
 		Pad();
 		~Pad();
@@ -36,6 +39,9 @@ namespace Logic
 		Vec3 getPrevPos()					{ return prevPos; }
 
 		void update(double dt);
+		void startStun();					//stun effect
+		void startSlow();					//slow effect
+		void startSpeed();					//speed effect
 		void draw();
 		void move2D(double dt, float x);
 		void move3D(double dt, float x);

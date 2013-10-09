@@ -186,29 +186,35 @@ namespace Logic
 
 	inline bool BorderCollide(Ball* _ball)
 	{
-		Vec3 tBallPos = _ball->getPosition();
+		Vec3 ballPos = _ball->getPosition();
 		Vec3 tBallDir = _ball->getDirection();
 		float tRadius = _ball->getRadius();
 
 		bool collides = false;
 
 		//Compare X
-		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > borderMaxX)
+		if(ballPos.x - tRadius < 0 || ballPos.x + tRadius > borderMaxX)
 		{
-			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxX && tBallDir.x > 0))
+			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
 
+			Vec3 newPos = Vec3(ballPos.x - tRadius < 0 ? tRadius : borderMaxX - tRadius, ballPos.y, ballPos.z);
+			_ball->setPosition(newPos);
 			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
 
 			collides = true;
 		}
 
 		//Compare Y
-		if(tBallPos.y - tRadius < 0 || tBallPos.y + tRadius > borderMaxY)
+		if(ballPos.y - tRadius < 0 || ballPos.y + tRadius > borderMaxY)
 		{
-			if((tBallPos.y - tRadius < 0 && tBallDir.y < 0) || (tBallPos.y + tRadius > borderMaxY && tBallDir.y > 0))
+			if((ballPos.y - tRadius < 0 && tBallDir.y < 0) || (ballPos.y + tRadius > borderMaxY && tBallDir.y > 0))
 				tBallDir.y *= -1;
+
+			Vec3 newPos = Vec3(ballPos.x, ballPos.y - tRadius < 0 ? tRadius : borderMaxY - tRadius, ballPos.z);
+			_ball->setPosition(newPos);
 			_ball->setDirection(NULL, tBallDir.y, NULL);
+
 			collides = true;
 		}
 
@@ -287,11 +293,12 @@ namespace Logic
 			}
 		}
 
-		if((ballPos - padPos).length() < 30)
+		if(_max(p1.x, p2.x) - _min(p1.x, p2.x) < 3 * radius)
 		{
 			bool collide = false;
 			float dx = (_max(p1.x, p2.x) - _min(p1.x, p2.x)) / 10, x = _min(p1.x, p2.x);
 			float dy = (_max(p1.y, p2.y) - _min(p1.y, p2.y)) / 10, y = _min(p1.y, p2.y);
+			
 			for(int c = 0; c < 11 && !collide; c++)
 			{
 				collide = (x - ballPos.x) * (x - ballPos.x) + (y - ballPos.y) * (y - ballPos.y) <= radius * radius;
@@ -301,9 +308,16 @@ namespace Logic
 
 			if(collide)
 			{
+				float collidePosY = y + radius;
+				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
 				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI /2), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
+
+				Vec3 lastBallPos = _ball->getLastFrame();
+				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 				newDir.normalize();
+				outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;
 			}

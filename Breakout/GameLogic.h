@@ -21,7 +21,7 @@ namespace Logic
 		//Logik för att kalla på interfaces
 		
 		Inputhandler *inputHandler;
-		
+
 	public:
 		GameLogic(Inputhandler *handler);
 		~GameLogic();

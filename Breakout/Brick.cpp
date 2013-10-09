@@ -31,10 +31,21 @@ namespace Logic
 
 	}
 
+	bool Brick::isDestroyed()
+	{
+		if (health == 0)
+			return true;
+		return false;
+	}
+
 	void Brick::damage()
 	{
 		health--;
-		if(health < 0) this->destroy();
+		if (health == 1)
+			setTextureID(1);
+		else if (health == 2)
+			setTextureID(6);
+		//if(health < 0) this->destroy();
 	}
 
 	void Brick::destroy()

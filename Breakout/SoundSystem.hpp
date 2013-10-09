@@ -43,7 +43,7 @@ private:
 		//sound[15] = Bumpers
 		//sound[16] = Positive effect activated
 		//sound[17] = Negative effect activated
-		//sound[]FINNS EJ ÄN = namn
+		//sound[18] = Earthquake
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 

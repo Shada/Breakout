@@ -13,11 +13,15 @@ namespace Logic
 		scale		= Vec3(1,1,1);
 		position	= Vec3(0,0,0);
 		rotation	= Vec3(0,0,0);
-		textureID = 0;
 		direction = Vec3(1, 1, 0);
+		effectDirection = Vec3(1, 1, 0);
+
+		textureID = 0;
 		radius = 3.09543991f;
+		activeEffect = 0;
 		direction.normalize();
-		speed = 200;
+		speed = 100;
+		srand (time(NULL));
 	}
 
 	Ball::~Ball()
@@ -32,10 +36,48 @@ namespace Logic
 	void Ball::update(double _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
-		lastFrame = position;
-		position += direction * speed * (float)_dt;
+
+		//effect calculations
+		if (activeEffect == 1)//wind effect
+		{
+			effectTimer -= _dt;
+			if (effectTimer > 0)
+			{
+				direction = (direction + effectDirection *_dt);
+				direction.normalize();
+				effectSpeed += (effectAcceleration * _dt);
+			}
+			else
+				effectSpeed -= (effectAcceleration * _dt);
+			if(effectSpeed > 0 && effectTimer < 0)
+			{
+				effectDirection = Vec3(1, 1, 0);
+				effectSpeed = 0;
+				activeEffect = 0;
+			}
+			lastFrame = position;
+			position += direction * speed * (float)_dt + effectDirection * effectSpeed * (float)_dt;
+		}
+		else // no effects
+		{		
+			lastFrame = position;
+			position += direction * speed * (float)_dt;
+		}
 
 		updateWorld();
+	}
+
+	void Ball::startWind()
+	{
+		if (activeEffect == 0)
+		{
+			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection.normalize();
+			effectSpeed = 0;
+			effectTimer = 1.5;
+			activeEffect = 1;
+			effectAcceleration = 30;
+		}
 	}
 
     void Ball::setDirection(float _x, float _y, float _z)
