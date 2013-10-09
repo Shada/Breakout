@@ -54,9 +54,15 @@ private:
 	/*---------------------------------------------------------------
 								RenderTargets
 	--------------------------------------------------------------*/
-	ID3D11Texture2D				*renderTargetTex;
 	ID3D11RenderTargetView		*renderTargetView;
-	ID3D11ShaderResourceView	*renderTargetResource;
+
+	ID3D11Texture2D				*sceneTex;
+	ID3D11RenderTargetView		*sceneRenderTargetView;
+	ID3D11ShaderResourceView	*sceneShaderResource;
+
+	ID3D11Texture2D				*reflTex;
+	ID3D11RenderTargetView		*reflRenderTargetView;
+	ID3D11ShaderResourceView	*reflShaderResource;
 
 	//depth stencil
 	ID3D11Texture2D				*depthStencilTex;

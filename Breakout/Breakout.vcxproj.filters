@@ -225,5 +225,23 @@
     <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsQuad.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psQuad.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\gsQuad.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsRefl.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psRefl.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsSkyboxRefl.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

@@ -37,6 +37,7 @@ struct CBCameraMove
 {
 	Matrix View;
 	Matrix ViewInv;
+	Matrix viewRefl;
 	Vec3 cameraPos;
 	Vec3 cameraDir;
 

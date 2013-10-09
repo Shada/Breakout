@@ -88,6 +88,9 @@ void Camera::update()
 	//Create view matrix from vectors
 #ifdef _WIN32
 	lookAtLHP(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+	Vec3 reflPos = pos;
+	reflPos.y = waterLevel - (reflPos.y - waterLevel);
+	lookAtLHP(viewRefl,lookAt,Vec3(0,-1,0),reflPos);
 #else
     lookAtRH(viewMatrix, lookAt, up, pos);
 #endif // _WIN32
@@ -99,7 +102,7 @@ void Camera::update()
 
 	cb.cameraPos = pos;
 	cb.cameraDir = lookAt - pos;
-
+	cb.viewRefl = viewRefl;
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
 
