@@ -32,8 +32,15 @@ void Text::updateTextData()
 		throw std::exception("No font selected.");
 		return;
 	}
-	vbStartIndex = textData->size();
+	textData->clear();
 	font->loadText(textData, text);
+}
+
+void Text::setTextData(unsigned int bufferStartIndex, unsigned int allocatedSize)
+{
+	vbStartIndex		= bufferStartIndex;
+	this->allocatedSize	= allocatedSize;
+	updateTextData();
 }
 
 void Text::updateCB()
@@ -41,9 +48,9 @@ void Text::updateCB()
 	CBFont cb;
 	cb.pos			= pos;
 	cb.scale		= scale;
-	cb.rotation		= rotation;
-	cb.tintAlpha	= tintAlpha;
+	cb.rotation		= Vec2(rotation,0);
 	cb.imageSize	= Vec2(1420,250);
+	cb.tintAlpha	= tintAlpha;
 
 	#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBFont(cb);
@@ -54,4 +61,5 @@ void Text::updateCB()
 
 Text::~Text()
 {
+	
 }

@@ -658,21 +658,36 @@ GraphicsDX11::~GraphicsDX11()
 {
 	SAFE_RELEASE(device);
 	SAFE_RELEASE(immediateContext);
+
 	SAFE_RELEASE(renderTargetTex);
 	SAFE_RELEASE(renderTargetView);
 	SAFE_RELEASE(renderTargetResource);
+
 	SAFE_RELEASE(depthStencilTex);
 	SAFE_RELEASE(depthStencilView);
 	SAFE_RELEASE(depthStencilResource);
+
 	SAFE_RELEASE(blendEnable);
 	SAFE_RELEASE(blendDisable);
+
 	SAFE_RELEASE(depthStencilStateEnable);
 	SAFE_RELEASE(depthStencilStateDisable);
+
 	SAFE_RELEASE(rasterizerBackface);
 	SAFE_RELEASE(rasterizerFrontface);
+
 	SAFE_RELEASE(samplerLinear);
+
 	SAFE_RELEASE(simpleInputLayout);
+	SAFE_RELEASE(uiLayout);
+	SAFE_RELEASE(fontLayout);
+
 	SAFE_RELEASE(swapChain);
+
+	SAFE_RELEASE(cbWorld);
+	SAFE_RELEASE(cbCameraMove);
+	SAFE_RELEASE(cbOnce);
+	SAFE_RELEASE(cbFont);
 
 	SAFE_RELEASE(vBufferStatic);
 	SAFE_RELEASE(uiBufferDynamic);

@@ -9,5 +9,5 @@ struct PS_Input
 float4 ps(PS_Input input) :SV_TARGET0
 {
 	float4 texColor =  tex01.Sample(samLinear, input.tex);//tex[input.texIndex].Sample(samLinear, input.texCoord);
-	return texColor;
+	return texColor * textTintAlpha;
 }

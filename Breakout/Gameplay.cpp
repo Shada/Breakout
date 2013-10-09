@@ -10,6 +10,7 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		fps = 0;
 		mapType = MapType::eWater;
 		mapLoading = new Map();
 		water = NULL;
@@ -52,7 +53,7 @@ namespace Logic
 		std::vector<BBFont> test = std::vector<BBFont>();
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
-		objectCore->testText->updateTextData();
+		objectCore->testText->setTextData(0, 10);
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
@@ -62,6 +63,15 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
+		fps = (int)(1.0 / _dt + 0.5);
+
+		//update label
+		std::ostringstream buffFps;
+		buffFps << fps;
+		std::string fpsText = "FPS: "+buffFps.str();
+		objectCore->testText->setText( fpsText.c_str() );
+		objectCore->testText->updateTextData();
+
 		objectCore->pad->update(_dt);
 		if(play)
 		{
@@ -147,5 +157,6 @@ namespace Logic
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
 		SAFE_DELETE(water);
+		SAFE_DELETE(mapLoading);
 	}
 }

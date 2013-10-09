@@ -17,6 +17,7 @@ namespace Logic
 	class Gameplay
 	{
 	private:
+		int fps;
 		enum MapType
 		{
 			eTest,
