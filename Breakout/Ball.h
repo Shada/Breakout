@@ -28,7 +28,8 @@ namespace Logic
 		Vec3 getLastFrame()		{ return lastFrame; };
 		float getSpeed()		{ return speed; }
 
-		/* Sets the direction-variables. Use NULL if you want them to remain unchanged. */
+
+		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
 		void setDirection(float x, float y, float z);
 		void setPosition(Vec3 _pos);
 	};

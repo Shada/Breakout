@@ -176,7 +176,10 @@ void GLInputhandler::updateGame()
 		pad.pad->move((mouseX - prevMouseX) / 4);
 
 	if(mouseZ != prevMouseZ)
-		pad.pad->rotate(mouseZ < 0 ? -1 : 1);
+		pad.pad->rotate(mouseZ - prevMouseZ > 0 ? -1 : 1);
+
+	if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		pad.pad->ejectBall();
 
 	pad.pad->updateWorld();
 	prevMouseZ = mouseZ;

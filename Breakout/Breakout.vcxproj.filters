@@ -61,13 +61,19 @@
     <ClCompile Include="MenuElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProgramGLSL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramGLSL.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,6 +109,18 @@
     </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{13af3ad7-1c22-4a64-91dd-acf4f271fdce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLSL">
+      <UniqueIdentifier>{77573f21-538b-4789-befd-bdf29a3c469b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLSL\fs">
+      <UniqueIdentifier>{2ca0d232-a913-4654-9d8f-74e005054382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLSL\vs">
+      <UniqueIdentifier>{19c1c0f1-5f77-49cd-abab-73fcb02c7b70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLSL\gs">
+      <UniqueIdentifier>{8a2a1744-3e7f-4da6-a1ab-33ce75f5dc05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -178,13 +196,19 @@
     <ClInclude Include="Object3D.h">
       <Filter>Logic</Filter>
     </ClInclude>
-    <ClInclude Include="ProgramGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SoundSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramGLSL.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,5 +231,43 @@
     <CustomBuild Include="shaders\hlsl\vsBBUI.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psSkybox.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\glsl\fsSimple.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSimple.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsBBUI.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\gsBBUI.glsl">
+      <Filter>GLSL\gs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsBBUI.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsFont.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\gsFont.glsl">
+      <Filter>GLSL\gs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsFont.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsSkybox.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSkybox.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
   </ItemGroup>
 </Project>

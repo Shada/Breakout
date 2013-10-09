@@ -18,10 +18,6 @@ namespace Logic
 		radius = 3.09543991f;
 		direction.normalize();
 		speed = 200;
-
-#ifdef _WIN32
-		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
-#endif
 	}
 
 	Ball::~Ball()
@@ -42,10 +38,10 @@ namespace Logic
 		updateWorld();
 	}
 
-	void Ball::setDirection(float _x, float _y, float _z)
-	{
-		if(_x != NULL) direction.x = _x;
-		if(_y != NULL) direction.y = _y;
-		if(_z != NULL) direction.z = _z;
-	}
+    void Ball::setDirection(float _x, float _y, float _z)
+    {
+        if(_x != NULL) direction.x = _x;
+        if(_y != NULL) direction.y = _y;
+        if(_z != NULL) direction.z = _z;
+    }
 }

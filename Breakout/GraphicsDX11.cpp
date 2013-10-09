@@ -22,6 +22,7 @@ GraphicsDX11::GraphicsDX11()
 	rasterizerBackface			= NULL;
 	rasterizerFrontface			= NULL;
 	samplerLinear				= NULL;
+	samplerSkybox				= NULL;
 	shader5Support				= true;
 
 	vBufferStatic				= NULL;
@@ -163,7 +164,7 @@ void GraphicsDX11::init(HWND *hWnd)
 
 	techniques = std::vector<TechniqueHLSL*>();
 	techniques.push_back( new TechniqueHLSL(device, "techSimple", "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple") );
-
+	techniques.push_back( new TechniqueHLSL(device, "techSkybox", "shaders/hlsl/vsSkybox.fx", "vs_skybox","","","shaders/hlsl/psSkybox.fx","ps_skybox") );
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
 	{
@@ -216,6 +217,13 @@ void GraphicsDX11::init(HWND *hWnd)
 	if(FAILED(hr))
 		return;
 
+	sampDesc.AddressU		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDesc.AddressV		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDesc.AddressW		= D3D11_TEXTURE_ADDRESS_CLAMP;
+	hr = device->CreateSamplerState( &sampDesc, &samplerSkybox);
+	if(FAILED(hr))
+		return;
+
 	//create blendstates
 	D3D11_BLEND_DESC blendDesc;
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
@@ -259,6 +267,11 @@ void GraphicsDX11::init(HWND *hWnd)
 	depthDesc.BackFace.StencilFailOp		= D3D11_STENCIL_OP_KEEP;
 
 	hr = device->CreateDepthStencilState(&depthDesc, &depthStencilStateEnable);
+	if(FAILED(hr))
+		return;
+
+	depthDesc.DepthEnable					= FALSE;
+	hr = device->CreateDepthStencilState(&depthDesc, &depthStencilStateDisable);
 	if(FAILED(hr))
 		return;
 
@@ -458,7 +471,6 @@ void GraphicsDX11::draw()
 
 	//om
 	immediateContext->OMSetBlendState(blendDisable, blendFactor, 0xffffffff);
-	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
 	//ia
@@ -467,10 +479,29 @@ void GraphicsDX11::draw()
 
 	//rs
 	immediateContext->RSSetViewports(1, &viewPort);
+	
+
+	
+	//--------------------------------------------------------------------------------
+	//                                     skybox
+	//-------------------------------------------------------------------------------
+	immediateContext->PSSetSamplers(0, 1, &samplerSkybox);
+	techniques.at( getTechIDByName( "techSkybox" ) )->useTechnique();
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
+	modelID					= objectCore->skybox->getModelID();
+	vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+	startIndex			= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateDisable,0);
+	immediateContext->RSSetState(rasterizerFrontface);
+	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------------
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->RSSetState(rasterizerBackface);
 
 	techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
-
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
@@ -521,6 +552,7 @@ void GraphicsDX11::draw()
 
 		immediateContext->Draw(vertexAmount, startIndex);
 	}
+	
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)

@@ -25,7 +25,6 @@ struct BBUI
 	Vec2 size;
 	float rotation;
 	Vec4 tintAlpha;
-	Vec2 texCoords;
 	int texIndex;
 };
 struct CBWorld
@@ -69,6 +68,7 @@ enum KeyCodes
 	KC_2 = 0x32,		KC_3 = 0x33,		KC_4 = 0x34,		KC_5 = 0x35,
 	KC_6 = 0x36,		KC_7 = 0x37,		KC_8 = 0x38,		KC_9 = 0x39,
 	KC_SPACE = 0x20,
+
 #ifdef _WIN32
 	KC_PAGEUP		= 0x21,
 	KC_PAGEDOWN		= 0x22,
@@ -118,7 +118,7 @@ enum GameState
 {
 	GAME_MENU = 0,
 	GAME_PLAY = 1,
-	GAME_PLAYING = 2
+	GAME_PLAYING = 2,
 };
 
 //the game state (found in Resource.h)

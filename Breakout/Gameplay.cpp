@@ -11,8 +11,9 @@ namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler)
 	{
+		
 		mapLoading = new Map();
-		//tolka Map och sk_WIN32 object enligt den
+		//tolka Map och skBAJSAPA object enligt den
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
 
@@ -21,6 +22,7 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
+		objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
@@ -41,8 +43,17 @@ namespace Logic
 
 		//inputHandler->setCamera(camera, keys);
 
+
+
 		currentMapIndex = 0;
-		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		if(objectCore->mapType == objectCore->MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
+		#ifndef _WIN32
+		GraphicsOGL4::getInstance()->initVertexBuffer();
+		#endif
+
 	}
 
 	void Gameplay::update(double _dt)
@@ -67,7 +78,7 @@ namespace Logic
 			if(objectCore->pad->getReleaseBall())
 			{
 				Vec3 dir = objectCore->pad->getDirection();
-				objectCore->ball->setDirection(dir.x, dir.y, 0);
+				objectCore->ball->setDirection(dir.x, dir.y, NULL);
 				
 				play = true;
 				objectCore->pad->setReleaseBall(false);
@@ -76,13 +87,27 @@ namespace Logic
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			objectCore->ball->updateWorld();
 		}
+#ifdef _WIN32
 		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
 		{
 			nextMap();
 		}
+#endif
 		if(objectCore->bricks.size() == 0)
 		{
 			nextMap();
+		}
+		if(objectCore->mapType == objectCore->MapType::eWater)
+		{
+			objectCore->water->update(_dt);
+			Vec3 oldPos = camera->getPosition();
+			Vec3 oldLookat = camera->getLookAt();
+			// should be the pad that follows water level and then camera follows pad?
+			camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
+			camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
+			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+			oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 		}
 		camera->update();
 		
@@ -111,6 +136,11 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		if(objectCore->mapType == objectCore->MapType::eWater)
+		{
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y);
+		}
 		play = false;
 	}
 	Gameplay::~Gameplay()

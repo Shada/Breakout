@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#ifndef _WIN32
 #include <crtdbg.h>
 #endif  // _WIN32
 #include "Windowhandler.h"
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	wh->run();
 
 	SAFE_DELETE(wh);
-#ifdef _WIN32
+#ifndef _WIN32
 	_CrtDumpMemoryLeaks();
 #endif
 }

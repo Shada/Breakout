@@ -16,10 +16,12 @@ public:
 
 	//Lägger till ett nytt värde i slutet på data
 	void addData(Vertex iData);
+	// add a chunk of data
+	void addData(std::vector<Vertex> _data);
 	//Lägger till den sista vertex facet till Data
 	void lastFace();
-	//Returnerar Data
 
+	//Returnerar Data
 	std::vector<Vertex>* getData() { return &data; }
 
 	void setStartIndex(int index);

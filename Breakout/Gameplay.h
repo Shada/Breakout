@@ -11,16 +11,17 @@
 #include "ObjectCore.h"
 namespace Logic
 {
+	
 	//GameState gameState;
 	class Gameplay
 	{
 	private:
+		
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
 		int currentMapIndex;
 		Map *mapLoading;
-
 		/* called after all models are initialized */
 		//Brick bricks[];
 		//Pad pad;

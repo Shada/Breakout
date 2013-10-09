@@ -217,24 +217,8 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-
-	//temporary triangle model to test drawing
-	std::vector<Vertex> g_vertex_buffer_data;// = {
-	///*v*/	Vertex(Vec3(-1.f, -1.f, 0.f),
-	///*n*/   Vec3(0.f, 0.f, 1.f),
-	///*t*/   Vec2(1.f, 0.f)),
-	///*v*/	Vertex(Vec3(1.f, -1.f, 0.f),
-	///*n*/   Vec3(0.f, 0.f, 1.f),
-	///*t*/   Vec2(1.f, 1.f)),
-	///*v*/	Vertex(Vec3(0.f, 1.f, 0.f),
-	///*n*/   Vec3(0.f, 0.f, 1.f),
-	///*t*/   Vec2(0.f, 0.f)),
-	//};
-
 	double time = 0;
 	timer->Tick();
-
-	//int startindex = GraphicsOGL4::getInstance()->feedStaticBufferData(g_vertex_buffer_data);
 
 	do
 	{
@@ -242,7 +226,7 @@ int Linuxhandler::run()
 		timer->Tick();
 		time += timer->getDelta();
 
-		if(time > 1.f / 60)
+		if(time > 1.f / 600)
 		{
 			//clear screen
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -250,7 +234,7 @@ int Linuxhandler::run()
 			//if(is active window
 			game->update(time);
 
-			//GraphicsOGL4::getInstance()->draw(startindex, 3);
+			GraphicsOGL4::getInstance()->draw();
 
 			time = 0;
 			// also some updating and shit
@@ -302,15 +286,16 @@ bool Linuxhandler::initWindow()
 	glClearColor(0.f, 0.f, .4f, 0.f);
 
 	// enable face culling
-    ///glEnable(GL_CULL_FACE);
-    ///glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     glEnable(GL_DEPTH_TEST);
 
     glDepthFunc(GL_LESS);
 
-    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
+	glFrontFace(GL_CW);
 
+    // TODO: If models are clock wise change mode to GL_CW by using glFrontFace(GL_CW);
 	return true;
 }
 
