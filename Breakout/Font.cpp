@@ -12,7 +12,7 @@ void Font::loadFontSettings(const char *filePath)
 	std::ifstream myfile (filePath);
 	if (myfile.is_open())
 	{
-		float number;
+		unsigned int number;
 		while(myfile >> number)
 		{
 			characters.push_back(Character());
@@ -46,15 +46,15 @@ void Font::loadText(std::vector<BBFont> *outData, const char *text)
 			current.x = posx;
 			current.texCoords.x = characters.at(text[i] - 33).posx;		// x1
 			current.texCoords.y = characters.at(text[i] - 33).posy;		// y1
-			current.texCoords.z = characters.at(text[i] - 33).posx + characters.at(text[i] - 33).width; // x2
-			current.texCoords.w = characters.at(text[i] - 33).posy + 100; // y2
+			current.texCoords.z = characters.at(text[i] - 33).width;	// width
+			current.texCoords.w = 70;									// height
 			outData->push_back(current);
 
-			posx += characters.at(text[i] - 33).width;
+			posx += characters.at(text[i] - 33).width + 5;
 		}
 		else if(text[i] == 32) //space
 		{
-			posx += 15;
+			posx += 25;
 		}
 		else
 		{

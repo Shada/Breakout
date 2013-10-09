@@ -38,7 +38,8 @@ struct CBFont
 	Vec2 scale;				//world scale
 	float rotation;			//world rotation
 	Vec4 tintAlpha;			//rgb tint, a alpha
-	Vec3 padding;
+	Vec2 imageSize;			//resolution of font image
+	float padding;
 };
 struct CBWorld
 {

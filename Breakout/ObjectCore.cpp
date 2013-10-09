@@ -8,7 +8,7 @@ namespace Logic
 		pad = new Pad();
 		ball = new Ball();
 		testFont = new Font();
-		testText = new Text(&fontBillboards, "test");
+		testText = new Text(&fontBillboards, "ABCD abcd 1234");
 	}
 
 

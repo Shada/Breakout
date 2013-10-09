@@ -15,7 +15,7 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		direction = Vec3(1, 1, 0);
-		radius = 3.09543991;
+		radius = 3.09543991f;
 		direction.normalize();
 		speed = 200;
 

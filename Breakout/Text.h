@@ -22,6 +22,7 @@ public:
 	float getRotation()					{ return rotation; }
 	Vec4 getTintAlpha()					{ return tintAlpha; }
 	void setFont( Font *font )			{ this->font = font; }
+	void updateCB();
 	void updateTextData();
 	~Text();
 };

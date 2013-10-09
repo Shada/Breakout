@@ -24,7 +24,6 @@ namespace Logic
 		width = radius * scale.y;
 
 		rotation = rotMouse;
-		
 		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
 
 #ifdef _WIN32

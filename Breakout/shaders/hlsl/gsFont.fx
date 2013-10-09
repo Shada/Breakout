@@ -17,22 +17,22 @@ void gs( point VS_Input input[1], inout TriangleStream<PS_Input> triStream )
 {
 	PS_Input output = (PS_Input)0;
 
-	float2 pos =  float2( input[0].pos.x, 0 );
-	float2 size = float2( input[0].tex.x, input[0].tex.y );
-	
-	output.pos = float4( pos.x/resolution.x * 2 - 1, pos.y/resolution.y * 2 - 1, 0, 1 );//output.pos = float4( pos, 0, 1 );
-	output.tex = float2( 0, 0 );
+	float2 pos =  textPos + float2( input[0].pos, 0 );
+	float4 texCoords = float4(input[0].tex.x/imageSize.x, input[0].tex.y/imageSize.y, (input[0].tex.x + input[0].tex.z)/imageSize.x, (input[0].tex.y + input[0].tex.w)/imageSize.y);
+
+	output.pos = float4( (pos.x/resolution.x) * 2 - 1,					((resolution.y - pos.y - input[0].tex.w)/resolution.y) * 2 - 1,			0, 1 );//output.pos = float4( pos.x, pos.y + input[0].size.y, 0, 1 );
+	output.tex = float2( texCoords.x, texCoords.w );
 	triStream.Append(output);
 
-	output.pos = float4( pos.x/resolution.x * 2 - 1, (pos.y + size.y)/resolution.y * 2 - 1, 0, 1 );//output.pos = float4( pos.x, pos.y + input[0].size.y, 0, 1 );
-	output.tex = float2( 0, 1 );
+	output.pos = float4( (pos.x/resolution.x) * 2 - 1,					((resolution.y - pos.y)/resolution.y) * 2 - 1,							0, 1 );//output.pos = float4( pos, 0, 1 );
+	output.tex = float2( texCoords.x, texCoords.y );
 	triStream.Append(output);
 
-	output.pos = float4( (pos.x + size.x)/resolution.x * 2 - 1, pos.y/resolution.y * 2 - 1, 0, 1);//output.pos = float4( pos.x + input[0].size.x, pos.y, 0, 1);
-	output.tex = float2( 1, 0 );
+	output.pos = float4( ((pos.x + input[0].tex.z)/resolution.x) * 2 - 1, ((resolution.y - pos.y - input[0].tex.w)/resolution.y) * 2 - 1,			0, 1 );//output.pos = float4( pos.x + input[0].size.x, pos.y + input[0].size.y, 0, 1 );
+	output.tex = float2( texCoords.z, texCoords.w );
 	triStream.Append(output);
 
-	output.pos = float4( (pos.x + size.x)/resolution.x * 2 - 1, (pos.y + size.y)/resolution.y * 2 - 1, 0, 1 );//output.pos = float4( pos.x + input[0].size.x, pos.y + input[0].size.y, 0, 1 );
-	output.tex = float2( 1, 1 );
+	output.pos = float4( ((pos.x + input[0].tex.z)/resolution.x) * 2 - 1, ((resolution.y - pos.y)/resolution.y) * 2 - 1,							0, 1 );//output.pos = float4( pos.x + input[0].size.x, pos.y, 0, 1);
+	output.tex = float2( texCoords.z, texCoords.y );
 	triStream.Append(output);
 }

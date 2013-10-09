@@ -200,8 +200,8 @@ void GraphicsDX11::init(HWND *hWnd)
 
 	D3D11_INPUT_ELEMENT_DESC fontLayoutDesc[] =
 	{
-		{ "POSITION",	0, DXGI_FORMAT_R32G32_FLOAT,		0,	0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(float) * 2,	D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "POSITION",	0, DXGI_FORMAT_R32_FLOAT,		0,	0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	sizeof(float),	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	techIndex = getTechIDByName("techFont");
 	hr = device->CreateInputLayout(fontLayoutDesc, ARRAYSIZE(fontLayoutDesc), techniques.at(techIndex)->getInputSignature(),
@@ -227,13 +227,13 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}*/
 
-	if( !createCBuffer(&cbWorld, sizeof(CBWorld), 0))
+	if( !createCBuffer( &cbWorld, sizeof(CBWorld), 0 ) )
 		return;
-	if( !createCBuffer(&cbCameraMove, sizeof(CBCameraMove), 1))
+	if( !createCBuffer( &cbCameraMove, sizeof(CBCameraMove), 1 ) )
 		return;
-	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
+	if( !createCBuffer( &cbOnce, sizeof(CBOnce), 2 ) )
 		return;
-	if( !createCBuffer(&cbFont, sizeof(CBFont), 3))
+	if( !createCBuffer( &cbFont, sizeof(CBFont), 3 ) )
 		return;
 
 	//create samplerstates
@@ -256,9 +256,9 @@ void GraphicsDX11::init(HWND *hWnd)
 	ZeroMemory(&blendDesc,sizeof(blendDesc));
 	/*blendDesc.AlphaToCoverageEnable						= FALSE;
 	blendDesc.IndependentBlendEnable					= FALSE;*/
-	blendDesc.RenderTarget[0].BlendEnable				= FALSE;
-	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_ONE;
-    blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendEnable				= TRUE;
+	blendDesc.RenderTarget[0].SrcBlend					= D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend					= D3D11_BLEND_INV_SRC_ALPHA;
     blendDesc.RenderTarget[0].BlendOp					= D3D11_BLEND_OP_ADD;
     blendDesc.RenderTarget[0].SrcBlendAlpha				= D3D11_BLEND_ONE;
     blendDesc.RenderTarget[0].DestBlendAlpha			= D3D11_BLEND_ZERO;
@@ -592,17 +592,19 @@ void GraphicsDX11::draw()
 	memcpy( updateData.pData, &objectCore->uiBillboards[0], sizeof(BBUI)* objectCore->uiBillboards.size() );
     immediateContext->Unmap(uiBufferDynamic, 0);
 
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
 	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	techniques.at( getTechIDByName( "techUI" ) )->useTechnique();
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 8 ) );
 	immediateContext->IASetInputLayout(uiLayout);
 
-	cb0.world		= Matrix(	1,0,0,0,
+	cb0.world			= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
 
-	cb0.worldInv	= Matrix(	1,0,0,0,
+	cb0.worldInv		= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
@@ -611,15 +613,13 @@ void GraphicsDX11::draw()
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	//immediateContext->Draw( vertexAmount, startIndex );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text
 	//--------------------------------------------------------------------------------
 	stride = sizeof( BBFont );
 	offset = 0;
-
-	CBFont cb1;
 
 	immediateContext->RSSetState(rasterizerBackface);
 
@@ -634,16 +634,12 @@ void GraphicsDX11::draw()
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	techniques.at( getTechIDByName( "techFont" ) )->useTechnique();
 	immediateContext->IASetInputLayout(fontLayout);
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 7 ) );
 
 	vertexAmount		= objectCore->testText->getTextSize();
 	startIndex			= objectCore->testText->getVBStartIndex();
 
-	cb1.pos			= objectCore->testText->getPosition();
-	cb1.scale		= objectCore->testText->getScale();
-	cb1.rotation		= objectCore->testText->getRotation();
-	cb1.tintAlpha	= objectCore->testText->getTintAlpha();
-
-	updateCBFont(cb1);
+	objectCore->testText->updateCB();
 
 	immediateContext->Draw( vertexAmount, startIndex );
 }

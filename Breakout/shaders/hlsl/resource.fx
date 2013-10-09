@@ -26,9 +26,10 @@ cbuffer cbOnce			: register( b2 )
 };
 cbuffer cbFont			: register( b3 )
 {
-	float2 textPos;
-	float2 textSize;
-	float textRotation;
-	float4 textTintAlpha;
-	float2 padding3;
+	float2	textPos;
+	float2	textSize;
+	float	textRotation;
+	float4	textTintAlpha;
+	float2	imageSize;
+	float	padding3;
 }

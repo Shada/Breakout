@@ -6,3 +6,4 @@ Textures/SplashHD.jpg
 Textures/ColorWhirl.jpg
 Textures/default.png
 Fonts/blackwhite.png
+Textures/waterFrame.png

@@ -42,9 +42,9 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		objectCore->uiBillboards.push_back(BBUI());
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(0,0);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(-200,0);
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(100,100);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,768);
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
 
@@ -53,6 +53,7 @@ namespace Logic
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
 		objectCore->testText->updateTextData();
+
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
 		if(mapType == MapType::eWater)
@@ -104,7 +105,7 @@ namespace Logic
 			Vec3 oldPos = camera->getPosition();
 			// should be the pad that follows water level and then camera follows pad?
 			camera->setPosition(Vec3(oldPos.x, water->getWaterLevel(),oldPos.z)); 
-
+			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,water->getWaterLevel(),oldPos.z));
 		}
