@@ -9,7 +9,9 @@
 *.ilk
 *.pdb
 Breakout/Debug/*.*
+Breakout/Release/*.*
 Breakout/bin/Debug/*
+Release/*.*
 
 # Compiled Dynamic libraries
 *.dylib

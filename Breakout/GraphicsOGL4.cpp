@@ -270,8 +270,8 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
 					0, GL_BGR, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
