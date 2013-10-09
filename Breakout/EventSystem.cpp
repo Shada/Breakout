@@ -29,11 +29,15 @@ namespace Logic
 			{
 			case 0: // 0 = testing
 				if(tempType <= 10)
-					return 7;
+					return 1;
 				else if(tempType <= 20)
+					return 7;
+				else if(tempType <= 30)
 					return 8;
-				else if(tempType <= 45)
-					return 15;
+				else if(tempType <= 55)
+					return 5;
+				else if(tempType <= 65)
+					return 4;
 				else
 					return 2;
 

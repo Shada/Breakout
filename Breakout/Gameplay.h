@@ -11,6 +11,8 @@
 #include "ObjectCore.h"
 #include "EventSystem.h"
 #include "SoundSystem.hpp"
+#include <cstdlib>
+#include <time.h>
 
 namespace Logic
 {
@@ -32,6 +34,11 @@ namespace Logic
 
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
+
+		int effectTypeActive;
+		Vec3 effectDirection, effectOriginal;
+		float effectTimer, effectSpawnTimer;
+		std::vector<Vec3> effectFireballs;
 
 
 	public:

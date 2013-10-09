@@ -9,11 +9,11 @@ namespace Logic
 	/*
 	Update() return values: 
 	0 = Nothing happens
-	1 != Zapper
+	1 = Zapper
 	2 = Wind
 	3 != Eruptions
-	4 != Fire Balls
-	5 != Earthquake
+	4 = Fire Balls
+	5 = Earthquake
 	6 != Bumpers
 	7 = Speed increase
 	8 = Speed decrease

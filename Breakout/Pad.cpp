@@ -153,7 +153,7 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 0.5;
+			effectTimer = 0.8;
 			activeEffect = 1;
 			movementSpeed = 0.3;
 			effectAcceleration = 0.1;
