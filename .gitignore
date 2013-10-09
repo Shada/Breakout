@@ -8,6 +8,7 @@
 *.exe
 *.ilk
 *.pdb
+*.fxo
 Breakout/Debug/*.*
 Breakout/Release/*.*
 Breakout/bin/Debug/*

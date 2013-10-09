@@ -36,6 +36,8 @@ GraphicsOGL4::GraphicsOGL4()
 	
 	skyboxProgram = new ProgramGLSL("skybox", "shaders/glsl/vsSkybox.glsl", "", "shaders/glsl/fsSkybox.glsl");
 
+	fontProgram = new ProgramGLSL("fonz", "shaders/glsl/vsFont.glsl", "shaders/glsl/gsFont.glsl", "shaders/glsl/fsFont.glsl");
+
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
 
@@ -72,6 +74,7 @@ GraphicsOGL4::~GraphicsOGL4()
 	SAFE_DELETE(program);
 	SAFE_DELETE(skyboxProgram);
 	SAFE_DELETE(billboardProgram);
+	SAFE_DELETE(fontProgram);
 	glDeleteVertexArrays(1, &VertexArrayID);
 	for(unsigned int i = 0; i < textures->size(); i++)
 		glDeleteTextures(1, &textures->at(i));
@@ -204,6 +207,8 @@ void GraphicsOGL4::draw()
 
 	useTexture(7);
 	glDrawArrays(GL_POINTS, 0, 1);
+
+	//----------------------------------------------------------------------------------
 	// disable vertex attributes 
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
@@ -324,6 +329,14 @@ void GraphicsOGL4::useBillboardVertexAttribLayout()
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
 	glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(sizeof(float) * 2));
+}
+
+void GraphicsOGL4::useFontVertexAttribLayout()
+{
+	glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+	glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 1));
 }
 
 void GraphicsOGL4::useTexture(int _index)

@@ -47,7 +47,18 @@ namespace Logic
 
 		//inputHandler->setCamera(camera, keys);
 
+		objectCore->uiBillboards.push_back(BBUI());
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(-200,0);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,768);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
 
+		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
+		std::vector<BBFont> test = std::vector<BBFont>();
+		objectCore->testFont->setImageIndex(7);
+		objectCore->testText->setFont(objectCore->testFont);
+		objectCore->testText->updateTextData();
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);

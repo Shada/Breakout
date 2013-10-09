@@ -43,7 +43,8 @@ private:
 
     ProgramGLSL *program,
 				*billboardProgram,
-				*skyboxProgram;
+				*skyboxProgram,
+				*fontProgram;
 
 	// VAO
 	GLuint  VertexArrayID,
@@ -88,6 +89,8 @@ public:
 	void useStandardVertexAttribLayout();
 	/** Using billboard vertex layout with Position and size **/
 	void useBillboardVertexAttribLayout();
+	/** Using font vertex layout with Position and texvalues **/
+	void useFontVertexAttribLayout();
 
 	void useTechnique(unsigned int index);
 	void useTexture(int index);

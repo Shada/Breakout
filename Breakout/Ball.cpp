@@ -21,7 +21,7 @@ namespace Logic
 		activeEffect = 0;
 		direction.normalize();
 		speed = 100;
-		srand (time(NULL));
+		srand ((unsigned)time(NULL));
 	}
 
 	Ball::~Ball()
@@ -40,15 +40,15 @@ namespace Logic
 		//effect calculations
 		if (activeEffect == 1)//wind effect
 		{
-			effectTimer -= _dt;
+			effectTimer -= (float)_dt;
 			if (effectTimer > 0)
 			{
-				direction = (direction + effectDirection *_dt);
+				direction = (direction + effectDirection * (float)_dt);
 				direction.normalize();
-				effectSpeed += (effectAcceleration * _dt);
+				effectSpeed += (effectAcceleration * (float)_dt);
 			}
 			else
-				effectSpeed -= (effectAcceleration * _dt);
+				effectSpeed -= (effectAcceleration * (float)_dt);
 			if(effectSpeed > 0 && effectTimer < 0)
 			{
 				effectDirection = Vec3(1, 1, 0);
@@ -71,10 +71,10 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection = Vec3(float(rand()%10)-5, float(rand()%10)-5, 0);
 			effectDirection.normalize();
 			effectSpeed = 0;
-			effectTimer = 1.5;
+			effectTimer = 1.5f;
 			activeEffect = 1;
 			effectAcceleration = 30;
 		}

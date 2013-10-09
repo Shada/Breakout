@@ -16,6 +16,9 @@ namespace Logic
 		//especially textureID
 		skybox->setModelID(3); 
 		skybox->setTextureID(7);
+		
+		testFont = new Font();
+		testText = new Text(&fontBillboards, "ABCD abcd 1234");
 	}
 
 
@@ -27,5 +30,7 @@ namespace Logic
 		SAFE_DELETE(skybox);
 		for(unsigned int i = 0; i < bricks.size(); i++)
 			SAFE_DELETE(bricks.at(i));
+		SAFE_DELETE(testFont);
+		SAFE_DELETE(testText);
 	}
 }

@@ -27,6 +27,20 @@ struct BBUI
 	Vec4 tintAlpha;
 	int texIndex;
 };
+struct BBFont
+{
+	float x; //the x position of the letter
+	Vec4 texCoords; //x,y,width,height on image only. (For world position, the entire text will use CBFont)
+};
+struct CBFont
+{
+	Vec2 pos;				//world position
+	Vec2 scale;				//world scale
+	float rotation;			//world rotation
+	Vec4 tintAlpha;			//rgb tint, a alpha
+	Vec2 imageSize;			//resolution of font image
+	float padding;
+};
 struct CBWorld
 {
 	Matrix world;
@@ -48,6 +62,8 @@ struct CBOnce
 	Matrix	projection;
 	Matrix	projectionInv;
 	Vec4	lightPos;
+	Vec2	resolution;
+	Vec2	padding2;
 };
 
 #define PI 3.14159265359
