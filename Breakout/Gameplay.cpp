@@ -235,7 +235,7 @@ namespace Logic
 					}
 				}
 
-				for(int i = 0; i < effectFireballs.size(); i++)
+				for(unsigned int i = 0; i < effectFireballs.size(); i++)
 					effectFireballs[i].y += -_dt * 60;
 				
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST

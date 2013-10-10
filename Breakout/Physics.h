@@ -1,10 +1,6 @@
 #ifndef _PHYSICS_H_
 #define _PHYSICS_H_
 
-//Temporary, should be a hitbox of sorts for the bricks.
-#define LENGTH 5
-#define HEIGHT 5
-
 //#include "linearalgebra.h"
 //#include "Object.h"
 #include "Ball.h"
@@ -17,7 +13,7 @@ namespace Logic
 	static int borderMaxX = 300;
 	static int borderMaxY = 200;
 
-	inline bool Intersects(Ball* _ball, Object3D* _object)
+	inline bool Intersects(Ball* _ball, Brick* _object)
 	{
 		Vec3 tBallPos = _ball->getPosition();
 		Vec3 tObjPos = _object->getPosition();
@@ -30,28 +26,31 @@ namespace Logic
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
-		if(tDistance <= tRadius + (float)HEIGHT/2 && tDistance <= tRadius + (float)LENGTH/2)
+		if(tDistance <= tRadius + _object->getWidth() / 2 && tDistance <= tRadius + _object->getHeight())
 			return true;
 
 		return false;
 	}
 
-	inline void edgeCollision(Ball *_ball, Object3D* _object)
+	inline void edgeCollision(Ball *_ball, Brick* _object)
 	{
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 lastBallPos = _ball->getLastFrame();
 		Vec3 objPos = _object->getPosition();
 		float radius = _ball->getRadius();
 
-		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
-			objPos.x += (float)LENGTH / 2;
-		else
-			objPos.x -= (float)LENGTH / 2;
+		float width = _object->getWidth();
+		float height = _object->getHeight();
 
-		if(abs(objPos.y + (float)HEIGHT / 2 - ballPos.y) < abs(objPos.y - (float)HEIGHT / 2 - ballPos.y))
-			objPos.y -= (float)HEIGHT / 2;
+		if(abs(objPos.x + width / 2 - ballPos.x) < abs(objPos.x - width / 2 - ballPos.x))
+			objPos.x += width / 2;
 		else
-			objPos.y += (float)HEIGHT / 2;
+			objPos.x -= width / 2;
+
+		if(abs(objPos.y + height / 2 - ballPos.y) < abs(objPos.y - height / 2 - ballPos.y))
+			objPos.y -= height / 2;
+		else
+			objPos.y += height / 2;
 
 		Vec3 dir = _ball->getDirection();
 
@@ -132,7 +131,7 @@ namespace Logic
 		_ball->setPosition(Vec3(collidePos.x + remaining * _newDir.x, collidePos.y + remaining * _newDir.y, 0));
 	}
 
-	inline void CalculateCollission(Ball* _ball, Object3D* _object)
+	inline void CalculateCollission(Ball* _ball, Brick* _object)
 	{
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 ballDir = _ball->getDirection();
@@ -141,15 +140,18 @@ namespace Logic
 
 		bool alreadyCollided = false;
 
+		float width = _object->getWidth();
+		float height = _object->getHeight();
+
 		//Compare X positions
-		if(ballPos.x + LENGTH/2 < objPos.x || ballPos.x - LENGTH/2 > objPos.x)
+		if(ballPos.x + _object->getWidth() / 2 < objPos.x || ballPos.x - _object->getWidth() / 2 > objPos.x)
 		{
 			ballDir.x *= -1;
 			alreadyCollided = true;
 		}
 
 		//Compare Y positions
-		if(ballPos.y + HEIGHT/2 < objPos.y || ballPos.y - HEIGHT/2 > objPos.y)
+		if(ballPos.y + _object->getHeight() / 2 < objPos.y || ballPos.y - _object->getHeight() /2 > objPos.y)
 		{
 			if(alreadyCollided)
 			{
@@ -169,13 +171,13 @@ namespace Logic
 			float collidePos, ratio;
 			if(ballDir.x != _ball->getDirection().x)
 			{
-				collidePos = ballPos.x < objPos.x ? objPos.x - radius - (float)LENGTH / 2 : objPos.x + radius + (float)LENGTH / 2;
+				collidePos = ballPos.x < objPos.x ? objPos.x - radius - width / 2 : objPos.x + radius + width / 2;
 				ratio = (ballPos.x - collidePos) / (ballPos.x - lastBallPos.x);
 				_ball->setPosition(Vec3(collidePos - deltaPos.x * ratio, ballPos.y, ballPos.z));
 			}
 			else
 			{
-				collidePos = ballPos.y < objPos.y ? objPos.y - radius - (float)HEIGHT / 2 : objPos.y + radius + (float)HEIGHT / 2;
+				collidePos = ballPos.y < objPos.y ? objPos.y - radius - height / 2 : objPos.y + radius + height / 2;
 				ratio = (ballPos.y - collidePos) / (ballPos.y - lastBallPos.y);
 				_ball->setPosition(Vec3(ballPos.x, collidePos - deltaPos.y * ratio, ballPos.z));
 			}
@@ -222,7 +224,7 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline int Check2DCollissions(Ball* _ball, std::vector<Object3D*> _listOfObjects)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfObjects)
 	{
 		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
