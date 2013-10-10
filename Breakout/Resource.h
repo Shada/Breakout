@@ -44,12 +44,38 @@ struct CBCameraMove
 	//byte amount must be dividable by 16
 	Vec2 padding;
 };
-
 struct CBOnce
 {
 	Matrix	projection;
 	Matrix	projectionInv;
 	Vec4	lightPos;
+};
+struct CBWater
+{
+	float waterLevel;
+	float timer;
+	Vec2 windDirection;
+};
+struct CBWaterOnce
+{
+	float waterFade; //how deep anything need to be to fade out in the water
+	float normalScaling; 
+	float maxAmplitude; //max wave amplitude
+	float shoreTransition; //how soft the water and ground fades
+	float refractionStrength; //refraction strength
+	float displacementStrength; //multiplier for the height of waves
+	float shininess;
+	float specularIntensity;
+	float transparency;
+	float refractionScale;
+
+	Vec4 normalModifier; //multiplier for the different normals. first one is for small waves.
+	Vec3 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+	Vec3 waterSurfaceColor;
+	Vec3 waterDepthColor;
+	Vec3 extinction;
+	Vec2 scale;
+	Vec3 temp;
 };
 
 #define PI 3.14159265359

@@ -9,7 +9,7 @@ struct PS_Input
 };
 float4 ps_refl(PS_Input input) : SV_TARGET0
 {
-	if(input.posW.y < 10/*waterLevel - maxAmplitude*/) //no waterlevel sent in yet
+	if(input.posW.y < waterLevel ) //no waterlevel sent in yet
 		discard;
 
 	float3 kd = float3(0.9280,0.9280,0.9280);

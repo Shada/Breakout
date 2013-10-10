@@ -243,5 +243,8 @@
     <CustomBuild Include="shaders\hlsl\vsSkyboxRefl.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psWater.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

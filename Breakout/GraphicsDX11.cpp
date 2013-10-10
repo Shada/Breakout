@@ -28,6 +28,9 @@ GraphicsDX11::GraphicsDX11()
 	samplerLinear				= NULL;
 	samplerSkybox				= NULL;
 	shader5Support				= true;
+	cbWater						= NULL;
+	cbWaterOnce					= NULL;
+
 
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
@@ -234,6 +237,8 @@ void GraphicsDX11::init(HWND *hWnd)
 	techniques.push_back( new TechniqueHLSL(device, "techSkyboxRefl", "shaders/hlsl/vsSkyboxRefl.fx", "vs_skybox","","","shaders/hlsl/psSkybox.fx","ps_skybox") );
 	techniques.push_back( new TechniqueHLSL(device, "techQuad", "shaders/hlsl/vsQuad.fx", "vs_quad","shaders/hlsl/gsQuad.fx","gs_quad","shaders/hlsl/psQuad.fx","ps_quad") );
 	techniques.push_back( new TechniqueHLSL(device, "techRefl", "shaders/hlsl/vsRefl.fx", "vs_refl","","","shaders/hlsl/psRefl.fx","ps_refl") );
+	techniques.push_back( new TechniqueHLSL(device, "techWater", "shaders/hlsl/vsQuad.fx", "vs_quad","shaders/hlsl/gsQuad.fx","gs_quad","shaders/hlsl/psWater.fx","ps_water") );
+
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
 	{
@@ -269,6 +274,10 @@ void GraphicsDX11::init(HWND *hWnd)
 	if( !createCBuffer(&cbCameraMove, sizeof(CBCameraMove), 1))
 		return;
 	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
+		return;
+	if( !createCBuffer(&cbWater, sizeof(CBOnce), 3))
+		return;
+	if( !createCBuffer(&cbWaterOnce, sizeof(CBOnce), 4))
 		return;
 
 	//create samplerstates
@@ -529,7 +538,7 @@ void GraphicsDX11::draw()
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 	CBWorld cbWorld;
 
-	ID3D11ShaderResourceView *const nullSRV = NULL;
+	ID3D11ShaderResourceView *const nullSRV[5] = {NULL,NULL,NULL,NULL,NULL};
 
 	unsigned int vertexAmount, startIndex, modelID;
 
@@ -544,7 +553,7 @@ void GraphicsDX11::draw()
 
 	//om
 	immediateContext->OMSetBlendState(blendDisable, blendFactor, 0xffffffff);
-	immediateContext->PSSetShaderResources(0,1,&nullSRV);
+	immediateContext->PSSetShaderResources(0,1,&nullSRV[0]);
 	immediateContext->OMSetRenderTargets(1, &reflRenderTargetView, depthStencilView);
 
 	//ia
@@ -563,7 +572,7 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	//                                     skybox
 	//-------------------------------------------------------------------------------
-	immediateContext->PSSetSamplers(0, 1, &samplerSkybox);
+	immediateContext->PSSetSamplers(1, 1, &samplerSkybox);
 	techniques.at( getTechIDByName( "techSkyboxRefl" ) )->useTechnique();
 	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
 	modelID					= objectCore->skybox->getModelID();
@@ -712,10 +721,14 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	immediateContext->OMSetRenderTargets(1, &renderTargetView, NULL);
-	immediateContext->PSSetShaderResources(0,1,&reflShaderResource);
-	techniques.at(getTechIDByName("techQuad"))->useTechnique();
+	immediateContext->PSSetShaderResources(0,1,&sceneShaderResource);
+	immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
+	immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
+	immediateContext->PSSetShaderResources(3,3,&textures[8]);
+	techniques.at(getTechIDByName("techWater"))->useTechnique();
 	immediateContext->Draw(1,0);
 
+	immediateContext->PSSetShaderResources(0,5,&nullSRV[0]);
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)

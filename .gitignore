@@ -5,6 +5,7 @@
 *.sdf
 *.suo
 *.opensdf
+*.fxo
 Debug/*.*
 Breakout/Debug/*.*
 Breakout/bin/Debug/*

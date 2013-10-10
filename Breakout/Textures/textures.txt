@@ -6,3 +6,6 @@ Textures/SplashHD.jpg
 Textures/ColorWhirl.jpg
 Textures/default.png
 Skybox/Skybox1/combined.png
+Water/heightmap.png
+Water/normalmap.jpg
+Water/foam.jpg

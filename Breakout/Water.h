@@ -1,4 +1,5 @@
 #pragma once
+#include "Resource.h"
 class Water
 {
 private:
@@ -6,6 +7,8 @@ private:
 	float maxSpeed;
 	float speed;
 	float acceleration;
+
+	double timer;
 
 	// used for modifier
 	float speedModifier;
@@ -15,6 +18,7 @@ private:
 	bool paused;
 	double pausedDuration;
 
+	Vec2 windDirection;
 public:
 	/* parameter sets the initial water level */
 	Water(float _waterLevel);

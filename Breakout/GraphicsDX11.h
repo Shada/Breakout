@@ -73,6 +73,8 @@ private:
 	ID3D11Buffer				*cbWorld;
 	ID3D11Buffer				*cbCameraMove;
 	ID3D11Buffer				*cbOnce;
+	ID3D11Buffer				*cbWater;
+	ID3D11Buffer				*cbWaterOnce;
 
 	//viewports
 	D3D11_VIEWPORT				viewPort;
@@ -135,6 +137,8 @@ public:
 	void	updateCBOnce(CBOnce cb) { immediateContext->UpdateSubresource(cbOnce, 0, NULL, &cb, 0, 0); };
 	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
 	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
+	void	updateCBWater(CBWater cb) { immediateContext->UpdateSubresource(cbWater, 0, NULL, &cb, 0, 0); }
+	void	updateCBWaterOnce(CBWaterOnce cb) { immediateContext->UpdateSubresource(cbWaterOnce, 0, NULL, &cb, 0, 0); }
 
 	void	draw();
 

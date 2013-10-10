@@ -1,7 +1,7 @@
 #define PI 3.14159265f
 
 SamplerState samLinear	: register( s0 );
-SamplerState samSkybox	: register( s0 );
+SamplerState samSkybox	: register( s1 );
 
 cbuffer cbWorld			: register( b0 )
 {
