@@ -18,7 +18,7 @@ void gs( point VS_Input input[1], inout TriangleStream<PS_Input> triStream )
 	PS_Input output = (PS_Input)0;
 
 	float2 pos =  textPos + float2( input[0].pos, 0 ) * textSize;
-	float4 texCoords = float4(input[0].tex.x/imageSize.x, input[0].tex.y/250, (input[0].tex.x + input[0].tex.z)/1420, (input[0].tex.y + input[0].tex.w)/250);
+	float4 texCoords = float4(input[0].tex.x/imageSize.x, input[0].tex.y/imageSize.y, (input[0].tex.x + input[0].tex.z)/imageSize.x, (input[0].tex.y + input[0].tex.w)/imageSize.y);
 
 	output.pos = float4(	( pos.x / resolution.x ) * 2 - 1,
 							( ( resolution.y - pos.y - ( input[0].tex.w * textSize.y ) ) / resolution.y ) * 2 - 1,

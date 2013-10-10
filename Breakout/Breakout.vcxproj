@@ -138,6 +138,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuElement.h" />
+    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="Font.cpp" />

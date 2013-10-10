@@ -65,6 +65,17 @@ struct CBOnce
 	Vec2	padding2;
 };
 
+struct Action2D
+{
+	Vec2	newPos;			//new position value
+	Vec2	newScale;		//new scale value
+	float	newRotation;	//new rotation value
+	Vec4	newTintAlpha;	//new tint alpha values
+	float	time;			//interpolation time
+	float	timePassed;		//time passed since start. (if negative, it is inactive until positive)
+	int		expFactor;		//what order of exponential interpolation?
+};
+
 #define PI 3.14159265359
 #define SCRWIDTH 1024
 #define SCRHEIGHT 768
