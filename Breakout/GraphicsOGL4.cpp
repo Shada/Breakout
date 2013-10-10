@@ -189,7 +189,7 @@ void GraphicsOGL4::draw()
 	//---------------------------------------------------------------------------------
 	billboardProgram->useProgram();
 
-
+	feedUIBufferData();
 	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
 
 	useBillboardVertexAttribLayout();
@@ -209,6 +209,7 @@ void GraphicsOGL4::draw()
 	glEnable (GL_BLEND); 
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	feedTextBufferData();
 	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
 
 	useFontVertexAttribLayout();
