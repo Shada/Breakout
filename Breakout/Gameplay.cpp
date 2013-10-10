@@ -9,6 +9,7 @@
 
 namespace Logic
 {
+	int Gameplay::startEffect = 0;
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
 	{
 		
@@ -20,6 +21,10 @@ namespace Logic
 		soundSystem = soundSys;
 		eventSystem = new EventSystem(0,5); // testvärde
 		srand (time(NULL));
+
+		effectStart = 0;
+		startEffectOld = 0;
+		effectTypeActive = 0;
 
 		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
@@ -40,7 +45,14 @@ namespace Logic
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
-		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
+		keys.push_back(KeyBind(KC_NUMPAD9, &StartEffectReset));
+		keys.push_back(KeyBind(KC_NUMPAD1, &StartEffectZapper));
+		keys.push_back(KeyBind(KC_NUMPAD2, &StartEffectWind));
+		keys.push_back(KeyBind(KC_NUMPAD3, &StartEffectFireballs));
+		keys.push_back(KeyBind(KC_NUMPAD4, &StartEffectEarthquake));
+		keys.push_back(KeyBind(KC_NUMPAD5, &StartEffectSpeed));
+		keys.push_back(KeyBind(KC_NUMPAD6, &StartEffectSlow));
+		keys.push_back(KeyBind(KC_NUMPAD7, &StartEffectStun));
 
 		_handler->setPad(objectCore->pad, keys);
 		//inputHandler = handler;
@@ -135,14 +147,23 @@ namespace Logic
 		}
 
 		//Effects
+		if(startEffectOld != startEffect)
+		{
+			effectStart = startEffect;
+			startEffectOld = startEffect;
+		}
+
 		//if(play)
-		int temptest = eventSystem->Update(_dt);
-		if (temptest != 0)//Start av effekter
+		//if (effectStart == 0)
+		//	effectStart = eventSystem->Update(_dt);
+
+		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
 			#pragma region effects
-			temptest = 0; //TEST
+			
+			//effectStart = 2; //TEST
 			std::cout << "effect started: ";
-			if (temptest == 1) //Zapper
+			if (effectStart == 1) //Zapper
 			{
 				//starta förvanande effekt
 				effectTypeActive = 1;
@@ -150,59 +171,61 @@ namespace Logic
 				effectOriginal = objectCore->pad->getPosition();
 				std::cout << "Zapper" << std::endl;
 			}
-			else if (temptest == 2) //Wind
+			else if (effectStart == 2) //Wind
 			{
-				objectCore->ball->startWind();
-				soundSystem->Play(12, 0.5);
+				effectTypeActive = 2;
+				effectTimer = 1;
+				soundSystem->Play(12, 0);
 				std::cout << "Wind" << std::endl;
 			}
-			else if (temptest == 4) //Fireballs
+			else if (effectStart == 4) //Fireballs
 			{
 				effectTypeActive = 4;
 				effectTimer = 3;
 				effectSpawnTimer = 0;
 				Vec3 tempVec3;
-				tempVec3 = Vec3(rand()% 50, 200, 0);
+				tempVec3 = Vec3((float)(rand()% 50), 200, 0);
 				effectFireballs.push_back(tempVec3);
 				soundSystem->Play(13, 3);
 				std::cout << "Fireballs" << std::endl;
 			}
-			else if (temptest == 5)//Earthquake
+			else if (effectStart == 5)//Earthquake
 			{
 				objectCore->pad->startSlow();
 				effectTypeActive = 5;
 				effectOriginal = camera->getPosition();
 				effectTimer = 3.5;
-				effectDirection = Vec3((rand()%100)-50, (rand()%100)-50, (rand()%100)-50);
+				effectDirection = Vec3(((float)(rand()%100)-50), (float)(rand()%100-50), (float)(rand()%100)-50);
 				soundSystem->Play(18, 1);
 				std::cout << "Earthquake" << std::endl;
 			}
-			else if (temptest == 7)//Speed
+			else if (effectStart == 7)//Speed
 			{
 				objectCore->pad->startSpeed();
 				soundSystem->Play(16);
 				std::cout << "Speed" << std::endl;
 			}
-			else if (temptest == 8)//Slow
+			else if (effectStart == 8)//Slow
 			{
 				objectCore->pad->startSlow();
 				soundSystem->Play(17);
 				std::cout << "Slow" << std::endl;
 			}
-			else if (temptest == 15)//Stun
+			else if (effectStart == 15)//Stun
 			{
 				objectCore->pad->startStun();
 				soundSystem->Play(6);
 				std::cout << "Stun" << std::endl;
 			}
+			effectStart = 0;
 			#pragma endregion 
 		}
 		if(effectTypeActive != 0)//Uppdatering av aktiv effekt
 		{
 			#pragma region activeEffects
+			effectTimer -= _dt;
 			if (effectTypeActive == 1)//Zapper
 			{
-				effectTimer -= _dt;
 				if (effectTimer < 0)
 				{
 					soundSystem->Play(6);
@@ -220,16 +243,23 @@ namespace Logic
 						std::cout << "Zapper miss" << std::endl;
 				}
 			}
+			else if (effectTypeActive == 2)//Wind
+			{
+				if (effectTimer < 0)
+				{
+					objectCore->ball->startWind();
+					effectTypeActive = 0;
+				}
+			}
 			else if (effectTypeActive == 4)//Fireballs
 			{
 				if (effectTimer > 0)
 				{
-					effectTimer -= _dt;
 					effectSpawnTimer += _dt;
 					Vec3 tempVec3;
 					if (rand() % 300 - effectSpawnTimer * 10 <= 1 && effectFireballs.size() <= 5)
 					{
-						tempVec3 = Vec3(rand()% 200, 200, 0);
+						tempVec3 = Vec3((float)(rand()% 200), 200, 0);
 						effectFireballs.push_back(tempVec3);
 						effectSpawnTimer = 0;
 					}
@@ -253,13 +283,11 @@ namespace Logic
 					else
 						std::cout << "Fireball miss" << std::endl;
 				}
-
 				if (effectFireballs.size() == 0)
 					effectTypeActive = 0;
 			}
 			else if (effectTypeActive == 5)//Earthquake
 			{
-				effectTimer -= _dt;
 				Vec3 tempVec;
 				tempVec = camera->getPosition();
 				
@@ -273,7 +301,7 @@ namespace Logic
 				else
 				{
 					if (rand()%100 <= 20)
-						effectDirection = Vec3((rand()%120)-60, (rand()%120)-60, (rand()%120)-60);
+						effectDirection = Vec3((float)(rand()%120-60), (float)(rand()%120-60), (float)(rand()%120-60));
 					tempVec = Vec3(tempVec.x + _dt * effectDirection.x,
 									tempVec.y + _dt * effectDirection.y,
 									tempVec.z + _dt * effectDirection.z);

@@ -48,8 +48,8 @@ namespace Logic
 				effectSpeed += (effectAcceleration * _dt);
 			}
 			else
-				effectSpeed -= (effectAcceleration * _dt);
-			if(effectSpeed > 0 && effectTimer < 0)
+				effectSpeed -= (effectAcceleration * _dt *2);
+			if(effectSpeed < 0 && effectTimer < 0)
 			{
 				effectDirection = Vec3(1, 1, 0);
 				effectSpeed = 0;
@@ -74,7 +74,7 @@ namespace Logic
 			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
 			effectDirection.normalize();
 			effectSpeed = 0;
-			effectTimer = 1.5;
+			effectTimer = 1.6;
 			activeEffect = 1;
 			effectAcceleration = 30;
 		}

@@ -109,7 +109,6 @@ namespace Logic
 			if(movementSpeed > 1.0f)
 			{
 				movementSpeed = 1.0f;
-				effectRotation = 0.4;
 				activeEffect = 0;
 			}
 		} 
@@ -156,7 +155,6 @@ namespace Logic
 			activeEffect = 1;
 			movementSpeed = 0.3;
 			effectAcceleration = 0.1;
-			effectRotation = 0.4;
 		}
 	}
 	
