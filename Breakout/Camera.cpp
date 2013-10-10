@@ -27,6 +27,7 @@ Camera::Camera()
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }

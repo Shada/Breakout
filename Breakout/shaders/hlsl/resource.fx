@@ -22,4 +22,14 @@ cbuffer cbOnce			: register( b2 )
 	matrix projection;
 	matrix projInv;
 	float4 lightPos;
+	float2 resolution;
+	float2 padding2;
+};
+cbuffer cbFont			: register( b3 )
+{
+	float4	textTintAlpha;
+	float2	textPos;
+	float2	textSize;
+	float2	textRotation;
+	float2	imageSize;
 };

@@ -15,6 +15,9 @@ namespace Logic
 
 
 		//gameState = GameState::GAME_PLAY;
+		inputHandler = handler;
+
+		menu		= new Menu();
 
 		Resources::LoadHandler::getInstance();
 	}

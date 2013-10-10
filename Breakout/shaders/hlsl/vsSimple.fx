@@ -14,7 +14,7 @@ struct PS_Input
 	float4 posWV	: TEXCOORD1;
 };
 
-PS_Input vs_simple(VS_Input input)
+PS_Input vs(VS_Input input)
 {
 	
 	PS_Input output = (PS_Input)0;
