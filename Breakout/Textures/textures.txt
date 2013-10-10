@@ -8,3 +8,4 @@ Textures/default.png
 Skybox/Skybox1/combined.png
 Fonts/blackwhite.png
 Textures/waterFrame.png
+Textures/testTex.png

@@ -28,6 +28,7 @@ GraphicsOGL4::GraphicsOGL4()
 	// generate buffers
 	glGenBuffers(1, &vertexBufferStatic);
 	glGenBuffers(1, &uiBufferDynamic);
+	glGenBuffers(1, &textBufferDynamic);
 
 	//compile shader programs
 	program = new ProgramGLSL("simple", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/vsSimple.glsl", "", /*"/home/torrebjorne/Documents/GitHub/Breakout/Breakout/*/"shaders/glsl/fsSimple.glsl");
@@ -51,18 +52,6 @@ GraphicsOGL4::GraphicsOGL4()
 
 	diffuseTexID = glGetUniformLocation(program->getProgramID(), "textureSampler");
 	skyboxTexID = glGetUniformLocation(skyboxProgram->getProgramID(), "textureSampler");
-
-	//*****************************//
-	//!!!!! THIS IS JUST A TEST !!!!!
-	//*****************************//
-
-	std::vector<tempBBUI> uiData;
-	tempBBUI bbui;
-	bbui.pos = Vec2(0, 0);
-	bbui.size = Vec2(150, 768);
-	uiData.push_back(bbui);
-
-	feedUIBufferData(uiData);
 }
 
 GraphicsOGL4::~GraphicsOGL4()
@@ -205,21 +194,40 @@ void GraphicsOGL4::draw()
 
 	useBillboardVertexAttribLayout();
 
-	useTexture(7);
-	glDrawArrays(GL_POINTS, 0, 1);
+	useTexture(9);
 
+	vertexAmount = objectCore->uiBillboards.size();
+	startIndex	 = 0;
+
+	glDrawArrays(GL_POINTS, startIndex, vertexAmount);
+
+	//-----------------------------------------------------------------------------------
+	//                             text
+	//-----------------------------------------------------------------------------------
+	fontProgram->useProgram();
+	glDisable(GL_DEPTH_TEST);
+	glEnable (GL_BLEND); 
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
+
+	useFontVertexAttribLayout();
+
+	useTexture(8);
+
+	vertexAmount		= objectCore->testText->getTextSize();
+	startIndex			= objectCore->testText->getVBStartIndex();
+
+	glDrawArrays(GL_POINTS, startIndex, vertexAmount);
+	
+	glDisable (GL_BLEND);
+	glEnable (GL_DEPTH_TEST); 
 	//----------------------------------------------------------------------------------
 	// disable vertex attributes 
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 
-
-	// disable vertex attributes 
-	// (maybe should be in function, so that not to many of few attributes are disabled...)
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
 }
 
 void GraphicsOGL4::initVertexBuffer()
@@ -247,15 +255,22 @@ int GraphicsOGL4::feedStaticBufferData(std::vector<Vertex> _vertexpoints)
 }
 
 //will be dynamic buffer or what!?
-int GraphicsOGL4::feedUIBufferData(std::vector<tempBBUI> _points)
+void GraphicsOGL4::feedUIBufferData()
 {
+	std::vector<BBUI> _points = objectCore->uiBillboards;
 	// bind vertex buffer to GPU
 	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
-    int s = sizeof(Vertex) * _points.size();
 	// feed data to buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(tempBBUI) * _points.size(), &_points[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BBUI) * _points.size(), &_points[0], GL_STATIC_DRAW);
+}
 
-	return 0;
+void GraphicsOGL4::feedTextBufferData()
+{
+	std::vector<BBFont> _points = objectCore->fontBillboards;
+	// bind vertex buffer to GPU
+	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
+	// feed data to buffer
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BBFont) * _points.size(), &_points[0], GL_STATIC_DRAW);
 }
 
 std::vector<GLuint> *GraphicsOGL4::getTextures()
@@ -271,9 +286,20 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 		glGenTextures(1, &gl_texID);
 		//bind to the new texture ID
 		glBindTexture(GL_TEXTURE_2D, gl_texID);
-		//store the texture data for OpenGL use
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
-					0, GL_BGR, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
+
+		//if png, it has alpha
+		if(lh->getTexture(i)->isTransparent())
+		{
+			//store the texture data for OpenGL use
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
+						0, GL_BGRA, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
+		}
+		else
+		{
+			//store the texture data for OpenGL use
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
+						0, GL_BGR, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
+		}
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -336,7 +362,7 @@ void GraphicsOGL4::useFontVertexAttribLayout()
 	glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
 	glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 1));
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)sizeof(float));
 }
 
 void GraphicsOGL4::useTexture(int _index)

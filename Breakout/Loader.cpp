@@ -229,7 +229,6 @@ namespace Resources
 		//if the image failed to load, return failure
 		if(!_texture->getDib())
 			return;
-
 		//retrieve the image data
 		_texture->setBits(FreeImage_GetBits(_texture->getDib()));
 		//get the image width and height

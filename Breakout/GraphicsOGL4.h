@@ -15,11 +15,6 @@
 
 #include "linearalgebra.h"
 
-struct tempBBUI
-{
-	Vec2 pos;
-	Vec2 size;
-};
 class GraphicsOGL4
 {
 private:
@@ -30,6 +25,8 @@ private:
 	GLuint vertexBufferStatic;
 	// dynamic buffer for UI elements
 	GLuint uiBufferDynamic;
+	// dynamic buffer for text
+	GLuint textBufferDynamic;
 
 	GLuint	modelMatID,
 			modelInvMatID,
@@ -73,7 +70,8 @@ public:
 	void	updateCBWorld(CBWorld cb);
 
 	void initVertexBuffer();
-	int feedUIBufferData(std::vector<tempBBUI> _points);
+	void feedUIBufferData();
+	void feedTextBufferData();
 
 	void updateModelMatrix(Matrix *model);
 	void updateModelInvTransMatrix(Matrix *modelinvtrans);

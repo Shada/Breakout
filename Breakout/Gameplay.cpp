@@ -67,6 +67,8 @@ namespace Logic
 
 		#ifndef BAJSAPA
 		GraphicsOGL4::getInstance()->initVertexBuffer();
+		GraphicsOGL4::getInstance()->feedUIBufferData();
+		GraphicsOGL4::getInstance()->feedTextBufferData();
 		#endif
 
 	}

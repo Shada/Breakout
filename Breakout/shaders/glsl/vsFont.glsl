@@ -7,6 +7,6 @@ out vec4	gtex;
 
 void main()
 {
-	gpos		= vpos;
-	gtex		= gtex;
+	gpos	= vpos;
+	gtex	= vtex;
 }
