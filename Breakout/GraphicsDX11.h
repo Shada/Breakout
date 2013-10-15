@@ -9,6 +9,7 @@
 #include "LoadHandler.h"
 #include "ObjectCore.h"
 #include "LoadHandler.h"
+#include "Particles.h"
 
 class GraphicsDX11
 {
@@ -45,6 +46,8 @@ private:
 	//techniques
 	std::vector<TechniqueHLSL*>	techniques;
 
+	Particles *particle;
+
 	/*---------------------------------------------------------------
 								Layouts
 	--------------------------------------------------------------*/
@@ -67,6 +70,8 @@ private:
 	ID3D11Buffer				*cbWorld;
 	ID3D11Buffer				*cbCameraMove;
 	ID3D11Buffer				*cbOnce;
+	ID3D11Buffer				*cbParticles;
+
 
 	//viewports
 	D3D11_VIEWPORT				viewPort;
@@ -83,6 +88,7 @@ private:
 	ID3D11RasterizerState		*rasterizerFrontface;
 	//samplestates
 	ID3D11SamplerState			*samplerLinear;
+	ID3D11SamplerState			*samplerPoint;
 
 	/*Gives you a pointer to a texture array*/
 	void getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray);
@@ -122,6 +128,11 @@ public:
 	void	feedInstanceBuffer( std::vector<PerInstance> perInstance);
 	/* get technique index by name. (returns -1 if none were found)*/
 	int		getTechIDByName(const char *name);
+	/* get technique by name. (returns NULL if none were found)*/
+	TechniqueHLSL* getTechByName(const char *name);
+	/* get texture by ID. (returns NULL if none were found)*/
+	ID3D11ShaderResourceView** getTextureByID(int _index){return &textures.at(_index);};
+
 	/* set current technique for rendering */
 	void	useTechnique(unsigned int index);
 
@@ -129,7 +140,10 @@ public:
 	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); };
 	void	updateCBWorld(CBWorld cb) { immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); };
 
-	void	draw();
+	void	updateCBParticles(CBParticles cb) { immediateContext->UpdateSubresource(cbParticles, 0, NULL, &cb, 0, 0); };
+
+
+	void	draw(double _time);
 
 	void	useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();

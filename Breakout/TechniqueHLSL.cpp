@@ -10,6 +10,18 @@ std::vector<PSstruct> *TechniqueHLSL::pixelShaders		= new std::vector<PSstruct>(
 
 #include "GraphicsDX11.h"
 
+TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string gsPath,std::string gs)
+{
+	this->device		= device;
+	vertexBlob			= NULL;
+	vertexShaderIndex	= insertVertexShader(vsPath,vs);
+	hullShaderIndex		= -1;
+	domainShaderIndex	= -1;
+	geometryShaderIndex	= insertGeometryShader(gsPath,gs);
+	pixelShaderIndex	= -1;
+	this->name			= name;
+}
+
 TechniqueHLSL::TechniqueHLSL(ID3D11Device *device, std::string name, std::string vsPath, std::string vs, std::string gsPath,std::string gs, std::string psPath, std::string ps)
 {
 	this->device		= device;
@@ -358,8 +370,11 @@ void TechniqueHLSL::useTechnique()
 	else
 		g->immediateContext->GSSetShader(geometryShaders->at(geometryShaderIndex).geometryShader,NULL,0);
 
-	//set pixel shader, there is always one to set
-	g->immediateContext->PSSetShader(pixelShaders->at(pixelShaderIndex).pixelShader,NULL,0);
+	//set pixel shader, there is always one to set... nopp min particle effect har ett pass utan en pixel shader - Martin
+	if(pixelShaderIndex == -1)
+		g->immediateContext->PSSetShader(NULL,NULL,0);
+	else
+		g->immediateContext->PSSetShader(pixelShaders->at(pixelShaderIndex).pixelShader,NULL,0);
 
 }
 

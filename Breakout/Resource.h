@@ -51,6 +51,23 @@ struct CBOnce
 	Vec4	lightPos;
 };
 
+struct CBParticles
+{
+	float globalTime;
+    float elapsedTime;
+    float particlesPerStage;		//How many particles that should be spawned between the stages
+	float stages;
+    Vec4 frameGravity;
+	Vec4 color;
+	Vec4 fadeColor;
+	Vec3 startPos;					//The center pos of the particle system might be changed if the particle system is moved
+	float radie;						//The radie in which you want the particles to spawn
+	Vec3 startSpeed;					//The direction in which the particle should start to and the speed in which the should do it in
+	float randDir;
+	Vec3 radieDirections;				//The direction the radie should make the particles spawn in(for example (1,0,1) making the particles spawn from a flat circle as rain for example)
+	float shellLife;
+};
+
 #define PI 3.14159265359
 #define SCRWIDTH 1024
 #define SCRHEIGHT 768

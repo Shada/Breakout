@@ -70,6 +70,15 @@
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystemHandler.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -103,6 +112,9 @@
     </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{13af3ad7-1c22-4a64-91dd-acf4f271fdce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particles">
+      <UniqueIdentifier>{4e4d999e-af67-4d3b-a2d3-994466a9530e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +199,15 @@
     <ClInclude Include="SoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemHandler.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\hlsl\vsSimple.fx">
@@ -207,5 +228,25 @@
     <CustomBuild Include="shaders\hlsl\vsBBUI.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\ParticlePSDraw.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\ParticleGSAdvance.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\ParticleGSDraw.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\ParticleVSDraw.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\ParticleVSAdvance.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ParticlesGS.fx">
+      <Filter>Particles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

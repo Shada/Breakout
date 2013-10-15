@@ -22,6 +22,7 @@ GraphicsDX11::GraphicsDX11()
 	rasterizerBackface			= NULL;
 	rasterizerFrontface			= NULL;
 	samplerLinear				= NULL;
+	samplerPoint				= NULL;
 	shader5Support				= true;
 
 	vBufferStatic				= NULL;
@@ -163,6 +164,8 @@ void GraphicsDX11::init(HWND *hWnd)
 
 	techniques = std::vector<TechniqueHLSL*>();
 	techniques.push_back( new TechniqueHLSL(device, "techSimple", "shaders/hlsl/vsSimple.fx", "vs_simple","","","shaders/hlsl/psSimple.fx","ps_simple") );
+	techniques.push_back( new TechniqueHLSL(device, "particleAdvance", "shaders/hlsl/ParticleVSAdvance.fx", "VSPassThroughmain","shaders/hlsl/ParticleGSAdvance.fx","GSAdvanceParticlesMain") );
+	techniques.push_back( new TechniqueHLSL(device, "particleDraw", "shaders/hlsl/ParticleVSDraw.fx", "VSScenemain","shaders/hlsl/ParticleGSDraw.fx","GSScenemain","shaders/hlsl/ParticlePSDraw.fx","PSScenemain") );
 
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayout[] = 
@@ -200,6 +203,8 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	if( !createCBuffer(&cbOnce, sizeof(CBOnce), 2))
 		return;
+	if( !createCBuffer(&cbParticles, sizeof(CBParticles), 3))
+		return;
 
 	//create samplerstates
 	D3D11_SAMPLER_DESC sampDesc;
@@ -213,6 +218,11 @@ void GraphicsDX11::init(HWND *hWnd)
 	sampDesc.MaxLOD			= D3D11_FLOAT32_MAX;
 
 	hr = device->CreateSamplerState( &sampDesc, &samplerLinear);
+	if(FAILED(hr))
+		return;
+
+	sampDesc.Filter			= D3D11_FILTER_MIN_MAG_MIP_POINT;
+	hr = device->CreateSamplerState( &sampDesc, &samplerPoint);
 	if(FAILED(hr))
 		return;
 
@@ -287,6 +297,8 @@ void GraphicsDX11::init(HWND *hWnd)
 	initVertexBuffer();
 	createVBufferUI(100);
 	getTextureArray(&textures);
+	//										   startpos,	startspeed,		radie,	radiedir,		texID,	gravity,		lifetime,	stages,	partperstage,	color,			fadecolor,		randdir
+	particle = new Particles(device,"Particle",Vec3(0,0,0),	Vec3(0,1,0),	100,	Vec3(1,0,1),	2,		Vec4(0,0,0,0),	5,			1,		10,				Vec4(1,1,0,1),	Vec4(0,0,1,1),	1);
 }
 
 HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
@@ -348,6 +360,7 @@ bool GraphicsDX11::createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registe
 		return false;
 	}
 	immediateContext->VSSetConstantBuffers(registerIndex, 1, cb);
+	immediateContext->GSSetConstantBuffers(registerIndex,1,cb);
 	//immediateContext->DSSetConstantBuffers(registerIndex, 1, cb);
 	immediateContext->PSSetConstantBuffers(registerIndex, 1, cb);
 	//immediateContext->HSSetConstantBuffers(registerIndex, 1, cb);
@@ -435,12 +448,22 @@ int GraphicsDX11::getTechIDByName( const char *name )
 	return -1;
 }
 
+TechniqueHLSL* GraphicsDX11::getTechByName(const char *name)
+{
+	for(unsigned int i = 0; i < techniques.size(); i++)
+		if(techniques.at(i)->getName() == name)
+			return techniques.at(i);
+	return NULL;
+}
+
+
+
 void GraphicsDX11::useTechnique( unsigned int id )
 {
 	techniques.at(id)->useTechnique();
 }
 
-void GraphicsDX11::draw()
+void GraphicsDX11::draw(double _time)
 {
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 	CBWorld cbWorld;
@@ -486,7 +509,7 @@ void GraphicsDX11::draw()
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 
 	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
-	immediateContext->Draw(vertexAmount, startIndex);
+	//immediateContext->Draw(vertexAmount, startIndex);
 
 	//--------------------------------------------------------------------------------
 	//                                     Pad
@@ -508,19 +531,25 @@ void GraphicsDX11::draw()
 	//                                     bricks
 	//--------------------------------------------------------------------------------
 
-	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
-	{
-		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
-		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
-		updateCBWorld(cbWorld);
+	//for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	//{
+	//	cbWorld.world		= objectCore->bricks.at(i)->getWorld();
+	//	cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+	//	updateCBWorld(cbWorld);
 
-		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
-		modelID				= objectCore->bricks.at(i)->getModelID();
-		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
-		startIndex			= lh->getModel( modelID )->getStartIndex();
+	//	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
+	//	modelID				= objectCore->bricks.at(i)->getModelID();
+	//	vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+	//	startIndex			= lh->getModel( modelID )->getStartIndex();
 
-		immediateContext->Draw(vertexAmount, startIndex);
-	}
+	//	immediateContext->Draw(vertexAmount, startIndex);
+	//}
+
+	//--------------------------------------------------------------------------------
+	//                                     particles
+	//--------------------------------------------------------------------------------
+	particle->update(_time);
+	particle->draw();
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)
@@ -550,6 +579,7 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(rasterizerBackface);
 	SAFE_RELEASE(rasterizerFrontface);
 	SAFE_RELEASE(samplerLinear);
+	SAFE_RELEASE(samplerPoint);
 	SAFE_RELEASE(simpleInputLayout);
 	SAFE_RELEASE(swapChain);
 
@@ -570,6 +600,8 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(cbWorld);
 	SAFE_RELEASE(cbOnce);
 	SAFE_RELEASE(cbCameraMove);
+	SAFE_RELEASE(cbParticles);
+
 
 	TechniqueHLSL::cleanUp();
 }

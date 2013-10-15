@@ -150,7 +150,7 @@ int Winhandler::run()
 
 			g->clearRenderTarget(0.1f,0.05f,0.5f);
 
-			g->draw();
+			g->draw(time);
 
 			g->presentSwapChain();
 
