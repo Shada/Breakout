@@ -5,12 +5,6 @@
 //#include "stdafx.h"
 #include "Sound.h"
 
-#ifdef _WIN32
-#include <fmod.hpp>
-#else
-#include <fmodlinux.h>
-#endif
-
 class SoundSystem
 {
 public:
@@ -49,7 +43,7 @@ private:
 		//sound[15] = Bumpers
 		//sound[16] = Positive effect activated
 		//sound[17] = Negative effect activated
-		//sound[]FINNS EJ ÄN = namn
+		//sound[18] = Earthquake
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 

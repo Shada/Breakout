@@ -15,8 +15,8 @@ G = 	Typ av bana (tema)
 		0 = testing
 		1 = Wind
 		2 = Water
-		3 = Earth 
-		4 = Fire
+		3 = Fire
+		4 = Earth 
 B = 	Svårighet (Hur ofta random event ska ske. 1=simpel, 10=svår)
 
 (Eftersom den första punkten ligger i ett hörn så kommer vi inte sätta något objekt där och hoppa över den när man läser in objekten.)

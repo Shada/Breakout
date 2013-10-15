@@ -6,9 +6,15 @@
 namespace Logic
 {
 
-	void Map::loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad)
+	void Map::loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad)
 	{
-		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(7)->getDib();
+
+		//clear the brick vector, not sure if this should be done here
+		for(unsigned int i = 0; i < _bricks->size(); i++)
+			SAFE_DELETE(_bricks->at(i) );
+		_bricks->clear();
+		FIBITMAP *pHeightMap = Resources::LoadHandler::getInstance()->getMap(_mapID)->getDib();
+
 
 		if ( pHeightMap )
 		{
@@ -16,8 +22,8 @@ namespace Logic
 			unsigned int hmHeight = FreeImage_GetHeight(pHeightMap);
 			unsigned int hmWidth = FreeImage_GetWidth(pHeightMap);
 		
-			unsigned int displacementX = 7;
-			unsigned int displacementY = 5;
+			unsigned int displacementX = 16;
+			unsigned int displacementY = 8;
 
 			float circleRadie = 100;
 
@@ -97,33 +103,44 @@ namespace Logic
 					}
 					else if(color.rgbRed == 12)
 					{
-						//Set pad start pos here
-						_pad->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
-						_pad->updateWorld();
-						_pad->setModelID(color.rgbBlue);
-						_pad->setTextureID(color.rgbGreen);
+
+						//if no pad is desired or the pad from the previously loaded map is wanted
+						//this will be null
+						if(_pad != NULL)
+						{
+							//Set pad start pos here
+							_pad->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
+							_pad->updateWorld();
+							_pad->setModelID(color.rgbBlue);
+							_pad->setTextureID(color.rgbGreen);
+						}
+						_pad->setReleaseBall(false);
 					}
 					else if(color.rgbRed == 24)
 					{
-						//Set ball start pos here
-						_ball->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
-						_ball->updateWorld();
-						_ball->setModelID(color.rgbBlue);
-						_ball->setTextureID(color.rgbGreen);
-						_ball->setModelID(2);
+						//if no balls are desired or the pad from the previously loaded map is wanted
+						//this will be null
+						if( _ball != NULL )
+						{
+							//Set ball start pos here
+							_ball->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
+							_ball->updateWorld();
+							_ball->setModelID(color.rgbBlue);
+							_ball->setTextureID(color.rgbGreen);
+							_ball->setModelID(2);
+						}
 
 					}
 					else if(color.rgbRed != 0 && color.rgbRed != 255 )
 					{
 						//Set brick property here
-						Brick *tBrick = new Brick(Vec3(0,0,0));
 
-						tBrick->setPosition(Vec3(displace.x,(float)displace.y,displace.z));
-						
-						//tBrick->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
+						Brick *tBrick = new Brick(Vec3((float)x * displacementX, (float)y * displacementY, 0.0f));
+						//tBrick->setPosition(Vec3();
+						tBrick->setHeight(7.5f);
+						tBrick->setWidth(15);
 						tBrick->updateWorld();
-
-						//tBrick.setType(color.rgbRed);
+						tBrick->setType(color.rgbRed);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
 						_bricks->push_back(tBrick);

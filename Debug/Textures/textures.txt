@@ -1,3 +1,8 @@
 Textures/elements.jpg
+Textures/brick1.png
+Textures/pad.png
 Textures/spaceColor.jpg
 Textures/SplashHD.jpg
+Textures/ColorWhirl.jpg
+Textures/default.png
+Skybox/Skybox1/combined.png

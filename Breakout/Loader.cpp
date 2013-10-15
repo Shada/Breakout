@@ -22,7 +22,7 @@ namespace Resources
 
         std::string filename = "";
 #ifndef _WIN32
-		filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+		//filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
 #endif // !_WIN32
 		filename += file;
 
@@ -147,7 +147,7 @@ namespace Resources
 				}
 				i++;
 				j = 0;
-				FaceIndex = atof(temp);
+				FaceIndex = atoi(temp);
 				if(FaceIndex < 0)
 					FaceIndex*=-1;
 				pData.pos = Position.at(FaceIndex-1);
@@ -169,7 +169,7 @@ namespace Resources
 					}
 					i++;
 					j = 0;
-					FaceIndex = atof(temp);
+					FaceIndex = atoi(temp);
 					if(FaceIndex < 0)
 						FaceIndex*=-1;
 					pData.texCoord = TextureCoord.at(FaceIndex-1);
@@ -188,7 +188,7 @@ namespace Resources
 							i++;
 							j++;
 						}
-						FaceIndex = atof(temp);
+						FaceIndex = atoi(temp);
 						if(FaceIndex < 0)
 							FaceIndex*=-1;
 						pData.normal = Normal.at(FaceIndex-1);
@@ -210,7 +210,7 @@ namespace Resources
 	{
         std::string filename = "";
 #ifndef _WIN32
-        filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+        //filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
 #endif // ! _WIN32
 
 		filename += file;
@@ -223,7 +223,7 @@ namespace Resources
 		if(*_texture->getFif() == FIF_UNKNOWN)
 			return;
 
-		//check that the plugin has reading capabilities and load the file
+		//check that the plugin has reading cBAJSAPAbilities and load the file
 		if(FreeImage_FIFSupportsReading(*_texture->getFif()))
 			_texture->setDib(FreeImage_Load(*_texture->getFif(), filename.c_str()));
 		//if the image failed to load, return failure

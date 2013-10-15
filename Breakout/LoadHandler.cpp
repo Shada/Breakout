@@ -1,7 +1,7 @@
 #include "LoadHandler.h"
 #include <iostream>
 #include <fstream>
-
+#include "Skybox.h"
 namespace Resources
 {
 
@@ -12,11 +12,11 @@ namespace Resources
 		loader = 0;
 		loader = new Loader();
 		char file[256];
+        std::ifstream myfile ("Objects/object.txt");
 
 #ifdef _WIN32
-        std::ifstream myfile ("Objects/object.txt");
 #else
-        std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
+        //std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -30,10 +30,10 @@ namespace Resources
 		}
 		myfile.close();
 
-#ifdef _WIN32
 		myfile.open("Maps/map.txt");
+#ifdef _WIN32
 #else
-        myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
+        //myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -47,10 +47,10 @@ namespace Resources
 		}
 		myfile.close();
 
-#ifdef _WIN32
 		myfile.open("Textures/textures.txt");
+#ifdef _WIN32
 #else
-        myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
+       // myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
 #endif // _WIN32
 
 		if (myfile.is_open())
@@ -63,6 +63,13 @@ namespace Resources
 			}
 		}
 		myfile.close();
+
+		// add the skybox model
+		// might be exchanged with having a obj file
+		// instead of generating the vertices
+		Model* tModel = new Model();
+		tModel->addData(Skybox::generateVertices());
+		models.push_back(tModel);
 	}
 
 	LoadHandler::~LoadHandler()

@@ -5,8 +5,10 @@
 #endif // _WIN32
 Camera::Camera()
 {
+
 	position = Vec3(75, 75, -200);
 	rotation = Vec3(0, 0, 0);
+	lookAt = Vec3(0,0,1);
 
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine
@@ -16,18 +18,16 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-#ifdef _WIN32
-	CBOnce cbonce;
-	perspectiveFovLH(projectionMatrix, PI * 0.5, float(SCRWIDTH / SCRHEIGHT), 0.01, 600);
-#else
-    perspectiveFovRH(projectionMatrix, PI * 0.5, float(SCRWIDTH/SCRHEIGHT), 0.1f, 600.f);
-#endif //_WIN32
+    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
+	
 	MatrixInversion(projectionInv, projectionMatrix);
 
 #ifdef _WIN32
+	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }
@@ -58,14 +58,13 @@ Vec3 Camera::getRotation()
 
 void Camera::update()
 {
-	Vec3 up, pos, lookAt, rot;
+	Vec3 up, pos, rot;
 	Matrix rotationMatrix;
-	float radianConv = (float)(PI/180); //Used to convert from degree to radians
+	float radianConv = (float)(PI)/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
 	pos = position;
-	lookAt = Vec3(0,0,1);
 
 	//Set yaw, pitch and roll rotations in radians
 	rot.x = rotation.x * radianConv;
@@ -81,14 +80,11 @@ void Camera::update()
 
 
 	//Translate rotated camera position to location of viewer
-	//lookAt = pos + lookAt;
+	lookAt = pos + Vec3(0,0,1);
 
 	//Create view matrix from vectors
-#ifdef _WIN32
-	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
-#else
-    lookAtRH(viewMatrix, lookAt, up, pos);
-#endif // _WIN32
+
+    lookAtLHP(viewMatrix, lookAt, up, pos);
 
 	MatrixInversion(viewInv, viewMatrix);
 
