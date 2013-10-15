@@ -77,7 +77,7 @@ namespace Logic
 			direction.normalize();
 		}
 
-		if(position.x > 200 || position.x < 0)
+		if(position.x > Logic::borderMaxX || position.x < 0)
 		{
 			position.x = position.x > 200.0f ? 200.0f : 0.0f;
 			posMouse.x = posKey.x = position.x;
@@ -138,7 +138,10 @@ namespace Logic
 
 		if(position.x > 300 || position.x < 0)
 		{
-			position.x > 300.0f ? position.x -= 300.0f : position.x += 300.0f;
+			//position.x > 300.0f ? position.x -= 300.0f : position.x += 300.0f;
+
+			position.x > Logic::borderMaxX ? position.x = Logic::borderMaxX : position.x = 0.f;
+
 			posMouse.x = posKey.x = position.x;
 		}
 

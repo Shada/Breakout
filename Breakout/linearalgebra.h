@@ -753,6 +753,11 @@
 	//		frustum[i].normalize();
 	//	return frustum;
 	//}
+
+#define _max(a,b)            (((a) > (b)) ? (a) : (b))
+
+#define _min(a,b)            (((a) < (b)) ? (a) : (b))
+
 #pragma endregion
 
 	#define _min(a,b)            ( ( (a) < (b) ) ? (a) : (b))

@@ -24,12 +24,12 @@ namespace Logic
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
-
 	/*	Logic::sph2Cart(Vec3(0,1.570796,39));
 		Logic::cart2Sph(Vec3(39,0,0));*/
 
-		//camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
-		camera->setPosition(Logic::fitToScreen(Vec3(-384,256,0), Vec3(384,256,0), Vec3(-384,0,0), Vec3(384,0,0)));
+		//camera->setPosition(Logic::fitToScreen(Vec3(-384,256,0), Vec3(384,256,0), Vec3(-384,0,0), Vec3(384,0,0)));
+		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
+		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
@@ -63,7 +63,7 @@ namespace Logic
 				ballPadCollided = false;
 		}
 
-		if(objectCore->ball->getPosition().y < 10)
+		if(objectCore->ball->getPosition().y < 0)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);

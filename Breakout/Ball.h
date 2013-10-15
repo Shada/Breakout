@@ -7,6 +7,13 @@ namespace Logic
 {
 	class Ball : public Object3D
 	{
+	private:
+		float speed;
+		Vec3 direction, lastFrame;
+		float radius;
+
+		int shaderTechniqueID;
+
 	public:
 		Ball();
 		~Ball();
@@ -19,21 +26,12 @@ namespace Logic
 		Vec3 getDirection()		{ return direction; };
 
 		/* Returns position for where ball would be next frame, assuming same deltaTime. */
-		Vec3 getNextFrame()		{ return nextFrame; };
+		Vec3 getLastFrame()		{ return lastFrame; };
+		float getSpeed()		{ return speed; }
 
-#ifdef _WIN32
-		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
-		void setDirection(float x = NULL, float y = NULL, float z = NULL);
-#else // _WIN32
-		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
+		/* Sets the direction-variables. Use NULL if you want them to remain unchanged. */
 		void setDirection(float x, float y, float z);
-#endif // _WIN32
-	private:
-		float speed;
-		Vec3 direction, nextFrame;
-		float radius;
-
-		int shaderTechniqueID;
+		void setPosition(Vec3 _pos);
 	};
 }
 #endif // ! _BALL_H_
