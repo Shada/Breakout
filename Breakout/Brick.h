@@ -10,9 +10,16 @@ namespace Logic
 	{
 	public:
 		Brick(Vec3 _pos);
+		Brick(Vec3 _pos, double _width, double _height);
 		~Brick();
 		void update(double _dt);
 		void draw();
+
+		void setHeight( double _h);
+		void setWidth( double _w);
+
+		double getWidth() { return width; };
+		double getHeight() { return height; };
 
 		//Possible parameters, like damage dealt and/or effects and such
 		virtual void damage(); //These 2 could be defined here, or in their respective classes in case they were to function differently
@@ -21,6 +28,7 @@ namespace Logic
 	protected:
 		int health;
 		bool alive;
+		double width, height;
 
 	private:
 		int shaderTechniqueID;

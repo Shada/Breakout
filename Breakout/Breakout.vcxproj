@@ -157,6 +157,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuElement.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
+    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Sound.cpp" />

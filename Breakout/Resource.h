@@ -40,7 +40,7 @@ struct CBCameraMove
 	Vec3 cameraPos;
 	Vec3 cameraDir;
 
-	//byte amount must be dividable by 16
+	//byte amount must be divisible by 16
 	Vec2 padding;
 };
 

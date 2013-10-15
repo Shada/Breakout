@@ -8,6 +8,7 @@ Camera::Camera()
 	position = Vec3(75, 75, -150);
 	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
+	lookAt = Vec3 (150, 100 ,0);
 
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine
@@ -59,14 +60,13 @@ Vec3 Camera::getRotation()
 
 void Camera::update()
 {
-	Vec3 up, pos, lookAt, rot;
+	Vec3 up, pos, rot;
 	Matrix rotationMatrix;
 	float radianConv = (float)(PI/180); //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
 	pos = position;
-	lookAt = Vec3(0,0,1);
 
 	//Set yaw, pitch and roll rotations in radians
 	rot.x = rotation.x * radianConv;
@@ -82,13 +82,13 @@ void Camera::update()
 
 
 	//Translate rotated camera position to location of viewer
-	//lookAt = pos + lookAt;
+	//lookAt = Vec3 (150, 100 ,0);
 
 	//Create view matrix from vectors
 #ifdef _WIN32
-	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+	lookAtLHP(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
 #else
-    lookAtRH(viewMatrix, lookAt, up, pos);
+    lookAtRHP(viewMatrix, lookAt, up, pos);
 #endif // _WIN32
 
 	MatrixInversion(viewInv, viewMatrix);

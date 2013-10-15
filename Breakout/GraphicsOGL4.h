@@ -6,14 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ObjectCore.h"
-#include <GL/glew.h>
-#include <GL/glfw.h>
-#include <vector>
 
 #include "LoadHandler.h"
 #include "ProgramGLSL.h"
-
-#include "linearalgebra.h"
 
 
 class GraphicsOGL4

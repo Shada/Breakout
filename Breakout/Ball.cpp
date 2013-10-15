@@ -1,9 +1,5 @@
 #include "Ball.h"
-#ifdef _WIN32
-#include "GraphicsDX11.h"
-#else
-#include "GraphicsOGL4.h"
-#endif // _WIN32
+#include "Physics.h"
 
 namespace Logic
 {
@@ -17,11 +13,7 @@ namespace Logic
 		direction = Vec3(1, 1, 0);
 		radius = 3.09543991;
 		direction.normalize();
-		speed = 200;
-
-#ifdef _WIN32
-		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
-#endif
+		speed = 100;
 	}
 
 	Ball::~Ball()
@@ -37,6 +29,20 @@ namespace Logic
 		updateWorld();
 	}
 
+	void Ball::updateCylinder(double _dt)
+	{
+		//Check for buffs/debuffs here, and apply them
+		position += direction * speed * (float)_dt;
+		nextFrame = position + (direction * speed * (float)_dt);
+
+		if(position.x > 300.0f || position.x < 0.0f)
+		{
+			position.x > 300.0f ? position.x -= 300.f : position.x += 300.f;
+		}
+
+		transformToCyl();
+	}
+
 #ifdef _WIN32
 	void Ball::setDirection(float _x, float _y, float _z)
 	{
@@ -47,9 +53,9 @@ namespace Logic
 #else
     void Ball::setDirection(float _x, float _y, float _z)
     {
-        direction.x = _x;
-        direction.y = _y;
-        direction.z = _z;
+        if(_x != NULL) direction.x = _x;
+		if(_y != NULL) direction.y = _y;
+		if(_z != NULL) direction.z = _z;
     }
 #endif // _WIN32
 

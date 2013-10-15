@@ -8,7 +8,6 @@
 #include "TechniqueHLSL.h"
 #include "LoadHandler.h"
 #include "ObjectCore.h"
-#include "LoadHandler.h"
 
 class GraphicsDX11
 {

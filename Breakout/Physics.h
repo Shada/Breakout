@@ -3,62 +3,55 @@
 
 
 //These are only used temporary, should be screen size and width.
-#define MAX_WIDTH 300
+#define MAX_WIDTH 400
 #define MAX_HEIGHT 200
-//Temporary, should be a hitbox of sorts for the bricks.
-#define LENGTH 5.03898811
-#define HEIGHT 5.03898811
 
-//#include "linearalgebra.h"
-//#include "Object.h"
-#include "Ball.h"
-#include <vector>
-//#include "Timer.h"
+#include "ObjectCore.h"
 
 namespace Logic
 {
 #pragma region Collission
 
-	inline bool Intersects(Ball* _ball, Object3D* _object)
+	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
-		Vec3 tObjPos = _object->getPosition();
+		Vec3 tBrickPos = _brick->getPosition();
 		float tRadius = _ball->getRadius();
 
 		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
-		float tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x))
-								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
+		float tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
+								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
 
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
-		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
+		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
 			return true;
 
 		//If position will be withing bounds next frame, assuming same deltaTime
 		tBallPos = _ball->getNextFrame();
-		tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x))
-								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
+		tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
+								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
 
-		if(tDistance <= tRadius + HEIGHT/2 && tDistance <= tRadius + LENGTH/2)
+		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
 			return true; //Might need other type of return to clarify next frame will hit
 
 		return false;
 	}
 
-	inline void CalculateCollission(Ball* _ball, Object3D* _object)
+	inline void CalculateCollission(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
 		Vec3 tBallDir = _ball->getDirection();
-		Vec3 tObjPos = _object->getPosition();
+		Vec3 tObjPos = _brick->getPosition();
 		float tRadius = _ball->getRadius();
 
 		//Compare X positions
-		if(tBallPos.x + LENGTH/2 < tObjPos.x || tBallPos.x - LENGTH/2 > tObjPos.x )
+		if(tBallPos.x + _brick->getHeight()/2 < tObjPos.x || tBallPos.x -_brick->getHeight()/2 > tObjPos.x )
 			tBallDir.x *= -1;
 
 		//Compare Y positions
-		if(tBallPos.y + HEIGHT/2 < tObjPos.y || tBallPos.y - HEIGHT/2 > tObjPos.y)
+		if(tBallPos.y + _brick->getHeight()/2 < tObjPos.y || tBallPos.y - _brick->getHeight()/2 > tObjPos.y)
 			tBallDir.y *= -1;
 #ifdef _WIN32
 		_ball->setDirection(tBallDir.x, tBallDir.y);
@@ -76,9 +69,9 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-		if(tBallPos.x - tRadius < 0 || tBallPos.x + tRadius > MAX_WIDTH)
+		if(tBallPos.x - tRadius < -MAX_WIDTH || tBallPos.x + tRadius > MAX_WIDTH)
 		{
-			if((tBallPos.x - tRadius < 0 && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_HEIGHT && tBallDir.x > 0))
+			if((tBallPos.x - tRadius < MAX_WIDTH && tBallDir.x < 0) || (tBallPos.x + tRadius > MAX_WIDTH && tBallDir.x > 0))
 				tBallDir.x *= -1;
 #ifdef _WIN32
 			_ball->setDirection(tBallDir.x);
@@ -101,7 +94,7 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline int Check2DCollissions(Ball* _ball, std::vector<Object3D*> _listOfObjects)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks)
 	{
 		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
@@ -112,12 +105,12 @@ namespace Logic
 			return -1;
 		}
 
-		for(unsigned int i = 0; i < _listOfObjects.size(); i++)
+		for(unsigned int i = 0; i < _listOfBricks.size(); i++)
 		{
-			if(Intersects(_ball, _listOfObjects[i]))
+			if(Intersects(_ball, _listOfBricks[i]))
 			{
 				//Ball collides with object, calculate new direction and return.
-				CalculateCollission(_ball, _listOfObjects[i]);
+				CalculateCollission(_ball, _listOfBricks[i]);
 				//"Attack" Object[i]. Destroy? Damage? AoEAttack? Whatever, do it here.
 				return i;
 			}
@@ -139,7 +132,7 @@ namespace Logic
 		float zrot = _pad->getOrientation();
 		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
 		
-		if(min(tObjPos.x, prevPadPos.x) < tBallPos.x && max(tObjPos.x, prevPadPos.x) > tBallPos.x)
+		if(_min(tObjPos.x, prevPadPos.x) < tBallPos.x && _max(tObjPos.x, prevPadPos.x) > tBallPos.x)
 			tObjPos.x = tBallPos.x;
 
 		//rotate p1 and p2
@@ -150,11 +143,11 @@ namespace Logic
 		p1 += tObjPos; p2 += tObjPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
 
-		if(max(p1.x, p2.x) - min(p1.x, p2.x) < tRadius * 5)
+		if(_max(p1.x, p2.x) - _min(p1.x, p2.x) < tRadius * 5)
 		{
 			bool collide = false;
-			float dx = (max(p1.x, p2.x) - min(p1.x, p2.x)) / 10, x = min(p1.x, p2.x);
-			float dy = (max(p1.y, p2.y) - min(p1.y, p2.y)) / 10, y = min(p1.y, p2.y);
+			float dx = (_max(p1.x, p2.x) - _min(p1.x, p2.x)) / 10, x = _min(p1.x, p2.x);
+			float dy = (_max(p1.y, p2.y) - _min(p1.y, p2.y)) / 10, y = _min(p1.y, p2.y);
 			for(int c = 0; c < 11 && !collide; c++)
 			{
 				collide = (x - tBallPos.x) * (x - tBallPos.x) + (y - tBallPos.y) * (y - tBallPos.y) <= tRadius * tRadius;
@@ -173,10 +166,10 @@ namespace Logic
 		}
 		else
 		{
-			if(tBallPos.x + tRadius * ballDir.x > min(p1.x, p2.x) && tBallPos.x - tRadius * ballDir.x < max(p1.x, p2.x))
+			if(tBallPos.x + tRadius * ballDir.x > _min(p1.x, p2.x) && tBallPos.x - tRadius * ballDir.x < _max(p1.x, p2.x))
 			{
 				float ratio = (p1.x - tBallPos.x) / (p1.x - p2.x);
-				float yIntersect = min(p1.y, p2.y) + (max(p1.y, p2.y) - min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
 				if(tBallPos.y - tRadius <= yIntersect && tBallPos.y - tRadius >= yIntersect - 5)
 				{
@@ -260,11 +253,22 @@ namespace Logic
 	{
 		Vec3 result;
 
-		float diff = _pos.x/(float)MAX_WIDTH;
+		float diff = _pos.x/300.f;
 		
 		result.x = _cylCenter.x + _radius * sinf( diff * 2 * PI);
 		result.y = _cylCenter.y + _pos.y;
 		result.z = _cylCenter.z + _radius * cosf( diff * 2 * PI);
+
+		return result;
+	}
+
+	inline Vec3 from2DToCylinder(float _angle , float _radius, Vec3 _cylCenter = Vec3(0,0,0))
+	{
+		Vec3 result;
+		
+		result.x = _cylCenter.x + _radius * sinf( _angle);
+		result.y = _cylCenter.y;
+		result.z = _cylCenter.z + _radius * cosf( _angle);
 
 		return result;
 	}
@@ -275,24 +279,24 @@ namespace Logic
 	{
 		Vec3 result;
 
-		float temp = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );
+		double temp = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );
 
-		result.x = atan2(sqrt(_pos.x * _pos.x + _pos.y * _pos.y ), _pos.z);		// theta = atan2(sqrt(x^2 + y^2), z );
-		result.y = atan2(_pos.y, _pos.x);										// phi = atan2(y,x);
-		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y + _pos.z * _pos.z);	// r = sqrt(x^2 + y^2 + z^2);
+		result.x = atan2(temp, _pos.z);											// Theta = atan2(sqrt(x^2 + y^2), z );
+		result.y = atan2(_pos.y, _pos.x);										// Phi = atan2(y,x);
+		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y + _pos.z * _pos.z);	// R = sqrt(x^2 + y^2 + z^2);
 
 		return result;
 	}
 
-	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, Rho, z) 
-		x = Theta, y = Rho. */
+	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, y, Rho) 
+		x = Theta, z = Rho. */
 	inline Vec3 cart2Cyl(Vec3 _pos)
 	{
 		Vec3 result;
 
 		result.x = atan2(_pos.y, _pos.x);						// Theta = atan2(y,x);
-		result.y = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
-		result.z = _pos.z;										// z = z;
+		result.y = _pos.y;										// y = y
+		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
 																
 
 		return result;

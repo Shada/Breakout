@@ -33,6 +33,7 @@ namespace Logic
 			MatrixInversion(worldInv, world);
 			Matrix inv = world * worldInv;
 		}
+		void transformToCyl();
 
 	protected:
 		int		modelID, textureID;

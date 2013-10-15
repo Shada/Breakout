@@ -9,7 +9,7 @@ namespace Logic
 	public:
 		ObjectCore();
 		Pad						*pad;
-		std::vector<Object3D*>	bricks;
+		std::vector<Brick*>		 bricks;
 		Ball					*ball;
 
 		~ObjectCore();

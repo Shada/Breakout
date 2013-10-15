@@ -17,6 +17,10 @@ namespace Logic
 		float movementSpeed, angle2D, angle3D;
 		static bool releaseBall;
 		Vec3 direction, ballPos, prevPos;
+		static float angle;
+
+		int activeEffect; //0 = nothing, 1 = stun, 2 = slow, 3 = speed
+		float effectTimer, effectAcceleration, effectRotation;
 
 	public:
 		Pad();
@@ -33,8 +37,14 @@ namespace Logic
 		Vec3 getDirection()					{ return direction; }
 		Vec3 getBallPos()					{ return ballPos; }
 		Vec3 getPrevPos()					{ return prevPos; }
+		float getAngle()					{ return angle;	}
 
 		void update(double dt);
+		void updateCylinder(double _dt);
+		void startStun();					//stun effect
+		void startSlow();					//slow effect
+		void startSpeed();					//speed effect
+		void checkEffects(double _dt);
 		void draw();
 		void move2D(double dt, float x);
 		void move3D(double dt, float x);

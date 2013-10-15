@@ -12,6 +12,7 @@ namespace Logic
 		~Ball();
 
 		void update(double dt);
+		void updateCylinder(double _dt);
 		void draw();
 
 		float getRadius()		{ return radius; };
