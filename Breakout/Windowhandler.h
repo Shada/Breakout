@@ -2,13 +2,13 @@
 #define _WINDOWHANDLER_H_
 
 
-// If compiled on win32 system, BAJSAPA specific 
-#ifdef BAJSAPA
+// If compiled on win32 system, _WIN32 specific 
+#ifdef _WIN32
 	#include <windows.h>
 	#include "GraphicsDX11.h"
-#else // BAJSAPA
+#else // _WIN32
 	#include "GraphicsOGL4.h"
-#endif // BAJSAPA
+#endif // _WIN32
 	
 #include "Inputhandler.h"
 #include "GameLogic.h"
@@ -31,7 +31,7 @@ public:
 	virtual ~Windowhandler();
 };
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 class Winhandler : public Windowhandler
 {
 private:
@@ -49,7 +49,7 @@ public:
 	~Winhandler();
 };
 
-#else // BAJSAPA
+#else // _WIN32
 class Linuxhandler : public Windowhandler
 {
 private:
@@ -61,6 +61,6 @@ public:
 	Linuxhandler();
 	~Linuxhandler();
 };
-#endif // BAJSAPA
+#endif // _WIN32
 
 #endif // !_WINDOWHANDLER_H_

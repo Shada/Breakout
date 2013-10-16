@@ -1,9 +1,9 @@
 #include "Water.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // BAJSAPA
+#endif // _WIN32
 
 Water::Water(float _waterLevel)
 {
@@ -39,9 +39,9 @@ Water::Water(float _waterLevel)
 
 	cb.extinction			= Vec4(28.0f, 120.0f, 160.0f ,1.0f);
 	cb.scale				= Vec2( 0.0005f, 0.0005f );
-#ifdef BAJSAPA
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBWaterOnce(cb);
-#endif // BAJSAPA
+#endif // _WIN32
 
 }
 
@@ -80,10 +80,10 @@ void Water::update(double _dt)
 	cb.timer = (float)timer;
 	cb.waterLevel = waterLevel;
 	cb.windDirection = windDirection;
-#ifdef BAJSAPA
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBWater(cb);
 #else
-#endif // BAJSAPA
+#endif // _WIN32
 }
 void Water::setSpeedModifier(float _modifier, double _duration)
 {

@@ -1,6 +1,6 @@
 #include "Text.h"
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
@@ -45,7 +45,7 @@ void Text::updateCB()
 	cb.tintAlpha	= tintAlpha;
 	cb.imageSize	= Vec2(1420,250);
 
-	#ifdef BAJSAPA
+	#ifdef _WIN32
 		GraphicsDX11::getInstance()->updateCBFont(cb);
 	#else
 		GraphicsOGL4::getInstance()->updateCBFont(cb);

@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifdef _WIN32
 
 #include "GraphicsDX11.h"
 #include <sstream>
@@ -933,4 +933,4 @@ void GraphicsDX11::getTextureArray(std::vector<ID3D11ShaderResourceView*> *_text
 
 }
 
-#endif // BAJSAPA
+#endif // _WIN32

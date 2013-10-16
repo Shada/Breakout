@@ -1,4 +1,4 @@
-#ifndef BAJSAPA
+#ifndef _WIN32
 
 #include "GraphicsOGL4.h"
 #include "Resource.h"
@@ -522,4 +522,4 @@ void GraphicsOGL4::useMatrices()
 		glUniformMatrix4fv(projSkybox, 1, GL_FALSE, &matrices.projection->r[0][0]);
 	}
 }
-#endif // !BAJSAPA
+#endif // !_WIN32

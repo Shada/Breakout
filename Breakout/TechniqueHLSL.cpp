@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifdef _WIN32
 
 #include "TechniqueHLSL.h"
 
@@ -393,4 +393,4 @@ TechniqueHLSL::~TechniqueHLSL()
 		vertexBlob->Release();
 }
 
-#endif // BAJSAPA
+#endif // _WIN32

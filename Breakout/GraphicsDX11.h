@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifdef _WIN32
 
 #pragma once
 #include <d3dcompiler.h>
@@ -156,4 +156,4 @@ public:
 	~GraphicsDX11();
 };
 
-#endif // BAJSAPA
+#endif // _WIN32

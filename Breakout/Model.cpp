@@ -1,7 +1,7 @@
 #include "Model.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
-#endif // BAJSAPA
+#endif // _WIN32
 
 Model::Model()
 {

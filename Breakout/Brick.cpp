@@ -1,9 +1,9 @@
 #include "Brick.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // BAJSAPA
+#endif // _WIN32
 
 namespace Logic
 {
@@ -15,7 +15,7 @@ namespace Logic
 
 		alive = true;
 
-		#ifdef BAJSAPA
+		#ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 		#endif
 		updateWorld();

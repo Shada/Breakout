@@ -1,9 +1,9 @@
 #include "Ball.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // BAJSAPA
+#endif // _WIN32
 
 namespace Logic
 {
@@ -22,7 +22,7 @@ namespace Logic
 		direction.normalize();
 		speed = 100;
 		srand ((unsigned)time(NULL));
-#ifdef BAJSAPA
+#ifdef _WIN32
 		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
 #endif
 	}

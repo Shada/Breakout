@@ -21,9 +21,9 @@ namespace Resources
 		bool last = false;
 
         std::string filename = "";
-#ifndef BAJSAPA
+#ifndef _WIN32
 		//filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
-#endif // !BAJSAPA
+#endif // !_WIN32
 		filename += file;
 
 		std::fstream ObjFile;
@@ -209,9 +209,9 @@ namespace Resources
 	void Loader::loadTexture(char file[256],Texture *_texture)
 	{
         std::string filename = "";
-#ifndef BAJSAPA
+#ifndef _WIN32
         //filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
-#endif // ! BAJSAPA
+#endif // ! _WIN32
 
 		filename += file;
 		//check the file signature and deduce its format
@@ -223,7 +223,7 @@ namespace Resources
 		if(*_texture->getFif() == FIF_UNKNOWN)
 			return;
 
-		//check that the plugin has reading cBAJSAPAbilities and load the file
+		//check that the plugin has reading c_WIN32bilities and load the file
 		if(FreeImage_FIFSupportsReading(*_texture->getFif()))
 			_texture->setDib(FreeImage_Load(*_texture->getFif(), filename.c_str()));
 		//if the image failed to load, return failure

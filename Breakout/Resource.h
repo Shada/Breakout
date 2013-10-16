@@ -117,7 +117,7 @@ enum KeyCodes
 	KC_6 = 0x36,		KC_7 = 0x37,		KC_8 = 0x38,		KC_9 = 0x39,
 	KC_SPACE = 0x20,
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 	KC_PAGEUP		= 0x21,
 	KC_PAGEDOWN		= 0x22,
 	KC_END			= 0x23,

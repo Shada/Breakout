@@ -14,10 +14,10 @@ namespace Resources
 		char file[256];
         std::ifstream myfile ("Objects/object.txt");
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
         //std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
-#endif // BAJSAPA
+#endif // _WIN32
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
@@ -31,10 +31,10 @@ namespace Resources
 		myfile.close();
 
 		myfile.open("Maps/map.txt");
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
         //myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
-#endif // BAJSAPA
+#endif // _WIN32
 		if (myfile.is_open())
 		{
 			while(!myfile.eof())
@@ -48,10 +48,10 @@ namespace Resources
 		myfile.close();
 
 		myfile.open("Textures/textures.txt");
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
        // myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
-#endif // BAJSAPA
+#endif // _WIN32
 
 		if (myfile.is_open())
 		{

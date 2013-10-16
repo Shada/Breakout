@@ -47,7 +47,7 @@ private:
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
 	//FMOD_LINUX_EXTRADRIVERDATA linuxExtraDriverData; //TODO Hitta rätt data till denna
 #endif
