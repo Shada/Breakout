@@ -33,25 +33,25 @@ void SoundSystem::Initialize()
 	//result = fmodSystem->init(32, FMOD_INIT_NORMAL, linuxExtraDriverData); //linuxExtraDriverData är tom för tillfället!
 #endif
 	
-	sound[0].Initialize(fmodSystem, 0.5, "Sounds/destination.mp3");
-	sound[1].Initialize(fmodSystem, 0.5, "Sounds/midnight-ride.mp3");
-	sound[2].Initialize(fmodSystem, 0.5, "Sounds/urban-spy-2.mp3");
-	sound[3].Initialize(fmodSystem, 0.5, "Sounds/barn-beat.mp3");
-	sound[4].Initialize(fmodSystem, 0.5, "Sounds/power-juice.mp3");
-	sound[5].Initialize(fmodSystem, 0.9, "Sounds/fail-trombone-01.mp3");
-	sound[6].Initialize(fmodSystem, 0.9, "Sounds/Explosion large_BLASTWAVEFX_31097.mp3");
-	sound[7].Initialize(fmodSystem, 1.0, "Sounds/switch-7.mp3");
-	sound[8].Initialize(fmodSystem, 1.0, "Sounds/switch-5.mp3");
-	sound[9].Initialize(fmodSystem, 0.8, "Sounds/sound4.mp3");
-	sound[10].Initialize(fmodSystem, 1.0, "Sounds/Plink_06.mp3");
-	sound[11].Initialize(fmodSystem, 0.7, "Sounds/lake-waves-01.mp3");
-	sound[12].Initialize(fmodSystem, 0.8, "Sounds/wind-howl-01.mp3");
-	sound[13].Initialize(fmodSystem, 1.0, "Sounds/fire-1.mp3");
-	sound[14].Initialize(fmodSystem, 0.7, "Sounds/explosion-03.mp3");
-	sound[15].Initialize(fmodSystem, 1.0, "Sounds/sound97.wav");
-	sound[16].Initialize(fmodSystem, 1.0, "Sounds/sound99.wav");
-	sound[17].Initialize(fmodSystem, 1.0, "Sounds/sound95.wav");
-	sound[18].Initialize(fmodSystem, 1.0, "Sounds/car-interior-1.mp3");
+	sound[0].Initialize(fmodSystem, 0.5f, "Sounds/destination.mp3");
+	sound[1].Initialize(fmodSystem, 0.5f, "Sounds/midnight-ride.mp3");
+	sound[2].Initialize(fmodSystem, 0.5f, "Sounds/urban-spy-2.mp3");
+	sound[3].Initialize(fmodSystem, 0.5f, "Sounds/barn-beat.mp3");
+	sound[4].Initialize(fmodSystem, 0.5f, "Sounds/power-juice.mp3");
+	sound[5].Initialize(fmodSystem, 0.9f, "Sounds/fail-trombone-01.mp3");
+	sound[6].Initialize(fmodSystem, 0.9f, "Sounds/Explosion large_BLASTWAVEFX_31097.mp3");
+	sound[7].Initialize(fmodSystem, 1.0f, "Sounds/switch-7.mp3");
+	sound[8].Initialize(fmodSystem, 1.0f, "Sounds/switch-5.mp3");
+	sound[9].Initialize(fmodSystem, 0.8f, "Sounds/sound4.mp3");
+	sound[10].Initialize(fmodSystem, 1.0f, "Sounds/Plink_06.mp3");
+	sound[11].Initialize(fmodSystem, 0.7f, "Sounds/lake-waves-01.mp3");
+	sound[12].Initialize(fmodSystem, 0.8f, "Sounds/wind-howl-01.mp3");
+	sound[13].Initialize(fmodSystem, 1.0f, "Sounds/fire-1.mp3");
+	sound[14].Initialize(fmodSystem, 0.7f, "Sounds/explosion-03.mp3");
+	sound[15].Initialize(fmodSystem, 1.0f, "Sounds/sound97.wav");
+	sound[16].Initialize(fmodSystem, 1.0f, "Sounds/sound99.wav");
+	sound[17].Initialize(fmodSystem, 1.0f, "Sounds/sound95.wav");
+	sound[18].Initialize(fmodSystem, 1.0f, "Sounds/car-interior-1.mp3");
 
 }
 

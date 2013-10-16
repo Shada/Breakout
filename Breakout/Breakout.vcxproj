@@ -236,12 +236,18 @@
   <ItemGroup>
     <None Include="shaders\glsl\fsBBUI.glsl" />
     <None Include="shaders\glsl\fsFont.glsl" />
+    <None Include="shaders\glsl\fsQuad.glsl" />
+    <None Include="shaders\glsl\fsRefl.glsl" />
     <None Include="shaders\glsl\fsSimple.glsl" />
     <None Include="shaders\glsl\fsSkybox.glsl" />
+    <None Include="shaders\glsl\fsWater.glsl" />
     <None Include="shaders\glsl\gsBBUI.glsl" />
     <None Include="shaders\glsl\gsFont.glsl" />
+    <None Include="shaders\glsl\gsQuad.glsl" />
     <None Include="shaders\glsl\vsBBUI.glsl" />
     <None Include="shaders\glsl\vsFont.glsl" />
+    <None Include="shaders\glsl\vsQuad.glsl" />
+    <None Include="shaders\glsl\vsRefl.glsl" />
     <None Include="shaders\glsl\vsSimple.glsl" />
     <CustomBuild Include="shaders\hlsl\psSkybox.fx">
       <FileType>Document</FileType>
@@ -254,6 +260,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
     </CustomBuild>
     <None Include="shaders\glsl\vsSkybox.glsl" />
+    <None Include="shaders\glsl\vsSkyboxRefl.glsl" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\hlsl\gsFont.fx">

@@ -39,6 +39,10 @@ GraphicsOGL4::GraphicsOGL4()
 
 	fontProgram = new ProgramGLSL("fonz", "shaders/glsl/vsFont.glsl", "shaders/glsl/gsFont.glsl", "shaders/glsl/fsFont.glsl");
 
+	ProgramGLSL* programReflections = new ProgramGLSL("refl", "shaders/glsl/vsRefl.glsl", "", "shaders/glsl/fsRefl.glsl");
+
+	ProgramGLSL* programWater = new ProgramGLSL("refl", "shaders/glsl/vsQuad.glsl", "shaders/glsl/gsQuad.glsl", "shaders/glsl/fsWater.glsl");
+
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
 
