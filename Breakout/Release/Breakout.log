@@ -1,0 +1,110 @@
+﻿Build started 2013-10-09 11:48:54.
+     1>Project "C:\Users\Torrebjörne\Documents\GitHub\Breakout\Breakout\Breakout.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppCommon.targets(172,5): warning MSB8018: No outputs specified for item "shaders\hlsl\gsBBUI.fx". Its custom build command will be skipped.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Ball.cpp Brick.cpp Camera.cpp EventSystem.cpp GameLogic.cpp Gameplay.cpp Inputhandler.cpp Map.cpp MenuElement.cpp ObjectCore.cpp Pad.cpp ProgramGLSL.cpp Skybox.cpp Sound.cpp SoundSystem.cpp GraphicsDX11.cpp GraphicsOGL4.cpp TechniqueHLSL.cpp Loader.cpp LoadHandler.cpp Main.cpp Model.cpp Texture.cpp Windowhandler.cpp
+         Ball.cpp
+     1>Ball.cpp(24): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Ball.cpp(43): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Ball.cpp(46): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Ball.cpp(48): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Ball.cpp(51): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Ball.cpp(74): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Brick.cpp
+         Camera.cpp
+         EventSystem.cpp
+     1>EventSystem.cpp(9): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         GameLogic.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+         Gameplay.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+     1>Gameplay.cpp(22): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Gameplay.cpp(165): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Gameplay.cpp(176): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Gameplay.cpp(205): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(227): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(228): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(232): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Gameplay.cpp(238): warning C4018: '<' : signed/unsigned mismatch
+     1>Gameplay.cpp(239): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(262): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(270): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Gameplay.cpp(276): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Gameplay.cpp(279): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Inputhandler.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+         Map.cpp
+         MenuElement.cpp
+         ObjectCore.cpp
+         Pad.cpp
+     1>Pad.cpp(102): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Pad.cpp(105): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Pad.cpp(106): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Pad.cpp(112): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(119): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Pad.cpp(124): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(135): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Pad.cpp(140): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(155): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(157): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(158): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(159): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(169): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Pad.cpp(179): warning C4305: '=' : truncation from 'double' to 'float'
+         ProgramGLSL.cpp
+         Skybox.cpp
+         Sound.cpp
+         SoundSystem.cpp
+     1>SoundSystem.cpp(41): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>SoundSystem.cpp(42): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>SoundSystem.cpp(45): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>SoundSystem.cpp(47): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>SoundSystem.cpp(48): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>SoundSystem.cpp(50): warning C4305: 'argument' : truncation from 'double' to 'float'
+         GraphicsDX11.cpp
+         GraphicsOGL4.cpp
+         TechniqueHLSL.cpp
+         Loader.cpp
+         LoadHandler.cpp
+         Compiling...
+         Main.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+         Model.cpp
+         Texture.cpp
+         Windowhandler.cpp
+         C:\Program Files (x86)\Windows Kits\8.0\Include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Torrebjörne\Documents\GitHub\Breakout\Release\Breakout.exe" /NOLOGO FreeImage.lib d3d11.lib d3dcompiler.lib d3dx11.lib d3dx9d.lib dxerr.lib dinput8.lib dxguid.lib winmm.lib comctl32.lib opengl32.lib glfw.lib glew32.lib kernel32.lib user32.lib fmodex_vc.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Torrebjörne\Documents\GitHub\Breakout\Release\Breakout.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Torrebjörne\Documents\GitHub\Breakout\Release\Breakout.lib" /MACHINE:X86 /SAFESEH Release\Ball.obj
+         Release\Brick.obj
+         Release\Camera.obj
+         Release\EventSystem.obj
+         Release\GameLogic.obj
+         Release\Gameplay.obj
+         Release\Inputhandler.obj
+         Release\Map.obj
+         Release\MenuElement.obj
+         Release\ObjectCore.obj
+         Release\Pad.obj
+         Release\ProgramGLSL.obj
+         Release\Skybox.obj
+         Release\Sound.obj
+         Release\SoundSystem.obj
+         Release\Timer.obj
+         Release\GraphicsDX11.obj
+         Release\GraphicsOGL4.obj
+         Release\TechniqueHLSL.obj
+         Release\Loader.obj
+         Release\LoadHandler.obj
+         Release\Main.obj
+         Release\Model.obj
+         Release\Texture.obj
+         Release\Water.obj
+         Release\Windowhandler.obj
+         Generating code
+         Finished generating code
+         Breakout.vcxproj -> C:\Users\Torrebjörne\Documents\GitHub\Breakout\Release\Breakout.exe
+     1>Done Building Project "C:\Users\Torrebjörne\Documents\GitHub\Breakout\Breakout\Breakout.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:16.31
