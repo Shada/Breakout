@@ -11,6 +11,7 @@ Camera::Camera()
 	lookAt = Vec3(0,0,1);
 
 #ifndef BAJSAPA
+	//TODO: REMOVE!!!
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
@@ -22,13 +23,16 @@ Camera::Camera()
 	
 	MatrixInversion(projectionInv, projectionMatrix);
 
-#ifdef BAJSAPA
+
 	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
 	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
+#ifdef BAJSAPA	
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
+#else
+	GraphicsOGL4::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }
 
@@ -88,7 +92,7 @@ void Camera::update()
 
 	MatrixInversion(viewInv, viewMatrix);
 
-#ifdef BAJSAPA
+
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;
@@ -96,8 +100,10 @@ void Camera::update()
 
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
-
+#ifdef BAJSAPA
 	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
+#else
+	GraphicsOGL4::getInstance()->updateCBCameraMove(cb);
 #endif
 }
 

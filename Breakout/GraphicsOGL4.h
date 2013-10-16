@@ -28,6 +28,7 @@ private:
 	// dynamic buffer for text
 	GLuint textBufferDynamic;
 
+	//matrixIDs
 	GLuint	modelMatID,
 			modelInvMatID,
 			projMatID,
@@ -35,8 +36,16 @@ private:
 			viewSkybox,
 			projSkybox;
 
+	//texture IDs
 	GLuint diffuseTexID,
 			skyboxTexID;
+
+	//ConstantBuffers
+	GLuint	cbCameraOnce,
+			cbCameraMove,
+			cbWorld,
+			cbFont,
+			cbCameraOnceFont;
 
     ProgramGLSL *program,
 				*billboardProgram,
@@ -53,6 +62,8 @@ private:
 	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	GraphicsOGL4();
+	
+	void initConstantBuffers();
 
 public:
 	void draw();
@@ -68,6 +79,7 @@ public:
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
 	void	updateCBWorld(CBWorld cb);
+	void	updateCBFont(CBFont cb);
 
 	void initVertexBuffer();
 	void feedUIBufferData();

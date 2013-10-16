@@ -37,9 +37,9 @@ struct CBFont
 	Vec2 pos;				//world position
 	Vec2 scale;				//world scale
 	float rotation;			//world rotation
+	Vec3 padd3;
 	Vec4 tintAlpha;			//rgb tint, a alpha
 	Vec2 imageSize;			//resolution of font image
-	float padding;
 };
 struct CBWorld
 {
@@ -51,10 +51,9 @@ struct CBCameraMove
 	Matrix View;
 	Matrix ViewInv;
 	Vec3 cameraPos;
+	float p1;
 	Vec3 cameraDir;
-
-	//byte amount must be dividable by 16
-	Vec2 padding;
+	float p2;
 };
 
 struct CBOnce

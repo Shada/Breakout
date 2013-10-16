@@ -47,6 +47,8 @@ GraphicsOGL4::GraphicsOGL4()
 	projMatID		= glGetUniformLocation(program->getProgramID(), "projection");
 	viewMatID		= glGetUniformLocation(program->getProgramID(), "view");
 
+	initConstantBuffers();
+
 	projSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "projection");
 	viewSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "view");
 
@@ -79,12 +81,63 @@ GraphicsOGL4 *GraphicsOGL4::getInstance()
 	return instance;
 }
 
+void GraphicsOGL4::initConstantBuffers()
+{
+	GLuint blockIndex;
+
+	blockIndex			= glGetUniformBlockIndex(program->getProgramID(), "CameraOnce");
+	glUniformBlockBinding(program->getProgramID(), blockIndex, 0);
+	
+	glGenBuffers(1, &cbCameraOnce);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraOnce);
+	
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(CBOnce), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cbCameraOnce);
+	
+	blockIndex			= glGetUniformBlockIndex(program->getProgramID(), "CameraMove");
+	glUniformBlockBinding(program->getProgramID(), blockIndex, 1);
+	
+	glGenBuffers(1, &cbCameraMove);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraMove);
+	
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(CBCameraMove), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 1, cbCameraMove);
+
+	blockIndex			= glGetUniformBlockIndex(program->getProgramID(), "WorldBuffer");
+	glUniformBlockBinding(program->getProgramID(), blockIndex, 2);
+
+	glGenBuffers(1, &cbWorld);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbWorld);
+
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(CBWorld), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 2, cbWorld);
+	
+	blockIndex			= glGetUniformBlockIndex(fontProgram->getProgramID(), "FontBuffer");
+	glUniformBlockBinding(fontProgram->getProgramID(), blockIndex, 3);
+	
+	glGenBuffers(1, &cbFont);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbFont);
+	
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(CBFont), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 3, cbFont);
+	
+	blockIndex			= glGetUniformBlockIndex(fontProgram->getProgramID(), "CameraOnce");
+	glUniformBlockBinding(fontProgram->getProgramID(), blockIndex, 4);
+	
+	glGenBuffers(1, &cbCameraOnceFont);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraOnceFont);
+	
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(CBOnce), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 4, cbCameraOnceFont);
+
+}
+
 void GraphicsOGL4::draw()
 {
 
 	// local variables
 	unsigned int vertexAmount, startIndex, modelID;
-	
+	CBWorld cb;
 	
 	//--------------------------------------------------------------------------------
 	//									  Skybox
@@ -112,13 +165,22 @@ void GraphicsOGL4::draw()
 	
     glCullFace(GL_BACK);
     glEnable(GL_DEPTH_TEST);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
 	
+	//send in world matrix
+	cb.world = objectCore->ball->getWorld();
+	cb.worldInv = objectCore->ball->getWorldInv();
+	updateCBWorld(cb);
+
 	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
 	
+	//use projection matrices and stuff.. will be removed
 	useMatrices();
 
 	// bind static vertex buffer. holds all data for static objects
@@ -127,107 +189,124 @@ void GraphicsOGL4::draw()
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
 
-	// update model matrix in graphics class.
-	updateModelMatrix(&objectCore->ball->getWorld());
-
-	// update inverse model matrix in graphics class
-	updateModelInvTransMatrix(&objectCore->ball->getWorldInv());
-
 	// use texture for ball
 	useTexture(objectCore->ball->getTextureID());
+
 	// get modelid for ball.
 	modelID = objectCore->ball->getModelID();
+
 	// fetch vertexamout and startid for ball model
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
-
+	
 	// draw ball
 	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	////--------------------------------------------------------------------------------
+	////                                     Pad
+	////--------------------------------------------------------------------------------
+	cb.world = objectCore->pad->getWorld();
+	cb.worldInv = objectCore->pad->getWorldInv();
+	updateCBWorld(cb);
 
-	//--------------------------------------------------------------------------------
-	//                                     Pad
-	//--------------------------------------------------------------------------------
+	// bind static vertex buffer. holds all data for static objects
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
 
-	updateModelMatrix(&objectCore->pad->getWorld());
-
-	updateModelInvTransMatrix(&objectCore->pad->getWorldInv());
-
+	// set buffer attribute layout
+	useStandardVertexAttribLayout();
+	
 	useTexture(objectCore->pad->getTextureID());
 	
 	modelID			= objectCore->pad->getModelID();
+
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
 	startIndex		= lh->getModel( modelID )->getStartIndex();
 	
 	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
-	
-	//--------------------------------------------------------------------------------
-	//                                     bricks
-	//--------------------------------------------------------------------------------
-
-	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
-	{
-		updateModelMatrix(&objectCore->bricks.at(i)->getWorld());
-
-		updateModelInvTransMatrix(&objectCore->bricks.at(i)->getWorldInv());
-		
-		useTexture(objectCore->bricks[i]->getTextureID());
-
-		modelID				= objectCore->bricks.at(i)->getModelID();
-		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
-		startIndex			= lh->getModel( modelID )->getStartIndex();
-
-		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
-	}
-	
-	// disable vertex attributes 
-	// (maybe should be in function, so that not to many of few attributes are disabled...)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	//--------------------------------------------------------------------------------
+	//                                     bricks
+	//--------------------------------------------------------------------------------
+	
+	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	{
+		cb.world = objectCore->bricks[i]->getWorld();
+		cb.worldInv = objectCore->bricks[i]->getWorldInv();
+		updateCBWorld(cb);
+	
+		// bind static vertex buffer. holds all data for static objects
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
+		// set buffer attribute layout
+		useStandardVertexAttribLayout();
+	
+		useTexture(objectCore->bricks[i]->getTextureID());
+	
+		modelID				= objectCore->bricks.at(i)->getModelID();
+		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+		startIndex			= lh->getModel( modelID )->getStartIndex();
+	
+		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+		// disable vertex attributes 
+		// (maybe should be in function, so that not to many of few attributes are disabled...)
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+	}
+	
 	//---------------------------------------------------------------------------------
 	//                            billboard
 	//---------------------------------------------------------------------------------
 	billboardProgram->useProgram();
-
+	
 	feedUIBufferData();
 	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
-
+	
 	useBillboardVertexAttribLayout();
-
+	
 	useTexture(9);
-
+	
 	vertexAmount = objectCore->uiBillboards.size();
 	startIndex	 = 0;
-
+	
 	glDrawArrays(GL_POINTS, startIndex, vertexAmount);
-
+	
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 	//-----------------------------------------------------------------------------------
 	//                             text
 	//-----------------------------------------------------------------------------------
 	fontProgram->useProgram();
 	glDisable(GL_DEPTH_TEST);
 	glEnable (GL_BLEND); 
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	feedTextBufferData();
 	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
-
+	
 	useFontVertexAttribLayout();
-
+	
 	useTexture(8);
-
+	
 	vertexAmount		= objectCore->testText->getTextSize();
 	startIndex			= objectCore->testText->getVBStartIndex();
+	
+	objectCore->testText->updateCB();
 
 	glDrawArrays(GL_POINTS, startIndex, vertexAmount);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 	
 	glDisable (GL_BLEND);
 	glEnable (GL_DEPTH_TEST); 
 	//----------------------------------------------------------------------------------
 	// disable vertex attributes 
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
 
 }
 
@@ -262,7 +341,7 @@ void GraphicsOGL4::feedUIBufferData()
 	// bind vertex buffer to GPU
 	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
 	// feed data to buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(BBUI) * _points.size(), &_points[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BBUI) * _points.size(), &_points[0], GL_DYNAMIC_DRAW);
 }
 
 void GraphicsOGL4::feedTextBufferData()
@@ -271,7 +350,7 @@ void GraphicsOGL4::feedTextBufferData()
 	// bind vertex buffer to GPU
 	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
 	// feed data to buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(BBFont) * _points.size(), &_points[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(BBFont) * _points.size(), &_points[0], GL_DYNAMIC_DRAW);
 }
 
 std::vector<GLuint> *GraphicsOGL4::getTextures()
@@ -279,6 +358,7 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 	//bool TextureManager::LoadTexture(const char* filename, const unsigned int texID, GLenum image_format, GLint internal_format, GLint level, GLint border);
 	GLuint gl_texID;
 	std::vector<GLuint> *back = new std::vector<GLuint>();
+	std::string s;
 
 	for(unsigned int i = 0; i < lh->getTextureSize();i++)
 	{
@@ -301,9 +381,18 @@ std::vector<GLuint> *GraphicsOGL4::getTextures()
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lh->getTexture(i)->getWidth(), lh->getTexture(i)->getHeight(), 
 						0, GL_BGR, GL_UNSIGNED_BYTE, lh->getTexture(i)->getBits());
 		}
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
+		s = lh->getTexture(i)->getFilePath();
+		if(s.substr(0, 6) == "Skybox")
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		}
+		else
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
 		// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
@@ -329,15 +418,28 @@ void	GraphicsOGL4::draw(unsigned int startIndex, unsigned int vertexAmount)
 }
 void	GraphicsOGL4::updateCBOnce(CBOnce cb)
 {
-
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraOnce);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CBOnce), &cb);
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraOnceFont);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CBOnce), &cb);
+	
 }
 void	GraphicsOGL4::updateCBCameraMove(CBCameraMove cb)
 {
-
+	glBindBuffer(GL_UNIFORM_BUFFER, cbCameraMove);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CBCameraMove), &cb);
 }
+
 void	GraphicsOGL4::updateCBWorld(CBWorld cb)
 {
+	glBindBuffer(GL_UNIFORM_BUFFER, cbWorld);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CBWorld), &cb);
+}
 
+void	GraphicsOGL4::updateCBFont(CBFont cb)
+{
+	glBindBuffer(GL_UNIFORM_BUFFER, cbFont);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CBFont), &cb);
 }
 
 void GraphicsOGL4::useStandardVertexAttribLayout()

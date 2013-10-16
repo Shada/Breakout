@@ -48,7 +48,7 @@ void Text::updateCB()
 	#ifdef BAJSAPA
 		GraphicsDX11::getInstance()->updateCBFont(cb);
 	#else
-	//GraphicsOGL4::getInstance()->updateCBFont(cb);
+		GraphicsOGL4::getInstance()->updateCBFont(cb);
 	#endif
 }
 

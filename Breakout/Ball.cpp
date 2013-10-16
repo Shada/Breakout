@@ -13,7 +13,7 @@ namespace Logic
 		scale		= Vec3(1,1,1);
 		position	= Vec3(0,0,0);
 		rotation	= Vec3(0,0,0);
-		direction = Vec3(1, 1, 0);
+		direction	= Vec3(1, 1, 0);
 		effectDirection = Vec3(1, 1, 0);
 
 		textureID = 0;

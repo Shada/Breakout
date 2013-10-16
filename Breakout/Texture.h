@@ -46,7 +46,7 @@ namespace Resources
 
 		unsigned int getSize(){ return height * width * sizeof(BYTE); }
 
-		bool isTransparent(){ return FreeImage_IsTransparent(dib); }
+		bool isTransparent(){ return (bool)FreeImage_IsTransparent(dib); }
 	};
 
 }
