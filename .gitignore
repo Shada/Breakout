@@ -6,8 +6,9 @@
 *.suo
 *.opensdf
 *.fxo
-Debug/*.*
+Release/*.*
 Breakout/Debug/*.*
+Breakout/Release/*.*
 Breakout/bin/Debug/*
 
 # Compiled Dynamic libraries
