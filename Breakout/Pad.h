@@ -38,7 +38,7 @@ namespace Logic
 		Vec3 getBallPos()					{ return ballPos; }
 		Vec3 getPrevPos()					{ return prevPos; }
 
-		void update(double dt);
+		void update(float dt);
 		void startStun();					//stun effect
 		void startSlow();					//slow effect
 		void startSpeed();					//speed effect

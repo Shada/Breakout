@@ -272,5 +272,7 @@
     <None Include="shaders\glsl\vsSkybox.glsl">
       <Filter>GLSL\vs</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

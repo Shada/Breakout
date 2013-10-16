@@ -18,7 +18,7 @@ float4 ps_simple(PS_Input input) : SV_TARGET0
 	float3 lightPosWV = mul(view, lightPos).xyz;
 
 	float3 cameraPosWV = mul(view, float4(cameraPos,1.0)).xyz;
-	float3 s = normalize(lightPos.xyz - input.posWV.xyz);
+	float3 s = normalize(lightPosWV.xyz - input.posWV.xyz);
 
 	float4 texColor  = tex01.Sample(samLinear, input.tex);
 	float4 outColor = float4(ka,0) + float4(kd,0) * max(dot(s,input.norm),0.0) +

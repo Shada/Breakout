@@ -11,7 +11,7 @@ namespace Logic
 	public:
 		Brick(Vec3 _pos);
 		~Brick();
-		void update(double _dt);
+		void update(float _dt);
 		void draw();
 
 		//Possible parameters, like damage dealt and/or effects and such

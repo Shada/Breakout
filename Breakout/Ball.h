@@ -22,7 +22,7 @@ namespace Logic
 		Ball();
 		~Ball();
 
-		void update(double dt);
+		void update(float dt);
 		void startWind();					//Wind effect
 		void draw();
 

@@ -228,6 +228,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="shaders\glsl\fsBBUI.glsl" />
     <None Include="shaders\glsl\fsFont.glsl" />
     <None Include="shaders\glsl\fsSimple.glsl" />

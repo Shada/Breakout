@@ -21,7 +21,7 @@ namespace Logic
 		activeEffect = 0;
 		direction.normalize();
 		speed = 100;
-		srand (time(NULL));
+		srand((unsigned)time(NULL));
 	}
 
 	Ball::~Ball()
@@ -33,7 +33,7 @@ namespace Logic
 		position = _pos;
 	}
 
-	void Ball::update(double _dt)
+	void Ball::update(float _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
 
@@ -71,7 +71,7 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection = Vec3((float)(rand() % 10) - 5, (float)(rand() % 10) - 5, 0);
 			effectDirection.normalize();
 			effectSpeed = 0;
 			effectTimer = 1.5;
@@ -85,5 +85,6 @@ namespace Logic
         if(_x != NULL) direction.x = _x;
         if(_y != NULL) direction.y = _y;
         if(_z != NULL) direction.z = _z;
+		direction.normalize();
     }
 }

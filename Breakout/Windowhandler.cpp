@@ -128,7 +128,7 @@ int Winhandler::run()
 	QueryPerformanceFrequency( ( LARGE_INTEGER* )&cntsPerSec);
 	double			dt = 0, time = 0;
 	double			secsPerCnt = 1.0 / (double)cntsPerSec;*/
-	double time = 0;
+	float time = 0;
 
 	//QueryPerformanceCounter( ( LARGE_INTEGER* )&currTimeStamp);
 	//prevTimeStamp	= currTimeStamp;
@@ -142,14 +142,14 @@ int Winhandler::run()
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 		dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;*/
 		timer->Tick();
-		time += timer->getDelta();
+		time += (float)timer->getDelta();
 
 		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE) )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
-		else if(time >= 0.01)
+		else if(time >= 0.01f)
 		{
 			if(GetActiveWindow() == hWnd)
 			{
@@ -217,14 +217,14 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-	double time = 0;
+	float time = 0;
 	timer->Tick();
 
 	do
 	{
 		//drawing (shall be in render class)
 		timer->Tick();
-		time += timer->getDelta();
+		time += (float)timer->getDelta();
 
 		if(time > 1.f / 600)
 		{

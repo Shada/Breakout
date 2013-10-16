@@ -48,7 +48,7 @@ namespace Logic
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
 		~Gameplay();
 
-		void update(double dt);
+		void update(float dt);
 	};
 
 }

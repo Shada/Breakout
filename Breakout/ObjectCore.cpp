@@ -18,6 +18,16 @@ namespace Logic
 		skybox->setTextureID(7);
 	}
 
+	void ObjectCore::setMapType(int type)
+	{
+		switch(type)
+		{
+			case eEarth :	mapType = eEarth;
+			case eWater :	mapType = eWater;
+			case eWind :	mapType = eWind;
+			case eFire :	mapType = eFire;
+		}
+	}
 
 	ObjectCore::~ObjectCore()
 	{

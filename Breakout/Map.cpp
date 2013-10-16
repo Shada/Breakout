@@ -28,7 +28,7 @@ namespace Logic
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			int maptype = color.rgbGreen;
+			mapType = color.rgbGreen;
 			int difficulty = color.rgbBlue;
 
 			//Load the rest of the pixel items

@@ -56,12 +56,12 @@ namespace Logic
 		Vec3 dir = _ball->getDirection();
 
 		float speed = _ball->getSpeed();
-		/*float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
+		float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
 		float b = 2 * (dir.x * speed * (lastBallPos.x - objPos.x));
 		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y);
 
 		float d = 4 * a * (c - radius * radius);
-		float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));*/
+		float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));
 		float bx = (ballPos.x - lastBallPos.x) / (dir.x * speed);
 		float by = (ballPos.y - lastBallPos.y) / (dir.y * speed);
 		float t = sqrt(bx * bx + by * by);
@@ -69,37 +69,19 @@ namespace Logic
 		float dx = speed * dir.x;
 		float dy = speed * dir.y;
 
-		float a = dx * dx + dy * dy;
-		float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
-		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y) - radius * radius;
-		float d = b * b - 4 * a * c;
+		//float a = dx * dx + dy * dy;
+		//float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
+		//float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y) - radius * radius;
+		//float d = b * b - 4 * a * c;
 
-		//float t1 = (-b - sqrt(abs(d))) / (2 * a), t2 = (-b + sqrt(abs(d))) / (2 * a);
-		float delta = (-b - sqrt(abs(d))) / (2 * a);
+		////float t1 = (-b - sqrt(abs(d))) / (2 * a), t2 = (-b + sqrt(abs(d))) / (2 * a);
+		//float delta = (-b - sqrt(abs(d))) / (2 * a);
 
 		while(delta > t)
 			delta -= t;
 		
 		Vec3 collidePos = lastBallPos + dir * speed * delta;
-		//float angle = normalize(Vec3(1, 1, 0)).dot(dir);
-		//Vec3 collidePos = Vec3(objPos.x + cos(dir.x) * (dir.x < 0 ? 1 : -1) , objPos.y + sin(dir.x) * (dir.x < 0 ? 1 : -1), 0);
-		//Vec3 collidePos = Vec3(objPos.x - ballPos.x + radius, objPos.y - ballPos.y + radius, 0) * -dir;
-		//collidePos += ballPos;
-		//Vec3 remaining = ballPos - collidePos;
-		//ballPos = lastBallPos + Vec3(xPos, yPos, 0);
 
-		// ballpos = lastballpos + dir * speed * dt
-		// ballpos - lastballpos = dir * speed * dt
-		// (ballpos - lastballpos) / dt = dir * speed
-		// dt = (ballpos - lastballpos) / (dir * speed)
-		// fu 
-
-
-
-		float remaining = (ballPos - collidePos).length();
-		if(remaining > (ballPos - lastBallPos).length())
-			int fg = 0;
-		//ballPos = lastBallPos + Vec3(xPos, yPos, 0);
 
 		Matrix mRot;
 		rotationAxis(mRot, normalize(-objPos + collidePos), acos(normalize(-objPos + collidePos).dot(dir)));
@@ -107,19 +89,6 @@ namespace Logic
 		_newDir.z = 0;
 		_newDir.normalize();
 
-		/*Vec3 outDir = normalize(objPos - collidePos);
-		float cosAngle = outDir.dot(dir);
-
-		if(cosAngle > PI / 2.05 && cosAngle < PI / 1.95)
-		{
-			Vec3 dir = _ball->getDirection() * -1;
-			_ball->setDirection(dir.x, dir.y, NULL);
-			return;
-		}
-		
-		float sinAngle = cosAngle > 0 ?  1 - cosAngle : 1 + cosAngle;
-		Vec2 newDir = Vec2(cosAngle, sinAngle);
-		newDir.normalize();*/
 
 		// Don't want the new direction to be at an angle that is too low
 		if(abs(_newDir.x) > 0.9 || abs(_newDir.y) > 0.9)
@@ -129,7 +98,7 @@ namespace Logic
 		}
 
 		_ball->setDirection(_newDir.x, _newDir.y, NULL);
-		_ball->setPosition(Vec3(collidePos.x + remaining * _newDir.x, collidePos.y + remaining * _newDir.y, 0));
+		_ball->setPosition(Vec3(collidePos.x + (t - delta) * _newDir.x, collidePos.y + (t - delta) * _newDir.y, 0));
 	}
 
 	inline void CalculateCollission(Ball* _ball, Object3D* _object)
@@ -253,7 +222,9 @@ namespace Logic
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 padPos = _pad->getPosition();
 		Vec3 prevPadPos = _pad->getPrevPos();
+		Vec3 lastBallPos = _ball->getLastFrame();
 		float radius = _ball->getRadius();
+		float speed = _ball->getSpeed();
 
 		Vec3 padScale = _pad->getScale() * _pad->getRadius();
 
@@ -271,6 +242,11 @@ namespace Logic
 		p1 += padPos; p2 += padPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
 
+		float bx = (ballPos.x - lastBallPos.x) / (ballDir.x * speed);
+		float by = (ballPos.y - lastBallPos.y) / (ballDir.y * speed);
+		float t = sqrt(bx * bx + by * by);
+		float px = padPos.x - prevPadPos.x;
+
 		if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 		{
 			float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
@@ -279,14 +255,24 @@ namespace Logic
 			if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
 			{
 				float collidePosY = yIntersect + radius;
-				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
+				float length = abs(collidePosY - ballPos.y) / cos(ballDir.x);
 				Vec3 lastBallPos = _ball->getLastFrame();
 				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 
 				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
 				Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
 
-				outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
+				{
+					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
+					t *= ratio;
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					outPos.x += padPos.x - ballPos.x > 0 ? - newDir.x * t * speed : + newDir.x * t * speed;
+					outPos.y -= newDir.y * t * speed;
+				}
+				else
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+
 				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;
@@ -308,15 +294,25 @@ namespace Logic
 
 			if(collide)
 			{
-				float collidePosY = y + radius;
-				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
-				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI /2), 0);
+				float collidePosY = y - radius;
+				float length = abs(collidePosY - ballPos.y) / cos(ballDir.x);
+				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI / 2), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
 
 				Vec3 lastBallPos = _ball->getLastFrame();
 				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 				newDir.normalize();
-				outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				
+				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
+				{
+					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					outPos.x += padPos.x - ballPos.x > 0 ? - newDir.x * t * speed : + newDir.x * t * speed;
+					outPos.y -= newDir.y * t * speed;
+				}
+				else
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				
 				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;

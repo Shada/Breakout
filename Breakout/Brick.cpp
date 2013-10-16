@@ -26,7 +26,7 @@ namespace Logic
 
 	}
 
-	void Brick::update(double _dt)
+	void Brick::update(float _dt)
 	{
 
 	}

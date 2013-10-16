@@ -13,13 +13,13 @@ namespace Logic
 	{
 		
 		mapLoading = new Map();
-		//tolka Map och skBAJSAPA object enligt den
+
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
 
 		soundSystem = soundSys;
 		eventSystem = new EventSystem(0,5); // testvärde
-		srand (time(NULL));
+		srand ((unsigned)time(NULL));
 
 		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
@@ -51,8 +51,10 @@ namespace Logic
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		objectCore->setMapType(mapLoading->getMapType());
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -60,7 +62,7 @@ namespace Logic
 
 	}
 
-	void Gameplay::update(double _dt)
+	void Gameplay::update(float _dt)
 	{
 		objectCore->pad->update(_dt);
 		if(play)
@@ -95,11 +97,13 @@ namespace Logic
 		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
 		{
 			nextMap();
+			objectCore->setMapType(mapLoading->getMapType());
 		}
 #endif
 		if(objectCore->bricks.size() == 0)
 		{
 			nextMap();
+			objectCore->setMapType(mapLoading->getMapType());
 		}
 		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
@@ -162,7 +166,7 @@ namespace Logic
 				effectTimer = 3;
 				effectSpawnTimer = 0;
 				Vec3 tempVec3;
-				tempVec3 = Vec3(rand()% 50, 200, 0);
+				tempVec3 = Vec3((float)(rand() % 50), 200, 0);
 				effectFireballs.push_back(tempVec3);
 				soundSystem->Play(13, 3);
 				std::cout << "Fireballs" << std::endl;
@@ -173,7 +177,7 @@ namespace Logic
 				effectTypeActive = 5;
 				effectOriginal = camera->getPosition();
 				effectTimer = 3.5;
-				effectDirection = Vec3((rand()%100)-50, (rand()%100)-50, (rand()%100)-50);
+				effectDirection = Vec3((float)(rand() % 100) - 50, (float)(rand() % 100) - 50, (float)(rand() % 100) - 50);
 				soundSystem->Play(18, 1);
 				std::cout << "Earthquake" << std::endl;
 			}
@@ -229,13 +233,13 @@ namespace Logic
 					Vec3 tempVec3;
 					if (rand() % 300 - effectSpawnTimer * 10 <= 1 && effectFireballs.size() <= 5)
 					{
-						tempVec3 = Vec3(rand()% 200, 200, 0);
+						tempVec3 = Vec3((float)(rand() % 200), 200, 0);
 						effectFireballs.push_back(tempVec3);
 						effectSpawnTimer = 0;
 					}
 				}
 
-				for(int i = 0; i < effectFireballs.size(); i++)
+				for(unsigned int i = 0; i < effectFireballs.size(); i++)
 					effectFireballs[i].y += -_dt * 60;
 				
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST
@@ -273,7 +277,7 @@ namespace Logic
 				else
 				{
 					if (rand()%100 <= 20)
-						effectDirection = Vec3((rand()%120)-60, (rand()%120)-60, (rand()%120)-60);
+						effectDirection = Vec3((float)(rand() % 120) - 60, (float)(rand() % 120) - 60, (float)(rand() % 120) - 60);
 					tempVec = Vec3(tempVec.x + _dt * effectDirection.x,
 									tempVec.y + _dt * effectDirection.y,
 									tempVec.z + _dt * effectDirection.z);
