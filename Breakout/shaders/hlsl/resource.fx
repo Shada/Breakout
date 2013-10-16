@@ -16,7 +16,6 @@ cbuffer cbCameraMove	: register( b1 )
 	matrix viewRefl;
 	float3 cameraPos;
 	float3 cameraDir;
-	float2 padding;
 };
 cbuffer cbOnce			: register( b2 )
 {
@@ -36,18 +35,23 @@ cbuffer cbWaterOnce		: register( b4 )
 	float normalScaling; 
 	float maxAmplitude; //max wave amplitude
 	float shoreTransition; //how soft the water and ground fades
+
 	float refractionStrength; //refraction strength
 	float displacementStrength; //multiplier for the height of waves
 	float shininess;
 	float specularIntensity;
+
 	float transparency;
 	float refractionScale;
+	float2 scale;
 
 	float4 normalModifier; //multiplier for the different normals. first one is for small waves.
-	float3 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
-	float3 waterSurfaceColor;
-	float3 waterDepthColor;
-	float3 extinction;
-	float2 scale;
-	float3 temp;
+
+	float4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+
+	float4 waterSurfaceColor;
+
+	float4 waterDepthColor;
+
+	float4 extinction;
 };

@@ -8,7 +8,7 @@
 Water::Water(float _waterLevel)
 {
 	waterLevel = _waterLevel;
-	windDirection = Vec2(-0.2f, 0.8f);
+	windDirection = Vec2(-0.1f, 0.4f);
 	paused = false;
 	maxSpeed = 1.f;
 	acceleration = 0.1f;
@@ -31,12 +31,14 @@ Water::Water(float _waterLevel)
 	cb.refractionScale		= .0008f;
 	
 	cb.normalModifier		= Vec4(1.0f,2.0f,4.0f,8.0f);	
-	cb.foamOptions			= Vec3(0.75f, 1.32f, 0.5f);
-	cb.waterSurfaceColor	= Vec3(0.0078f, 0.517f, 0.7f);
-	cb.waterDepthColor		= Vec3(0,0,0.4);//Vec3(0.0039f, 0.0196f, 0.145f );
-	cb.extinction			= Vec3(28.0f, 120.0f, 160.0f );
+	cb.foamOptions			= Vec4(0.75f, 1.32f, 0.5f,1.0f);
+	cb.waterSurfaceColor	= Vec4(0.0078f, 0.617f, 0.7f,1.0f);
+	cb.waterDepthColor		= Vec4(0.0f,0.2f,0.4f,1.0f);//Vec3(0.0039f, 0.0196f, 0.145f );
+	//cb.waterSurfaceColor	= Vec3(1.000f, 0.001f, 0.0f);
+	//cb.waterDepthColor		= Vec3(1,0,0);//Vec3(0.0039f, 0.0196f, 0.145f );
+
+	cb.extinction			= Vec4(28.0f, 120.0f, 160.0f ,1.0f);
 	cb.scale				= Vec2( 0.0005f, 0.0005f );
-	cb.temp					= Vec3(0,0,0);
 	GraphicsDX11::getInstance()->updateCBWaterOnce(cb);
 }
 
@@ -72,7 +74,7 @@ void Water::update(double _dt)
 		waterLevel += speed * speedModifier * (float)_dt;
 	}
 	CBWater cb;
-	cb.timer = timer;
+	cb.timer = (float)timer;
 	cb.waterLevel = waterLevel;
 	cb.windDirection = windDirection;
 #ifdef _WIN32

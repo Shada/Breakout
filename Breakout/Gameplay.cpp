@@ -97,7 +97,7 @@ namespace Logic
 			Vec3 oldLookat = camera->getLookAt();
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
-			camera->setPosition(Vec3(oldPos.x, 50+ waterLevel,oldPos.z));
+			camera->setPosition(Vec3(oldPos.x, waterLevel+50,oldPos.z));
 			camera->setLookAt(Vec3(oldLookat.x, waterLevel,oldLookat.z));
 			camera->setWaterLevel(waterLevel);
 			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));

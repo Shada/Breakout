@@ -8,8 +8,7 @@ Camera::Camera()
 	position = Vec3(75, 190, -150);
 	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(0,0,1000);
-
+	lookAt = Vec3(position.x,0,100);
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);

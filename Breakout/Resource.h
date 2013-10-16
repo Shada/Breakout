@@ -39,10 +39,9 @@ struct CBCameraMove
 	Matrix ViewInv;
 	Matrix viewRefl;
 	Vec3 cameraPos;
+	float p1;
 	Vec3 cameraDir;
-
-	//byte amount must be dividable by 16
-	Vec2 padding;
+	float p2;
 };
 struct CBOnce
 {
@@ -62,20 +61,26 @@ struct CBWaterOnce
 	float normalScaling; 
 	float maxAmplitude; //max wave amplitude
 	float shoreTransition; //how soft the water and ground fades
+
 	float refractionStrength; //refraction strength
 	float displacementStrength; //multiplier for the height of waves
 	float shininess;
 	float specularIntensity;
+
 	float transparency;
 	float refractionScale;
+	Vec2 scale;
 
 	Vec4 normalModifier; //multiplier for the different normals. first one is for small waves.
-	Vec3 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
-	Vec3 waterSurfaceColor;
-	Vec3 waterDepthColor;
-	Vec3 extinction;
-	Vec2 scale;
-	Vec3 temp;
+
+	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+
+	Vec4 waterSurfaceColor;
+
+	Vec4 waterDepthColor;
+
+	Vec4 extinction;
+
 };
 
 #define PI 3.14159265359

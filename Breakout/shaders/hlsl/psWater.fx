@@ -138,13 +138,12 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	//float3 reflection		= reflectionMap.Sample(samLinear, texCoordProj);
 	float3 reflection		= reflectionMap.Sample(samLinear, float2(1-texCoord.x, texCoord.y)).xyz;
 	float fresnel = fresnelTerm(normal, eyeDir);
-
 	float depthN = depth * waterFade;
+
+
 	float3 waterColor = saturate(length(float3(1.0f,1.0f,1.0f)) / 3.0f );
-	/*refraction = lerp(lerp(refraction, waterSurfaceColor * waterColor, 1-saturate(depthN / transparency)),
-						waterDepthColor * waterColor, saturate(depth2 / extinction));*/
-	refraction = lerp(lerp(refraction, waterSurfaceColor * waterColor,  0.7),
-						float3(0,0.2,0.5) * waterColor, 0.7);
+	refraction = lerp(lerp(refraction, waterSurfaceColor.xyz * waterColor, 1-saturate(depthN / transparency)),
+						waterDepthColor.xyz * waterColor, saturate(depth2 / extinction.xyz));
 	float4 foam = float4( 0.0f,0.0f,0.0f,0.0f);
 
 	texCoord			= (surfacePos.xz + eyeDir.xz * 0.1) * 0.005 + timer * 0.00001f * windDirection + sin(timer * 0.001 + worldPos.x) * 0.000005;
@@ -166,7 +165,6 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	float3 s = normalize( lightDist );
 	float3 cameraPosWV	= mul( view, float4(cameraPos,1.0) ).xyz;
 	float3 specular = pow(max(dot(normalize(-s + 2 *dot(s, tnorm ) * tnorm ), normalize( cameraPosWV - float4(( viewPosRefr.xyz/viewPosRefr.w),1).xyz )), 0.0),40);
-	return saturate(lerp(originalColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f),  0.7*fresnel) + float4(specular,1) + foam ,saturate(depth2 * shoreTransition)));
 	return saturate(lerp(originalColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f),  0.7*fresnel) + float4(specular,1) + foam ,saturate(depth2 * shoreTransition)));
 
 }
