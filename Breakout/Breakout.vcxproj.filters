@@ -211,11 +211,11 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Water.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Object2D.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>HLSL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -54,6 +54,9 @@ namespace Logic
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
 		objectCore->testText->setTextData(0, 10);
+		objectCore->testText->addAction(Action2D(Vec2(400,400),Vec2(1,1),0.0f, Vec4(1,1,1,1), 2.0f, 3));
+		objectCore->testText->addAction(Action2D(Vec2(20,20),Vec2(.5f,.5f),0.0f, Vec4(2,1,1,.5f), 2.0f, 3));
+		objectCore->testText->addAction(Action2D(Vec2(700,100),Vec2(2,2),0.0f, Vec4(0,1,1,1), 2.0f, 5));
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);
@@ -136,6 +139,9 @@ namespace Logic
 		/*static float diff = 0.0f;
 		diff += 0.5f * _dt;
 		objectCore->pad->setPosition(Logic::from2DToCylinder(objectCore->pad->getPosition(), 105, diff, Vec3(105,0,0)));*/
+
+
+		objectCore->testText->update( _dt );
 	}
 	void Gameplay::nextMap()
 	{

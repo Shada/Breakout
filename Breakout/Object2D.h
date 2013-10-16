@@ -1,10 +1,13 @@
 #pragma once
 #include "Resource.h"
+#include <list>
 
 class Object2D
 {
 private:
-	std::vector<Action2D>	actionList;
+	float	progress;
+	float	linProgress;
+	std::list<Action2D>	actionList;
 	Vec2	oldPos, oldScale;
 	float	oldRotation;
 	Vec4	oldTintAlpha;

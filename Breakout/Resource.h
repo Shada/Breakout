@@ -74,6 +74,10 @@ struct Action2D
 	float	time;			//interpolation time
 	float	timePassed;		//time passed since start. (if negative, it is inactive until positive)
 	int		expFactor;		//what order of exponential interpolation?
+
+	Action2D(Vec2 inPos, Vec2 inScale, float inRotation, Vec4 inTintAlpha, float inTime, int inExpFactor)
+		: newPos(inPos), newScale(inScale), newRotation(inRotation),newTintAlpha(inTintAlpha), time(inTime), expFactor(inExpFactor){ timePassed = 0; }
+    Action2D(){}
 };
 
 #define PI 3.14159265359
