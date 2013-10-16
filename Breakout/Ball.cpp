@@ -22,6 +22,9 @@ namespace Logic
 		direction.normalize();
 		speed = 100;
 		srand ((unsigned)time(NULL));
+#ifdef BAJSAPA
+		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
+#endif
 	}
 
 	Ball::~Ball()

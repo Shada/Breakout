@@ -9,3 +9,6 @@ Skybox/Skybox1/combined.png
 Fonts/blackwhite.png
 Textures/waterFrame.png
 Textures/testTex.png
+Water/heightmap.png
+Water/normalmap.jpg
+Water/foam.jpg

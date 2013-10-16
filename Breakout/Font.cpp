@@ -43,10 +43,10 @@ void Font::loadText(std::vector<BBFont> *outData, const char *text)
 	{
 		if(text[i] >= 33 && text[i] < 127)
 		{
-			current.x = posx;
-			current.texCoords.x = characters.at(text[i] - 33).posx;		// x1
-			current.texCoords.y = characters.at(text[i] - 33).posy;		// y1
-			current.texCoords.z = characters.at(text[i] - 33).width;	// width
+			current.x = (float)posx;
+			current.texCoords.x = (float)characters.at(text[i] - 33).posx;		// x1
+			current.texCoords.y = (float)characters.at(text[i] - 33).posy;		// y1
+			current.texCoords.z = (float)characters.at(text[i] - 33).width;	// width
 			current.texCoords.w = 70;									// height
 			outData->push_back(current);
 

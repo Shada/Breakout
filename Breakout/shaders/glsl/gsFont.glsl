@@ -21,9 +21,9 @@ layout(std140, binding = 3) uniform FontBuffer
 {
 	vec2	textPos;
 	vec2	textSize;
-	float	textRotation;
 	vec4	textTintAlpha;
 	vec2	imageSize;
+	float	textRotation;
 };
 
 void main()

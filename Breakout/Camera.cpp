@@ -5,13 +5,14 @@
 #endif // BAJSAPA
 Camera::Camera()
 {
-	position = Vec3(75, 75, -150);
+	position = Vec3(75, 190, -150);
 	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(0,0,1);
-
+	lookAt = Vec3(position.x,0,100);
+	
 #ifndef BAJSAPA
 	//TODO: REMOVE!!!
+
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
@@ -62,12 +63,13 @@ Vec3 Camera::getRotation()
 
 void Camera::update()
 {
-	Vec3 up, pos, rot;
+	Vec3 up, pos, rot, negUp;
 	Matrix rotationMatrix;
 	float radianConv = (float)(PI)/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
+	negUp = Vec3(0,-1,0);
 	pos = position;
 
 	//Set yaw, pitch and roll rotations in radians
@@ -81,23 +83,26 @@ void Camera::update()
 	//Transform lookAt and up vector by rotation matrix
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
+	transformCoord(negUp, negUp, rotationMatrix);
 
 
 	//Translate rotated camera position to location of viewer
-	lookAt = pos + Vec3(0,0,1);
+	//lookAt = pos + Vec3(0,0,1);
 
 	//Create view matrix from vectors
 
-    lookAtLHP(viewMatrix, lookAt, up, pos);
+	lookAtLHP(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+	Vec3 reflPos = pos;
+	reflPos.y = waterLevel - (reflPos.y - waterLevel);
+	lookAtLHP(viewRefl,lookAt,negUp,reflPos);
 
 	MatrixInversion(viewInv, viewMatrix);
-
 
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;
 	cb.cameraDir = lookAt - pos;
-
+	cb.viewRefl = viewRefl;
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
 #ifdef BAJSAPA

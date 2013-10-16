@@ -36,10 +36,10 @@ struct CBFont
 {
 	Vec2 pos;				//world position
 	Vec2 scale;				//world scale
-	float rotation;			//world rotation
-	Vec3 padd3;
 	Vec4 tintAlpha;			//rgb tint, a alpha
 	Vec2 imageSize;			//resolution of font image
+	float rotation;			//world rotation
+	float padda;
 };
 struct CBWorld
 {
@@ -50,12 +50,12 @@ struct CBCameraMove
 {
 	Matrix View;
 	Matrix ViewInv;
+	Matrix viewRefl;
 	Vec3 cameraPos;
 	float p1;
 	Vec3 cameraDir;
 	float p2;
 };
-
 struct CBOnce
 {
 	Matrix	projection;
@@ -63,6 +63,39 @@ struct CBOnce
 	Vec4	lightPos;
 	Vec2	resolution;
 	Vec2	padding2;
+};
+struct CBWater
+{
+	float waterLevel;
+	float timer;
+	Vec2 windDirection;
+};
+struct CBWaterOnce
+{
+	float waterFade; //how deep anything need to be to fade out in the water
+	float normalScaling; 
+	float maxAmplitude; //max wave amplitude
+	float shoreTransition; //how soft the water and ground fades
+
+	float refractionStrength; //refraction strength
+	float displacementStrength; //multiplier for the height of waves
+	float shininess;
+	float specularIntensity;
+
+	float transparency;
+	float refractionScale;
+	Vec2 scale;
+
+	Vec4 normalModifier; //multiplier for the different normals. first one is for small waves.
+
+	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+
+	Vec4 waterSurfaceColor;
+
+	Vec4 waterDepthColor;
+
+	Vec4 extinction;
+
 };
 
 #define PI 3.14159265359
