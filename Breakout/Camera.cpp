@@ -8,7 +8,7 @@ Camera::Camera()
 	position = Vec3(75, 75, -150);
 	//position = Vec3(512, 384, -512);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(0,0,1);
+	lookAt = Vec3 (150, 100 ,0);
 
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine
@@ -77,13 +77,17 @@ void Camera::update()
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
 
-
-	//Translate rotated camera position to location of viewer
-	lookAt = pos + Vec3(0,0,1);
-
 	//Create view matrix from vectors
 
     lookAtLHP(viewMatrix, lookAt, up, pos);
+	//lookAt = Vec3 (150, 100 ,0);
+
+	//Create view matrix from vectors
+#ifdef _WIN32
+	lookAtLHP(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+#else
+    lookAtRHP(viewMatrix, lookAt, up, pos);
+#endif // _WIN32
 
 	MatrixInversion(viewInv, viewMatrix);
 

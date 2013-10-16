@@ -1,5 +1,4 @@
 #include "Pad.h"
-#include "GraphicsDX11.h"
 #include "Physics.h"
 
 namespace Logic
@@ -9,6 +8,8 @@ namespace Logic
 	Vec3 Pad::rotMouse = Vec3(0, 0, 0);
 	Vec3 Pad::rotKey = Vec3(0, 0, 0);
 	bool Pad::releaseBall = false;
+	float Pad::angle = 0.0f;
+
 	Pad::Pad()
 	{
 
@@ -41,9 +42,10 @@ namespace Logic
 		posMouse = _pos;
 	}
 
-	void Pad::update(float _dt)
+	void Pad::update(double _dt)
 	{
 		prevPos = position;
+
 		if(posKey.x != 0)
 		{
 			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
@@ -79,9 +81,9 @@ namespace Logic
 			direction.normalize();
 		}
 
-		if(position.x > Logic::borderMaxX || position.x < 0)
+		if(position.x > Logic::borderMaxX - width || position.x < width)
 		{
-			position.x = position.x > Logic::borderMaxX ? Logic::borderMaxX : 0.f;
+			position.x = position.x > borderMaxX - width ? borderMaxX - width : width;
 			posMouse.x = posKey.x = position.x;
 		}
 
@@ -93,6 +95,73 @@ namespace Logic
 			ballPos = mRot * ballPos;
 			ballPos += position;
 		}
+
+		updateWorld();
+
+		//effect calculations
+		checkEffects(_dt);
+
+		posKey.x = 0;
+	}
+
+	void Pad::updateCylinder(double _dt)
+	{
+		if(posKey.x != 0)
+		{
+			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
+		}
+		else if(posMouse.x != position.x)
+		{
+			if (posMouse.x > position.x + 1)
+				 position.x += 150  * (float)_dt * movementSpeed;
+			else if(posMouse.x < position.x - 1)
+				 position.x += -150  * (float)_dt * movementSpeed;
+		}
+
+		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
+		{
+			if(rotation.z != rotMouse.z)
+			{
+				rotation.z = rotMouse.z;
+				rotKey.z = rotation.z;
+			}
+			else
+			{
+				rotation.z = rotKey.z;
+				rotMouse.z = rotation.z;
+			}
+
+			rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
+		}
+
+		if(releaseBall)
+		{
+			direction = Vec3(cos(rotation.z), sin(rotation.z), 0);
+			direction.normalize();
+		}
+
+		if(position.x > 300 || position.x < 0)
+		{
+			//position.x > 300.0f ? position.x -= 300.0f : position.x += 300.0f;
+
+			position.x > Logic::borderMaxX ? position.x = Logic::borderMaxX : position.x = 0.f;
+
+			posMouse.x = posKey.x = position.x;
+		}
+
+		if(!releaseBall)
+		{
+			ballPos = Vec3(0, 10, 0);
+			Matrix mRot;
+			rotationAxis(mRot, Vec3(0, 0, 1), rotation.z - (float)PI / 2);
+			ballPos = mRot * ballPos;
+			ballPos += position;
+		}
+
+		transformToCyl();
+
+		//effect calculations
+		checkEffects(_dt);
 
 		posKey.x = 0;
 
@@ -148,15 +217,68 @@ namespace Logic
 
 	}
 
+	void Pad::checkEffects(double _dt)
+	{
+		//effect calculations
+		if (activeEffect == 1)//stun
+		{
+			effectTimer -= _dt;
+			if (effectTimer < 0)
+			{
+				movementSpeed += (effectAcceleration * _dt);
+				effectAcceleration = effectAcceleration * 1.2;
+			}
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				effectRotation = 0.4;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 2)//slow
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed <= 0.6f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = 0.005;
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 3) //speed
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed >= 1.3f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = -0.005;
+
+			if(movementSpeed < 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+	}
+
 	void Pad::startStun()
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer			= 0.8f;
-			activeEffect		= 1;
-			movementSpeed		= 0.3f;
-			effectAcceleration	= 0.1f;
-			effectRotation		= 0.4f;
+			effectTimer = 0.5;
+			activeEffect = 1;
+			movementSpeed = 0.3;
+			effectAcceleration = 0.1;
+			effectRotation = 0.4;
 		}
 	}
 	
@@ -164,9 +286,9 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer			= 5;
-			activeEffect		= 2;
-			effectAcceleration	= -0.005f;
+			effectTimer = 5;
+			activeEffect = 2;
+			effectAcceleration = -0.005;
 		}
 	}
 	
@@ -174,9 +296,9 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer			= 5;
-			activeEffect		= 3;
-			effectAcceleration	= 0.005f;
+			effectTimer = 5;
+			activeEffect = 3;
+			effectAcceleration = 0.005;
 		}
 	}
 

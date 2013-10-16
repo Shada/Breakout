@@ -7,12 +7,11 @@
 #include <stdlib.h>
 #include <GL/glew.h>
 #include <GL/glfw.h>
-#include "ObjectCore.h"
 #include <vector>
 
+#include "ObjectCore.h"
 #include "LoadHandler.h"
 #include "ProgramGLSL.h"
-
 #include "linearalgebra.h"
 
 struct tempBBUI
@@ -20,6 +19,7 @@ struct tempBBUI
 	Vec2 pos;
 	Vec2 size;
 };
+
 class GraphicsOGL4
 {
 private:

@@ -12,7 +12,7 @@ namespace Logic
 		Object3D()
 		{
 		}
-		virtual void update(float _dt) = 0;
+		virtual void update(double _dt) = 0;
 
 		int getModelID()		{ return modelID;	};
 		int getTextureID()		{ return textureID;	};
@@ -33,6 +33,7 @@ namespace Logic
 			MatrixInversion(worldInv, world);
 			Matrix inv = world * worldInv;
 		}
+		void transformToCyl();
 
 	protected:
 		int		modelID, textureID;

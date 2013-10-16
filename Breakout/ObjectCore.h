@@ -19,7 +19,7 @@ namespace Logic
 		};
 		MapType mapType;
 		Pad						*pad;
-		std::vector<Object3D*>	bricks;
+		std::vector<Brick*>		 bricks;
 		Ball					*ball;
 		Water					*water;
 		Skybox					*skybox;

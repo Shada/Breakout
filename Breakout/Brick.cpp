@@ -1,9 +1,5 @@
 #include "Brick.h"
-#ifdef _WIN32
-#include "GraphicsDX11.h"
-#else
-#include "GraphicsOGL4.h"
-#endif // _WIN32
+#include "Physics.h"
 
 namespace Logic
 {
@@ -14,11 +10,30 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
+		health = 1;
 
-		#ifdef _WIN32
-		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
-		#endif
+		width = 5;
+		height = 5;
+
 		updateWorld();
+		//transformToCyl();
+	}
+
+	Brick::Brick(Vec3 _pos, double _width, double _height)
+	{
+		position = _pos;
+		scale		= Vec3(1,1,1);
+		rotation	= Vec3(0,0,0);
+
+		alive = true;
+
+		width = _width;
+		height = _height;
+
+		scale.x = width/5;
+		scale.y =  height/5;
+
+		transformToCyl();
 	}
 
 	Brick::~Brick()
@@ -26,7 +41,7 @@ namespace Logic
 
 	}
 
-	void Brick::update(float _dt)
+	void Brick::update(double _dt)
 	{
 
 	}
@@ -52,5 +67,17 @@ namespace Logic
 	{
 		//remove hitbox;
 		alive = false;
+	}
+
+	void Brick::setHeight( double _h)
+	{
+		height = _h; 
+		scale.y =  height/5;
+	}
+
+	void Brick::setWidth( double _w)
+	{
+		 width = _w; 
+		 scale.x = width/5;
 	}
 }

@@ -1,9 +1,5 @@
 #include "Ball.h"
-#ifdef _WIN32
-#include "GraphicsDX11.h"
-#else
-#include "GraphicsOGL4.h"
-#endif // _WIN32
+#include "Physics.h"
 
 namespace Logic
 {
@@ -33,7 +29,7 @@ namespace Logic
 		position = _pos;
 	}
 
-	void Ball::update(float _dt)
+	void Ball::update(double _dt)
 	{
 		//Check for buffs/debuffs here, and apply them
 
@@ -67,7 +63,22 @@ namespace Logic
 		updateWorld();
 	}
 
-	void Ball::startWind()
+	void Ball::updateCylinder(double _dt)
+	{
+		//Check for buffs/debuffs here, and apply them
+		lastFrame = position;
+		position += direction * speed * (float)_dt;
+
+		if(position.x > 300.0f || position.x < 0.0f)
+		{
+			position.x > 300.0f ? position.x -= 300.f : position.x += 300.f;
+		}
+
+		transformToCyl();
+	}
+
+#ifdef _WIN32
+	void Ball::setWindDirection(float _x, float _y, float _z)
 	{
 		if (activeEffect == 0)
 		{
@@ -87,4 +98,5 @@ namespace Logic
         if(_z != NULL) direction.z = _z;
 		direction.normalize();
     }
+#endif // _WIN32
 }

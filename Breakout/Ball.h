@@ -22,8 +22,8 @@ namespace Logic
 		Ball();
 		~Ball();
 
-		void update(float dt);
-		void startWind();					//Wind effect
+		void update(double dt);
+		void updateCylinder(double _dt);
 		void draw();
 
 		float getRadius()		{ return radius; };
@@ -36,6 +36,7 @@ namespace Logic
 
 		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
 		void setDirection(float x, float y, float z);
+		void setWindDirection(float x, float y, float z);
 		void setPosition(Vec3 _pos);
 	};
 }

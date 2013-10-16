@@ -12,8 +12,8 @@ class Camera
 
 private:
 	Vec3	position,
-			rotation;
-	Vec3	lookAt;
+			rotation,
+			lookAt;
 
 	Matrix	viewMatrix,
             viewInv,
@@ -27,12 +27,12 @@ public:
 
 	void setPosition(Vec3 position);
 	void setRotation(Vec3 rotation);
-	void setLookAt(Vec3 _lookAt) { lookAt = _lookAt;}
+	void setLookAt(Vec3 _lookAt)		{ lookAt = _lookAt;}
 	void setYPos(float _y)				{	position.y = _y; }; //For use in waterworld.
 
 	Vec3 getPosition();
 	Vec3 getRotation();
-	Vec3 getLookAt() { return lookAt;}
+	Vec3 getLookAt()					{ return lookAt; }
 	Matrix getViewMatrix();
 
 	void update();
