@@ -6,9 +6,9 @@
 Camera::Camera()
 {
 
-	position = Vec3(75, 75, -200);
+	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(0,0,1);
+	lookAt = Vec3(75,75,1);
 
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine

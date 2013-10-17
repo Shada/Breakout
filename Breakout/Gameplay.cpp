@@ -25,12 +25,12 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		objectCore->mapType = objectCore->MapType::eWater;
+		//objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
 
-		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
+		camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
 		//camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(200,200,0), Vec3(0,0,0), Vec3(200,0,0)));
 		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
@@ -60,9 +60,11 @@ namespace Logic
 		objectCore->testText->setTextData(0, 10);
 
 		currentMapIndex = 0;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad,&objectCore->mapType);
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
+
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -321,7 +323,7 @@ namespace Logic
 			currentMapIndex = 0;
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,objectCore->pad,&objectCore->mapType);
 		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);

@@ -15,7 +15,7 @@ namespace Logic
 		//also these indeces are very likely to change
 		//especially textureID
 		skybox->setModelID(3); 
-		skybox->setTextureID(7);
+		skybox->setTextureID(0);
 		testFont = new Font();
 		testText = new Text(&fontBillboards, "FPS:", Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
 	}

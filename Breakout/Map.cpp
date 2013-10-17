@@ -6,8 +6,10 @@
 namespace Logic
 {
 
-	void Map::loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad)
+	void Map::loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad,ObjectCore::MapType *_mapType)
 	{
+
+		
 
 		//clear the brick vector, not sure if this should be done here
 		for(unsigned int i = 0; i < _bricks->size(); i++)
@@ -22,8 +24,8 @@ namespace Logic
 			unsigned int hmHeight = FreeImage_GetHeight(pHeightMap);
 			unsigned int hmWidth = FreeImage_GetWidth(pHeightMap);
 		
-			unsigned int displacementX = 16;
-			unsigned int displacementY = 8;
+			unsigned int displacementX = 22;
+			unsigned int displacementY = 12;
 
 			float circleRadie = 100;
 
@@ -31,7 +33,7 @@ namespace Logic
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			int maptype = 4;//color.rgbGreen;
+			int maptype = color.rgbGreen;
 			int difficulty = color.rgbBlue;
 
 
@@ -59,24 +61,31 @@ namespace Logic
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
 						displace.z = 0;
+						*_mapType = ObjectCore::MapType::eTest;
 					}
 					else if(maptype == 1)//wind
 					{
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
 						displace.z = 0;
+						*_mapType = ObjectCore::MapType::eWind;
+
 					}
 					else if(maptype == 2)//water
 					{
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
 						displace.z = 0;
+						*_mapType = ObjectCore::MapType::eWater;
+
 					}
 					else if(maptype == 3)//fire
 					{
 						displace.x = sin(radWIt) * circleRadie;
 						displace.y = y * displacementY;
 						displace.z = cos(radWIt) * circleRadie;
+						*_mapType = ObjectCore::MapType::eFire;
+
 					}
 					else if(maptype == 4)//earth
 					{
@@ -92,6 +101,8 @@ namespace Logic
 						displace.z = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt y
 						displace.y = circleRadie * cos(radWIt);
 
+						*_mapType = ObjectCore::MapType::eEarth;
+
 						
 					}
 
@@ -106,7 +117,7 @@ namespace Logic
 
 						//if no pad is desired or the pad from the previously loaded map is wanted
 						//this will be null
-						if(_pad != NULL)
+						//if(_pad != NULL)
 						{
 							//Set pad start pos here
 							_pad->setPosition(Vec3((float)x*displacementX,(float)y*displacementY,0.0f));
@@ -137,8 +148,8 @@ namespace Logic
 
 						Brick *tBrick = new Brick(Vec3((float)x * displacementX, (float)y * displacementY, 0.0f));
 						//tBrick->setPosition(Vec3();
-						tBrick->setHeight(7.5f);
-						tBrick->setWidth(15);
+						tBrick->setHeight(10);
+						tBrick->setWidth(20);
 						tBrick->updateWorld();
 						tBrick->setType(color.rgbRed);
 						tBrick->setTextureID(color.rgbGreen);

@@ -18,7 +18,7 @@ namespace Logic
 		virtual void damage(); //These 2 could be defined here, or in their respective classes in case they were to function differently
 		virtual void destroy();
 
-		void setType(int _Type)		{ health = _Type -2; };
+		void setType(int _Type);
 		void setWidth(float _w)		{ width = _w; scale.x = _w / 5; updateWorld(); }
 		void setHeight(float _h)	{ height = _h; scale.y = _h / 5; updateWorld(); }
 		bool isDestroyed();

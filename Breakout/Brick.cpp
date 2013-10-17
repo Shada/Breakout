@@ -33,7 +33,7 @@ namespace Logic
 
 	bool Brick::isDestroyed()
 	{
-		if (health == 0)
+		if (health <= 0)
 			return true;
 		return false;
 	}
@@ -53,4 +53,16 @@ namespace Logic
 		//remove hitbox;
 		alive = false;
 	}
+
+	void Brick::setType(int _Type)
+	{
+		health = 1;
+
+		if(_Type == 48)
+			health = 2;
+		else if(_Type == 60)
+			health = 3;
+
+	}
+
 }
