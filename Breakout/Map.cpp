@@ -75,10 +75,12 @@ namespace Logic
 					{
 						//Set brick property here
 						Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
-						//Brick *tBrick = new Brick(brickPos, 5, 5);
 						Brick *tBrick = new Brick(brickPos);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
+
+						mapType == 3 ? tBrick->transformToCyl() : tBrick->updateWorld();
+
 						_bricks->push_back(tBrick);
 					}
 					

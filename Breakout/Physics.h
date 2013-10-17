@@ -182,7 +182,7 @@ namespace Logic
 		}
 
 		//Compare Y
-		if(ballPos.y - tRadius < 0 || ballPos.y + tRadius > borderMaxY)
+		if(ballPos.y + tRadius > borderMaxY)
 		{
 			if((ballPos.y - tRadius < 0 && tBallDir.y < 0) || (ballPos.y + tRadius > borderMaxY && tBallDir.y > 0))
 				tBallDir.y *= -1;

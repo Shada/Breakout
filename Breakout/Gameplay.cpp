@@ -15,7 +15,7 @@ namespace Logic
 		mapLoading = new Map();
 
 		objectCore = new ObjectCore();
-		play = ballPadCollided = false;
+		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
 		eventSystem = new EventSystem(0,5); // testvärde
@@ -26,9 +26,9 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		objectCore->mapType = objectCore->MapType::eWind;
+		objectCore->mapType = objectCore->MapType::eWater;
 
-		objectCore->ball->setModelID(0);
+		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
 	/*	Logic::sph2Cart(Vec3(0,1.570796,39));
 		Logic::cart2Sph(Vec3(39,0,0));*/
@@ -53,7 +53,7 @@ namespace Logic
 
 
 		currentMapIndex = 0;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad);
 		objectCore->setMapType(mapLoading->getMapType());
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
@@ -75,7 +75,6 @@ namespace Logic
 			padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			//camera->setLookAt(Vec3(padPos.x, padPos.y, padPos.z));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -83,38 +82,51 @@ namespace Logic
 		if(play)
 		{
 			if(objectCore->mapType == objectCore->MapType::eFire)
-				objectCore->ball->updateCylinder(_dt);
+				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+					objectCore->ball.at(i)->updateCylinder(_dt);
 			else
-				objectCore->ball->update(_dt);
+				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+					objectCore->ball.at(i)->update(_dt);
 			if(!ballPadCollided)
-				ballPadCollided = Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
+				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+					ballPadCollided = Logic::ballCollision(objectCore->ball.at(i), objectCore->pad, objectCore->pad->getRotation().z);
 			else
 				ballPadCollided = false;
 		}
 
-		if(objectCore->ball->getPosition().y < 0)
+		if(objectCore->ball.size() == 1 && objectCore->ball.at(0)->getPosition().y < 0)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
 		}
+		else
+		{
+			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
+				if(objectCore->ball.at(i)->getPosition().y < 0)
+				{
+					SAFE_DELETE(objectCore->ball.at(i));
+					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
+				}
+		}
+
 		if(!play)
 		{
 			if(objectCore->pad->getReleaseBall())
 			{
 				Vec3 dir = objectCore->pad->getDirection();
-				objectCore->ball->setDirection(dir.x, dir.y, dir.z);
+				objectCore->ball.at(0)->setDirection(dir.x, dir.y, dir.z);
 				
 				play = true;
 				objectCore->pad->setReleaseBall(false);
 			}
 
-			objectCore->ball->setPosition(objectCore->pad->getBallPos());
+			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
 			//Vec3 temp = objectCore->ball->getPosition();
 			//objectCore->ball->setPosition(temp);
 			if(objectCore->mapType == objectCore->MapType::eFire)
-				objectCore->ball->transformToCyl();
+				objectCore->ball.at(0)->transformToCyl();
 			else
-				objectCore->ball->updateWorld();
+				objectCore->ball.at(0)->updateWorld();
 			//objectCore->ball->setPosition(temp);
 		}
 #ifdef _WIN32
@@ -123,6 +135,12 @@ namespace Logic
 			nextMap();
 			objectCore->setMapType(mapLoading->getMapType());
 		}
+		if(play && GetAsyncKeyState(VK_NUMPAD5) != 0 && !createBall)
+
+			doubleBallEffect();
+
+		else if(createBall && GetAsyncKeyState(VK_NUMPAD5) == 0)
+			createBall = false;
 #endif
 		if(objectCore->bricks.size() == 0)
 		{
@@ -146,19 +164,27 @@ namespace Logic
 		
 		// check collision between a ball and the bricks, will return the id of any brick the ball has
 		// collided with, if no collision then -1 is returned
-		int collidingObject = Logic::Check2DCollissions(objectCore->ball, objectCore->bricks);
-		if(collidingObject != -1)
+		if(!play)
+			return;
+
+		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
-			tempBrick->damage();
-			if(tempBrick->isDestroyed() == true)
+			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks);
+			if(collidingObject != -1)
 			{
-				SAFE_DELETE(objectCore->bricks.at(collidingObject));
-				objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
-				std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
+				tempBrick->damage();
+				if(tempBrick->isDestroyed() == true)
+				{
+					SAFE_DELETE(objectCore->bricks.at(collidingObject));
+					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
+					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+					if(rand() % 100 < 5)
+						doubleBallEffect();
+				}
+				//else
+					//std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
 			}
-			else
-				std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
 		}
 
 		//Effects
@@ -318,6 +344,7 @@ namespace Logic
 		}
 
 	}
+
 	void Gameplay::nextMap()
 	{
 		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
@@ -333,8 +360,32 @@ namespace Logic
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
 		}
 
+		if(objectCore->ball.size() > 1)
+			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
+			{
+				SAFE_DELETE(objectCore->ball.at(i));
+				objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
+			}
+
 		play = false;
 	}
+
+	void Gameplay::doubleBallEffect()
+	{
+		createBall = true;
+		int ballSize = objectCore->ball.size();
+		for(int i = 0; i < ballSize; i++)
+		{
+			if(objectCore->ball.size() == 8)
+				break;
+			objectCore->ball.push_back(new Ball());
+			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());
+			objectCore->ball.back()->setDirection((rand() % 100) - 200, (rand() % 100) - 200, 0);
+			objectCore->ball.back()->setModelID(2);
+		}
+		std::cout << "BAAAAAALLSS " << ballSize * 2 << std::endl;
+	}
+
 	Gameplay::~Gameplay()
 	{
 		SAFE_DELETE(eventSystem);
