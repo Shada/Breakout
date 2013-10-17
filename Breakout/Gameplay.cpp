@@ -26,7 +26,7 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		objectCore->mapType = objectCore->MapType::eWater;
+		objectCore->mapType = objectCore->MapType::eWind;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
@@ -66,13 +66,26 @@ namespace Logic
 
 	void Gameplay::update(float _dt)
 	{
-		objectCore->pad->update(_dt);
-		//objectCore->pad->updateCylinder(_dt);
+		if(objectCore->mapType == objectCore->MapType::eFire)
+		{
+			objectCore->pad->updateCylinder(_dt);
+
+			Vec3 padPos = objectCore->pad->getPosition();
+			padPos.y += 100;
+			padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+
+			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			//camera->setLookAt(Vec3(padPos.x, padPos.y, padPos.z));
+		}
+		else
+			objectCore->pad->update(_dt);
 
 		if(play)
 		{
-			//objectCore->ball->updateCylinder(_dt);
-			objectCore->ball->update(_dt);
+			if(objectCore->mapType == objectCore->MapType::eFire)
+				objectCore->ball->updateCylinder(_dt);
+			else
+				objectCore->ball->update(_dt);
 			if(!ballPadCollided)
 				ballPadCollided = Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
 			else
@@ -98,7 +111,10 @@ namespace Logic
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			//Vec3 temp = objectCore->ball->getPosition();
 			//objectCore->ball->setPosition(temp);
-			objectCore->ball->updateWorld();
+			if(objectCore->mapType == objectCore->MapType::eFire)
+				objectCore->ball->transformToCyl();
+			else
+				objectCore->ball->updateWorld();
 			//objectCore->ball->setPosition(temp);
 		}
 #ifdef _WIN32
@@ -121,16 +137,10 @@ namespace Logic
 			// should be the pad that follows water level and then camera follows pad?
 			camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
-			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.f / 3);
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 		}
-		//Vec3 padPos = objectCore->pad->getPosition();
-		//padPos.y += 100;
-		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
-
-		//camera->setPosition(Vec3(padPos.x, padPos.y, -50));
-		//camera->setLookAt(Vec3(padPos.x, padPos.y, padPos.z));
 
 		camera->update();
 		
@@ -322,27 +332,8 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
 		}
-		play = false;
 
-		/*for(int c = 0; c < objectCore->bricks.size(); c++)
-		{
-			if(c % 4 == 0)
-			{
-				objectCore->bricks.at(c)->setWidth(20);
-				objectCore->bricks.at(c)->setHeight(10);
-			}
-			else if(c % 4 == 1)
-			{
-				objectCore->bricks.at(c)->setWidth(15);
-				objectCore->bricks.at(c)->setHeight(7.5);
-			}
-			else if(c % 4 == 2)
-			{
-				objectCore->bricks.at(c)->setWidth(25);
-				objectCore->bricks.at(c)->setHeight(5);
-			}
-			objectCore->bricks.at(c)->transformToCyl();
-		}*/
+		play = false;
 	}
 	Gameplay::~Gameplay()
 	{

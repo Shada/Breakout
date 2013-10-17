@@ -6,7 +6,7 @@ namespace Logic
 	void Object3D::transformToCyl()
 	{
 		//Set appropriate rotation
-		rotation.y = (position.x / 300.f) * 2 * PI; // (position.x / mapwidth) * 2 * PI;
+		rotation.y = (position.x / 300.f) * 2 * (float)PI; // (position.x / mapwidth) * 2 * PI;
 
 		//Save away pad position and modify the real one for the matrix
 		Vec3 temp = position;
