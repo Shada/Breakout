@@ -26,12 +26,13 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
+		health = 1;
 
 		width = _width;
 		height = _height;
 
-		scale.x = width/5;
-		scale.y =  height/5;
+		scale.x = (float)width / 5;
+		scale.y =  (float)height / 5;
 
 		transformToCyl();
 	}
@@ -72,12 +73,12 @@ namespace Logic
 	void Brick::setHeight( double _h)
 	{
 		height = _h; 
-		scale.y =  height/5;
+		scale.y =  (float)height / 5;
 	}
 
 	void Brick::setWidth( double _w)
 	{
 		 width = _w; 
-		 scale.x = width/5;
+		 scale.x = (float)width / 5;
 	}
 }

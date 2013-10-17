@@ -31,20 +31,21 @@ namespace Logic
 
 	void Ball::update(double _dt)
 	{
+		float dt = (float)_dt;
 		//Check for buffs/debuffs here, and apply them
 
 		//effect calculations
 		if (activeEffect == 1)//wind effect
 		{
-			effectTimer -= _dt;
+			effectTimer -= dt;
 			if (effectTimer > 0)
 			{
-				direction = (direction + effectDirection *_dt);
+				direction = (direction + effectDirection * dt);
 				direction.normalize();
-				effectSpeed += (effectAcceleration * _dt);
+				effectSpeed += (effectAcceleration * dt);
 			}
 			else
-				effectSpeed -= (effectAcceleration * _dt);
+				effectSpeed -= (effectAcceleration * dt);
 			if(effectSpeed > 0 && effectTimer < 0)
 			{
 				effectDirection = Vec3(1, 1, 0);
@@ -52,12 +53,12 @@ namespace Logic
 				activeEffect = 0;
 			}
 			lastFrame = position;
-			position += direction * speed * (float)_dt + effectDirection * effectSpeed * (float)_dt;
+			position += direction * speed * dt + effectDirection * effectSpeed * dt;
 		}
 		else // no effects
 		{		
 			lastFrame = position;
-			position += direction * speed * (float)_dt;
+			position += direction * speed * dt;
 		}
 
 		updateWorld();

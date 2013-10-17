@@ -22,6 +22,8 @@ namespace Logic
 		int activeEffect; //0 = nothing, 1 = stun, 2 = slow, 3 = speed
 		float effectTimer, effectAcceleration, effectRotation;
 
+		void _update(double dt);
+
 	public:
 		Pad();
 		~Pad();

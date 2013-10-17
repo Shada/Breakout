@@ -31,7 +31,6 @@ namespace Logic
 		{
 			world		= scalingMatrix(scale) * yawPitchRoll(rotation) * translationMatrix(position);
 			MatrixInversion(worldInv, world);
-			Matrix inv = world * worldInv;
 		}
 		void transformToCyl();
 

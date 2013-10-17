@@ -5,8 +5,8 @@ namespace Logic
 {
 	Vec3 Pad::posKey = Vec3(0, 0, 0);
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
-	Vec3 Pad::rotMouse = Vec3(0, 0, 0);
-	Vec3 Pad::rotKey = Vec3(0, 0, 0);
+	Vec3 Pad::rotMouse = Vec3(0, 0, (float)PI / 2);
+	Vec3 Pad::rotKey = Vec3(0, 0, (float)PI / 2);
 	bool Pad::releaseBall = false;
 	float Pad::angle = 0.0f;
 
@@ -26,7 +26,7 @@ namespace Logic
 
 		rotation = rotMouse;
 
-		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
+		rotationAxis(orientation, Vec3(0, 0, 1.f), rotation.z);
 
 		activeEffect = 0;
 	}
@@ -42,7 +42,7 @@ namespace Logic
 		posMouse = _pos;
 	}
 
-	void Pad::update(double _dt)
+	void Pad::_update(double _dt)
 	{
 		prevPos = position;
 
@@ -56,8 +56,8 @@ namespace Logic
 				 position.x += 150  * (float)_dt * movementSpeed;
 			else if(posMouse.x < position.x - 1)
 				 position.x += -150  * (float)_dt * movementSpeed;
+			posMouse.x = position.x;
 		}
-		
 
 		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
 		{
@@ -81,6 +81,13 @@ namespace Logic
 			direction.normalize();
 		}
 
+		checkEffects(_dt);
+	}
+
+	void Pad::update(double _dt)
+	{
+		_update(_dt);
+
 		if(position.x > Logic::borderMaxX - width || position.x < width)
 		{
 			position.x = position.x > borderMaxX - width ? borderMaxX - width : width;
@@ -98,28 +105,16 @@ namespace Logic
 
 		updateWorld();
 
-		//effect calculations
-		checkEffects(_dt);
-
 		posKey.x = 0;
 	}
 
 	void Pad::updateCylinder(double _dt)
 	{
-		if(posKey.x != 0)
-		{
-			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
-		}
-		else if(posMouse.x != position.x)
-		{
-			if (posMouse.x > position.x + 1)
-				 position.x += 150  * (float)_dt * movementSpeed;
-			else if(posMouse.x < position.x - 1)
-				 position.x += -150  * (float)_dt * movementSpeed;
-		}
+		_update(_dt);
 
-		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
+		if(position.x > borderMaxX || position.x < 0)
 		{
+<<<<<<< HEAD
 			if(rotation.z != rotMouse.z)
 			{
 				rotation.z = rotMouse.z;
@@ -142,10 +137,7 @@ namespace Logic
 
 		if(position.x > borderMaxX || position.x < 0)
 		{
-			//position.x > 300.0f ? position.x -= 300.0f : position.x += 300.0f;
-
-			position.x > Logic::borderMaxX ? position.x -= Logic::borderMaxX : position.x += Logic::borderMaxX;
-
+			position.x += position.x > Logic::borderMaxX ? -Logic::borderMaxX : Logic::borderMaxX;
 			posMouse.x = posKey.x = position.x;
 		}
 
@@ -160,61 +152,7 @@ namespace Logic
 
 		transformToCyl();
 
-		//effect calculations
-		checkEffects(_dt);
-
 		posKey.x = 0;
-
-		//effect calculations
-		if (activeEffect == 1)//stun
-		{
-			effectTimer -= _dt;
-			if (effectTimer < 0)
-			{
-				movementSpeed += (effectAcceleration * _dt);
-				effectAcceleration = effectAcceleration * 1.2f;
-			}
-
-			if(movementSpeed > 1.0f)
-			{
-				movementSpeed = 1.0f;
-				effectRotation = 0.4f;
-				activeEffect = 0;
-			}
-		} 
-		else if (activeEffect == 2)//slow
-		{
-			movementSpeed += effectAcceleration;
-			effectTimer -= _dt;
-
-			if (movementSpeed <= 0.6f)
-				effectAcceleration = 0;
-			if (effectTimer < 0)
-				effectAcceleration = 0.005f;
-
-			if(movementSpeed > 1.0f)
-			{
-				movementSpeed = 1.0f;
-				activeEffect = 0;
-			}
-		} 
-		else if (activeEffect == 3) //speed
-		{
-			movementSpeed += effectAcceleration;
-			effectTimer -= _dt;
-
-			if (movementSpeed >= 1.3f)
-				effectAcceleration = 0;
-			if (effectTimer < 0)
-				effectAcceleration = -0.005f;
-
-			if(movementSpeed < 1.0f)
-			{
-				movementSpeed = 1.0f;
-				activeEffect = 0;
-			}
-		} 
-
 	}
 
 	void Pad::checkEffects(double _dt)
@@ -222,49 +160,49 @@ namespace Logic
 		//effect calculations
 		if (activeEffect == 1)//stun
 		{
-			effectTimer -= _dt;
+			effectTimer -= (float)_dt;
 			if (effectTimer < 0)
 			{
-				movementSpeed += (effectAcceleration * _dt);
-				effectAcceleration = effectAcceleration * 1.2;
+				movementSpeed += (effectAcceleration * (float)_dt);
+				effectAcceleration = effectAcceleration * 1.2f;
 			}
 
 			if(movementSpeed > 1.0f)
 			{
-				movementSpeed = 1.0f;
-				effectRotation = 0.4;
-				activeEffect = 0;
+				movementSpeed	= 1.0f;
+				effectRotation	= 0.4f;
+				activeEffect	= 0;
 			}
 		} 
 		else if (activeEffect == 2)//slow
 		{
 			movementSpeed += effectAcceleration;
-			effectTimer -= _dt;
+			effectTimer -= (float)_dt;
 
 			if (movementSpeed <= 0.6f)
-				effectAcceleration = 0;
+				effectAcceleration = 0.f;
 			if (effectTimer < 0)
-				effectAcceleration = 0.005;
+				effectAcceleration = 0.005f;
 
-			if(movementSpeed > 1.0f)
+			if(movementSpeed > 1.f)
 			{
-				movementSpeed = 1.0f;
+				movementSpeed = 1.f;
 				activeEffect = 0;
 			}
 		} 
 		else if (activeEffect == 3) //speed
 		{
 			movementSpeed += effectAcceleration;
-			effectTimer -= _dt;
+			effectTimer -= (float)_dt;
 
 			if (movementSpeed >= 1.3f)
-				effectAcceleration = 0;
+				effectAcceleration = 0.f;
 			if (effectTimer < 0)
-				effectAcceleration = -0.005;
+				effectAcceleration = -0.005f;
 
-			if(movementSpeed < 1.0f)
+			if(movementSpeed < 1.f)
 			{
-				movementSpeed = 1.0f;
+				movementSpeed = 1.f;
 				activeEffect = 0;
 			}
 		} 
@@ -274,11 +212,11 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 0.5;
-			activeEffect = 1;
-			movementSpeed = 0.3;
-			effectAcceleration = 0.1;
-			effectRotation = 0.4;
+			effectTimer			= 0.5f;
+			activeEffect		= 1;
+			movementSpeed		= 0.3f;
+			effectAcceleration	= 0.1f;
+			effectRotation		= 0.4f;
 		}
 	}
 	
@@ -286,9 +224,9 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 5;
-			activeEffect = 2;
-			effectAcceleration = -0.005;
+			effectTimer			= 5.f;
+			activeEffect		= 2;
+			effectAcceleration	= -0.005f;
 		}
 	}
 	
@@ -296,9 +234,9 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 5;
-			activeEffect = 3;
-			effectAcceleration = 0.005;
+			effectTimer			= 5.f;
+			activeEffect		= 3;
+			effectAcceleration	= 0.005f;
 		}
 	}
 
@@ -312,8 +250,8 @@ namespace Logic
 		//Do 3D movement (in a circle) here.
 		angle3D += _x * movementSpeed * (float)_dt; //Assume degrees
 
-		if(angle3D < 0.0f) angle3D += 360.0f;
-		else if(angle3D >= 360.0f) angle3D -= 360.0f;
+		if(angle3D < 0.f) angle3D += 360.f;
+		else if(angle3D >= 360.f) angle3D -= 360.f;
 		
 		position.x = cosf(angle3D); //Some sort of radius on the circle should be added.
 		position.y = sinf(angle3D);

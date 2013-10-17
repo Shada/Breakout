@@ -61,12 +61,12 @@ namespace Logic
 		Vec3 dir = _ball->getDirection();
 
 		float speed = _ball->getSpeed();
-		float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
+		/*float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
 		float b = 2 * (dir.x * speed * (lastBallPos.x - objPos.x));
 		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y);
 
 		float d = 4 * a * (c - radius * radius);
-		float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));
+		float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));*/
 		float bx = (ballPos.x - lastBallPos.x) / (dir.x * speed);
 		float by = (ballPos.y - lastBallPos.y) / (dir.y * speed);
 		float t = sqrt(bx * bx + by * by);
@@ -74,19 +74,18 @@ namespace Logic
 		float dx = speed * dir.x;
 		float dy = speed * dir.y;
 
-		//float a = dx * dx + dy * dy;
-		//float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
-		//float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y) - radius * radius;
-		//float d = b * b - 4 * a * c;
+		float a = dx * dx + dy * dy;
+		float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
+		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y) - radius * radius;
+		float d = b * b - 4 * a * c;
 
-		////float t1 = (-b - sqrt(abs(d))) / (2 * a), t2 = (-b + sqrt(abs(d))) / (2 * a);
-		//float delta = (-b - sqrt(abs(d))) / (2 * a);
+		//float t1 = (-b - sqrt(abs(d))) / (2 * a), t2 = (-b + sqrt(abs(d))) / (2 * a);
+		float delta = (-b - sqrt(abs(d))) / (2 * a);
 
 		while(delta > t)
 			delta -= t;
 		
 		Vec3 collidePos = lastBallPos + dir * speed * delta;
-
 
 		Matrix mRot;
 		rotationAxis(mRot, normalize(-objPos + collidePos), acos(normalize(-objPos + collidePos).dot(dir)));
