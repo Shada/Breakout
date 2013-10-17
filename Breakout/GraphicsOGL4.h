@@ -37,8 +37,14 @@ private:
 			projSkybox;
 
 	//texture IDs
-	GLuint diffuseTexID,
-			skyboxTexID;
+	GLuint	diffuseTexID,
+			skyboxTexID,
+			texSceneID,
+			texDepthID,
+			reflMapID,
+			heightMapID,
+			normMapID,
+			foamMapID;
 
 	//ConstantBuffers
 	GLuint	cbCameraOnce,
@@ -50,7 +56,11 @@ private:
     ProgramGLSL *program,
 				*billboardProgram,
 				*skyboxProgram,
-				*fontProgram;
+				*fontProgram,
+				*waterProgram,
+				*skyboxReflProgram,
+				*quadProgram,
+				*reflProgram;
 
 	// VAO
 	GLuint  VertexArrayID,

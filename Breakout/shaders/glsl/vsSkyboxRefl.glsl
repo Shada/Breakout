@@ -1,24 +1,32 @@
 #version 430 core
+layout(location = 0) in vec3 vertexPos;
+layout(location = 1) in vec3 vertexNorm;
+layout(location = 2) in vec2 vertexUV;
 
-struct VS_Input
+out vec2 UV;
+
+layout(std140, binding = 0) uniform CameraOnce
 {
-	float3 pos	: POSITION;
-	float3 norm	: NORMAL;
-	float2 tex	: TEXCOORD0;
+	mat4 projection;
+	mat4 projInv;
+	vec4 lightPos;
+	vec2 resolution;
 };
 
-struct PS_Input
+layout(std140, binding = 1) uniform CameraMove
 {
-	float4 pos	: SV_POSITION;
-	float2 tex	: TEXCOORD0;
+	mat4 view;
+	mat4 viewInv;
+	mat4 viewRefl;
+	vec3 cameraPos;
+	vec3 cameraDir;
 };
 
-PS_Input vs_skybox( VS_Input input )
+void main()
 {
-	PS_Input output = (PS_Input)0;
-	output.tex = input.tex;
-	output.pos = float4(mul((float3x3)viewRefl, input.pos ),1);
-	output.pos = mul(projection, output.pos );
+	mat4 vp = projection * viewRefl;
+	vec4 pos = vp * vec4(vertexPos, 0);
+	gl_Position = pos.xyww;
 
-	return output;
+	UV = vec2(vertexUV.x, 1 - vertexUV.y);
 }

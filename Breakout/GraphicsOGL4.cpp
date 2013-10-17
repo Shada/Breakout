@@ -39,9 +39,13 @@ GraphicsOGL4::GraphicsOGL4()
 
 	fontProgram = new ProgramGLSL("fonz", "shaders/glsl/vsFont.glsl", "shaders/glsl/gsFont.glsl", "shaders/glsl/fsFont.glsl");
 
-	ProgramGLSL* programReflections = new ProgramGLSL("refl", "shaders/glsl/vsRefl.glsl", "", "shaders/glsl/fsRefl.glsl");
+	reflProgram = new ProgramGLSL("refl", "shaders/glsl/vsRefl.glsl", "", "shaders/glsl/fsRefl.glsl");
 
-	ProgramGLSL* programWater = new ProgramGLSL("refl", "shaders/glsl/vsQuad.glsl", "shaders/glsl/gsQuad.glsl", "shaders/glsl/fsWater.glsl");
+	waterProgram = new ProgramGLSL("quad", "shaders/glsl/vsQuad.glsl", "shaders/glsl/gsQuad.glsl", "shaders/glsl/fsWater.glsl");
+
+	quadProgram = new ProgramGLSL("quad", "shaders/glsl/vsQuad.glsl", "shaders/glsl/gsQuad.glsl", "shaders/glsl/fsQuad.glsl");
+
+	skyboxReflProgram = new ProgramGLSL("quad", "shaders/glsl/vsSkyboxRefl.glsl", "", "shaders/glsl/fsSkybox.glsl");
 
 	lh = Resources::LoadHandler::getInstance();
 	textures = getTextures();
@@ -58,6 +62,13 @@ GraphicsOGL4::GraphicsOGL4()
 
 	diffuseTexID = glGetUniformLocation(program->getProgramID(), "textureSampler");
 	skyboxTexID = glGetUniformLocation(skyboxProgram->getProgramID(), "textureSampler");
+
+	texSceneID = glGetUniformLocation(waterProgram->getProgramID(), "texScene");
+	texDepthID = glGetUniformLocation(waterProgram->getProgramID(), "texDepth");
+	reflMapID = glGetUniformLocation(waterProgram->getProgramID(), "reflectionMap");
+	heightMapID = glGetUniformLocation(waterProgram->getProgramID(), "heightMap");
+	normMapID = glGetUniformLocation(waterProgram->getProgramID(), "normalMap");
+	foamMapID = glGetUniformLocation(waterProgram->getProgramID(), "foamMap");
 }
 
 GraphicsOGL4::~GraphicsOGL4()
@@ -70,6 +81,11 @@ GraphicsOGL4::~GraphicsOGL4()
 	SAFE_DELETE(skyboxProgram);
 	SAFE_DELETE(billboardProgram);
 	SAFE_DELETE(fontProgram);
+	SAFE_DELETE(reflProgram);
+	SAFE_DELETE(waterProgram);
+	SAFE_DELETE(quadProgram);
+	SAFE_DELETE(skyboxReflProgram);
+
 	glDeleteVertexArrays(1, &VertexArrayID);
 	for(unsigned int i = 0; i < textures->size(); i++)
 		glDeleteTextures(1, &textures->at(i));
