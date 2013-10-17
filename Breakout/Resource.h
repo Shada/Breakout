@@ -90,7 +90,8 @@ struct CBWaterOnce
 
 	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
 
-	Vec4 waterSurfaceColor;
+	Vec3 waterSurfaceColor;
+	int  waterType;
 
 	Vec4 waterDepthColor;
 

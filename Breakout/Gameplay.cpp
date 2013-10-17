@@ -63,7 +63,7 @@ namespace Logic
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
 		if(objectCore->mapType == objectCore->MapType::eWater)
-			objectCore->water = new Water(objectCore->pad->getPosition().y);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -321,7 +321,7 @@ namespace Logic
 		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
-			objectCore->water = new Water(objectCore->pad->getPosition().y);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
 		play = false;
 	}

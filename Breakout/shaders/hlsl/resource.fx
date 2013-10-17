@@ -62,7 +62,8 @@ cbuffer cbWaterOnce		: register( b5 )
 
 	float4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
 
-	float4 waterSurfaceColor;
+	float3 waterSurfaceColor;
+	int	   waterType;
 
 	float4 waterDepthColor;
 

@@ -12,3 +12,5 @@ Textures/testTex.png
 Water/heightmap.png
 Water/normalmap.jpg
 Water/foam.jpg
+Water/lava.png
+Water/lavaGlowMap.png

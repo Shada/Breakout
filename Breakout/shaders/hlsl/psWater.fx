@@ -6,6 +6,8 @@ Texture2D reflectionMap		:register( t2 );
 Texture2D heightMap			:register( t3 );
 Texture2D normalMap			:register( t4 );
 Texture2D foamMap			:register( t5 );
+Texture2D lavaTest			:register( t6 );
+Texture2D lavaGlowMap		:register( t7 );
 
 
 float3x3 computeTangentMatrix(float3 normal, float3 position, float2 texCoord)
@@ -166,6 +168,18 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	float3 s = normalize( lightDist );
 	float3 cameraPosWV	= mul( view, float4(cameraPos,1.0) ).xyz;
 	float3 specular = pow(max(dot(normalize(-s + 2 *dot(s, tnorm ) * tnorm ), normalize( cameraPosWV - float4(( viewPosRefr.xyz/viewPosRefr.w),1).xyz )), 0.0),40);
-	return saturate(lerp(originalColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f),  0.7*fresnel) + float4(specular,1) + foam ,saturate(depth2 * shoreTransition)));
+	if(waterType == 0)
+		return saturate(lerp(originalColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f),  0.7*fresnel) + float4(specular,1) + foam ,saturate(depth2 * shoreTransition)));
 
+	
+	float4 lavaColor = lavaTest.Sample( samLinear, texCoord);
+	float glowFactor = lavaGlowMap.Sample(samLinear, texCoord).r;
+
+	float oldRange = 1.0f - (-1.0f);
+	float newRange = 1.0f - 0.0f;
+	float pulse =sin(timer*0.0004);
+	pulse = (((pulse-(-1)) * newRange)/ oldRange) + 0.5f;
+	//return saturate( lerp(lavaColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f)*glowFactor,  0.7*fresnel) + foam,saturate(depth2 * shoreTransition)));
+	float4 outColor = saturate(lerp(lerp(originalColor*glowFactor, lerp(float4(refraction,1.0f), float4(reflection,1.0f)*glowFactor,  0.7*fresnel) + float4(specular,1)*0 + foam ,saturate(depth2 * shoreTransition)),lavaColor,0.6));
+	return saturate(outColor + float4(1,0.49,0.15,1)*pulse*glowFactor);
 }

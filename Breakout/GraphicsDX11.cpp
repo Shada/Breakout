@@ -779,7 +779,7 @@ void GraphicsDX11::draw()
 	immediateContext->PSSetShaderResources(0,1,&sceneShaderResource);
 	immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
 	immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
-	immediateContext->PSSetShaderResources(3,3,&textures[11]);
+	immediateContext->PSSetShaderResources(3,5,&textures[11]);
 	techniques.at(getTechIDByName("techWater"))->useTechnique();
 	immediateContext->Draw(1,0);
 
@@ -822,7 +822,7 @@ void GraphicsDX11::draw()
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
-	//immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw( vertexAmount, startIndex );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text
