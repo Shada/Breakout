@@ -5,8 +5,8 @@ namespace Logic
 {
 	Vec3 Pad::posKey = Vec3(0, 0, 0);
 	Vec3 Pad::posMouse = Vec3(0, 0, 0);
-	Vec3 Pad::rotMouse = Vec3(0, 0, (float)PI / 2);
-	Vec3 Pad::rotKey = Vec3(0, 0, (float)PI / 2);
+	Vec3 Pad::rotMouse = Vec3(0, 0, 0);
+	Vec3 Pad::rotKey = Vec3(0, 0, 0);
 	bool Pad::releaseBall = false;
 	float Pad::angle = 0.0f;
 
@@ -28,6 +28,7 @@ namespace Logic
 
 		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
 
+		activeEffect = 0;
 	}
 
 	Pad::~Pad()
@@ -43,6 +44,8 @@ namespace Logic
 
 	void Pad::update(double _dt)
 	{
+		prevPos = position;
+
 		if(posKey.x != 0)
 		{
 			posMouse.x = position.x += posKey.x * (float)_dt * movementSpeed;
@@ -54,6 +57,7 @@ namespace Logic
 			else if(posMouse.x < position.x - 1)
 				 position.x += -150  * (float)_dt * movementSpeed;
 		}
+		
 
 		if(rotation.z != rotMouse.z || rotation.z != rotKey.z)
 		{
@@ -77,9 +81,9 @@ namespace Logic
 			direction.normalize();
 		}
 
-		if(position.x > Logic::borderMaxX || position.x < 0)
+		if(position.x > Logic::borderMaxX - width || position.x < width)
 		{
-			position.x = position.x > 200.0f ? 200.0f : 0.0f;
+			position.x = position.x > borderMaxX - width ? borderMaxX - width : width;
 			posMouse.x = posKey.x = position.x;
 		}
 
@@ -160,6 +164,57 @@ namespace Logic
 		checkEffects(_dt);
 
 		posKey.x = 0;
+
+		//effect calculations
+		if (activeEffect == 1)//stun
+		{
+			effectTimer -= _dt;
+			if (effectTimer < 0)
+			{
+				movementSpeed += (effectAcceleration * _dt);
+				effectAcceleration = effectAcceleration * 1.2f;
+			}
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				effectRotation = 0.4f;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 2)//slow
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed <= 0.6f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = 0.005f;
+
+			if(movementSpeed > 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+		else if (activeEffect == 3) //speed
+		{
+			movementSpeed += effectAcceleration;
+			effectTimer -= _dt;
+
+			if (movementSpeed >= 1.3f)
+				effectAcceleration = 0;
+			if (effectTimer < 0)
+				effectAcceleration = -0.005f;
+
+			if(movementSpeed < 1.0f)
+			{
+				movementSpeed = 1.0f;
+				activeEffect = 0;
+			}
+		} 
+
 	}
 
 	void Pad::checkEffects(double _dt)

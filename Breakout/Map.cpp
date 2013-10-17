@@ -28,7 +28,7 @@ namespace Logic
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			int maptype = color.rgbGreen;
+			mapType = color.rgbGreen;
 			int difficulty = color.rgbBlue;
 
 			//Load the rest of the pixel items
@@ -75,7 +75,7 @@ namespace Logic
 					{
 						//Set brick property here
 						Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
-						Brick *tBrick = new Brick(brickPos,15, 7.5);
+						Brick *tBrick = new Brick(brickPos/*,15, 7.5*/);
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
 						_bricks->push_back(tBrick);

@@ -24,6 +24,9 @@ namespace Logic
 		//Possible parameters, like damage dealt and/or effects and such
 		virtual void damage(); //These 2 could be defined here, or in their respective classes in case they were to function differently
 		virtual void destroy();
+
+		void setType(int _Type) { health = _Type -2; };
+		bool isDestroyed();
 		
 	protected:
 		int health;

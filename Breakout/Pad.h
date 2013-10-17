@@ -27,12 +27,12 @@ namespace Logic
 		~Pad();
 
 		void setPosition(Vec3 pos);
-		float getRadius() { return radius; }
-		float getOrientation() { return rotation.z - (float)(PI / 2); }
-		float getPadRotation() { return rotation.z; }
-		float getWidth() { return width; }
 
-		void setReleaseBall(bool state)		{ releaseBall = state; }
+		float getRadius()					{ return radius; }
+		float getOrientation()				{ return rotation.z - (float)PI / 2; }
+		float getPadRotation()				{ return rotation.z; }
+		float getWidth()					{ return width; }
+
 		bool getReleaseBall()				{ return releaseBall; }
 		Vec3 getDirection()					{ return direction; }
 		Vec3 getBallPos()					{ return ballPos; }
@@ -40,15 +40,17 @@ namespace Logic
 		float getAngle()					{ return angle;	}
 
 		void update(double dt);
-		void updateCylinder(double _dt);
+		void updateCylinder(double dt);
 		void startStun();					//stun effect
 		void startSlow();					//slow effect
 		void startSpeed();					//speed effect
-		void checkEffects(double _dt);
+		void checkEffects(double dt);
 		void draw();
 		void move2D(double dt, float x);
 		void move3D(double dt, float x);
+
 		void setAngle(float a)				{ angle2D = a;			}
+		void setReleaseBall(bool state)		{ releaseBall = state; }
 
 		static void move(int pixels)		{ posMouse.x += abs(pixels) > 15 ? pixels < 0 ? -15 : 15 : pixels; }
 		static void moveLeft()				{ posKey.x -= 150;		}

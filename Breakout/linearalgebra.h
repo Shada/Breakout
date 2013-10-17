@@ -657,9 +657,9 @@
 	}
 
 	/* Creates a view matrix for left hand coordinate systems */
-	inline void lookAtLHP(Matrix &pOut, Vec3 _lookAtTarget, Vec3 up, Vec3 eye)
+	inline void lookAtLHP(Matrix &pOut, Vec3 lookatTarget, Vec3 up, Vec3 eye)
 	{
-		Vec3 look = _lookAtTarget - eye;
+		Vec3 look = lookatTarget - eye;
 		look.normalize();
 		Vec3 right = cross(up, look);
 		right.normalize();
@@ -759,7 +759,4 @@
 #define _min(a,b)            (((a) < (b)) ? (a) : (b))
 
 #pragma endregion
-
-	#define _min(a,b)            ( ( (a) < (b) ) ? (a) : (b))
-	#define _max(a,b)            ( ( (a) > (b) ) ? (a) : (b))
 #endif

@@ -67,7 +67,7 @@ void Sound::Update(double dt)
 		{
 			float temp;
 			result = channel->getVolume(&temp);
-			temp = temp - (float)dt * 0.1f; // ordna timing etc
+			temp = temp - (float)dt * 0.15f; // ordna timing etc
 			if (temp < 0)
 				Stop();
 			else

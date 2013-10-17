@@ -18,16 +18,12 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-#ifdef _WIN32
-	CBOnce cbonce;
-
-	perspectiveFovLH(projectionMatrix, (float)PI * 0.5f, (float)(SCRWIDTH) / SCRHEIGHT, 0.01f, 600.0f);
-#else
-    perspectiveFovRH(projectionMatrix, (float)PI * 0.5f, (float)SCRWIDTH/SCRHEIGHT, 0.1f, 600.f);
-#endif //_WIN32
+    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
+	
 	MatrixInversion(projectionInv, projectionMatrix);
 
 #ifdef _WIN32
+	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
@@ -63,7 +59,7 @@ void Camera::update()
 {
 	Vec3 up, pos, rot;
 	Matrix rotationMatrix;
-	float radianConv = (float)(PI/180); //Used to convert from degree to radians
+	float radianConv = (float)(PI)/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
@@ -81,8 +77,9 @@ void Camera::update()
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
 
+	//Create view matrix from vectors
 
-	//Translate rotated camera position to location of viewer
+    lookAtLHP(viewMatrix, lookAt, up, pos);
 	//lookAt = Vec3 (150, 100 ,0);
 
 	//Create view matrix from vectors

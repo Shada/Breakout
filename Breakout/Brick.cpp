@@ -10,11 +10,13 @@ namespace Logic
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
+		health = 1;
 
 		width = 5;
 		height = 5;
 
-		transformToCyl();
+		updateWorld();
+		//transformToCyl();
 	}
 
 	Brick::Brick(Vec3 _pos, double _width, double _height)
@@ -44,10 +46,21 @@ namespace Logic
 
 	}
 
+	bool Brick::isDestroyed()
+	{
+		if (health == 0)
+			return true;
+		return false;
+	}
+
 	void Brick::damage()
 	{
 		health--;
-		if(health < 0) this->destroy();
+		if (health == 1)
+			setTextureID(1);
+		else if (health == 2)
+			setTextureID(6);
+		//if(health < 0) this->destroy();
 	}
 
 	void Brick::destroy()

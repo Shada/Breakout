@@ -2,6 +2,8 @@
 #define _BALL_H_
 
 #include "Object3D.h"
+#include <cstdlib>
+#include <time.h>
 
 namespace Logic
 {
@@ -12,7 +14,9 @@ namespace Logic
 		Vec3 direction, lastFrame;
 		float radius;
 
-		int shaderTechniqueID;
+		int activeEffect; //0 = nothing, 1 = Wind
+		Vec3 effectDirection;
+		float effectTimer, effectAcceleration, effectSpeed;
 
 	public:
 		Ball();
@@ -29,8 +33,10 @@ namespace Logic
 		Vec3 getLastFrame()		{ return lastFrame; };
 		float getSpeed()		{ return speed; }
 
-		/* Sets the direction-variables. Use NULL if you want them to remain unchanged. */
+
+		/* Sets the direction-variables. Use NULL if you want them to remain unchanged (also the default value). */
 		void setDirection(float x, float y, float z);
+		void setWindDirection(float x, float y, float z);
 		void setPosition(Vec3 _pos);
 	};
 }

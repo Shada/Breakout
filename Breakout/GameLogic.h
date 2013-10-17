@@ -21,12 +21,12 @@ namespace Logic
 		//Logik för att kalla på interfaces
 		
 		Inputhandler *inputHandler;
-		
+
 	public:
 		GameLogic(Inputhandler *handler);
 		~GameLogic();
 
-		void update(double dt);
+		void update(float dt);
 		void draw();
 	};
 

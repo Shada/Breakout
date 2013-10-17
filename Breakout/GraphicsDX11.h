@@ -82,6 +82,7 @@ private:
 	ID3D11RasterizerState		*rasterizerFrontface;
 	//samplestates
 	ID3D11SamplerState			*samplerLinear;
+	ID3D11SamplerState			*samplerSkybox;
 
 	/*Gives you a pointer to a texture array*/
 	void getTextureArray(std::vector<ID3D11ShaderResourceView*> *_textureArray);
