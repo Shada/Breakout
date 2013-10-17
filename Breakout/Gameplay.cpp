@@ -56,6 +56,7 @@ namespace Logic
 
 		if(play)
 		{
+			//objectCore->ball->update(_dt);
 			objectCore->ball->updateCylinder(_dt);
 			if(!ballPadCollided)
 				ballPadCollided = Logic::ballCollision(objectCore->ball, objectCore->pad, objectCore->pad->getRotation().z);
@@ -81,6 +82,7 @@ namespace Logic
 
 			objectCore->ball->setPosition(objectCore->pad->getBallPos());
 			Vec3 temp = objectCore->ball->getPosition();
+			//
 			objectCore->ball->setPosition(Logic::from2DToCylinder(temp, 100, Vec3(150, 0, 0)));
 			objectCore->ball->updateWorld();
 			objectCore->ball->setPosition(temp);
@@ -93,7 +95,10 @@ namespace Logic
 		{
 			nextMap();
 		}
+
 		Vec3 padPos = objectCore->pad->getPosition();
+
+		/////
 		padPos.y += 100;
 		padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 

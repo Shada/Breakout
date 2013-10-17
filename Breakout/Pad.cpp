@@ -136,11 +136,11 @@ namespace Logic
 			direction.normalize();
 		}
 
-		if(position.x > 300 || position.x < 0)
+		if(position.x > borderMaxX || position.x < 0)
 		{
 			//position.x > 300.0f ? position.x -= 300.0f : position.x += 300.0f;
 
-			position.x > Logic::borderMaxX ? position.x = Logic::borderMaxX : position.x = 0.f;
+			position.x > Logic::borderMaxX ? position.x -= Logic::borderMaxX : position.x += Logic::borderMaxX;
 
 			posMouse.x = posKey.x = position.x;
 		}

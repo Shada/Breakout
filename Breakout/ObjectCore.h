@@ -7,6 +7,15 @@ namespace Logic
 	class ObjectCore
 	{
 	public:
+		enum MapType
+		{
+			eTest,
+			eWind,
+			eWater,
+			eFire,
+			eEarth
+		};
+		MapType mapType;
 		ObjectCore();
 		Pad						*pad;
 		std::vector<Brick*>		 bricks;

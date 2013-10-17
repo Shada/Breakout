@@ -46,7 +46,7 @@ namespace Logic
 		Vec3 objPos = _object->getPosition();
 		float radius = _ball->getRadius();
 		
-		float LENGTH = 15, HEIGHT = 7.5;
+		float LENGTH = 15, HEIGHT = 7.5f;
 
 		// Find the edge that the ball colides to
 		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
@@ -207,14 +207,14 @@ namespace Logic
 
 		//Compare X
 
-		if(tBallPos.x - tRadius < -borderMaxX || tBallPos.x + tRadius > borderMaxX)
-		{
-			if((tBallPos.x - tRadius < borderMaxX && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxX && tBallDir.x > 0))
-				tBallDir.x *= -1;
-
-			_ball->setDirection(tBallDir.x, tBallDir.y, NULL);
-			collides = true;
-		}
+		//if(tBallPos.x - tRadius < -borderMaxX || tBallPos.x + tRadius > borderMaxX)
+		//{
+		//	if((tBallPos.x - tRadius < borderMaxX && tBallDir.x < 0) || (tBallPos.x + tRadius > borderMaxX && tBallDir.x > 0))
+		//		tBallDir.x *= -1;
+		//
+		//	_ball->setDirection(tBallDir.x, NULL, NULL);
+		//	collides = true;
+		//}
 
 		//Compare Y
 		if(tBallPos.y - tRadius < 0 || tBallPos.y + tRadius > borderMaxY)
