@@ -228,9 +228,6 @@ int Linuxhandler::run()
 
 		if(time > 1.f / 600)
 		{
-			//clear screen
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			//if(is active window
 			game->update(time);
 
@@ -283,7 +280,7 @@ bool Linuxhandler::initWindow()
 	glfwEnable(GLFW_STICKY_KEYS);
 
 	// dark blue background color
-	glClearColor(0.f, 0.f, .4f, 0.f);
+	glClearColor(0.f, 0.f, .0f, 0.f);
 
 	// enable face culling
     glEnable(GL_CULL_FACE);

@@ -4,9 +4,9 @@ layout(location = 0) in vec3 vpos;
 layout(location = 1) in vec3 vnorm;
 layout(location = 2) in vec2 vtex;
 
-out vec2 gtex;
-out vec3 gnorm;
-out vec4 gposW;
+out vec2 UV;
+out vec3 fnorm;
+out vec4 fposW;
 
 layout(std140, binding = 0) uniform CameraOnce
 {
@@ -20,6 +20,7 @@ layout(std140, binding = 1) uniform CameraMove
 {
 	mat4 view;
 	mat4 viewInv;
+	mat4 viewRefl;
 	vec3 cameraPos;
 	vec3 cameraDir;
 };
@@ -32,11 +33,8 @@ layout(std140, binding = 2) uniform WorldBuffer
 
 void main()
 {
-
-	gnorm = vec3(0,0,0);
-	gtex = vec2(0,0);
-	gposW = world * vec4(vpos, 1.0f);
-	gl_Position = projection * view * gposW;
-	gnorm = normalize((world * vec4(vnorm, 0)).xyz);
-	gtex = vtex;
+	fposW = world * vec4(vpos, 1.0f);
+	gl_Position = projection * viewRefl * fposW;
+	fnorm = normalize((world * vec4(vnorm, 0)).xyz);
+	UV = vtex;
 }

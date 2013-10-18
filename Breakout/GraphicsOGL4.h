@@ -21,6 +21,7 @@ private:
 	std::vector<GLuint> *textures;
 
 	Logic::ObjectCore	*objectCore;
+
 	// static vertex buffer
 	GLuint vertexBufferStatic;
 	// dynamic buffer for UI elements
@@ -44,15 +45,26 @@ private:
 			reflMapID,
 			heightMapID,
 			normMapID,
-			foamMapID;
+			foamMapID,
+			quadTextureID;
 
 	//ConstantBuffers
 	GLuint	cbCameraOnce,
 			cbCameraMove,
 			cbWorld,
 			cbFont,
-			cbCameraOnceFont;
+			cbCameraOnceFont,
+			cbWater,
+			cbWaterOnce;
 
+	//renderTargets and depthBuffers
+	GLuint	reflFrameBuffer,
+			sceneFrameBuffer,
+			reflRenderTarget,
+			sceneRenderTarget,
+			waterDepthBuffer;
+
+	// Programs
     ProgramGLSL *program,
 				*billboardProgram,
 				*skyboxProgram,
@@ -63,8 +75,7 @@ private:
 				*reflProgram;
 
 	// VAO
-	GLuint  VertexArrayID,
-            modelMatrixBlockID; /// This will be used later, when known how it works..
+	GLuint  VertexArrayID;
 
 	Resources::LoadHandler *lh;
 
@@ -73,7 +84,10 @@ private:
 
 	GraphicsOGL4();
 	
+	void initPrograms();
 	void initConstantBuffers();
+	void initUniforms();
+	void initRenderTargetsAndDepthBuffers();
 
 public:
 	void draw();
@@ -85,16 +99,18 @@ public:
 	int		getTechIDByName(const char *name);
 	std::vector<GLuint>* getTextures();
 
-	void	draw(unsigned int startIndex, unsigned int vertexAmount);
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
 	void	updateCBWorld(CBWorld cb);
 	void	updateCBFont(CBFont cb);
+	void	updateCBWater(CBWater cb);
+	void	updateCBWaterOnce(CBWaterOnce cb);
 
 	void initVertexBuffer();
 	void feedUIBufferData();
 	void feedTextBufferData();
 
+	// TODO: REMOVE
 	void updateModelMatrix(Matrix *model);
 	void updateModelInvTransMatrix(Matrix *modelinvtrans);
 	void updateViewMatrix(Matrix *view);
@@ -112,8 +128,10 @@ public:
 	/** Using font vertex layout with Position and texvalues **/
 	void useFontVertexAttribLayout();
 
-	void useTechnique(unsigned int index);
-	void useTexture(int index);
+	/* use a texture in the existing texture list */
+	void useTexture(int textureIndex, GLuint samplerID);
+	/* use a texture outside the texture list. for example a render target */
+	void useTexture(GLuint textureIndex, GLuint _samplerID, GLint v0);
 
 	~GraphicsOGL4();
 };

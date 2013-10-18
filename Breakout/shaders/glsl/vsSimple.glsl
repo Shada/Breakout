@@ -21,6 +21,7 @@ layout(std140, binding = 1) uniform CameraMove
 {
 	mat4 view;
 	mat4 viewInv;
+	mat4 viewRefl;
 	vec3 cameraPos;
 	vec3 cameraDir;
 };

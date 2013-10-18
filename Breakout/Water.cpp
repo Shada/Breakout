@@ -41,6 +41,8 @@ Water::Water(float _waterLevel)
 	cb.scale				= Vec2( 0.0005f, 0.0005f );
 #ifdef BAJSAPA
 	GraphicsDX11::getInstance()->updateCBWaterOnce(cb);
+#else
+	GraphicsOGL4::getInstance()->updateCBWaterOnce(cb);
 #endif // BAJSAPA
 
 }
@@ -83,6 +85,7 @@ void Water::update(double _dt)
 #ifdef BAJSAPA
 	GraphicsDX11::getInstance()->updateCBWater(cb);
 #else
+	GraphicsOGL4::getInstance()->updateCBWater(cb);
 #endif // BAJSAPA
 }
 void Water::setSpeedModifier(float _modifier, double _duration)
