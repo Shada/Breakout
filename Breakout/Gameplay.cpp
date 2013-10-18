@@ -21,6 +21,8 @@ namespace Logic
 		eventSystem = new EventSystem(0,5); // testvärde
 		srand (time(NULL));
 
+		playerLives = 3;
+
 		effectStart = 0;
 		startEffectOld = 0;
 		effectTypeActive = 0;
@@ -105,11 +107,22 @@ namespace Logic
 				ballPadCollided = false;
 		}
 
-		if(objectCore->ball->getPosition().y < 0)
+		/*if(objectCore->ball->getPosition().y < 0)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
+		}*/
+
+		if (play == true && objectCore->ball->getPosition().y < objectCore->pad->getPosition().y - 15)
+		{
+			play = false;
+			objectCore->pad->setReleaseBall(false);
+			playerLives--;
+			std::cout << "Life lost! Nr of lives left: " << playerLives << std::endl;
+			if (playerLives <= 0)
+				nextMap(); //Replace with game over stuff
 		}
+
 		if(!play)
 		{
 			if(objectCore->pad->getReleaseBall())
@@ -167,12 +180,52 @@ namespace Logic
 				std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
 		}
 
+
+		
+
+
 		//Effects
 		if(startEffectOld != startEffect)
 		{
 			effectStart = startEffect;
 			startEffectOld = startEffect;
 		}
+
+		if (minorEffects.size() != 0) 
+			for(int i = minorEffects.size(); i > 0; i--)
+			{
+				minorEffects[i-1].pos.y += -_dt * 20;
+				if ((objectCore->pad->getPosition() - minorEffects[i-1].pos).length() < 10)
+				{
+					if(minorEffects[i-1].type == 0) //Lifegain
+					{
+						playerLives++;
+						std::cout << "Life gained! Lives left :" << playerLives << std::endl;
+						minorEffects.erase(minorEffects.begin() + i -1);
+					}
+					else if(minorEffects[i-1].type == 1) //Speedbuff
+					{
+						std::cout << "Speedbuff caught" << playerLives << std::endl;
+						objectCore->pad->startSpeed();
+						soundSystem->Play(16);
+						minorEffects.erase(minorEffects.begin() + i -1);
+					}
+					else if(minorEffects[i-1].type == 2) //SpeedDebuff
+					{
+						std::cout << "Speed Debuff caught" << playerLives << std::endl;
+						objectCore->pad->startSlow();
+						soundSystem->Play(17);
+						minorEffects.erase(minorEffects.begin() + i -1);
+					}
+					else if(minorEffects[i-1].type == 3) //Inverted Controls
+					{}
+					else if(minorEffects[i-1].type == 4) //Rotation speed changed
+					{}
+				}
+				else if(minorEffects[i-1].pos.y < objectCore->pad->getPosition().y - 20)
+					minorEffects.erase(minorEffects.begin() + i -1);
+			}
+
 
 		//if(play)
 		//if (effectStart == 0)
@@ -182,7 +235,7 @@ namespace Logic
 		{
 			#pragma region effects
 			
-			//effectStart = 2; //TEST
+			effectStart = 14; //TEST
 			std::cout << "effect started: ";
 			if (effectStart == 1) //Zapper
 			{
@@ -231,6 +284,15 @@ namespace Logic
 				objectCore->pad->startSlow();
 				soundSystem->Play(17);
 				std::cout << "Slow" << std::endl;
+			}
+			else if (effectStart == 14)//Extra Life
+			{
+				//Lägg till grafik
+				MinorEffect tempEff;
+				tempEff.type = 0;
+				tempEff.pos = Vec3((float)(rand()% 50), (float)(rand()% 150 + 50), 0);
+				minorEffects.push_back(tempEff);
+				std::cout << "Extra Life at X: " << tempEff.pos.x << " Y:" << tempEff.pos.y << std::endl;
 			}
 			else if (effectStart == 15)//Stun
 			{
@@ -298,8 +360,8 @@ namespace Logic
 					effectFireballs.erase(effectFireballs.begin());
 					if (effectOriginal.length() < 20)
 					{
-						objectCore->pad->startStun();
-						std::cout << "Fireball hit" << std::endl;
+						playerLives--;
+						std::cout << "Fireball hit! Life left: " << playerLives << std::endl;
 					}
 					else
 						std::cout << "Fireball miss" << std::endl;
@@ -357,6 +419,7 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
 		}
+		playerLives = 3;
 		play = false;
 	}
 	Gameplay::~Gameplay()

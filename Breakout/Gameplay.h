@@ -40,12 +40,16 @@ namespace Logic
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
+		int playerLives;
+
 		static int startEffect;
 		int effectStart, startEffectOld;
 		int effectTypeActive;
 		Vec3 effectDirection, effectOriginal;
 		float effectTimer, effectSpawnTimer;
 		std::vector<Vec3> effectFireballs;
+		//std::vector<Vec3> effectExtraLife; //old
+		std::vector<MinorEffect> minorEffects;
 
 		
 
