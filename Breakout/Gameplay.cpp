@@ -228,14 +228,14 @@ namespace Logic
 
 
 		//if(play)
-		//if (effectStart == 0)
-		//	effectStart = eventSystem->Update(_dt);
+		if (effectStart == 0)
+			effectStart = eventSystem->Update(_dt);
 
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
 			#pragma region effects
 			
-			effectStart = 14; //TEST
+			//effectStart = 14; //TEST
 			std::cout << "effect started: ";
 			if (effectStart == 1) //Zapper
 			{
