@@ -7,7 +7,8 @@ namespace Logic
 	{
 		water	= NULL;
 		pad		= new Pad();
-		ball	= new Ball();
+		ball	= std::vector<Ball*>();
+		ball.push_back(new Ball());
 		skybox	= new Skybox();
 
 		//temporary prob, should be done in loadMap() in map.cpp
@@ -32,7 +33,8 @@ namespace Logic
 	ObjectCore::~ObjectCore()
 	{
 		SAFE_DELETE(pad);
-		SAFE_DELETE(ball);
+		for(unsigned int i = 0; i < ball.size(); i++)
+			SAFE_DELETE(ball.at(i));
 		SAFE_DELETE(water);
 		SAFE_DELETE(skybox);
 		for(unsigned int i = 0; i < bricks.size(); i++)

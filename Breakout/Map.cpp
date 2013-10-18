@@ -79,6 +79,7 @@ namespace Logic
 						Brick *tBrick = new Brick(brickPos, true, 10, 10); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
+
 						_bricks->push_back(tBrick);
 					}
 					

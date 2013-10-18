@@ -183,7 +183,7 @@ namespace Logic
 		}
 
 		//Compare Y
-		if(ballPos.y - tRadius < 0 || ballPos.y + tRadius > borderMaxY)
+		if(ballPos.y + tRadius > borderMaxY)
 		{
 			if((ballPos.y - tRadius < 0 && tBallDir.y < 0) || (ballPos.y + tRadius > borderMaxY && tBallDir.y > 0))
 				tBallDir.y *= -1;
@@ -421,10 +421,13 @@ namespace Logic
 		Vec3 result;
 
 		float diff = _pos.x/(float)borderMaxX;
+		float par = diff * 2 * PI;
+		float sin = sinf(par);
+		float cos = cosf(par);
 		
-		result.x = _cylCenter.x + _radius * sinf( diff * 2 * (float)PI);
+		result.x = _cylCenter.x + _radius * cosf( diff * 2 * (float)PI);
 		result.y = _cylCenter.y + _pos.y;
-		result.z = _cylCenter.z + _radius * cosf( diff * 2 * (float)PI);
+		result.z = _cylCenter.z + _radius * sinf( diff * 2 * (float)PI);
 
 		return result;
 	}

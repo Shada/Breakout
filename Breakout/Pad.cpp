@@ -112,21 +112,7 @@ namespace Logic
 	{
 		_update(_dt);
 
-		if(position.x > borderMaxX || position.x < 0)
-		{
-			if(rotation.z != rotMouse.z)
-			{
-				rotation.z = rotMouse.z;
-				rotKey.z = rotation.z;
-			}
-			else
-			{
-				rotation.z = rotKey.z;
-				rotMouse.z = rotation.z;
-			}
 
-			rotationAxis(orientation, Vec3(0, 0, 1), rotation.z);
-		}
 
 		if(releaseBall)
 		{
@@ -148,7 +134,7 @@ namespace Logic
 			ballPos = mRot * ballPos;
 			ballPos += position;
 		}
-
+		
 		transformToCyl();
 
 		posKey.x = 0;
@@ -269,7 +255,7 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rotKey.z += (float)(2 * PI / 180);
+		rotKey.z -= (float)(2 * PI / 180);
 		if(rotKey.z > 2 * PI)
 			rotKey.z -= (float)(2 * PI);
 	}
@@ -278,7 +264,7 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rotKey.z -= (float)(2 * PI / 180);
+		rotKey.z += (float)(2 * PI / 180);
 		if(rotKey.z > 2 * PI)
 			rotKey.z -= (float)(2 * PI);
 	}
@@ -287,4 +273,6 @@ namespace Logic
 	{
 		releaseBall = true;
 	}
+
+
 }

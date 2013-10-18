@@ -30,13 +30,16 @@ namespace Logic
 		/* called after all models are initialized */
 		
 		ObjectCore *objectCore;
-		bool play, ballPadCollided;
+		bool play, ballPadCollided, createBall;
 		Camera *camera;
 
 		//TODO:
 		//All logik för spelandet av en bana
 		void nextMap();
+
 		void setMaptype(int type);
+
+		void doubleBallEffect();
 
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
