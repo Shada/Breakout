@@ -7,7 +7,6 @@
 
 Water::Water(float _waterLevel, int _type)
 {
-	type = _type;
 	waterLevel = _waterLevel;
 	windDirection = Vec2(-0.1f, 0.4f);
 	paused = false;

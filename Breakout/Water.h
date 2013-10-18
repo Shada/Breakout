@@ -8,8 +8,6 @@ private:
 	float speed;
 	float acceleration;
 
-	//0 == water, 1 == lava
-	int type;
 	double timer;
 
 	// used for modifier
@@ -22,7 +20,8 @@ private:
 
 	Vec2 windDirection;
 public:
-	/* parameter sets the initial water level */
+	/* first parameter sets the initial water level.
+	   second one: 0 == water, 1 == lava*/
 	Water(float _waterLevel, int type);
 	~Water();
 

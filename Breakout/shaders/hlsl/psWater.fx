@@ -6,7 +6,7 @@ Texture2D reflectionMap		:register( t2 );
 Texture2D heightMap			:register( t3 );
 Texture2D normalMap			:register( t4 );
 Texture2D foamMap			:register( t5 );
-Texture2D lavaTest			:register( t6 );
+Texture2D texLava			:register( t6 );
 Texture2D lavaGlowMap		:register( t7 );
 
 
@@ -52,7 +52,20 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	float4 worldPos = mul(viewInv, float4( (viewPos / viewPos.w).xyz,1) );
 	
 	if(worldPos.y > waterLevel)// + maxAmplitude)//if the pixel is above the water surface, then discard.
+	{
+		if(waterType ==1)
+		{
+			if(worldPos.y < waterLevel + 10 && depth < 1)
+			{
+				float oldRange = 10.0f - 0.0f;
+				float newRange = 1.0f - 0.0f;
+				float glowFactor =waterLevel +10 - worldPos.y;
+				glowFactor = (((glowFactor-0) * newRange)/ oldRange) + 0.0f;
+				return saturate(originalColor + float4(1,0.3,0.15,1) * glowFactor );
+			}
+		}
 		return originalColor;
+	}
 	float level = waterLevel;
 	//find the position of the point where the pixel meets the surface of the water.
 
@@ -127,16 +140,6 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	if( worldPosRefr.y < level)
 		refraction = originalColor.xyz;
 
-	/*float4x4 mTextureProj	= mul( mul(view,projection), mReflection);
-	float3 waterPos			= surfacePos.xyz - level + waterLevel;
-	float4 texCoordProj		= mul(mTextureProj, float4(waterPos,1.0f));
-
-	float4 disPos			= float4( texCoordProj.x + displacementStrength * normal.x,
-							texCoordProj.y,
-							texCoordProj.z + displacementStrength * normal.z,
-							texCoordProj.w );
-	texCoordProj = disPos;*/
-
 	//float3 reflection		= reflectionMap.Sample(samLinear, texCoordProj);
 	float3 reflection		= reflectionMap.Sample(samLinear, float2(1-texCoord.x, texCoord.y)).xyz;
 
@@ -172,14 +175,13 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 		return saturate(lerp(originalColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f),  0.7*fresnel) + float4(specular,1) + foam ,saturate(depth2 * shoreTransition)));
 
 	
-	float4 lavaColor = lavaTest.Sample( samLinear, texCoord);
+	float4 lavaColor = texLava.Sample( samLinear, texCoord);
 	float glowFactor = lavaGlowMap.Sample(samLinear, texCoord).r;
 
 	float oldRange = 1.0f - (-1.0f);
 	float newRange = 1.0f - 0.0f;
 	float pulse =sin(timer*0.0004);
 	pulse = (((pulse-(-1)) * newRange)/ oldRange) + 0.5f;
-	//return saturate( lerp(lavaColor, lerp(float4(refraction,1.0f), float4(reflection,1.0f)*glowFactor,  0.7*fresnel) + foam,saturate(depth2 * shoreTransition)));
 	float4 outColor = saturate(lerp(lerp(originalColor*glowFactor, lerp(float4(refraction,1.0f), float4(reflection,1.0f)*glowFactor,  0.7*fresnel) + float4(specular,1)*0 + foam ,saturate(depth2 * shoreTransition)),lavaColor,0.6));
 	return saturate(outColor + float4(1,0.49,0.15,1)*pulse*glowFactor);
 }
