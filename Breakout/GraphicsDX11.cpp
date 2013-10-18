@@ -613,7 +613,7 @@ void GraphicsDX11::draw()
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
-	//immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw( vertexAmount, startIndex );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text
