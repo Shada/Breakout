@@ -14,27 +14,33 @@ namespace Logic
 	public:
 		enum MapType
 		{
-			eTest,
-			eWind,
-			eWater,
-			eFire,
-			eEarth
+			eTest = 0,
+			eWind = 1,
+			eWater = 2,
+			eFire = 3,
+			eEarth = 4
 		};
-		MapType mapType;
-		ObjectCore();
+		
 		Pad						*pad;
-		std::vector<Brick*>	bricks;
-		Ball					*ball;
-		Water					*water;
-		Skybox					*skybox;
-
+		std::vector<Brick*>		bricks;
+		std::vector<Ball*>		ball;
+		
 		std::vector<BBUI>		uiBillboards;
 		std::vector<BBFont>		fontBillboards;
 
 		Font					*testFont;
 		Text					*testText;
+		
+		Water					*water;
+		Skybox					*skybox;
 
+		ObjectCore();
 		~ObjectCore();
+
+		void setMapType(int type);
+		MapType getMapType() { return mapType; }
+
+		MapType mapType;
 	};
 }
 

@@ -81,6 +81,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -168,6 +170,7 @@
     <ClCompile Include="MenuElement.cpp" />
     <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
+    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -236,6 +239,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="shaders\glsl\fsBBUI.glsl" />
     <None Include="shaders\glsl\fsFont.glsl" />
     <None Include="shaders\glsl\fsSimple.glsl" />

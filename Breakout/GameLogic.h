@@ -28,7 +28,7 @@ namespace Logic
 		GameLogic(Inputhandler *handler);
 		~GameLogic();
 
-		void update(double dt);
+		void update(float dt);
 		void draw();
 	};
 

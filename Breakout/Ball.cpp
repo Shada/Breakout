@@ -1,9 +1,5 @@
 #include "Ball.h"
-#ifdef _WIN32
-#include "GraphicsDX11.h"
-#else
-#include "GraphicsOGL4.h"
-#endif // _WIN32
+#include "Physics.h"
 
 namespace Logic
 {
@@ -21,10 +17,7 @@ namespace Logic
 		activeEffect = 0;
 		direction.normalize();
 		speed = 100;
-		srand ((unsigned)time(NULL));
-#ifdef _WIN32
-		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
-#endif
+		srand((unsigned)time(NULL));
 	}
 
 	Ball::~Ball()
@@ -38,55 +31,84 @@ namespace Logic
 
 	void Ball::update(double _dt)
 	{
+		float dt = (float)_dt;
 		//Check for buffs/debuffs here, and apply them
 
 		//effect calculations
 		if (activeEffect == 1)//wind effect
 		{
-			effectTimer -= (float)_dt;
+			effectTimer -= dt;
 			if (effectTimer > 0)
 			{
-				direction = (direction + effectDirection * (float)_dt);
+				direction = (direction + effectDirection * dt);
 				direction.normalize();
-				effectSpeed += (effectAcceleration * (float)_dt);
+				effectSpeed += (effectAcceleration * dt);
 			}
 			else
-				effectSpeed -= (effectAcceleration * (float)_dt *2);
-			if(effectSpeed < 0 && effectTimer < 0)
+				effectSpeed -= (effectAcceleration * dt * 2);
+			if(effectSpeed > 0 && effectTimer < 0)
 			{
 				effectDirection = Vec3(1, 1, 0);
 				effectSpeed = 0;
 				activeEffect = 0;
 			}
 			lastFrame = position;
-			position += direction * speed * (float)_dt + effectDirection * effectSpeed * (float)_dt;
+			position += direction * speed * dt + effectDirection * effectSpeed * dt;
 		}
 		else // no effects
 		{		
 			lastFrame = position;
-			position += direction * speed * (float)_dt;
+			position += direction * speed * dt;
 		}
 
 		updateWorld();
+	}
+
+	void Ball::updateCylinder(double _dt)
+	{
+		//Check for buffs/debuffs here, and apply them
+		lastFrame = position;
+		position += direction * speed * (float)_dt;
+
+		if(position.x > Logic::borderMaxX || position.x < 0.0f)
+		{
+			position.x > Logic::borderMaxX ? position.x -= Logic::borderMaxX : position.x += Logic::borderMaxX;
+		}
+
+		transformToCyl();
+	}
+
+	void Ball::setDirection(float _x, float _y, float _z)
+	{
+		if(_x != NULL) direction.x = _x;
+		if(_y != NULL) direction.y = _y;
+		if(_z != NULL) direction.z = _z;
+		direction.normalize();
 	}
 
 	void Ball::startWind()
 	{
 		if (activeEffect == 0)
 		{
-			effectDirection = Vec3(float(rand()%10)-5, float(rand()%10)-5, 0);
+			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection.normalize();
+			effectSpeed = 0;
+			effectTimer = 1.6;
+			activeEffect = 1;
+			effectAcceleration = 30;
+		}
+	}
+
+	/*void Ball::setWindDirection(float _x, float _y, float _z)
+	{
+		if (activeEffect == 0)
+		{
+			effectDirection = Vec3((float)(rand() % 10) - 5, (float)(rand() % 10) - 5, 0);
 			effectDirection.normalize();
 			effectSpeed = 0;
 			effectTimer = 1.6f;
 			activeEffect = 1;
 			effectAcceleration = 30;
 		}
-	}
-
-    void Ball::setDirection(float _x, float _y, float _z)
-    {
-        if(_x != NULL) direction.x = _x;
-        if(_y != NULL) direction.y = _y;
-        if(_z != NULL) direction.z = _z;
-    }
+	}*/
 }

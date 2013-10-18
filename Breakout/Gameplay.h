@@ -30,17 +30,23 @@ namespace Logic
 		/* called after all models are initialized */
 		
 		ObjectCore *objectCore;
-		bool play, ballPadCollided;
+		bool play, ballPadCollided, createBall;
 		Camera *camera;
 
 		//TODO:
 		//All logik för spelandet av en bana
 		void nextMap();
 
+		void setMaptype(int type);
+
+		void doubleBallEffect();
+
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
 		int playerLives;
+		
+		Inputhandler *inputHandler;
 
 		static int startEffect;
 		int effectStart, startEffectOld;
@@ -48,10 +54,8 @@ namespace Logic
 		Vec3 effectDirection, effectOriginal;
 		float effectTimer, effectSpawnTimer;
 		std::vector<Vec3> effectFireballs;
-		//std::vector<Vec3> effectExtraLife; //old
 		std::vector<MinorEffect> minorEffects;
 
-		
 
 	public:
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);

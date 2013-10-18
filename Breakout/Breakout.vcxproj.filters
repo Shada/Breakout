@@ -89,6 +89,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="EventSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
     <ClCompile Include="Object2D.cpp">
@@ -205,9 +208,6 @@
     <ClInclude Include="Timer.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -243,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="Object2D.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCore.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

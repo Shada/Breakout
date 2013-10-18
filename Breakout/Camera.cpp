@@ -8,7 +8,8 @@ Camera::Camera()
 
 	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(75,75,1);
+	//lookAt = Vec3(75,75,1);
+	lookAt = Vec3 (150, 100 ,-50);
 
 #ifndef _WIN32
 	//TODO: REMOVE!!!
@@ -84,7 +85,6 @@ void Camera::update()
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
 	transformCoord(negUp, negUp, rotationMatrix);
-
 
 	//Translate rotated camera position to location of viewer
 	//lookAt = pos + Vec3(0,0,1);

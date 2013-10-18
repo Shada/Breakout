@@ -33,8 +33,10 @@ namespace Logic
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			int maptype = color.rgbGreen;
+			mapType = color.rgbGreen; 
 			int difficulty = color.rgbBlue;
+			int c = lvlnum;
+			int r = difficulty;
 
 
 
@@ -56,14 +58,14 @@ namespace Logic
 					float radWIt = radWJump*x;
 					float radHIt = radWJump*y;
 
-					if(maptype == 0)//test
+					if(mapType == 0)//test
 					{
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
 						displace.z = 0;
 						*_mapType = ObjectCore::MapType::eTest;
 					}
-					else if(maptype == 1)//wind
+					else if(mapType == 1)//wind
 					{
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
@@ -71,7 +73,7 @@ namespace Logic
 						*_mapType = ObjectCore::MapType::eWind;
 
 					}
-					else if(maptype == 2)//water
+					else if(mapType == 2)//water
 					{
 						displace.x = x*displacementX;
 						displace.y = y*displacementY;
@@ -79,7 +81,7 @@ namespace Logic
 						*_mapType = ObjectCore::MapType::eWater;
 
 					}
-					else if(maptype == 3)//fire
+					else if(mapType == 3)//fire
 					{
 						displace.x = sin(radWIt) * circleRadie;
 						displace.y = y * displacementY;
@@ -87,7 +89,7 @@ namespace Logic
 						*_mapType = ObjectCore::MapType::eFire;
 
 					}
-					else if(maptype == 4)//earth
+					else if(mapType == 4)//earth
 					{
 						// x = r * sin(theta) * cos(phi)
 						// y = r * sin(theta) * sin(phi)
@@ -145,15 +147,13 @@ namespace Logic
 					else if(color.rgbRed != 0 && color.rgbRed != 255 )
 					{
 						//Set brick property here
-
-						Brick *tBrick = new Brick(Vec3((float)x * displacementX, (float)y * displacementY, 0.0f));
-						//tBrick->setPosition(Vec3();
-						tBrick->setHeight(10);
-						tBrick->setWidth(20);
-						tBrick->updateWorld();
-						tBrick->setType(color.rgbRed);
+						//Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
+						Vec3 brickPos = Vec3((float)x*displacementX,(float)y*displacementY,0.0f);
+						//Brick *tBrick = new Brick(brickPos, 5, 5);
+						Brick *tBrick = new Brick(brickPos, mapType == 3, 5, 5); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
+
 						_bricks->push_back(tBrick);
 					}
 				}

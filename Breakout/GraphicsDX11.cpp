@@ -647,22 +647,7 @@ void GraphicsDX11::draw()
 	immediateContext->RSSetState(rasterizerBackface);
 
 	techniques.at( getTechIDByName( "techRefl" ) )->useTechnique();
-	//--------------------------------------------------------------------------------
-	//                                    Ball(s)
-	//--------------------------------------------------------------------------------
-	cbWorld.world		= objectCore->ball->getWorld();
-	cbWorld.worldInv	= objectCore->ball->getWorldInv();
-	updateCBWorld(cbWorld);
-
-	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
-
-	modelID			= objectCore->ball->getModelID();
-	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
-	startIndex		= lh->getModel( modelID )->getStartIndex();
-
-	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
-	immediateContext->Draw(vertexAmount, startIndex);
-
+	
 	//--------------------------------------------------------------------------------
 	//                                     Pad
 	//--------------------------------------------------------------------------------
@@ -726,19 +711,22 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
-	cbWorld.world		= objectCore->ball->getWorld();
-	cbWorld.worldInv	= objectCore->ball->getWorldInv();
-	updateCBWorld(cbWorld);
+	for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+	{
+		cbWorld.world		= objectCore->ball.at(i)->getWorld();
+		cbWorld.worldInv	= objectCore->ball.at(i)->getWorldInv();
+		updateCBWorld(cbWorld);
 
-	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
-	immediateContext->IASetInputLayout(simpleInputLayout);
+		immediateContext->PSSetSamplers(0, 1, &samplerLinear);
+		immediateContext->IASetInputLayout(simpleInputLayout);
 
-	modelID			= objectCore->ball->getModelID();
-	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
-	startIndex		= lh->getModel( modelID )->getStartIndex();
+		modelID			= objectCore->ball.at(i)->getModelID();
+		vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+		startIndex		= lh->getModel( modelID )->getStartIndex();
 
-	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
-	immediateContext->Draw(vertexAmount, startIndex);
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball.at(i)->getTextureID()));
+		immediateContext->Draw(vertexAmount, startIndex);
+	}
 
 	//--------------------------------------------------------------------------------
 	//                                     Pad

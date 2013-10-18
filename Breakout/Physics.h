@@ -6,6 +6,7 @@
 #include "Ball.h"
 #include <vector>
 //#include "Timer.h"
+#include "ObjectCore.h"
 
 namespace Logic
 {
@@ -13,20 +14,33 @@ namespace Logic
 	static int borderMaxX = 300;
 	static int borderMaxY = 200;
 
-	inline bool Intersects(Ball* _ball, Brick* _object)
+
+	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
-		Vec3 tObjPos = _object->getPosition();
+		Vec3 tBrickPos = _brick->getPosition();
 		float tRadius = _ball->getRadius();
 
 		//Formula: Dist = sqrt( (Ball.x - Object.x)^2 + (Ball.y - Object.y)^2 )
-		float tDistance = sqrt( ((tBallPos.x - tObjPos.x)*(tBallPos.x - tObjPos.x))
-								+ ((tBallPos.y - tObjPos.y)*(tBallPos.y - tObjPos.y)) );
+		float tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
+								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
 
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
-		if(tDistance <= tRadius + _object->getWidth() / 2 && tDistance <= tRadius + _object->getHeight())
+
+		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
+			return true;
+
+		//If position will be withing bounds next frame, assuming same deltaTime
+		tBallPos = _ball->getPosition();
+		tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
+								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
+
+		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
+			return true; //Might need other type of return to clarify next frame will hit
+
+		if(tDistance <= tRadius + (float)_brick->getHeight()/2 && tDistance <= tRadius + (float)_brick->getWidth()/2)
 			return true;
 
 		return false;
@@ -38,6 +52,8 @@ namespace Logic
 		Vec3 lastBallPos = _ball->getLastFrame();
 		Vec3 objPos = _object->getPosition();
 		float radius = _ball->getRadius();
+		
+		float LENGTH = 15, HEIGHT = 7.5f;
 
 		float width = _object->getWidth();
 		float height = _object->getHeight();
@@ -80,25 +96,6 @@ namespace Logic
 			delta -= t;
 		
 		Vec3 collidePos = lastBallPos + dir * speed * delta;
-		//float angle = normalize(Vec3(1, 1, 0)).dot(dir);
-		//Vec3 collidePos = Vec3(objPos.x + cos(dir.x) * (dir.x < 0 ? 1 : -1) , objPos.y + sin(dir.x) * (dir.x < 0 ? 1 : -1), 0);
-		//Vec3 collidePos = Vec3(objPos.x - ballPos.x + radius, objPos.y - ballPos.y + radius, 0) * -dir;
-		//collidePos += ballPos;
-		//Vec3 remaining = ballPos - collidePos;
-		//ballPos = lastBallPos + Vec3(xPos, yPos, 0);
-
-		// ballpos = lastballpos + dir * speed * dt
-		// ballpos - lastballpos = dir * speed * dt
-		// (ballpos - lastballpos) / dt = dir * speed
-		// dt = (ballpos - lastballpos) / (dir * speed)
-		// fu 
-
-
-
-		float remaining = (ballPos - collidePos).length();
-		if(remaining > (ballPos - lastBallPos).length())
-			int fg = 0;
-		//ballPos = lastBallPos + Vec3(xPos, yPos, 0);
 
 		Matrix mRot;
 		rotationAxis(mRot, normalize(-objPos + collidePos), acos(normalize(-objPos + collidePos).dot(dir)));
@@ -106,19 +103,6 @@ namespace Logic
 		_newDir.z = 0;
 		_newDir.normalize();
 
-		/*Vec3 outDir = normalize(objPos - collidePos);
-		float cosAngle = outDir.dot(dir);
-
-		if(cosAngle > PI / 2.05 && cosAngle < PI / 1.95)
-		{
-			Vec3 dir = _ball->getDirection() * -1;
-			_ball->setDirection(dir.x, dir.y, NULL);
-			return;
-		}
-		
-		float sinAngle = cosAngle > 0 ?  1 - cosAngle : 1 + cosAngle;
-		Vec2 newDir = Vec2(cosAngle, sinAngle);
-		newDir.normalize();*/
 
 		// Don't want the new direction to be at an angle that is too low
 		if(abs(_newDir.x) > 0.9 || abs(_newDir.y) > 0.9)
@@ -128,35 +112,37 @@ namespace Logic
 		}
 
 		_ball->setDirection(_newDir.x, _newDir.y, NULL);
-		_ball->setPosition(Vec3(collidePos.x + remaining * _newDir.x, collidePos.y + remaining * _newDir.y, 0));
+		_ball->setPosition(Vec3(collidePos.x + (t - delta) * _newDir.x, collidePos.y + (t - delta) * _newDir.y, 0));
 	}
 
-	inline void CalculateCollission(Ball* _ball, Brick* _object)
+
+	inline void CalculateCollission(Ball* _ball, Brick* _brick)
 	{
+
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 ballDir = _ball->getDirection();
-		Vec3 objPos = _object->getPosition();
+		Vec3 objPos = _brick->getPosition();
 		float radius = _ball->getRadius();
-
+		
 		bool alreadyCollided = false;
 
-		float width = _object->getWidth();
-		float height = _object->getHeight();
+		float width = _brick->getWidth();
+		float height = _brick->getHeight();
 
 		//Compare X positions
-		if(ballPos.x + _object->getWidth() / 2 < objPos.x || ballPos.x - _object->getWidth() / 2 > objPos.x)
+		if(ballPos.x + width/2 < objPos.x || ballPos.x - width/2 > objPos.x)
 		{
 			ballDir.x *= -1;
 			alreadyCollided = true;
 		}
 
 		//Compare Y positions
-		if(ballPos.y + _object->getHeight() / 2 < objPos.y || ballPos.y - _object->getHeight() /2 > objPos.y)
+		if(ballPos.y + height/2 < objPos.y || ballPos.y - height/2 > objPos.y)
 		{
 			if(alreadyCollided)
 			{
 				ballDir.x *= -1;
-				edgeCollision(_ball, _object);
+				edgeCollision(_ball, _brick);
 				return;
 			}
 
@@ -171,22 +157,23 @@ namespace Logic
 			float collidePos, ratio;
 			if(ballDir.x != _ball->getDirection().x)
 			{
-				collidePos = ballPos.x < objPos.x ? objPos.x - radius - width / 2 : objPos.x + radius + width / 2;
+				collidePos = ballPos.x < objPos.x ? objPos.x - radius - width / 2 : objPos.x + radius + width/ 2;
 				ratio = (ballPos.x - collidePos) / (ballPos.x - lastBallPos.x);
 				_ball->setPosition(Vec3(collidePos - deltaPos.x * ratio, ballPos.y, ballPos.z));
 			}
 			else
 			{
-				collidePos = ballPos.y < objPos.y ? objPos.y - radius - height / 2 : objPos.y + radius + height / 2;
+				collidePos = ballPos.y < objPos.y ? objPos.y - radius - height/2 : objPos.y + radius + height/ 2;
 				ratio = (ballPos.y - collidePos) / (ballPos.y - lastBallPos.y);
 				_ball->setPosition(Vec3(ballPos.x, collidePos - deltaPos.y * ratio, ballPos.z));
 			}
 		}
 
 		_ball->setDirection(ballDir.x, ballDir.y, NULL);
+
 	}
 
-	inline bool BorderCollide(Ball* _ball)
+	inline bool BorderCollide(Ball* _ball, bool _isCylinder)
 	{
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 tBallDir = _ball->getDirection();
@@ -195,7 +182,8 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-		if(ballPos.x - tRadius < 0 || ballPos.x + tRadius > borderMaxX)
+
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -208,7 +196,7 @@ namespace Logic
 		}
 
 		//Compare Y
-		if(ballPos.y - tRadius < 0 || ballPos.y + tRadius > borderMaxY)
+		if(ballPos.y + tRadius > borderMaxY)
 		{
 			if((ballPos.y - tRadius < 0 && tBallDir.y < 0) || (ballPos.y + tRadius > borderMaxY && tBallDir.y > 0))
 				tBallDir.y *= -1;
@@ -224,23 +212,23 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfObjects)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks, bool _isCylinder)
 	{
 		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
 
-		if(BorderCollide(_ball))
+		if(BorderCollide(_ball, _isCylinder))
 		{
 			//Ball collides with border, calculate new direction and return.
 			return -1;
 		}
 
-		for(unsigned int i = 0; i < _listOfObjects.size(); i++)
+		for(unsigned int i = 0; i < _listOfBricks.size(); i++)
 		{
-			if(Intersects(_ball, _listOfObjects[i]))
+			if(Intersects(_ball, _listOfBricks[i]))
 			{
 				//Ball collides with object, calculate new direction and return.
-				CalculateCollission(_ball, _listOfObjects[i]);
+				CalculateCollission(_ball, _listOfBricks[i]);
 				//"Attack" Object[i]. Destroy? Damage? AoEAttack? Whatever, do it here.
 				return i;
 			}
@@ -255,13 +243,16 @@ namespace Logic
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 padPos = _pad->getPosition();
 		Vec3 prevPadPos = _pad->getPrevPos();
+		Vec3 lastBallPos = _ball->getLastFrame();
 		float radius = _ball->getRadius();
+		float speed = _ball->getSpeed();
 
 		Vec3 padScale = _pad->getScale() * _pad->getRadius();
 
 		float zrot = _pad->getOrientation();
 		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
 		
+
 		if(_min(padPos.x, prevPadPos.x) < ballPos.x && _max(padPos.x, prevPadPos.x) > ballPos.x)
 			padPos.x = padPos.x > ballPos.x ? ballPos.x - radius / 10 : ballPos.x + radius / 10;
 
@@ -273,6 +264,11 @@ namespace Logic
 		p1 += padPos; p2 += padPos;
 		p1.y += padScale.x / 2; p2.y += padScale.x / 2;
 
+		float bx = (ballPos.x - lastBallPos.x) / (ballDir.x * speed);
+		float by = (ballPos.y - lastBallPos.y) / (ballDir.y * speed);
+		float t = sqrt(bx * bx + by * by);
+		float px = padPos.x - prevPadPos.x;
+
 		if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 		{
 			float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
@@ -281,14 +277,24 @@ namespace Logic
 			if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
 			{
 				float collidePosY = yIntersect + radius;
-				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
+				float length = abs(collidePosY - ballPos.y) / cos(ballDir.x);
 				Vec3 lastBallPos = _ball->getLastFrame();
 				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 
 				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
 				Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
 
-				outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
+				{
+					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
+					t *= ratio;
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					outPos.x += padPos.x - ballPos.x > 0 ? - newDir.x * t * speed : + newDir.x * t * speed;
+					outPos.y -= newDir.y * t * speed;
+				}
+				else
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+
 				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;
@@ -310,18 +316,45 @@ namespace Logic
 
 			if(collide)
 			{
-				float collidePosY = y + radius;
-				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
-				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI /2), 0);
+				float collidePosY = y - radius;
+				float length = abs(collidePosY - ballPos.y) / cos(ballDir.x);
+				Vec3 padRot = Vec3((float)cos(zrot + PI / 2), (float)sin(zrot + PI / 2), 0);
 				Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
 
 				Vec3 lastBallPos = _ball->getLastFrame();
 				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 				newDir.normalize();
-				outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				
+				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
+				{
+					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					outPos.x += padPos.x - ballPos.x > 0 ? - newDir.x * t * speed : + newDir.x * t * speed;
+					outPos.y -= newDir.y * t * speed;
+				}
+				else
+					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				
 				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;
+			}
+		}
+		else
+		{
+			if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
+			{
+				float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
+				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			
+				if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
+				{
+					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+					Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
+					newDir.normalize();
+					_ball->setDirection(newDir.x, newDir.y, 0);
+					return true;
+				}
 			}
 		}
 
@@ -401,10 +434,24 @@ namespace Logic
 		Vec3 result;
 
 		float diff = _pos.x/(float)borderMaxX;
+		float par = diff * 2 * PI;
+		float sin = sinf(par);
+		float cos = cosf(par);
 		
-		result.x = _cylCenter.x + _radius * sinf( diff * 2 * (float)PI);
+		result.x = _cylCenter.x + _radius * cosf( diff * 2 * (float)PI);
 		result.y = _cylCenter.y + _pos.y;
-		result.z = _cylCenter.z + _radius * cosf( diff * 2 * (float)PI);
+		result.z = _cylCenter.z + _radius * sinf( diff * 2 * (float)PI);
+
+		return result;
+	}
+
+	inline Vec3 from2DToCylinder(float _angle , float _radius, Vec3 _cylCenter = Vec3(0,0,0))
+	{
+		Vec3 result;
+		
+		result.x = _cylCenter.x + _radius * sinf( _angle);
+		result.y = _cylCenter.y;
+		result.z = _cylCenter.z + _radius * cosf( _angle);
 
 		return result;
 	}
@@ -415,24 +462,24 @@ namespace Logic
 	{
 		Vec3 result;
 
-		float temp = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );
+		double temp = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );
 
-		result.x = atan2(sqrt(_pos.x * _pos.x + _pos.y * _pos.y ), _pos.z);		// theta = atan2(sqrt(x^2 + y^2), z );
-		result.y = atan2(_pos.y, _pos.x);										// phi = atan2(y,x);
-		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y + _pos.z * _pos.z);	// r = sqrt(x^2 + y^2 + z^2);
+		result.x = (float)atan2(temp, _pos.z);											// Theta = atan2(sqrt(x^2 + y^2), z );
+		result.y = (float)atan2(_pos.y, _pos.x);										// Phi = atan2(y,x);
+		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y + _pos.z * _pos.z);	// R = sqrt(x^2 + y^2 + z^2);
 
 		return result;
 	}
 
-	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, Rho, z) 
-		x = Theta, y = Rho. */
+	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, y, Rho) 
+		x = Theta, z = Rho. */
 	inline Vec3 cart2Cyl(Vec3 _pos)
 	{
 		Vec3 result;
 
 		result.x = atan2(_pos.y, _pos.x);						// Theta = atan2(y,x);
-		result.y = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
-		result.z = _pos.z;										// z = z;
+		result.y = _pos.y;										// y = y
+		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
 																
 
 		return result;

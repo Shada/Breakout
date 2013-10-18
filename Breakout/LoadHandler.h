@@ -2,8 +2,6 @@
 #define _LOADHANDLER_H_
 
 #include "Loader.h"
-#include "Model.h"
-#include "Texture.h"
 
 namespace Resources
 {

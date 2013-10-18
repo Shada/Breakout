@@ -21,7 +21,7 @@ namespace Logic
 		Resources::LoadHandler::getInstance();
 	}
 
-	void GameLogic::update(double _dt)
+	void GameLogic::update(float _dt)
 	{
 		soundSystem->Update(_dt);
 
