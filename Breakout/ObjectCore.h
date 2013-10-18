@@ -17,7 +17,7 @@ namespace Logic
 			eFire = 3,
 			eEarth = 4
 		};
-		MapType mapType;
+		
 		Pad						*pad;
 		std::vector<Brick*>		 bricks;
 		Ball					*ball;
@@ -28,6 +28,10 @@ namespace Logic
 		~ObjectCore();
 
 		void setMapType(int type);
+		MapType getMapType() { return mapType; }
+
+	private:
+		MapType mapType;
 	};
 }
 

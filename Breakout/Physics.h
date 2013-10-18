@@ -170,7 +170,7 @@ namespace Logic
 
 		//Compare X
 
-		if(!_isCylinder && ballPos.x - tRadius < 0 || ballPos.x + tRadius > borderMaxX)
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -199,12 +199,12 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks, bool _isCylinder)
 	{
 		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
 
-		if(BorderCollide(_ball, false))
+		if(BorderCollide(_ball, _isCylinder))
 		{
 			//Ball collides with border, calculate new direction and return.
 			return -1;

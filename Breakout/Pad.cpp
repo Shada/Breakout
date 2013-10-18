@@ -114,7 +114,6 @@ namespace Logic
 
 		if(position.x > borderMaxX || position.x < 0)
 		{
-<<<<<<< HEAD
 			if(rotation.z != rotMouse.z)
 			{
 				rotation.z = rotMouse.z;
