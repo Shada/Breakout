@@ -22,7 +22,7 @@ namespace Resources
 
         std::string filename = "";
 #ifndef _WIN32
-		filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+		//filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
 #endif // !_WIN32
 		filename += file;
 
@@ -210,7 +210,7 @@ namespace Resources
 	{
         std::string filename = "";
 #ifndef _WIN32
-        filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+        //filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
 #endif // ! _WIN32
 
 		filename += file;
@@ -229,7 +229,6 @@ namespace Resources
 		//if the image failed to load, return failure
 		if(!_texture->getDib())
 			return;
-
 		//retrieve the image data
 		_texture->setBits(FreeImage_GetBits(_texture->getDib()));
 		//get the image width and height

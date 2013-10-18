@@ -5,11 +5,15 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(75, 75, -150);
-	//position = Vec3(512, 384, -512);
+
+	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
+	//lookAt = Vec3(75,75,1);
+	lookAt = Vec3 (150, 100 ,-50);
 
 #ifndef _WIN32
+	//TODO: REMOVE!!!
+
     // Send pointers to camera matrices to graphic engine
     GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
     GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
@@ -17,21 +21,20 @@ Camera::Camera()
     GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
 #endif
 
-#ifdef _WIN32
-	CBOnce cbonce;
-
-	perspectiveFovLH(projectionMatrix, (float)PI * 0.5f, (float)(SCRWIDTH) / SCRHEIGHT, 0.01f, 600.0f);
-#else
-    perspectiveFovRH(projectionMatrix, (float)PI * 0.5f, (float)SCRWIDTH/SCRHEIGHT, 0.1f, 600.f);
-#endif //_WIN32
+    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
+	
 	MatrixInversion(projectionInv, projectionMatrix);
 
-#ifdef _WIN32
+
+	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
 	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
+#ifdef _WIN32	
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
+#else
+	GraphicsOGL4::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }
 
@@ -61,14 +64,14 @@ Vec3 Camera::getRotation()
 
 void Camera::update()
 {
-	Vec3 up, pos, lookAt, rot;
+	Vec3 up, pos, rot, negUp;
 	Matrix rotationMatrix;
-	float radianConv = (float)(PI/180); //Used to convert from degree to radians
+	float radianConv = (float)(PI)/180; //Used to convert from degree to radians
 
 	//Setup up-, pos- and look-vectors
 	up = Vec3(0,1,0);
+	negUp = Vec3(0,-1,0);
 	pos = position;
-	lookAt = Vec3(0,0,1);
 
 	//Set yaw, pitch and roll rotations in radians
 	rot.x = rotation.x * radianConv;
@@ -81,30 +84,31 @@ void Camera::update()
 	//Transform lookAt and up vector by rotation matrix
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
-
+	transformCoord(negUp, negUp, rotationMatrix);
 
 	//Translate rotated camera position to location of viewer
-	//lookAt = pos + lookAt;
+	//lookAt = pos + Vec3(0,0,1);
 
 	//Create view matrix from vectors
-#ifdef _WIN32
-	lookAtLH(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
-#else
-    lookAtRH(viewMatrix, lookAt, up, pos);
-#endif // _WIN32
+
+	lookAtLHP(viewMatrix, lookAt, up, pos); //Pos might not be correct, needs testing.
+	Vec3 reflPos = pos;
+	reflPos.y = waterLevel - (reflPos.y - waterLevel);
+	lookAtLHP(viewRefl,lookAt,negUp,reflPos);
 
 	MatrixInversion(viewInv, viewMatrix);
 
-#ifdef _WIN32
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;
 	cb.cameraDir = lookAt - pos;
-
+	cb.viewRefl = viewRefl;
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
-
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
+#else
+	GraphicsOGL4::getInstance()->updateCBCameraMove(cb);
 #endif
 }
 

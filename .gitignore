@@ -5,9 +5,15 @@
 *.sdf
 *.suo
 *.opensdf
-Debug/*.*
+*.exe
+*.ilk
+*.pdb
+*.fxo
+
 Breakout/Debug/*.*
-Breakout/bin/Debug/*
+Breakout/Release/*.*
+Breakout/bin/Debug/*.*
+Release/*.*
 
 # Compiled Dynamic libraries
 *.dylib

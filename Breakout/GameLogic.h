@@ -23,12 +23,12 @@ namespace Logic
 		
 		Inputhandler	*inputHandler;
 		Menu			*menu;
-		
+
 	public:
 		GameLogic(Inputhandler *handler);
 		~GameLogic();
 
-		void update(double dt);
+		void update(float dt);
 		void draw();
 	};
 

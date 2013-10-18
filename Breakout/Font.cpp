@@ -48,6 +48,7 @@ void Font::loadText(std::vector<BBFont> *outData, const char *text)
 			current.texCoords.y = (float)characters.at(text[i] - 33).posy;		// y1
 			current.texCoords.z = (float)characters.at(text[i] - 33).width;		// width
 			current.texCoords.w = 75;											// height
+
 			outData->push_back(current);
 
 			posx += characters.at(text[i] - 33).width + 5;

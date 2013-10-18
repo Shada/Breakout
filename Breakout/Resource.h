@@ -39,8 +39,9 @@ struct CBFont
 	Vec4 tintAlpha;			//rgb tint, a alpha
 	Vec2 pos;				//world position
 	Vec2 scale;				//world scale
-	Vec2 rotation;			//world rotation
 	Vec2 imageSize;			//resolution of font image
+	float rotation;			//world rotation
+	float padda;
 };
 struct CBWorld
 {
@@ -51,13 +52,12 @@ struct CBCameraMove
 {
 	Matrix View;
 	Matrix ViewInv;
+	Matrix viewRefl;
 	Vec3 cameraPos;
+	float p1;
 	Vec3 cameraDir;
-
-	//byte amount must be dividable by 16
-	Vec2 padding;
+	float p2;
 };
-
 struct CBOnce
 {
 	Matrix	projection;
@@ -65,6 +65,40 @@ struct CBOnce
 	Vec4	lightPos;
 	Vec2	resolution;
 	Vec2	padding2;
+};
+struct CBWater
+{
+	float waterLevel;
+	float timer;
+	Vec2 windDirection;
+};
+struct CBWaterOnce
+{
+	float waterFade; //how deep anything need to be to fade out in the water
+	float normalScaling; 
+	float maxAmplitude; //max wave amplitude
+	float shoreTransition; //how soft the water and ground fades
+
+	float refractionStrength; //refraction strength
+	float displacementStrength; //multiplier for the height of waves
+	float shininess;
+	float specularIntensity;
+
+	float transparency;
+	float refractionScale;
+	Vec2 scale;
+
+	Vec4 normalModifier; //multiplier for the different normals. first one is for small waves.
+
+	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+
+	Vec3 waterSurfaceColor;
+	int  waterType;
+
+	Vec4 waterDepthColor;
+
+	Vec4 extinction;
+
 };
 
 struct Action2D
@@ -81,6 +115,13 @@ struct Action2D
 		: newPos(inPos), newScale(inScale), newRotation(inRotation),newTintAlpha(inTintAlpha), time(inTime), expFactor(inExpFactor){ timePassed = 0; }
     Action2D(){}
 };
+
+struct MinorEffect 
+{
+	Vec3 pos;
+	int type;
+};
+
 
 #define PI 3.14159265359
 #define SCRWIDTH 1920
@@ -100,6 +141,7 @@ enum KeyCodes
 	KC_2 = 0x32,		KC_3 = 0x33,		KC_4 = 0x34,		KC_5 = 0x35,
 	KC_6 = 0x36,		KC_7 = 0x37,		KC_8 = 0x38,		KC_9 = 0x39,
 	KC_SPACE = 0x20,
+
 #ifdef _WIN32
 	KC_PAGEUP		= 0x21,
 	KC_PAGEDOWN		= 0x22,
@@ -149,7 +191,7 @@ enum GameState
 {
 	GAME_MENU = 0,
 	GAME_PLAY = 1,
-	GAME_PLAYING = 2
+	GAME_PLAYING = 2,
 };
 
 //the game state (found in Resource.h)

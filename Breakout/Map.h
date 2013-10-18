@@ -6,6 +6,8 @@
 #include "Pad.h"
 #include "Brick.h"
 
+#include "ObjectCore.h"
+
 namespace Logic
 {
 	class Map
@@ -16,16 +18,17 @@ namespace Logic
 		~Map(){};
 		/*	load a map, ball and pad can be NULL if no balls or no pad are desired 
 			for example when changing from another map */
-		void loadMap(unsigned int _mapID,std::vector<Object3D*> *_bricks,Ball *_ball,Pad *_pad);
 
+		void loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad,ObjectCore::MapType *_mapType);
 
+		int getMapType() { return mapType; }
 		//TODO:
 		//funktion för inladdning av bana
 	private:
 		//TODO:
 		//förvaring av bana.
 		//etc
-
+		int mapType;
 	};
 }
 

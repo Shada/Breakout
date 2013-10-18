@@ -52,6 +52,7 @@ void SoundSystem::Initialize()
 	sound[16].Initialize(fmodSystem, 1.0f, "Sounds/sound97.wav");
 	sound[17].Initialize(fmodSystem, 1.0f, "Sounds/sound99.wav");
 	sound[18].Initialize(fmodSystem, 1.0f, "Sounds/sound95.wav");
+	sound[19].Initialize(fmodSystem, 1.0f, "Sounds/car-interior-1.mp3");
 
 }
 
@@ -90,7 +91,7 @@ void SoundSystem::Update(double dt)
 
 	//Uppdatera alla ljud som behöver time
 	fmodSystem->update();
-	for(int i = 0; i <= 17; i++) // ordna rätt nummer när alla ljud är inne
+	for(int i = 0; i <= 18; i++) // ordna rätt nummer när alla ljud är inne
 		sound[i].Update(dt);
 }
 
