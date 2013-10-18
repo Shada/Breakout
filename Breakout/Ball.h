@@ -18,6 +18,7 @@ namespace Logic
 		Vec3 effectDirection;
 		float effectTimer, effectAcceleration, effectSpeed;
 
+		int shaderTechniqueID;
 	public:
 		Ball();
 		~Ball();

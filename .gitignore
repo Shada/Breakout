@@ -8,10 +8,11 @@
 *.exe
 *.ilk
 *.pdb
-Breakout/*.fxo
+*.fxo
+
 Breakout/Debug/*.*
 Breakout/Release/*.*
-Breakout/bin/Debug/*
+Breakout/bin/Debug/*.*
 Release/*.*
 
 # Compiled Dynamic libraries

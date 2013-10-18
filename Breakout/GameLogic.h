@@ -23,7 +23,7 @@ namespace Logic
 		
 		Inputhandler	*inputHandler;
 		Menu			*menu;
-		
+
 	public:
 		GameLogic(Inputhandler *handler);
 		~GameLogic();

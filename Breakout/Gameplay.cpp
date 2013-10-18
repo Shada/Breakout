@@ -13,7 +13,7 @@ namespace Logic
 	{
 		fps = 0;
 		mapLoading = new Map();
-		//tolka Map och skBAJSAPA object enligt den
+		//tolka Map och sk_WIN32 object enligt den
 		objectCore = new ObjectCore();
 		play = ballPadCollided = false;
 
@@ -32,13 +32,12 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		//objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
 
-		camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
-		//camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(200,200,0), Vec3(0,0,0), Vec3(200,0,0)));
+		//camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
+		camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
 		std::vector<KeyBind> keys;
@@ -72,16 +71,21 @@ namespace Logic
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
 		objectCore->testText->setTextData(0, 10);
-
+		
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad,&objectCore->mapType);
-		if(objectCore->mapType == objectCore->MapType::eWater)
-			objectCore->water = new Water(objectCore->pad->getPosition().y);
+		
+		//objectCore->mapType = objectCore->MapType::eWater;// test
 
+		if(objectCore->mapType == objectCore->MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
+		
 
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
+		GraphicsOGL4::getInstance()->feedUIBufferData();
+		GraphicsOGL4::getInstance()->feedTextBufferData();
 		#endif
 
 	}
@@ -152,9 +156,11 @@ namespace Logic
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
 			Vec3 oldLookat = camera->getLookAt();
+			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
-			camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
-			camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
+			camera->setPosition(Vec3(oldPos.x, waterLevel+50,oldPos.z));
+			camera->setLookAt(Vec3(oldLookat.x, waterLevel,oldLookat.z));
+			camera->setWaterLevel(waterLevel);
 			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
@@ -417,7 +423,7 @@ namespace Logic
 		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
-			objectCore->water = new Water(objectCore->pad->getPosition().y);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
 		playerLives = 3;
 		play = false;

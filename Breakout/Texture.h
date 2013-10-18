@@ -43,6 +43,10 @@ namespace Resources
 
 		const char* getFilePath(){return filePath.c_str();}
 		void setFilePath(char _filePath[256]){filePath = _filePath;}
+
+		unsigned int getSize(){ return height * width * sizeof(BYTE); }
+
+		bool isTransparent(){ return (bool)FreeImage_IsTransparent(dib); }
 	};
 
 }

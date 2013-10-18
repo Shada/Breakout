@@ -9,9 +9,13 @@ GraphicsDX11::GraphicsDX11()
 {
 	device						= NULL;
 	immediateContext			= NULL;
-	renderTargetTex				= NULL;
 	renderTargetView			= NULL;
-	renderTargetResource		= NULL;
+	sceneTex					= NULL;
+	sceneRenderTargetView		= NULL;
+	sceneShaderResource			= NULL;
+	reflTex						= NULL;
+	reflRenderTargetView		= NULL;
+	reflShaderResource			= NULL;
 	depthStencilTex				= NULL;
 	depthStencilView			= NULL;
 	depthStencilResource		= NULL;
@@ -24,6 +28,9 @@ GraphicsDX11::GraphicsDX11()
 	samplerLinear				= NULL;
 	samplerSkybox				= NULL;
 	shader5Support				= true;
+	cbWater						= NULL;
+	cbWaterOnce					= NULL;
+
 
 	vBufferStatic				= NULL;
 	vBufferDynamic				= NULL;
@@ -154,6 +161,68 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}
 
+	//--- additional rendertargets and shader resources for water post process effect ---//
+	D3D11_TEXTURE2D_DESC dsTex;
+	ZeroMemory(&dsTex, sizeof(dsTex));
+	dsTex.Width					= SCRWIDTH;
+	dsTex.Height				= SCRHEIGHT;
+	dsTex.MipLevels				= 1;
+	dsTex.ArraySize				= 1;
+	dsTex.SampleDesc.Count		= 1;
+	dsTex.SampleDesc.Quality	= 0;
+	dsTex.Format				= DXGI_FORMAT_R16G16B16A16_UNORM;
+	dsTex.Usage					= D3D11_USAGE_DEFAULT;
+	dsTex.BindFlags				= D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	dsTex.CPUAccessFlags		= 0;
+	hr = device->CreateTexture2D( &dsTex, NULL, &sceneTex );
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target texture for scene","GraphicsCore Error",MB_OK);
+		return;
+	}
+	// this texture could be lower res if needed
+	hr = device->CreateTexture2D( &dsTex, NULL, &reflTex );
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target texture for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc;
+	rtvDesc.Format				= dsTex.Format;
+	rtvDesc.ViewDimension		= D3D11_RTV_DIMENSION_TEXTURE2D;
+	rtvDesc.Texture2D.MipSlice	= 0;
+	hr = device->CreateRenderTargetView(sceneTex,&rtvDesc, &sceneRenderTargetView);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target view for scene","GraphicsCore Error",MB_OK);
+		return;
+	}
+	hr = device->CreateRenderTargetView(reflTex,&rtvDesc, &reflRenderTargetView);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target view for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	ZeroMemory( &srvDesc, sizeof(srvDesc));
+	srvDesc.Format						= dsTex.Format;
+	srvDesc.ViewDimension				= D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels			= 1;
+	srvDesc.Texture2D.MostDetailedMip	= 0;
+	hr = device->CreateShaderResourceView(sceneTex, &srvDesc, &sceneShaderResource);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene shader resource view for scene","GraphicsCore Error",MB_OK);
+		return;
+	}
+	hr = device->CreateShaderResourceView(reflTex, &srvDesc, &reflShaderResource);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene shader resource view for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
+
 	// Setup the viewport
     viewPort.Width		= (FLOAT)width;
     viewPort.Height		= (FLOAT)height;
@@ -164,11 +233,15 @@ void GraphicsDX11::init(HWND *hWnd)
 	immediateContext->RSSetViewports( 1, &viewPort );
 
 	techniques = std::vector<TechniqueHLSL*>();
+	
 	techniques.push_back( new TechniqueHLSL(device, "techSkybox", "shaders/hlsl/vsSkybox.fx", "vs_skybox","","","shaders/hlsl/psSkybox.fx","ps_skybox") );
-
 	techniques.push_back( new TechniqueHLSL(device, "techSimple",	"shaders/hlsl/vsSimple.fx",	"vs",	"",							"",		"shaders/hlsl/psSimple.fx",	"ps") );
 	techniques.push_back( new TechniqueHLSL(device, "techUI",		"shaders/hlsl/vsBBUI.fx",	"vs",	"shaders/hlsl/gsBBUI.fx",	"gs",	"shaders/hlsl/psBBUI.fx",	"ps") );
 	techniques.push_back( new TechniqueHLSL(device, "techFont",		"shaders/hlsl/vsFont.fx",	"vs",	"shaders/hlsl/gsFont.fx",	"gs",	"shaders/hlsl/psFont.fx",	"ps") );
+	techniques.push_back( new TechniqueHLSL(device, "techSkyboxRefl", "shaders/hlsl/vsSkyboxRefl.fx", "vs_skybox","","","shaders/hlsl/psSkybox.fx","ps_skybox") );
+	techniques.push_back( new TechniqueHLSL(device, "techQuad", "shaders/hlsl/vsQuad.fx", "vs_quad","shaders/hlsl/gsQuad.fx","gs_quad","shaders/hlsl/psQuad.fx","ps_quad") );
+	techniques.push_back( new TechniqueHLSL(device, "techRefl", "shaders/hlsl/vsRefl.fx", "vs_refl","","","shaders/hlsl/psRefl.fx","ps_refl") );
+	techniques.push_back( new TechniqueHLSL(device, "techWater", "shaders/hlsl/vsQuad.fx", "vs_quad","shaders/hlsl/gsQuad.fx","gs_quad","shaders/hlsl/psWater.fx","ps_water") );
 
 	D3D11_INPUT_ELEMENT_DESC simpleLayoutDesc[] = 
 	{
@@ -237,6 +310,10 @@ void GraphicsDX11::init(HWND *hWnd)
 	if( !createCBuffer( &cbOnce, sizeof(CBOnce), 2 ) )
 		return;
 	if( !createCBuffer( &cbFont, sizeof(CBFont), 3 ) )
+		return;
+	if( !createCBuffer(&cbWater, sizeof(CBOnce), 4))
+		return;
+	if( !createCBuffer(&cbWaterOnce, sizeof(CBOnce), 5))
 		return;
 
 	//create samplerstates
@@ -372,6 +449,8 @@ void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 {
 	float clearColor[4] = {r, g, b, 1};
 	immediateContext->ClearRenderTargetView(renderTargetView, clearColor);
+	immediateContext->ClearRenderTargetView(sceneRenderTargetView, clearColor);
+	immediateContext->ClearRenderTargetView(reflRenderTargetView, clearColor);
 	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
@@ -512,7 +591,9 @@ void GraphicsDX11::useTechnique( unsigned int id )
 void GraphicsDX11::draw()
 {
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
-	CBWorld cb0;
+	CBWorld cbWorld;
+
+	ID3D11ShaderResourceView *const nullSRV[5] = {NULL,NULL,NULL,NULL,NULL};
 
 	unsigned int vertexAmount, startIndex, modelID;
 
@@ -527,7 +608,8 @@ void GraphicsDX11::draw()
 
 	//om
 	immediateContext->OMSetBlendState(blendDisable, blendFactor, 0xffffffff);
-	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+	immediateContext->PSSetShaderResources(0,1,&nullSRV[0]);
+	immediateContext->OMSetRenderTargets(1, &reflRenderTargetView, depthStencilView);
 
 	//ia
 	immediateContext->IASetVertexBuffers(0, 1, &vBufferStatic, &stride, &offset);
@@ -537,12 +619,19 @@ void GraphicsDX11::draw()
 	//rs
 	immediateContext->RSSetViewports(1, &viewPort);
 	
+	immediateContext->IASetInputLayout(simpleInputLayout);
+
+
+	//--------------------------------------------------------------------------------
+	//                                 reflections
+	//-------------------------------------------------------------------------------
+	//       draw everything again, but using reflecion techniques
 
 	//--------------------------------------------------------------------------------
 	//                                     skybox
 	//-------------------------------------------------------------------------------
-	immediateContext->PSSetSamplers(0, 1, &samplerSkybox);
-	techniques.at( getTechIDByName( "techSkybox" ) )->useTechnique();
+	immediateContext->PSSetSamplers(1, 1, &samplerSkybox);
+	techniques.at( getTechIDByName( "techSkyboxRefl" ) )->useTechnique();
 	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
 	modelID					= objectCore->skybox->getModelID();
 	vertexAmount		= lh->getModel( modelID )->getVertexAmount();
@@ -553,20 +642,19 @@ void GraphicsDX11::draw()
 	immediateContext->Draw(vertexAmount, startIndex);
 
 	//--------------------------------------------------------------------------------------
-	 
+
 	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->RSSetState(rasterizerBackface);
 
-	techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
+	techniques.at( getTechIDByName( "techRefl" ) )->useTechnique();
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
-	cb0.world		= objectCore->ball->getWorld();
-	cb0.worldInv	= objectCore->ball->getWorldInv();
-	updateCBWorld(cb0);
+	cbWorld.world		= objectCore->ball->getWorld();
+	cbWorld.worldInv	= objectCore->ball->getWorldInv();
+	updateCBWorld(cbWorld);
 
 	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
-	immediateContext->IASetInputLayout(simpleInputLayout);
 
 	modelID			= objectCore->ball->getModelID();
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
@@ -579,9 +667,9 @@ void GraphicsDX11::draw()
 	//                                     Pad
 	//--------------------------------------------------------------------------------
 
-	cb0.world		= objectCore->pad->getWorld();
-	cb0.worldInv	= objectCore->pad->getWorldInv();
-	updateCBWorld(cb0);
+	cbWorld.world		= objectCore->pad->getWorld();
+	cbWorld.worldInv	= objectCore->pad->getWorldInv();
+	updateCBWorld(cbWorld);
 
 
 	modelID			= objectCore->pad->getModelID();
@@ -597,9 +685,9 @@ void GraphicsDX11::draw()
 
 	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
 	{
-		cb0.world		= objectCore->bricks.at(i)->getWorld();
-		cb0.worldInv	= objectCore->bricks.at(i)->getWorldInv();
-		updateCBWorld(cb0);
+		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
+		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+		updateCBWorld(cbWorld);
 
 		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
 		modelID				= objectCore->bricks.at(i)->getModelID();
@@ -609,6 +697,97 @@ void GraphicsDX11::draw()
 		immediateContext->Draw(vertexAmount, startIndex);
 	}
 
+	// clear depth stencil so that the normal drawing  wont get disturbed and have issues with an already
+	// filled depth stencil
+	immediateContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+	//------------- normal draw ---------------//
+	immediateContext->OMSetRenderTargets(1, &sceneRenderTargetView, depthStencilView);
+
+	//--------------------------------------------------------------------------------
+	//                                     skybox
+	//-------------------------------------------------------------------------------
+	immediateContext->PSSetSamplers(0, 1, &samplerSkybox);
+	techniques.at( getTechIDByName( "techSkybox" ) )->useTechnique();
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
+	modelID					= objectCore->skybox->getModelID();
+	vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+	startIndex			= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
+	immediateContext->RSSetState(rasterizerFrontface);
+	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------------
+	 
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
+	immediateContext->RSSetState(rasterizerBackface);
+
+	techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
+	//--------------------------------------------------------------------------------
+	//                                    Ball(s)
+	//--------------------------------------------------------------------------------
+	cbWorld.world		= objectCore->ball->getWorld();
+	cbWorld.worldInv	= objectCore->ball->getWorldInv();
+	updateCBWorld(cbWorld);
+
+	immediateContext->PSSetSamplers(0, 1, &samplerLinear);
+	immediateContext->IASetInputLayout(simpleInputLayout);
+
+	modelID			= objectCore->ball->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->ball->getTextureID()));
+	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------
+	//                                     Pad
+	//--------------------------------------------------------------------------------
+
+	cbWorld.world		= objectCore->pad->getWorld();
+	cbWorld.worldInv	= objectCore->pad->getWorldInv();
+	updateCBWorld(cbWorld);
+
+
+	modelID			= objectCore->pad->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
+	immediateContext->Draw(vertexAmount, startIndex);
+
+	//--------------------------------------------------------------------------------
+	//                                     bricks
+	//--------------------------------------------------------------------------------
+
+	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	{
+		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
+		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+		updateCBWorld(cbWorld);
+
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
+		modelID				= objectCore->bricks.at(i)->getModelID();
+		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+		startIndex			= lh->getModel( modelID )->getStartIndex();
+
+		immediateContext->Draw(vertexAmount, startIndex);
+	}
+
+	// -------------------------------------------------------------------------------
+	//                                  water
+	//--------------------------------------------------------------------------------
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+	immediateContext->PSSetShaderResources(0,1,&sceneShaderResource);
+	immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
+	immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
+	immediateContext->PSSetShaderResources(3,5,&textures[11]);
+	techniques.at(getTechIDByName("techWater"))->useTechnique();
+	immediateContext->Draw(1,0);
+
+	immediateContext->PSSetShaderResources(0,5,&nullSRV[0]);
+	
 	//--------------------------------------------------------------------------------
 	//                                     UI
 	//--------------------------------------------------------------------------------
@@ -632,16 +811,16 @@ void GraphicsDX11::draw()
 	immediateContext->PSSetShaderResources( 0,1,&textures.at( 9 ) );
 	immediateContext->IASetInputLayout(uiLayout);
 
-	cb0.world			= Matrix(	1,0,0,0,
+	cbWorld.world			= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
 
-	cb0.worldInv		= Matrix(	1,0,0,0,
+	cbWorld.worldInv		= Matrix(	1,0,0,0,
 									0,1,0,0,
 									0,0,1,0,
 									0,0,0,1	);
-	updateCBWorld( cb0 );
+	updateCBWorld( cbWorld );
 
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
@@ -692,9 +871,15 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(device);
 	SAFE_RELEASE(immediateContext);
 
-	SAFE_RELEASE(renderTargetTex);
 	SAFE_RELEASE(renderTargetView);
-	SAFE_RELEASE(renderTargetResource);
+
+	SAFE_RELEASE(sceneTex);
+	SAFE_RELEASE(sceneRenderTargetView);
+	SAFE_RELEASE(sceneShaderResource);
+
+	SAFE_RELEASE(reflTex);
+	SAFE_RELEASE(reflRenderTargetView);
+	SAFE_RELEASE(reflShaderResource);
 
 	SAFE_RELEASE(depthStencilTex);
 	SAFE_RELEASE(depthStencilView);

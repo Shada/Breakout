@@ -4,6 +4,7 @@
 #include "Pad.h"
 #include "Water.h"
 #include "Skybox.h"
+#include "Resource.h"
 #include "Text.h"
 
 namespace Logic

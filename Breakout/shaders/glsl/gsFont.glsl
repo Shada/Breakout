@@ -3,40 +3,49 @@
 layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
-in vec2		gpos[];
-in vec2		gsize[];
-in float	grotation[];
-in vec4		gtintAlpha[];
-in int		gtexIndex[];
+in float	gpos[];
+in vec4		gtex[];
 
-out vec2 UV;
-out vec4 tintAlpha;
-out int texIndex;
+out vec2	UV;
+
+
+layout(std140, binding = 4) uniform CameraOnce
+{
+	mat4 projection;
+	mat4 projInv;
+	vec4 lightPos;
+	vec2 resolution;
+};
+
+layout(std140, binding = 3) uniform FontBuffer
+{
+	vec2	textPos;
+	vec2	textSize;
+	vec4	textTintAlpha;
+	vec2	imageSize;
+	float	textRotation;
+};
 
 void main()
 {
-	gl_Position	= vec4( gpos[0].x / 1024 * 2 - 1, gpos[0].y / 768 * 2 - 1, 0, 1 );
-	tintAlpha = gtintAlpha[0];
-	UV	= vec2( 0, 0 );
-	texIndex = gtexIndex[0];
+	vec2 pos =  vec2(gpos[0], 0 );
+	vec4 tex = vec4(gtex[0].x / imageSize.x, gtex[0].y / imageSize.y, (gtex[0].x + gtex[0].z) / imageSize.x, (gtex[0].y + gtex[0].w) / imageSize.y);
+
+	//also a textpos as uniform
+	gl_Position	= vec4( (pos.x / resolution.x) * 2 - 1, ((resolution.y - pos.y - gtex[0].w) / resolution.y) * 2 - 1, 0, 1 );
+	UV	= vec2( tex.x, 1-tex.w );
 	EmitVertex();
 
-	gl_Position = vec4( gpos[0].x / 1024 * 2 - 1, (gpos[0].y + gsize[0].y) / 768 * 2 - 1, 0, 1 );
-	tintAlpha = gtintAlpha[0];
-	UV = vec2( 0, 1 );
-	texIndex = gtexIndex[0];
+	gl_Position = vec4( (pos.x/resolution.x) * 2 - 1, ((resolution.y - pos.y) / resolution.y) * 2 - 1, 0, 1 );
+	UV = vec2( tex.x, 1-tex.y );
 	EmitVertex();
 
-	gl_Position = vec4( (gpos[0].x + gsize[0].x) / 1024 * 2 - 1, gpos[0].y / 768 * 2 - 1, 0, 1);
-	tintAlpha = gtintAlpha[0];
-	UV = vec2( 1, 0 );
-	texIndex = gtexIndex[0];
+	gl_Position = vec4( ((pos.x + gtex[0].z) / resolution.x) * 2 - 1, ((resolution.y - pos.y - gtex[0].w) / resolution.y) * 2 - 1, 0, 1 );
+	UV = vec2( tex.z, 1-tex.w );
 	EmitVertex();
 
-	gl_Position = vec4( (gpos[0].x + gsize[0].x) / 1024 * 2 - 1, (gpos[0].y + gsize[0].y) / 768 * 2 - 1, 0, 1 );
-	tintAlpha = gtintAlpha[0];
-	UV = vec2( 1, 1 );
-	texIndex = gtexIndex[0];
+	gl_Position = vec4( ((pos.x + gtex[0].z) / resolution.x) * 2 - 1, ((resolution.y - pos.y) / resolution.y) * 2 - 1, 0, 1 );
+	UV = vec2( tex.z, 1- tex.y );
 	EmitVertex();
 
 	EndPrimitive();

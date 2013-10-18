@@ -13,7 +13,6 @@ namespace Logic
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler, soundSystem);
 
-
 		//gameState = GameState::GAME_PLAY;
 		inputHandler = handler;
 
@@ -57,5 +56,6 @@ namespace Logic
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
 		SAFE_DELETE(soundSystem);
+		SAFE_DELETE(menu);
 	}
 }

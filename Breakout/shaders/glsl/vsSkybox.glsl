@@ -5,12 +5,28 @@ layout(location = 2) in vec2 vertexUV;
 
 out vec2 UV;
 
-uniform mat4 projection;
-uniform mat4 view;
+
+
+layout(std140, binding = 0) uniform CameraOnce
+{
+	mat4 projection;
+	mat4 projInv;
+	vec4 lightPos;
+	vec2 resolution;
+};
+
+layout(std140, binding = 1) uniform CameraMove
+{
+	mat4 view;
+	mat4 viewInv;
+	vec3 cameraPos;
+	vec3 cameraDir;
+};
 
 void main()
 {
-	vec4 pos = projection * view * vec4(vertexPos, 0);
+	mat4 vp = projection * view;
+	vec4 pos = vp * vec4(vertexPos, 0);
 	gl_Position = pos.xyww;
 
 	UV = vec2(vertexUV.x, 1 - vertexUV.y);

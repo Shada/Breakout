@@ -44,14 +44,14 @@ void Text::updateCB()
 	CBFont cb;
 	cb.pos			= pos;
 	cb.scale		= scale;
-	cb.rotation		= Vec2(rotation,0);
+	cb.rotation		= rotation;
 	cb.imageSize	= Vec2(1420,250);
 	cb.tintAlpha	= tintAlpha;
 
 	#ifdef _WIN32
-	GraphicsDX11::getInstance()->updateCBFont(cb);
+		GraphicsDX11::getInstance()->updateCBFont(cb);
 	#else
-	//GraphicsOGL4::getInstance()->updateCBFont(cb);
+		GraphicsOGL4::getInstance()->updateCBFont(cb);
 	#endif
 }
 

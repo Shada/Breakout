@@ -13,7 +13,7 @@ namespace Logic
 		scale		= Vec3(1,1,1);
 		position	= Vec3(0,0,0);
 		rotation	= Vec3(0,0,0);
-		direction = Vec3(1, 1, 0);
+		direction	= Vec3(1, 1, 0);
 		effectDirection = Vec3(1, 1, 0);
 
 		textureID = 0;
@@ -21,7 +21,10 @@ namespace Logic
 		activeEffect = 0;
 		direction.normalize();
 		speed = 100;
-		srand (time(NULL));
+		srand ((unsigned)time(NULL));
+#ifdef _WIN32
+		shaderTechniqueID = GraphicsDX11::getInstance()->getTechIDByName("techSimple");
+#endif
 	}
 
 	Ball::~Ball()
@@ -40,15 +43,15 @@ namespace Logic
 		//effect calculations
 		if (activeEffect == 1)//wind effect
 		{
-			effectTimer -= _dt;
+			effectTimer -= (float)_dt;
 			if (effectTimer > 0)
 			{
-				direction = (direction + effectDirection *_dt);
+				direction = (direction + effectDirection * (float)_dt);
 				direction.normalize();
-				effectSpeed += (effectAcceleration * _dt);
+				effectSpeed += (effectAcceleration * (float)_dt);
 			}
 			else
-				effectSpeed -= (effectAcceleration * _dt *2);
+				effectSpeed -= (effectAcceleration * (float)_dt *2);
 			if(effectSpeed < 0 && effectTimer < 0)
 			{
 				effectDirection = Vec3(1, 1, 0);
@@ -71,10 +74,10 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection = Vec3(float(rand()%10)-5, float(rand()%10)-5, 0);
 			effectDirection.normalize();
 			effectSpeed = 0;
-			effectTimer = 1.6;
+			effectTimer = 1.6f;
 			activeEffect = 1;
 			effectAcceleration = 30;
 		}

@@ -60,9 +60,15 @@ private:
 	/*---------------------------------------------------------------
 								RenderTargets
 	--------------------------------------------------------------*/
-	ID3D11Texture2D				*renderTargetTex;
 	ID3D11RenderTargetView		*renderTargetView;
-	ID3D11ShaderResourceView	*renderTargetResource;
+
+	ID3D11Texture2D				*sceneTex;
+	ID3D11RenderTargetView		*sceneRenderTargetView;
+	ID3D11ShaderResourceView	*sceneShaderResource;
+
+	ID3D11Texture2D				*reflTex;
+	ID3D11RenderTargetView		*reflRenderTargetView;
+	ID3D11ShaderResourceView	*reflShaderResource;
 
 	//depth stencil
 	ID3D11Texture2D				*depthStencilTex;
@@ -74,6 +80,8 @@ private:
 	ID3D11Buffer				*cbCameraMove;
 	ID3D11Buffer				*cbOnce;
 	ID3D11Buffer				*cbFont;
+	ID3D11Buffer				*cbWater;
+	ID3D11Buffer				*cbWaterOnce;
 
 	//viewports
 	D3D11_VIEWPORT				viewPort;
@@ -139,6 +147,8 @@ public:
 	void	updateCBCameraMove(CBCameraMove cb) { immediateContext->UpdateSubresource(cbCameraMove, 0, NULL, &cb, 0, 0); }
 	void	updateCBWorld(CBWorld cb)			{ immediateContext->UpdateSubresource(cbWorld, 0, NULL, &cb, 0, 0); }
 	void	updateCBFont(CBFont cb)				{ immediateContext->UpdateSubresource(cbFont, 0, NULL, &cb, 0, 0); }
+	void	updateCBWater(CBWater cb) 			{ immediateContext->UpdateSubresource(cbWater, 0, NULL, &cb, 0, 0); }
+	void	updateCBWaterOnce(CBWaterOnce cb) 	{ immediateContext->UpdateSubresource(cbWaterOnce, 0, NULL, &cb, 0, 0); }
 
 	void	draw();
 

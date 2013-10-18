@@ -101,12 +101,13 @@ namespace Logic
 			if (effectTimer < 0)
 			{
 				movementSpeed += (effectAcceleration * _dt);
-				effectAcceleration = effectAcceleration * 1.2;
+				effectAcceleration = effectAcceleration * 1.2f;
 			}
 
 			if(movementSpeed > 1.0f)
 			{
 				movementSpeed = 1.0f;
+				//effectRotation = 0.4f; //Utkommenterad i merge
 				activeEffect = 0;
 			}
 		} 
@@ -118,7 +119,7 @@ namespace Logic
 			if (movementSpeed <= 0.6f)
 				effectAcceleration = 0;
 			if (effectTimer < 0)
-				effectAcceleration = 0.005;
+				effectAcceleration = 0.005f;
 
 			if(movementSpeed > 1.0f)
 			{
@@ -134,7 +135,7 @@ namespace Logic
 			if (movementSpeed >= 1.3f)
 				effectAcceleration = 0;
 			if (effectTimer < 0)
-				effectAcceleration = -0.005;
+				effectAcceleration = -0.005f;
 
 			if(movementSpeed < 1.0f)
 			{
@@ -149,10 +150,11 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 0.8;
+			effectTimer = 0.8f;
 			activeEffect = 1;
 			movementSpeed = 0.3;
 			effectAcceleration = 0.1;
+			//effectRotation = 0.4f; //Utkommenterad i merge
 		}
 	}
 	
@@ -162,7 +164,7 @@ namespace Logic
 		{
 			effectTimer = 5;
 			activeEffect = 2;
-			effectAcceleration = -0.005;
+			effectAcceleration = -0.005f;
 		}
 	}
 	
@@ -172,7 +174,7 @@ namespace Logic
 		{
 			effectTimer = 5;
 			activeEffect = 3;
-			effectAcceleration = 0.005;
+			effectAcceleration = 0.005f;
 		}
 	}
 
