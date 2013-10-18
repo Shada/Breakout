@@ -21,7 +21,7 @@ namespace Logic
 	class Gameplay
 	{
 	private:
-		
+		int fps;
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 

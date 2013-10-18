@@ -27,6 +27,19 @@ struct BBUI
 	Vec4 tintAlpha;
 	int texIndex;
 };
+struct BBFont
+{
+	float x; //the x position of the letter
+	Vec4 texCoords; //x,y,width,height on image only. (For world position, the entire text will use CBFont)
+};
+struct CBFont
+{
+	Vec4 tintAlpha;			//rgb tint, a alpha
+	Vec2 pos;				//world position
+	Vec2 scale;				//world scale
+	Vec2 rotation;			//world rotation
+	Vec2 imageSize;			//resolution of font image
+};
 struct CBWorld
 {
 	Matrix world;
@@ -48,6 +61,19 @@ struct CBOnce
 	Matrix	projection;
 	Matrix	projectionInv;
 	Vec4	lightPos;
+	Vec2	resolution;
+	Vec2	padding2;
+};
+
+struct Action2D
+{
+	Vec2	newPos;			//new position value
+	Vec2	newScale;		//new scale value
+	float	newRotation;	//new rotation value
+	Vec4	newTintAlpha;	//new tint alpha values
+	float	time;			//interpolation time
+	float	timePassed;		//time passed since start. (if negative, it is inactive until positive)
+	int		expFactor;		//what order of exponential interpolation?
 };
 
 #define PI 3.14159265359

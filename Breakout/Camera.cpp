@@ -5,10 +5,10 @@
 #endif // _WIN32
 Camera::Camera()
 {
-	position = Vec3(75, 75, -150);
-	//position = Vec3(512, 384, -512);
+
+	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
-	lookAt = Vec3(0,0,1);
+	lookAt = Vec3(75,75,1);
 
 #ifndef _WIN32
     // Send pointers to camera matrices to graphic engine
@@ -27,6 +27,7 @@ Camera::Camera()
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
+	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #endif //_ WIN32
 }

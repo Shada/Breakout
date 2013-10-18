@@ -1,5 +1,4 @@
 #include "Gameplay.h"
-
 #ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
@@ -12,7 +11,7 @@ namespace Logic
 	int Gameplay::startEffect = 0;
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
 	{
-		
+		fps = 0;
 		mapLoading = new Map();
 		//tolka Map och skBAJSAPA object enligt den
 		objectCore = new ObjectCore();
@@ -31,12 +30,12 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		objectCore->mapType = objectCore->MapType::eWater;
+		//objectCore->mapType = objectCore->MapType::eWater;
 
 		objectCore->ball->setModelID(0);
 		camera = new Camera();
 
-		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
+		camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
 		//camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(200,200,0), Vec3(0,0,0), Vec3(200,0,0)));
 		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
@@ -59,12 +58,25 @@ namespace Logic
 
 		//inputHandler->setCamera(camera, keys);
 
+		objectCore->uiBillboards.push_back(BBUI());
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(-200,0);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,768);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
 
+		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
+		std::vector<BBFont> test = std::vector<BBFont>();
+		objectCore->testFont->setImageIndex(7);
+		objectCore->testText->setFont(objectCore->testFont);
+		objectCore->testText->setTextData(0, 10);
 
 		currentMapIndex = 0;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball, objectCore->pad,&objectCore->mapType);
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
+
+
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -74,6 +86,15 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
+		fps = (int)(1.0 / _dt + 0.5);
+
+		//update label
+		std::ostringstream buffFps;
+		buffFps << fps;
+		std::string fpsText = "FPS: "+buffFps.str();
+		objectCore->testText->setText( fpsText.c_str() );
+		objectCore->testText->updateTextData();
+
 		objectCore->pad->update(_dt);
 		if(play)
 		{
@@ -265,7 +286,7 @@ namespace Logic
 					}
 				}
 
-				for(int i = 0; i < effectFireballs.size(); i++)
+				for(unsigned int i = 0; i < effectFireballs.size(); i++)
 					effectFireballs[i].y += -_dt * 60;
 				
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST
@@ -330,7 +351,7 @@ namespace Logic
 			currentMapIndex = 0;
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,objectCore->pad,&objectCore->mapType);
 		if(objectCore->mapType == objectCore->MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
@@ -343,5 +364,7 @@ namespace Logic
 		SAFE_DELETE(eventSystem);
 		SAFE_DELETE(camera);
 		SAFE_DELETE(objectCore);
+		//SAFE_DELETE(water);
+		SAFE_DELETE(mapLoading);
 	}
 }

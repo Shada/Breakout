@@ -138,7 +138,9 @@
     <ClInclude Include="Inputhandler.h" />
     <ClInclude Include="linearalgebra.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuElement.h" />
+    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
@@ -146,8 +148,10 @@
     <ClInclude Include="ProgramGLSL.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundSystem.hpp" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -159,13 +163,17 @@
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Inputhandler.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
     <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
     <ClInclude Include="Water.h" />
@@ -237,7 +245,13 @@
     <None Include="shaders\glsl\vsBBUI.glsl" />
     <None Include="shaders\glsl\vsFont.glsl" />
     <None Include="shaders\glsl\vsSimple.glsl" />
+	<None Include="shaders\glsl\vsSkybox.glsl" />
     <CustomBuild Include="shaders\hlsl\psSkybox.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\gsFont.fx">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
@@ -247,7 +261,16 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
     </CustomBuild>
-    <None Include="shaders\glsl\vsSkybox.glsl" />
+    <CustomBuild Include="shaders\hlsl\psFont.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsFont.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

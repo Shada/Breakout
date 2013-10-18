@@ -4,6 +4,8 @@
 #include "Pad.h"
 #include "Water.h"
 #include "Skybox.h"
+#include "Text.h"
+
 namespace Logic
 {
 	class ObjectCore
@@ -20,10 +22,17 @@ namespace Logic
 		MapType mapType;
 		ObjectCore();
 		Pad						*pad;
-		std::vector<Object3D*>	bricks;
+		std::vector<Brick*>	bricks;
 		Ball					*ball;
 		Water					*water;
 		Skybox					*skybox;
+
+		std::vector<BBUI>		uiBillboards;
+		std::vector<BBFont>		fontBillboards;
+
+		Font					*testFont;
+		Text					*testText;
+
 		~ObjectCore();
 	};
 }
