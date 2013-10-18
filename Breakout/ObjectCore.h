@@ -4,6 +4,7 @@
 #include "Pad.h"
 #include "Resource.h"
 #include "Text.h"
+#include "UIElement.h"
 namespace Logic
 {
 	class ObjectCore
@@ -19,6 +20,8 @@ namespace Logic
 
 		Font					*testFont;
 		Text					*testText;
+
+		UIElement				*SideBar;
 
 		~ObjectCore();
 	};

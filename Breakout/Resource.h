@@ -26,6 +26,8 @@ struct BBUI
 	float rotation;
 	Vec4 tintAlpha;
 	int texIndex;
+	BBUI(Vec2 p, Vec2 s, float r, Vec4 ta, int i) : pos(p), size(s), rotation(r), tintAlpha(ta), texIndex(i){}
+	BBUI(){}
 };
 struct BBFont
 {
@@ -81,8 +83,8 @@ struct Action2D
 };
 
 #define PI 3.14159265359
-#define SCRWIDTH 1024
-#define SCRHEIGHT 768
+#define SCRWIDTH 1920
+#define SCRHEIGHT 1080
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

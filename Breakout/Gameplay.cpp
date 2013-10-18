@@ -43,9 +43,9 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		objectCore->uiBillboards.push_back(BBUI());
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(-200,0);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(0,0);
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,768);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,1080);
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
 
@@ -54,9 +54,6 @@ namespace Logic
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
 		objectCore->testText->setTextData(0, 10);
-		objectCore->testText->addAction(Action2D(Vec2(400,400),Vec2(1,1),0.0f, Vec4(1,1,1,1), 2.0f, 3));
-		objectCore->testText->addAction(Action2D(Vec2(20,20),Vec2(.5f,.5f),0.0f, Vec4(2,1,1,.5f), 2.0f, 3));
-		objectCore->testText->addAction(Action2D(Vec2(700,100),Vec2(2,2),0.0f, Vec4(0,1,1,1), 2.0f, 5));
 
 		currentMapIndex = 0;
 		mapLoading->loadMap(currentMapIndex,&objectCore->bricks,objectCore->ball,objectCore->pad);

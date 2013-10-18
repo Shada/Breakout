@@ -12,7 +12,7 @@ namespace Logic
 		gameplay	= new Gameplay(inputHandler);
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
-		soundSystem->Play(1);
+		soundSystem->Play(5);
 
 		Resources::LoadHandler::getInstance();
 	}

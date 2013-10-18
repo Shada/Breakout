@@ -71,7 +71,7 @@ void GraphicsDX11::init(HWND *hWnd)
     sd.OutputWindow = (*hWnd);
     sd.SampleDesc.Count = 1;
     sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
+    sd.Windowed = FALSE;
 
 	for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
@@ -584,6 +584,8 @@ void GraphicsDX11::draw()
 	offset = 0;
 
 	immediateContext->RSSetState(rasterizerBackface);
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
 	
 	D3D11_MAPPED_SUBRESOURCE updateData;
 	ZeroMemory( &updateData, sizeof( updateData ) );
@@ -596,7 +598,6 @@ void GraphicsDX11::draw()
 	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	techniques.at( getTechIDByName( "techUI" ) )->useTechnique();
-	immediateContext->PSSetShaderResources( 0,1,&textures.at( 8 ) );
 	immediateContext->IASetInputLayout(uiLayout);
 
 	cb0.world			= Matrix(	1,0,0,0,
@@ -610,6 +611,7 @@ void GraphicsDX11::draw()
 									0,0,0,1	);
 	updateCBWorld( cb0 );
 
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( objectCore->SideBar->getTexIndex() ) );
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
