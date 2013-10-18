@@ -50,6 +50,13 @@ struct CBOnce
 	Vec4	lightPos;
 };
 
+struct MinorEffect 
+{
+	Vec3 pos;
+	int type;
+};
+
+
 #define PI 3.14159265359
 #define SCRWIDTH 1024
 #define SCRHEIGHT 768
