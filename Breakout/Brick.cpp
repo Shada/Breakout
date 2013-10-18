@@ -3,7 +3,7 @@
 
 namespace Logic
 {
-	Brick::Brick(Vec3 _pos)
+	Brick::Brick(Vec3 _pos, bool _cylinder)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
@@ -15,11 +15,14 @@ namespace Logic
 		width = 5;
 		height = 5;
 
-		updateWorld();
-		//transformToCyl();
+		if(_cylinder)
+			transformToCyl();
+		else
+			updateWorld();
+		
 	}
 
-	Brick::Brick(Vec3 _pos, double _width, double _height)
+	Brick::Brick(Vec3 _pos, bool _cylinder, double _width, double _height)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
@@ -34,7 +37,10 @@ namespace Logic
 		scale.x = (float)width / 5;
 		scale.y =  (float)height / 5;
 
-		transformToCyl();
+		if(_cylinder)
+			transformToCyl();
+		else
+			updateWorld();
 	}
 
 	Brick::~Brick()

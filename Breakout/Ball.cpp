@@ -70,15 +70,22 @@ namespace Logic
 		lastFrame = position;
 		position += direction * speed * (float)_dt;
 
-		if(position.x > 300.0f || position.x < 0.0f)
+		if(position.x > Logic::borderMaxX || position.x < 0.0f)
 		{
-			position.x > 300.0f ? position.x -= 300.f : position.x += 300.f;
+			position.x > Logic::borderMaxX ? position.x -= Logic::borderMaxX : position.x += Logic::borderMaxX;
 		}
 
 		transformToCyl();
 	}
 
-#ifdef _WIN32
+	void Ball::setDirection(float _x, float _y, float _z)
+	{
+		if(_x != NULL) direction.x = _x;
+		if(_y != NULL) direction.y = _y;
+		if(_z != NULL) direction.z = _z;
+		direction.normalize();
+	}
+
 	void Ball::setWindDirection(float _x, float _y, float _z)
 	{
 		if (activeEffect == 0)
@@ -91,13 +98,4 @@ namespace Logic
 			effectAcceleration = 30;
 		}
 	}
-
-    void Ball::setDirection(float _x, float _y, float _z)
-    {
-        if(_x != NULL) direction.x = _x;
-        if(_y != NULL) direction.y = _y;
-        if(_z != NULL) direction.z = _z;
-		direction.normalize();
-    }
-#endif // _WIN32
 }

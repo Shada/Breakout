@@ -46,7 +46,7 @@ namespace Logic
 		Vec3 objPos = _object->getPosition();
 		float radius = _ball->getRadius();
 		
-		float LENGTH = 15, HEIGHT = 7.5;
+		float LENGTH = 15, HEIGHT = 7.5f;
 
 		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
 			objPos.x += (float)LENGTH / 2;
@@ -169,7 +169,8 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-		if(!_isCylinder && ballPos.x - tRadius < 0 || ballPos.x + tRadius > borderMaxX)
+
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -198,12 +199,12 @@ namespace Logic
 	}
 
 	/*Check if ball collides with a list of objects. Calculates any collissions. */
-	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks)
+	inline int Check2DCollissions(Ball* _ball, std::vector<Brick*> _listOfBricks, bool _isCylinder)
 	{
 		//Function could be bool-based if we want effects when colliding.
 		// Should probably return false on bordercollide then.
 
-		if(BorderCollide(_ball, false))
+		if(BorderCollide(_ball, _isCylinder))
 		{
 			//Ball collides with border, calculate new direction and return.
 			return -1;
@@ -420,10 +421,13 @@ namespace Logic
 		Vec3 result;
 
 		float diff = _pos.x/(float)borderMaxX;
+		float par = diff * 2 * PI;
+		float sin = sinf(par);
+		float cos = cosf(par);
 		
-		result.x = _cylCenter.x + _radius * sinf( diff * 2 * (float)PI);
+		result.x = _cylCenter.x + _radius * cosf( diff * 2 * (float)PI);
 		result.y = _cylCenter.y + _pos.y;
-		result.z = _cylCenter.z + _radius * cosf( diff * 2 * (float)PI);
+		result.z = _cylCenter.z + _radius * sinf( diff * 2 * (float)PI);
 
 		return result;
 	}

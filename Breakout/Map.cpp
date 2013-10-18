@@ -28,7 +28,7 @@ namespace Logic
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			mapType = color.rgbGreen;
+			mapType = color.rgbGreen; //Penk haxx, to test Cylinder
 			int difficulty = color.rgbBlue;
 
 			//Load the rest of the pixel items
@@ -75,11 +75,10 @@ namespace Logic
 					{
 						//Set brick property here
 						Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
-						Brick *tBrick = new Brick(brickPos);
+						//Brick *tBrick = new Brick(brickPos, 5, 5);
+						Brick *tBrick = new Brick(brickPos, mapType == 3, 5, 5); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
-
-						mapType == 3 ? tBrick->transformToCyl() : tBrick->updateWorld();
 
 						_bricks->push_back(tBrick);
 					}

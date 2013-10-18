@@ -10,9 +10,9 @@
 namespace Logic
 {
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
-	{
-		
+	{		
 		mapLoading = new Map();
+		inputHandler = _handler;
 
 		objectCore = new ObjectCore();
 		play = ballPadCollided = createBall = false;
@@ -26,7 +26,14 @@ namespace Logic
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
-		objectCore->mapType = objectCore->MapType::eWater;
+
+		Vec3 vec1 = Logic::from2DToCylinder(Vec3(0,0,0), 100);
+		Vec3 vec2 = Logic::from2DToCylinder(Vec3(75,0,0), 100);
+		Vec3 vec3 = Logic::from2DToCylinder(Vec3(150,0,0), 100);
+		int c = 0; c++;
+
+
+		this->setMaptype(objectCore->MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -37,23 +44,27 @@ namespace Logic
 		camera->setPosition(Logic::fitToScreen(Vec3(0,200,0), Vec3(300,200,0), Vec3(0,0,0), Vec3(300,0,0)));
 		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
+		
+		//inputHandler = handler;
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
 		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
+
 		_handler->setPad(objectCore->pad, keys);
-		//inputHandler = handler;
 
 		//inputHandler->setCamera(camera, keys);
 
 
 
 		currentMapIndex = 0;
+
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad);
-		objectCore->setMapType(mapLoading->getMapType());
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		this->setMaptype(mapLoading->getMapType());
+		if(objectCore->getMapType() == objectCore->MapType::eWater)
+
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
 
 
@@ -64,7 +75,9 @@ namespace Logic
 
 	void Gameplay::update(float _dt)
 	{
-		if(objectCore->mapType == objectCore->MapType::eFire)
+		static bool isPressed = false;
+
+		if(objectCore->getMapType() == objectCore->MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
 
@@ -79,7 +92,8 @@ namespace Logic
 
 		if(play)
 		{
-			if(objectCore->mapType == objectCore->MapType::eFire)
+
+			if(objectCore->getMapType() == objectCore->MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);
 			else
@@ -119,16 +133,17 @@ namespace Logic
 			}
 
 			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
-			if(objectCore->mapType == objectCore->MapType::eFire)
+
+			if(objectCore->getMapType() == objectCore->MapType::eFire)
 				objectCore->ball.at(0)->transformToCyl();
 			else
 				objectCore->ball.at(0)->updateWorld();
 		}
 #ifdef _WIN32
-		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
+		if(GetAsyncKeyState(VK_NUMPAD0) != 0 && !isPressed)
 		{
 			nextMap();
-			objectCore->setMapType(mapLoading->getMapType());
+			this->setMaptype(mapLoading->getMapType());
 		}
 
 		if(play && GetAsyncKeyState(VK_NUMPAD5) != 0 && !createBall)
@@ -145,9 +160,16 @@ namespace Logic
 		if(objectCore->bricks.size() == 0)
 		{
 			nextMap();
-			objectCore->setMapType(mapLoading->getMapType());
+			this->setMaptype(mapLoading->getMapType());
 		}
-		if(objectCore->mapType == objectCore->MapType::eWater)
+
+		//Vec3 padPos = objectCore->pad->getPosition();
+
+		///////
+		//padPos.y += 100;
+		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+
+		if(objectCore->getMapType() == objectCore->MapType::eWater)
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -164,12 +186,13 @@ namespace Logic
 		
 		// check collision between a ball and the bricks, will return the id of any brick the ball has
 		// collided with, if no collision then -1 is returned
+
 		if(!play)
 			return;
 
 		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks);
+			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
 			if(collidingObject != -1)
 			{
 				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
@@ -343,6 +366,8 @@ namespace Logic
 			#pragma endregion 
 		}
 
+
+		isPressed = GetAsyncKeyState(VK_NUMPAD0);
 	}
 
 	void Gameplay::nextMap()
@@ -354,7 +379,7 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,NULL);
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		if(objectCore->getMapType() == objectCore->MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y);
@@ -368,6 +393,13 @@ namespace Logic
 			}
 
 		play = false;
+	}
+
+
+	void Gameplay::setMaptype(int _type)
+	{
+		
+		objectCore->setMapType(_type);
 	}
 
 	void Gameplay::doubleBallEffect()

@@ -77,8 +77,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventSystem.cpp">
-		<Filter>Source Files</Filter>
-	</ClCompile>
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Object3D.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
@@ -190,9 +190,6 @@
     <ClInclude Include="Timer.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -216,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="EventSystem.h">
       <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCore.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

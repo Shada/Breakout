@@ -23,10 +23,10 @@ namespace Logic
 	{
 		switch(type)
 		{
-			case eEarth :	mapType = eEarth;
-			case eWater :	mapType = eWater;
-			case eWind :	mapType = eWind;
-			case eFire :	mapType = eFire;
+			case eEarth :	mapType = eEarth;	break;
+			case eWater :	mapType = eWater;	break;
+			case eWind :	mapType = eWind;	break;
+			case eFire :	mapType = eFire;	break;
 		}
 	}
 

@@ -8,7 +8,7 @@ namespace Logic
 	{
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
-		soundSystem->Play(1);
+		//soundSystem->Play(1);
 
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler, soundSystem);
