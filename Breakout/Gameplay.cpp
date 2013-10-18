@@ -40,11 +40,9 @@ namespace Logic
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
-		//keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
-		//keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
+		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
 		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
-		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveLeft));
-		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveRight));
 		_handler->setPad(objectCore->pad, keys);
 		//inputHandler = handler;
 
@@ -121,13 +119,10 @@ namespace Logic
 			}
 
 			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
-			//Vec3 temp = objectCore->ball->getPosition();
-			//objectCore->ball->setPosition(temp);
 			if(objectCore->mapType == objectCore->MapType::eFire)
 				objectCore->ball.at(0)->transformToCyl();
 			else
 				objectCore->ball.at(0)->updateWorld();
-			//objectCore->ball->setPosition(temp);
 		}
 #ifdef _WIN32
 		if(GetAsyncKeyState(VK_NUMPAD0) != 0)
@@ -135,12 +130,17 @@ namespace Logic
 			nextMap();
 			objectCore->setMapType(mapLoading->getMapType());
 		}
+
 		if(play && GetAsyncKeyState(VK_NUMPAD5) != 0 && !createBall)
-
 			doubleBallEffect();
-
 		else if(createBall && GetAsyncKeyState(VK_NUMPAD5) == 0)
 			createBall = false;
+
+		if(GetAsyncKeyState(VK_NUMPAD9) != 0)
+			objectCore->pad->invertControls(2);
+
+		if(GetAsyncKeyState(VK_NUMPAD7) != 0)
+			objectCore->pad->decreaseRotation(2);
 #endif
 		if(objectCore->bricks.size() == 0)
 		{
@@ -382,8 +382,8 @@ namespace Logic
 			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());
 			objectCore->ball.back()->setDirection((rand() % 100) - 200, (rand() % 100) - 200, 0);
 			objectCore->ball.back()->setModelID(2);
+			objectCore->ball.back()->setTextureID(objectCore->ball.at(i)->getTextureID());
 		}
-		std::cout << "BAAAAAALLSS " << ballSize * 2 << std::endl;
 	}
 
 	Gameplay::~Gameplay()
