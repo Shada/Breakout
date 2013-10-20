@@ -14,7 +14,7 @@ struct PSSceneIn
 //
 float4 PSScenemain(PSSceneIn input) : SV_Target
 {   
-//    return float4(0,0,0,1);
+    return float4(0,0,0,1);
 
-    return tex.Sample( samLinear, input.tex ) * input.color;
+    //return tex.Sample( samLinear, input.tex ) * input.color;
 }

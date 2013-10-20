@@ -11,7 +11,7 @@ namespace Logic
 
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
-		soundSystem->Play(1);
+		//soundSystem->Play(1);
 		//gameState = GameState::GAME_PLAY;
 
 		Resources::LoadHandler::getInstance();

@@ -272,6 +272,12 @@ void GraphicsDX11::init(HWND *hWnd)
 	if(FAILED(hr))
 		return;
 
+	depthDesc.DepthEnable					= FALSE;
+	
+	hr = device->CreateDepthStencilState(&depthDesc, &depthStencilStateDisable);
+	if(FAILED(hr))
+		return;
+
 	//create rasterizerstates
 	D3D11_RASTERIZER_DESC rasterDesc;
 	ZeroMemory( &rasterDesc,sizeof(rasterDesc));
@@ -548,7 +554,18 @@ void GraphicsDX11::draw(double _time)
 	//--------------------------------------------------------------------------------
 	//                                     particles
 	//--------------------------------------------------------------------------------
+	immediateContext->RSSetState(rasterizerFrontface);
+
+
+	immediateContext->GSSetSamplers(1, 1, &samplerPoint);
+
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
 	particle->update(_time);
+
+
+	immediateContext->GSSetSamplers(0, 1, &samplerLinear);
+	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	particle->draw();
 }
 

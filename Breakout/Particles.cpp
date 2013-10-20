@@ -95,8 +95,9 @@ void Particles::update(float dt)
     g->immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_POINTLIST );
 
     // Point to the correct output buffer
-    pBuffers[0] = ParticleStreamTo;
-    g->immediateContext->SOSetTargets( 1, pBuffers, offset );
+    //pBuffers[0] = ParticleStreamTo;
+    //g->immediateContext->SOSetTargets( 1, pBuffers, offset );
+    g->immediateContext->SOSetTargets( 1, &ParticleStreamTo, offset );
 
    
 
@@ -133,6 +134,7 @@ void Particles::draw()
 	g->getTechByName("particleDraw")->useTechnique();
 	//g->updateCBCameraMove();
 	
+	g->immediateContext->IASetInputLayout( ParticleVertexLayout );
 
 
     // Set IA parameters
@@ -143,7 +145,6 @@ void Particles::draw()
     g->immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_POINTLIST );
  
 
-	g->immediateContext->IASetInputLayout( ParticleVertexLayout );
    
 	// Draw
 	g->immediateContext->GSSetShaderResources(0,1,g->getTextureByID(texID));
@@ -207,14 +208,15 @@ void Particles::createRandomTexture()
 void Particles::createBuffer( Vec3 pos)
 {
 	HRESULT hr;
-	 D3D11_BUFFER_DESC vbdesc =
-    {
-        1 * sizeof( PARTICLE_VERTEX ),
-        D3D11_USAGE_DEFAULT,
-        D3D11_BIND_VERTEX_BUFFER,
-        0,
-        0
-    };
+	D3D11_BUFFER_DESC vbdesc;
+	ZeroMemory( &vbdesc, sizeof(vbdesc) );
+	vbdesc.ByteWidth = 1 * sizeof( PARTICLE_VERTEX );
+	vbdesc.Usage = D3D11_USAGE_DEFAULT;
+	vbdesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbdesc.MiscFlags = 0;
+	vbdesc.StructureByteStride = 0;
+    
+
 
 	 //vbdesc.MiscFlags = D3D11_CPU_ACCESS_WRITE;
 

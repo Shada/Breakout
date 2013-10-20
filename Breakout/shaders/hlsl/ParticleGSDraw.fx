@@ -1,29 +1,24 @@
 #include "resource.fx"
 
-cbuffer cbImmutable
-{
-    /*float3 g_positions[4] =
-    {
-        float3( -0.1, 0.1, 0 ),
-        float3( 0.1, 0.1, 0 ),
-        float3( -0.1, -0.1, 0 ),
-        float3( 0.1, -0.1, 0 ),
-    };*/
-	float3 g_positions[4] =
-    {
-        float3( -1, 1, 0 ),
-        float3( 1, 1, 0 ),
-        float3( -1, -1, 0 ),
-        float3( 1, -1, 0 ),
-    };
-    float2 g_texcoords[4] = 
-    { 
-        float2(0,1), 
-        float2(1,1),
-        float2(0,0),
-        float2(1,0),
-    };
-};
+//cbuffer cbImmutable
+//{
+//	float3 g_positions[4] =
+//    {
+//        float3( -1, 1, 0 ),
+//        float3( 1, 1, 0 ),
+//        float3( -1, -1, 0 ),
+//        float3( 1, -1, 0 ),
+//    };
+//    float2 g_texcoords[4] = 
+//    { 
+//        float2(0,1), 
+//        float2(1,1),
+//        float2(0,0),
+//        float2(1,0),
+//    };
+//};
+
+
 
 struct PSSceneIn
 {
@@ -48,6 +43,21 @@ void GSScenemain(point VSParticleDrawOut input[1], inout TriangleStream<PSSceneI
 {
     PSSceneIn output;
     
+	float3 g_positions[4];
+    
+    g_positions[0] = float3( -1, 1, 0 );
+        g_positions[1] = float3( 1, 1, 0 );
+      g_positions[2] =   float3( -1, -1, 0 );
+       g_positions[3] =  float3( 1, -1, 0 );
+    
+    float2 g_texcoords[4];
+    
+     g_texcoords[0]  =  float2(0,1);
+     g_texcoords[1]  =    float2(1,1);
+     g_texcoords[2]  =    float2(0,0);
+     g_texcoords[3]  =    float2(1,0);
+    
+
     //
     // Emit two new triangles
     //
@@ -58,8 +68,8 @@ void GSScenemain(point VSParticleDrawOut input[1], inout TriangleStream<PSSceneI
     for(int i=0; i<4; i++)
     {
         float3 position = g_positions[i]*input[0].radius;
-        position = mul( position, (float3x3)viewInv ) + input[0].pos;
-        output.pos = mul( float4(position,1.0), tWorldViewProj );
+        position = mul( (float3x3)viewInv, position ) + input[0].pos;
+        output.pos = mul(tWorldViewProj, float4(position,1.0));
         
         output.color = input[0].color;
         output.tex = g_texcoords[i];
