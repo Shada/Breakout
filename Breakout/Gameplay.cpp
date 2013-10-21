@@ -61,6 +61,7 @@ namespace Logic
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
 		keys.push_back(KeyBind(KC_NUMPAD9, &StartEffectReset));
 		keys.push_back(KeyBind(KC_NUMPAD1, &StartEffectZapper));
 		keys.push_back(KeyBind(KC_NUMPAD2, &StartEffectWind));
@@ -94,7 +95,7 @@ namespace Logic
 		objectCore->mapType = objectCore->MapType::eWater;// test
 
 		if(objectCore->mapType == objectCore->MapType::eWater)
-			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 
 		soundSystem->PlayLoop(5, -1000);
 
@@ -229,8 +230,8 @@ namespace Logic
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
 			
-			camera->setPosition(Vec3(oldPos.x, waterLevel+50,oldPos.z));
-			camera->setLookAt(Vec3(oldLookat.x, waterLevel,oldLookat.z));
+			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
+			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z+10000));
 			camera->setWaterLevel(waterLevel);
 			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			
