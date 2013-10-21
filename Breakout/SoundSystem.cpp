@@ -91,7 +91,7 @@ void SoundSystem::Update(double dt)
 
 	//Uppdatera alla ljud som behöver time
 	fmodSystem->update();
-	for(int i = 0; i <= 18; i++) // ordna rätt nummer när alla ljud är inne
+	for(int i = 0; i <= 19; i++) // ordna rätt nummer när alla ljud är inne
 		sound[i].Update(dt);
 }
 

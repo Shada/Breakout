@@ -96,7 +96,7 @@ namespace Logic
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
-		soundSystem->PlayLoop(5, -1000);
+		//soundSystem->PlayLoop(5);
 
 
 		#ifndef _WIN32
@@ -287,41 +287,51 @@ namespace Logic
 			for(int i = minorEffects.size(); i > 0; i--)
 			{
 				minorEffects[i-1].pos.y += -_dt * 20;
-				if ((objectCore->pad->getPosition() - minorEffects[i-1].pos).length() < 10)
+				
+				for(int j = objectCore->ball.size() - 1; j >= 0; j--)
 				{
-					if(minorEffects[i-1].type == 0) //Lifegain
+					if ((objectCore->ball.at(j)->getPosition() - minorEffects[i-1].pos).length() < 10)
 					{
-						playerLives++;
-						std::cout << "Life gained! Lives left :" << playerLives << std::endl;
-						minorEffects.erase(minorEffects.begin() + i -1);
+						if(minorEffects[i-1].type == 0) //Lifegain
+						{
+							playerLives++;
+							std::cout << "Life gained! Lives left :" << playerLives << std::endl;
+							minorEffects.erase(minorEffects.begin() + i -1);
+							break;
+						}
+						else if(minorEffects[i-1].type == 1) //Speedbuff
+						{
+							std::cout << "Speedbuff caught" << playerLives << std::endl;
+							objectCore->pad->startSpeed();
+							soundSystem->Play(17);
+							minorEffects.erase(minorEffects.begin() + i -1);
+							break;
+						}
+						else if(minorEffects[i-1].type == 2) //SpeedDebuff
+						{
+							std::cout << "Speed Debuff caught" << playerLives << std::endl;
+							objectCore->pad->startSlow();
+							soundSystem->Play(18);
+							minorEffects.erase(minorEffects.begin() + i -1);
+							break;
+						}
+						else if(minorEffects[i-1].type == 3) //Inverted Controls
+						{}
+						else if(minorEffects[i-1].type == 4) //Rotation speed changed
+						{}
 					}
-					else if(minorEffects[i-1].type == 1) //Speedbuff
+					else if(minorEffects[i-1].pos.y < objectCore->pad->getPosition().y - 20)
 					{
-						std::cout << "Speedbuff caught" << playerLives << std::endl;
-						objectCore->pad->startSpeed();
-						soundSystem->Play(17);
 						minorEffects.erase(minorEffects.begin() + i -1);
+						break;
 					}
-					else if(minorEffects[i-1].type == 2) //SpeedDebuff
-					{
-						std::cout << "Speed Debuff caught" << playerLives << std::endl;
-						objectCore->pad->startSlow();
-						soundSystem->Play(18);
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 3) //Inverted Controls
-					{}
-					else if(minorEffects[i-1].type == 4) //Rotation speed changed
-					{}
 				}
-				else if(minorEffects[i-1].pos.y < objectCore->pad->getPosition().y - 20)
-					minorEffects.erase(minorEffects.begin() + i -1);
 			}
 
 
 		//if(play)
-		if (effectStart == 0)
-			effectStart = eventSystem->Update(_dt);
+		/*if (effectStart == 0)
+			effectStart = eventSystem->Update(_dt);*/
 
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
@@ -364,7 +374,7 @@ namespace Logic
 				effectOriginal = camera->getPosition();
 				effectTimer = 3.5;
 				effectDirection = Vec3((float)(rand() % 100) - 50, (float)(rand() % 100) - 50, (float)(rand() % 100) - 50);
-				soundSystem->Play(19, 1);
+				soundSystem->Play(19, 1.5);
 				std::cout << "Earthquake" << std::endl;
 			}
 			else if (effectStart == 7)//Speed
