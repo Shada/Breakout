@@ -107,12 +107,6 @@ void GraphicsOGL4::draw()
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
-	
-	//send in world matrix
-	cb.world = objectCore->ball->getWorld();
-	cb.worldInv = objectCore->ball->getWorldInv();
-	updateCBWorld(cb);
-
 	// use default program. program id might need to be fetched from object? 
 	reflProgram->useProgram();
 
@@ -121,19 +115,26 @@ void GraphicsOGL4::draw()
 
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
+	for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+	{
+		//send in world matrix
+		cb.world = objectCore->ball[i]->getWorld();
+		cb.worldInv = objectCore->ball[i]->getWorldInv();
+		updateCBWorld(cb);
 
-	// use texture for ball
-	useTexture(objectCore->ball->getTextureID(), diffuseTexID);
+		// use texture for ball
+		useTexture(objectCore->ball[i]->getTextureID(), diffuseTexID);
 
-	// get modelid for ball.
-	modelID = objectCore->ball->getModelID();
+		// get modelid for ball.
+		modelID = objectCore->ball[i]->getModelID();
 
-	// fetch vertexamout and startid for ball model
-	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
-	startIndex		= lh->getModel( modelID )->getStartIndex();
-	
-	// draw ball
-	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+		// fetch vertexamout and startid for ball model
+		vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+		startIndex		= lh->getModel( modelID )->getStartIndex();
+		
+		// draw ball
+		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	}
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -236,11 +237,6 @@ void GraphicsOGL4::draw()
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
 	
-	//send in world matrix
-	cb.world = objectCore->ball->getWorld();
-	cb.worldInv = objectCore->ball->getWorldInv();
-	updateCBWorld(cb);
-	
 	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
 
@@ -249,19 +245,27 @@ void GraphicsOGL4::draw()
 	
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
+	for(unsigned int i = 0; i < objectCore->ball.size(); i++)
+	{
+		//send in world matrix
+		cb.world = objectCore->ball[i]->getWorld();
+		cb.worldInv = objectCore->ball[i]->getWorldInv();
+		updateCBWorld(cb);
 	
-	// use texture for ball
-	useTexture(objectCore->ball->getTextureID(), diffuseTexID);
 	
-	// get modelid for ball.
-	modelID = objectCore->ball->getModelID();
+		// use texture for ball
+		useTexture(objectCore->ball[i]->getTextureID(), diffuseTexID);
 	
-	// fetch vertexamout and startid for ball model
-	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
-	startIndex		= lh->getModel( modelID )->getStartIndex();
+		// get modelid for ball.
+		modelID = objectCore->ball[i]->getModelID();
 	
-	// draw ball
-	glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+		// fetch vertexamout and startid for ball model
+		vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+		startIndex		= lh->getModel( modelID )->getStartIndex();
+	
+		// draw ball
+		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	}
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -293,16 +297,15 @@ void GraphicsOGL4::draw()
 	//                                     bricks
 	//--------------------------------------------------------------------------------
 	
+	// bind static vertex buffer. holds all data for static objects
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
+	// set buffer attribute layout
+	useStandardVertexAttribLayout();
 	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
 	{
 		cb.world = objectCore->bricks[i]->getWorld();
 		cb.worldInv = objectCore->bricks[i]->getWorldInv();
 		updateCBWorld(cb);
-	
-		// bind static vertex buffer. holds all data for static objects
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
-		// set buffer attribute layout
-		useStandardVertexAttribLayout();
 	
 		useTexture(objectCore->bricks[i]->getTextureID(), diffuseTexID);
 	
@@ -311,12 +314,12 @@ void GraphicsOGL4::draw()
 		startIndex			= lh->getModel( modelID )->getStartIndex();
 	
 		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
-		// disable vertex attributes 
-		// (maybe should be in function, so that not to many of few attributes are disabled...)
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
 	}
+	// disable vertex attributes 
+	// (maybe should be in function, so that not to many of few attributes are disabled...)
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	
 	//---------------------------------------------------------------------------------
 	//                              water
@@ -333,9 +336,9 @@ void GraphicsOGL4::draw()
 	useTexture(sceneRenderTarget, texSceneID, 0); // I have to find this shit..
 	useTexture(waterDepthBuffer, texDepthID, 1);
 	useTexture(reflRenderTarget, reflMapID, 2);
-	useTexture(textures->at(11), heightMapID, 3);
-	useTexture(textures->at(12), normMapID, 4);
-	useTexture(textures->at(13), foamMapID, 5);
+	useTexture(textures->at(36), heightMapID, 3);
+	useTexture(textures->at(37), normMapID, 4);
+	useTexture(textures->at(38), foamMapID, 5);
 
 	glDrawArrays(GL_POINTS, 0, 1);
 	
@@ -350,14 +353,11 @@ void GraphicsOGL4::draw()
 	glBindBuffer(GL_ARRAY_BUFFER, uiBufferDynamic);
 	
 	useBillboardVertexAttribLayout();
-	
-	useTexture(9, diffuseTexID);
-	
-	vertexAmount = objectCore->uiBillboards.size();
-	startIndex	 = 0;
-	
-	glDrawArrays(GL_POINTS, startIndex, vertexAmount);
-	
+	for(unsigned int i = 0; i < 1; i++)
+	{
+		useTexture(objectCore->uiBillboards[i].texIndex, diffuseTexID);
+		glDrawArrays(GL_POINTS, i, 1);
+	}
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	//-----------------------------------------------------------------------------------
@@ -374,7 +374,7 @@ void GraphicsOGL4::draw()
 	
 	useFontVertexAttribLayout();
 	
-	useTexture(8, diffuseTexID);
+	useTexture(4, diffuseTexID);
 	
 	vertexAmount		= objectCore->testText->getTextSize();
 	startIndex			= objectCore->testText->getVBStartIndex();
@@ -797,6 +797,4 @@ void GraphicsOGL4::initRenderTargetsAndDepthBuffers()
 		printf("WARNING: Something wrong with framebuffer!!!");
 
 }
-
-
 #endif // !BAJSAPA

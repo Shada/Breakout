@@ -5,15 +5,14 @@
 #endif // BAJSAPA
 Camera::Camera()
 {
-	position = Vec3(75, 190, -150);
-	//position = Vec3(512, 384, -512);
+
+	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
 	lookAt = Vec3(position.x,0,100);
 	
     perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
 	
 	MatrixInversion(projectionInv, projectionMatrix);
-
 
 	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
@@ -74,7 +73,6 @@ void Camera::update()
 	transformCoord(lookAt, lookAt, rotationMatrix);
 	transformCoord(up, up, rotationMatrix);
 	transformCoord(negUp, negUp, rotationMatrix);
-
 
 	//Translate rotated camera position to location of viewer
 	//lookAt = pos + Vec3(0,0,1);

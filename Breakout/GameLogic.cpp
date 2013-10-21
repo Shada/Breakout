@@ -8,17 +8,20 @@ namespace Logic
 	{
 		soundSystem = new SoundSystem();
 		soundSystem->Initialize();
-		soundSystem->Play(1);
+		//soundSystem->Play(1);
 
 		inputHandler = handler;
 		gameplay = new Gameplay(inputHandler, soundSystem);
+
+		//gameState = GameState::GAME_PLAY;
+		inputHandler = handler;
 
 		menu		= new Menu();
 
 		Resources::LoadHandler::getInstance();
 	}
 
-	void GameLogic::update(double _dt)
+	void GameLogic::update(float _dt)
 	{
 		soundSystem->Update(_dt);
 

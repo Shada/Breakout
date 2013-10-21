@@ -6,7 +6,7 @@ namespace Logic
 {
 	EventSystem::EventSystem(int typeOfMap, int difficulty)
 	{
-		srand (time(NULL));
+		srand((unsigned)time(NULL));
 		mapType = typeOfMap;
 		leveldifficulty = difficulty;
 		nextSpawn = rand() % 20 + 10;

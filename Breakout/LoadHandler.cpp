@@ -57,9 +57,12 @@ namespace Resources
 		{
 			while(!myfile.eof())
 			{
-				textures.push_back(new Texture());
 				myfile.getline(file,sizeof(myfile));
-				loader->loadTexture(file,textures.back());
+				if(file[0] != NULL)
+				{
+					textures.push_back(new Texture());
+					loader->loadTexture(file,textures.back());
+				}
 			}
 		}
 		myfile.close();

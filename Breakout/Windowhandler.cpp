@@ -128,7 +128,7 @@ int Winhandler::run()
 	QueryPerformanceFrequency( ( LARGE_INTEGER* )&cntsPerSec);
 	double			dt = 0, time = 0;
 	double			secsPerCnt = 1.0 / (double)cntsPerSec;*/
-	double time = 0;
+	float time = 0;
 
 	//QueryPerformanceCounter( ( LARGE_INTEGER* )&currTimeStamp);
 	//prevTimeStamp	= currTimeStamp;
@@ -142,13 +142,14 @@ int Winhandler::run()
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 		dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;*/
 		timer->Tick();
-		time += timer->getDelta();
+		time += (float)timer->getDelta();
 
 		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE) )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
 		}
+
 		else if(time >= 0)
 		{
 			if(GetActiveWindow() == hWnd)
@@ -217,14 +218,14 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-	double time = 0;
+	float time = 0;
 	timer->Tick();
 
 	do
 	{
 		//drawing (shall be in render class)
 		timer->Tick();
-		time += timer->getDelta();
+		time += (float)timer->getDelta();
 
 		if(time > 1.f / 600)
 		{
@@ -257,15 +258,26 @@ bool Linuxhandler::initWindow()
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
 
-
-	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_FULLSCREEN))
+	if(FULLSCR)
 	{
-		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+		if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_FULLSCREEN))
+		{
+			fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
 
-		glfwTerminate();
-		return false;
+			glfwTerminate();
+			return false;
+		}
 	}
+	else
+	{
+		if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+		{
+			fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
 
+			glfwTerminate();
+			return false;
+		}
+	}
 	// initialize GLEW
 	glewExperimental = true; // need this for core profile
 	if(glewInit() != GLEW_OK)

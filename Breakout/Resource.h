@@ -26,6 +26,8 @@ struct BBUI
 	float rotation;
 	Vec4 tintAlpha;
 	int texIndex;
+	BBUI(Vec2 p, Vec2 s, float r, Vec4 ta, int i) : pos(p), size(s), rotation(r), tintAlpha(ta), texIndex(i){}
+	BBUI(){}
 };
 struct BBFont
 {
@@ -34,9 +36,9 @@ struct BBFont
 };
 struct CBFont
 {
+	Vec4 tintAlpha;			//rgb tint, a alpha
 	Vec2 pos;				//world position
 	Vec2 scale;				//world scale
-	Vec4 tintAlpha;			//rgb tint, a alpha
 	Vec2 imageSize;			//resolution of font image
 	float rotation;			//world rotation
 	float padda;
@@ -90,7 +92,8 @@ struct CBWaterOnce
 
 	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
 
-	Vec4 waterSurfaceColor;
+	Vec3 waterSurfaceColor;
+	int  waterType;
 
 	Vec4 waterDepthColor;
 
@@ -98,9 +101,32 @@ struct CBWaterOnce
 
 };
 
+struct Action2D
+{
+	Vec2	newPos;			//new position value
+	Vec2	newScale;		//new scale value
+	float	newRotation;	//new rotation value
+	Vec4	newTintAlpha;	//new tint alpha values
+	float	time;			//interpolation time
+	float	timePassed;		//time passed since start. (if negative, it is inactive until positive)
+	int		expFactor;		//what order of exponential interpolation?
+
+	Action2D(Vec2 inPos, Vec2 inScale, float inRotation, Vec4 inTintAlpha, float inTime, int inExpFactor)
+		: newPos(inPos), newScale(inScale), newRotation(inRotation),newTintAlpha(inTintAlpha), time(inTime), expFactor(inExpFactor){ timePassed = 0; }
+    Action2D(){}
+};
+
+struct MinorEffect 
+{
+	Vec3 pos;
+	int type;
+};
+
+
 #define PI 3.14159265359
 #define SCRWIDTH 1920
-#define SCRHEIGHT 1200
+#define SCRHEIGHT 1080
+#define FULLSCR 0
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

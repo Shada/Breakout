@@ -61,14 +61,17 @@
     <ClCompile Include="MenuElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgramGLSL.cpp">
-      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Water.cpp">
       <Filter>Source Files</Filter>
@@ -86,7 +89,16 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="EventSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
       <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Object2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +211,6 @@
     <ClInclude Include="Timer.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -232,8 +241,20 @@
     <ClInclude Include="Text.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>Header Files</Filter>
+	  </ClInclude>
     <ClInclude Include="EventSystem.h">
       <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>HLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectCore.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -259,15 +280,6 @@
       <Filter>HLSL\ps</Filter>
     </CustomBuild>
     <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
-      <Filter>HLSL\vs</Filter>
-    </CustomBuild>
-    <CustomBuild Include="shaders\hlsl\gsFont.fx">
-      <Filter>HLSL\gs</Filter>
-    </CustomBuild>
-    <CustomBuild Include="shaders\hlsl\psFont.fx">
-      <Filter>HLSL\ps</Filter>
-    </CustomBuild>
-    <CustomBuild Include="shaders\hlsl\vsFont.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -302,6 +314,15 @@
     <None Include="shaders\glsl\vsSkybox.glsl">
       <Filter>GLSL\vs</Filter>
     </None>
+    <CustomBuild Include="shaders\hlsl\gsFont.fx">
+      <Filter>HLSL\gs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\psFont.fx">
+      <Filter>HLSL\ps</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsFont.fx">
+      <Filter>HLSL\vs</Filter>
+    </CustomBuild>
     <CustomBuild Include="shaders\hlsl\vsQuad.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>

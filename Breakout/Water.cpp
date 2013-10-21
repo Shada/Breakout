@@ -5,7 +5,7 @@
 #include "GraphicsOGL4.h"
 #endif // BAJSAPA
 
-Water::Water(float _waterLevel)
+Water::Water(float _waterLevel, int _type)
 {
 	waterLevel = _waterLevel;
 	windDirection = Vec2(-0.1f, 0.4f);
@@ -29,15 +29,22 @@ Water::Water(float _waterLevel)
 	cb.specularIntensity	= .32f;
 	cb.transparency			= 4.0f;
 	cb.refractionScale		= .0008f;
-	
+	cb.waterType			= _type;
 	cb.normalModifier		= Vec4(1.0f,2.0f,4.0f,8.0f);	
 	cb.foamOptions			= Vec4(0.75f, 1.32f, 0.5f,1.0f);
-	cb.waterSurfaceColor	= Vec4(0.0078f, 0.617f, 0.7f,1.0f);
-	cb.waterDepthColor		= Vec4(0.0f,0.2f,0.4f,1.0f);//Vec3(0.0039f, 0.0196f, 0.145f );
-	//cb.waterSurfaceColor	= Vec3(1.000f, 0.001f, 0.0f);
-	//cb.waterDepthColor		= Vec3(1,0,0);//Vec3(0.0039f, 0.0196f, 0.145f );
+	if(_type == 0)
+	{
+		cb.waterSurfaceColor	= Vec3(0.0078f, 0.617f, 0.7f);
+		cb.waterDepthColor		= Vec4(0.0f,0.2f,0.4f,1.0f);
+		cb.extinction			= Vec4(28.0f, 120.0f, 160.0f ,1.0f);
+	}
+	if(_type == 1)
+	{
+		cb.waterSurfaceColor	= Vec3(1.000f, 0.001f, 0.0f);
+		cb.waterDepthColor		= Vec4(1,0,0,1);
+		cb.extinction			= Vec4(160.0f, 0.0f, 8.0f ,1.0f);
+	}
 
-	cb.extinction			= Vec4(28.0f, 120.0f, 160.0f ,1.0f);
 	cb.scale				= Vec2( 0.0005f, 0.0005f );
 #ifdef BAJSAPA
 	GraphicsDX11::getInstance()->updateCBWaterOnce(cb);

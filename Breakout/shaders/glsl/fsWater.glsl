@@ -182,7 +182,7 @@ void main()
 	vec4 viewPos = projInv * clipPos;
 	vec4 worldPos = viewInv * (viewPos / viewPos.w);
 
-	if(worldPos.y > waterLevel-50)// + maxAmplitude)//if the pixel is above the water surface, then discard.
+	if(worldPos.y > waterLevel)// + maxAmplitude)//if the pixel is above the water surface, then discard.
 	{
 		color = originalColor;
 		return;

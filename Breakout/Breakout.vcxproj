@@ -81,6 +81,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,6 +143,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuElement.h" />
+    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ObjectCore.h" />
     <ClInclude Include="Pad.h" />
@@ -165,7 +168,9 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="ObjectCore.cpp" />
+    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="ProgramGLSL.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -174,6 +179,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClInclude Include="TechniqueHLSL.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Windowhandler.h" />
   </ItemGroup>
@@ -192,6 +198,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Windowhandler.cpp" />
   </ItemGroup>
@@ -234,6 +241,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="shaders\glsl\fsBBUI.glsl" />
     <None Include="shaders\glsl\fsFont.glsl" />
     <None Include="shaders\glsl\fsQuad.glsl" />
@@ -249,6 +258,7 @@
     <None Include="shaders\glsl\vsQuad.glsl" />
     <None Include="shaders\glsl\vsRefl.glsl" />
     <None Include="shaders\glsl\vsSimple.glsl" />
+	<None Include="shaders\glsl\vsSkybox.glsl" />
     <CustomBuild Include="shaders\hlsl\psSkybox.fx">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
@@ -273,7 +283,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)shaders\hlsl\%(Filename).cps</Outputs>
     </CustomBuild>
-    <CustomBuild Include="shaders\hlsl\vsFont.fx">
+    <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)shaders\hlsl\%(Filename).cps</Outputs>
@@ -282,13 +292,18 @@
   <ItemGroup>
     <CustomBuild Include="shaders\hlsl\gsQuad.fx">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
     </CustomBuild>
     <CustomBuild Include="shaders\hlsl\psQuad.fx">
       <FileType>Document</FileType>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsFont.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T fx_5_0 /Fo "%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)Shaders\hlsl\%(Filename).cps</Outputs>
     </CustomBuild>
     <CustomBuild Include="shaders\hlsl\vsQuad.fx">
       <FileType>Document</FileType>

@@ -21,14 +21,14 @@ namespace Logic
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
 		
-
 		Inputhandler	*inputHandler;
 		Menu			*menu;
+
 	public:
 		GameLogic(Inputhandler *handler);
 		~GameLogic();
 
-		void update(double dt);
+		void update(float dt);
 		void draw();
 	};
 

@@ -8,14 +8,10 @@
 
 
 Text::Text(std::vector<BBFont> *fontBillboards, const char *text, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
+	:Object2D(pos,scale,rotation,tintAlpha)
 {
 	textData = fontBillboards;
-
 	this->text		= text;
-	this->pos		= pos;
-	this->scale		= scale;
-	this->rotation	= rotation;
-	this->tintAlpha	= tintAlpha;
 	font = NULL;
 	vbStartIndex = 0;
 }
@@ -32,8 +28,15 @@ void Text::updateTextData()
 		throw std::exception("No font selected.");
 		return;
 	}
-	vbStartIndex = textData->size();
+	textData->clear();
 	font->loadText(textData, text);
+}
+
+void Text::setTextData(unsigned int bufferStartIndex, unsigned int allocatedSize)
+{
+	vbStartIndex		= bufferStartIndex;
+	this->allocatedSize	= allocatedSize;
+	updateTextData();
 }
 
 void Text::updateCB()
@@ -42,8 +45,8 @@ void Text::updateCB()
 	cb.pos			= pos;
 	cb.scale		= scale;
 	cb.rotation		= rotation;
-	cb.tintAlpha	= tintAlpha;
 	cb.imageSize	= Vec2(1420,250);
+	cb.tintAlpha	= tintAlpha;
 
 	#ifdef BAJSAPA
 		GraphicsDX11::getInstance()->updateCBFont(cb);
@@ -54,4 +57,5 @@ void Text::updateCB()
 
 Text::~Text()
 {
+	
 }
