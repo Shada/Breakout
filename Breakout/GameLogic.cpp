@@ -10,38 +10,40 @@ namespace Logic
 		soundSystem->Initialize();
 		//soundSystem->Play(1);
 
-		inputHandler = handler;
-		gameplay = new Gameplay(inputHandler, soundSystem);
-
-		//gameState = GameState::GAME_PLAY;
-		inputHandler = handler;
-
-		menu		= new Menu();
-
+		inputHandler	= handler;
+		objectCore		= new ObjectCore();
+		menu			= new Menu(objectCore);
+		menu->addOption("New Game");
+		menu->addOption("Highscore");
+		menu->addOption("Options");
+		menu->addOption("Credits");
+		menu->addOption("Exit");
+		menu->open();
+		gameplay		= new Gameplay(inputHandler, soundSystem, objectCore);
+		inputHandler	= handler;
+		
 		Resources::LoadHandler::getInstance();
+
+		Global::getInstance()->gameState = GameState::GAME_MENU;
 	}
 
 	void GameLogic::update(float _dt)
 	{
 		soundSystem->Update(_dt);
 
-		inputHandler->updateGame();
-		gameplay->update(_dt);
-		/*switch(gameState)
+		switch(Global::getInstance()->gameState)
 		{
 		case GAME_PLAY:
 		{
-			
-			break;
-		}
-		case GAME_PLAYING:
 			inputHandler->updateGame();
 			gameplay->update(_dt);
 			break;
+		}
 		case GAME_MENU:
 			inputHandler->updateMenu();
+			menu->update(_dt);
 			break;
-		}*/
+		}
 	}
 
 	GameLogic::~GameLogic()

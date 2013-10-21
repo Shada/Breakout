@@ -9,13 +9,13 @@
 namespace Logic
 {
 	int Gameplay::startEffect = 0;
-	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
+	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys, ObjectCore *objectCore)
 	{
 		fps = 0;
 		mapLoading = new Map();
 		inputHandler = _handler;
 		
-		objectCore = new ObjectCore();
+		this->objectCore = objectCore;
 		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
@@ -73,19 +73,6 @@ namespace Logic
 		_handler->setPad(objectCore->pad, keys);
 
 		//inputHandler->setCamera(camera, keys);
-
-		objectCore->uiBillboards.push_back(BBUI());
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(0,0);
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,1080);
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
-
-		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
-		std::vector<BBFont> test = std::vector<BBFont>();
-		objectCore->testFont->setImageIndex(7);
-		objectCore->testText->setFont(objectCore->testFont);
-		objectCore->testText->setTextData(0, 10);
 		
 		currentMapIndex = 0;
 		

@@ -19,8 +19,8 @@ private:
 public:
 	Font();
 	void setImageIndex(unsigned int index) { imageIndex = index; }
-	void loadFontSettings(const char *filePath);
-	void loadText(std::vector<BBFont> *outData, const char *text);
+	void loadFontSettings(std::string filePath);
+	void loadText(std::vector<BBFont> *outData, std::string text);
 
 	unsigned int getImageIndex() { return imageIndex; }
 	~Font();

@@ -58,7 +58,7 @@ namespace Logic
 
 
 	public:
-		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
+		Gameplay(Inputhandler *&handler,SoundSystem *soundSys, ObjectCore *objectCore);
 		~Gameplay();
 
 		void update(double dt);

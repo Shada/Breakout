@@ -8,6 +8,7 @@
 #include "TechniqueHLSL.h"
 #include "LoadHandler.h"
 #include "ObjectCore.h"
+#include "Menu.h"
 
 class GraphicsDX11
 {
@@ -117,7 +118,7 @@ public:
 		return instance;
 	}
 	/* initialization */
-	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
+	void	setObjectCore(Logic::ObjectCore *objectCore)	{ this->objectCore = objectCore; }
 	void	init(HWND *hWnd);
 	void	clearRenderTarget(float r, float g, float b);
 	HRESULT	compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut );
@@ -150,6 +151,8 @@ public:
 	void	updateCBWaterOnce(CBWaterOnce cb) 	{ immediateContext->UpdateSubresource(cbWaterOnce, 0, NULL, &cb, 0, 0); }
 
 	void	draw();
+	void	drawMenu();
+	void	drawGame();
 
 	void	useShaderResourceViews(ID3D11ShaderResourceView **views,int startSlot, int numberofViews);
 	~GraphicsDX11();

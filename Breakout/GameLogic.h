@@ -12,17 +12,15 @@ namespace Logic
 	class GameLogic
 	{
 	private:
-		//TODO:
-		//GameplayClass
-		//MenuClass
-		//List of Maps
-		SoundSystem *soundSystem;
-		Gameplay *gameplay;
+		SoundSystem		*soundSystem;
+		Gameplay		*gameplay;
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
 		
 		Inputhandler	*inputHandler;
 		Menu			*menu;
+
+		ObjectCore		*objectCore;
 
 	public:
 		GameLogic(Inputhandler *handler);

@@ -7,7 +7,7 @@ Font::Font()
 	characters = std::vector<Character>();
 }
 
-void Font::loadFontSettings(const char *filePath)
+void Font::loadFontSettings(std::string filePath)
 {
 	std::ifstream myfile (filePath);
 	if (myfile.is_open())
@@ -29,14 +29,14 @@ void Font::loadFontSettings(const char *filePath)
 	myfile.close();
 }
 
-void Font::loadText(std::vector<BBFont> *outData, const char *text)
+void Font::loadText(std::vector<BBFont> *outData, std::string text)
 {
-	unsigned int size = strlen(text);
+	unsigned int size = text.size();
 	BBFont current;
 	int posx = 0;
 	if(characters.size() == 0)
 	{
-		std::cout << "Error: No font loaded for text ( " << text << " )";
+		std::cout << "Error: No font loaded for text ( " << text.c_str() << " )";
 		return;
 	}
 	for(unsigned int i = 0; i < size; i++)

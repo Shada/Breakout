@@ -7,7 +7,7 @@
 #endif
 
 
-Text::Text(std::vector<BBFont> *fontBillboards, const char *text, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
+Text::Text(std::vector<BBFont> *fontBillboards, std::string text, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
 	:Object2D(pos,scale,rotation,tintAlpha)
 {
 	textData = fontBillboards;
@@ -16,7 +16,7 @@ Text::Text(std::vector<BBFont> *fontBillboards, const char *text, Vec2 pos, Vec2
 	vbStartIndex = 0;
 }
 
-void Text::setText(const char *text)
+void Text::setText(std::string text)
 {
 	this->text = text;
 }
