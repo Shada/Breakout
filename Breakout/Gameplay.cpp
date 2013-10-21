@@ -96,6 +96,8 @@ namespace Logic
 
 		if(objectCore->mapType == objectCore->MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
+		if(objectCore->mapType == objectCore->MapType::eFire)
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		soundSystem->PlayLoop(5, -1000);
 
@@ -222,7 +224,7 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater)
+		if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -515,7 +517,11 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		
+		if(objectCore->mapType == objectCore->MapType::eFire)
+		{
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
+		}
 		playerLives = 3;
 
 		if(objectCore->ball.size() > 1)
