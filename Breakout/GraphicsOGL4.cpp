@@ -6,23 +6,8 @@
 
 GraphicsOGL4 *GraphicsOGL4::instance = NULL;
 
-struct Matrices
-{
-    Matrix *view;
-    Matrix *viewInverse;
-    Matrix *projection;
-    Matrix *projectionInverse;
-}matrices;
-
-
 GraphicsOGL4::GraphicsOGL4()
 {
-    // Initiate matrices so that they all are pointing to
-    matrices.view = NULL;
-    matrices.viewInverse = NULL;
-    matrices.projection = NULL;
-    matrices.projectionInverse = NULL;
-
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
@@ -39,16 +24,6 @@ GraphicsOGL4::GraphicsOGL4()
 	initConstantBuffers();
 	initUniforms();
 	initRenderTargetsAndDepthBuffers();
-
-	modelMatID		= glGetUniformLocation(program->getProgramID(), "model");
-	modelInvMatID	= glGetUniformLocation(program->getProgramID(), "modelInvTrans");
-	projMatID		= glGetUniformLocation(program->getProgramID(), "projection");
-	viewMatID		= glGetUniformLocation(program->getProgramID(), "view");
-
-
-	projSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "projection");
-	viewSkybox		= glGetUniformLocation(skyboxProgram->getProgramID(), "view");
-
 }
 
 
@@ -115,8 +90,6 @@ void GraphicsOGL4::draw()
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
 	
-	useMatrices();
-
 	useTexture(objectCore->skybox->getTextureID(), skyboxTexID);
 
 	modelID = objectCore->skybox->getModelID();
@@ -142,9 +115,6 @@ void GraphicsOGL4::draw()
 
 	// use default program. program id might need to be fetched from object? 
 	reflProgram->useProgram();
-	
-	//use projection matrices and stuff.. will be removed
-	useMatrices();
 
 	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
@@ -248,8 +218,6 @@ void GraphicsOGL4::draw()
 	// set buffer attribute layout
 	useStandardVertexAttribLayout();
 	
-	useMatrices();
-	
 	useTexture(objectCore->skybox->getTextureID(), skyboxTexID);
 	
 	modelID = objectCore->skybox->getModelID();
@@ -275,10 +243,7 @@ void GraphicsOGL4::draw()
 	
 	// use default program. program id might need to be fetched from object? 
 	program->useProgram();
-	
-	//use projection matrices and stuff.. will be removed
-	useMatrices();
-	
+
 	// bind static vertex buffer. holds all data for static objects
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferStatic);
 	
@@ -653,54 +618,6 @@ void GraphicsOGL4::useTexture(GLuint _index, GLuint _samplerID, GLint _v0 )
 	glBindTexture(GL_TEXTURE_2D, _index);
 
 	glUniform1i(_samplerID, _v0);
-}
-
-//TODO: Remove all of these and make sure it works
-void GraphicsOGL4::updateModelMatrix(Matrix *_model)
-{
-	glUniformMatrix4fv(modelMatID, 1, GL_FALSE, &_model->r[0][0]);
-}
-
-void GraphicsOGL4::updateModelInvTransMatrix(Matrix *_modelinvtrans)
-{
-	glUniformMatrix4fv(modelInvMatID, 1, GL_FALSE, &_modelinvtrans->r[0][0]);
-}
-
-void GraphicsOGL4::updateViewMatrix(Matrix *_view)
-{
-    matrices.view = _view;
-}
-
-void GraphicsOGL4::updateProjectionMatrix(Matrix *_projection)
-{
-    matrices.projection = _projection;
-}
-
-void GraphicsOGL4::updateProjectionInverseMatrix(Matrix *_projectionInverse)
-{
-    matrices.projectionInverse = _projectionInverse;
-}
-
-void GraphicsOGL4::updateViewInverseMatrix(Matrix *_viewInverse)
-{
-    matrices.viewInverse = _viewInverse;
-}
-
-void GraphicsOGL4::useMatrices()
-{
-    //this has to be changed.... not good to have to ask for id for every new program...
-    // should have shared blocks/buffers
-	
-	if(matrices.view)
-	{
-		glUniformMatrix4fv(viewMatID, 1, GL_FALSE, &matrices.view->r[0][0]);
-		glUniformMatrix4fv(viewSkybox, 1, GL_FALSE, &matrices.view->r[0][0]);
-	}
-	if(matrices.projection)
-	{
-		glUniformMatrix4fv(projMatID, 1, GL_FALSE, &matrices.projection->r[0][0]);
-		glUniformMatrix4fv(projSkybox, 1, GL_FALSE, &matrices.projection->r[0][0]);
-	}
 }
 
 void GraphicsOGL4::initConstantBuffers()

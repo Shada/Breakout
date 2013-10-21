@@ -29,14 +29,6 @@ private:
 	// dynamic buffer for text
 	GLuint textBufferDynamic;
 
-	//matrixIDs
-	GLuint	modelMatID,
-			modelInvMatID,
-			projMatID,
-			viewMatID,
-			viewSkybox,
-			projSkybox;
-
 	//texture IDs
 	GLuint	diffuseTexID,
 			skyboxTexID,
@@ -109,17 +101,6 @@ public:
 	void initVertexBuffer();
 	void feedUIBufferData();
 	void feedTextBufferData();
-
-	// TODO: REMOVE
-	void updateModelMatrix(Matrix *model);
-	void updateModelInvTransMatrix(Matrix *modelinvtrans);
-	void updateViewMatrix(Matrix *view);
-	void updateViewInverseMatrix(Matrix *viewInverse);
-	void updateProjectionMatrix(Matrix *projection);
-	void updateProjectionInverseMatrix(Matrix *projectionInverse);
-
-	// maybe a little different later, this is temporary
-	void useMatrices();
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();

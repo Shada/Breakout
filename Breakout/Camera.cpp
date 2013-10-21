@@ -10,16 +10,6 @@ Camera::Camera()
 	rotation = Vec3(0, 0, 0);
 	lookAt = Vec3(position.x,0,100);
 	
-#ifndef BAJSAPA
-	//TODO: REMOVE!!!
-
-    // Send pointers to camera matrices to graphic engine
-    GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
-    GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
-    GraphicsOGL4::getInstance()->updateViewInverseMatrix(&viewInv);
-    GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
-#endif
-
     perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
 	
 	MatrixInversion(projectionInv, projectionMatrix);
