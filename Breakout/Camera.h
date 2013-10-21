@@ -17,10 +17,11 @@ private:
 
 	Matrix	viewMatrix,
             viewInv,
+			viewRefl,
 			projectionMatrix,
 			projectionInv;
 
-
+	float  waterLevel;
 public:
 	Camera();
 	~Camera();
@@ -29,7 +30,7 @@ public:
 	void setRotation(Vec3 rotation);
 	void setLookAt(Vec3 _lookAt)		{ lookAt = _lookAt;}
 	void setYPos(float _y)				{	position.y = _y; }; //For use in waterworld.
-
+	void setWaterLevel(float _waterLevel){waterLevel = _waterLevel;}
 	Vec3 getPosition();
 	Vec3 getRotation();
 	Vec3 getLookAt()					{ return lookAt; }

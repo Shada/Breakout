@@ -26,6 +26,22 @@ struct BBUI
 	float rotation;
 	Vec4 tintAlpha;
 	int texIndex;
+	BBUI(Vec2 p, Vec2 s, float r, Vec4 ta, int i) : pos(p), size(s), rotation(r), tintAlpha(ta), texIndex(i){}
+	BBUI(){}
+};
+struct BBFont
+{
+	float x; //the x position of the letter
+	Vec4 texCoords; //x,y,width,height on image only. (For world position, the entire text will use CBFont)
+};
+struct CBFont
+{
+	Vec4 tintAlpha;			//rgb tint, a alpha
+	Vec2 pos;				//world position
+	Vec2 scale;				//world scale
+	Vec2 imageSize;			//resolution of font image
+	float rotation;			//world rotation
+	float padda;
 };
 struct CBWorld
 {
@@ -36,23 +52,80 @@ struct CBCameraMove
 {
 	Matrix View;
 	Matrix ViewInv;
+	Matrix viewRefl;
 	Vec3 cameraPos;
+	float p1;
 	Vec3 cameraDir;
-
-	//byte amount must be divisible by 16
-	Vec2 padding;
+	float p2;
 };
-
 struct CBOnce
 {
 	Matrix	projection;
 	Matrix	projectionInv;
 	Vec4	lightPos;
+	Vec2	resolution;
+	Vec2	padding2;
+};
+struct CBWater
+{
+	float waterLevel;
+	float timer;
+	Vec2 windDirection;
+};
+struct CBWaterOnce
+{
+	float waterFade; //how deep anything need to be to fade out in the water
+	float normalScaling; 
+	float maxAmplitude; //max wave amplitude
+	float shoreTransition; //how soft the water and ground fades
+
+	float refractionStrength; //refraction strength
+	float displacementStrength; //multiplier for the height of waves
+	float shininess;
+	float specularIntensity;
+
+	float transparency;
+	float refractionScale;
+	Vec2 scale;
+
+	Vec4 normalModifier; //multiplier for the different normals. first one is for small waves.
+
+	Vec4 foamOptions; //depth of which foam starts to fade out, depth of which foam is invisible, height of which foam appears for waves.
+
+	Vec3 waterSurfaceColor;
+	int  waterType;
+
+	Vec4 waterDepthColor;
+
+	Vec4 extinction;
+
 };
 
+struct Action2D
+{
+	Vec2	newPos;			//new position value
+	Vec2	newScale;		//new scale value
+	float	newRotation;	//new rotation value
+	Vec4	newTintAlpha;	//new tint alpha values
+	float	time;			//interpolation time
+	float	timePassed;		//time passed since start. (if negative, it is inactive until positive)
+	int		expFactor;		//what order of exponential interpolation?
+
+	Action2D(Vec2 inPos, Vec2 inScale, float inRotation, Vec4 inTintAlpha, float inTime, int inExpFactor)
+		: newPos(inPos), newScale(inScale), newRotation(inRotation),newTintAlpha(inTintAlpha), time(inTime), expFactor(inExpFactor){ timePassed = 0; }
+    Action2D(){}
+};
+
+struct MinorEffect 
+{
+	Vec3 pos;
+	int type;
+};
+
+
 #define PI 3.14159265359
-#define SCRWIDTH 1024
-#define SCRHEIGHT 768
+#define SCRWIDTH 1920
+#define SCRHEIGHT 1080
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

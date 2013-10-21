@@ -1,6 +1,11 @@
 #ifndef _PHYSICS_H_
 #define _PHYSICS_H_
 
+//#include "linearalgebra.h"
+//#include "Object.h"
+#include "Ball.h"
+#include <vector>
+//#include "Timer.h"
 #include "ObjectCore.h"
 
 namespace Logic
@@ -8,6 +13,7 @@ namespace Logic
 #pragma region Collission
 	static int borderMaxX = 300;
 	static int borderMaxY = 200;
+
 
 	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
@@ -22,6 +28,7 @@ namespace Logic
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
+
 		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
 			return true;
 
@@ -39,7 +46,7 @@ namespace Logic
 		return false;
 	}
 
-	inline void edgeCollision(Ball *_ball, Object3D* _object)
+	inline void edgeCollision(Ball *_ball, Brick* _object)
 	{
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 lastBallPos = _ball->getLastFrame();
@@ -48,15 +55,18 @@ namespace Logic
 		
 		float LENGTH = 15, HEIGHT = 7.5f;
 
-		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
-			objPos.x += (float)LENGTH / 2;
-		else
-			objPos.x -= (float)LENGTH / 2;
+		float width = _object->getWidth();
+		float height = _object->getHeight();
 
-		if(abs(objPos.y + (float)HEIGHT / 2 - ballPos.y) < abs(objPos.y - (float)HEIGHT / 2 - ballPos.y))
-			objPos.y -= (float)HEIGHT / 2;
+		if(abs(objPos.x + width / 2 - ballPos.x) < abs(objPos.x - width / 2 - ballPos.x))
+			objPos.x += width / 2;
 		else
-			objPos.y += (float)HEIGHT / 2;
+			objPos.x -= width / 2;
+
+		if(abs(objPos.y + height / 2 - ballPos.y) < abs(objPos.y - height / 2 - ballPos.y))
+			objPos.y -= height / 2;
+		else
+			objPos.y += height / 2;
 
 		Vec3 dir = _ball->getDirection();
 
@@ -105,6 +115,7 @@ namespace Logic
 		_ball->setPosition(Vec3(collidePos.x + (t - delta) * _newDir.x, collidePos.y + (t - delta) * _newDir.y, 0));
 	}
 
+
 	inline void CalculateCollission(Ball* _ball, Brick* _brick)
 	{
 
@@ -112,9 +123,11 @@ namespace Logic
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 objPos = _brick->getPosition();
 		float radius = _ball->getRadius();
-		float width = (float)_brick->getWidth(), height = (float)_brick->getHeight();
-
+		
 		bool alreadyCollided = false;
+
+		float width = _brick->getWidth();
+		float height = _brick->getHeight();
 
 		//Compare X positions
 		if(ballPos.x + width/2 < objPos.x || ballPos.x - width/2 > objPos.x)
@@ -498,7 +511,6 @@ namespace Logic
 
 
 #pragma endregion
-
 }
 
 #endif // ! _PHYSICS_H_
