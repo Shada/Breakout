@@ -99,8 +99,8 @@ struct CBWaterOnce
 };
 
 #define PI 3.14159265359
-#define SCRWIDTH 1024
-#define SCRHEIGHT 768
+#define SCRWIDTH 1920
+#define SCRHEIGHT 1200
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }
 

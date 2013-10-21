@@ -258,7 +258,7 @@ bool Linuxhandler::initWindow()
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
 
 
-	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_FULLSCREEN))
 	{
 		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
 
@@ -280,7 +280,7 @@ bool Linuxhandler::initWindow()
 	glfwEnable(GLFW_STICKY_KEYS);
 
 	// dark blue background color
-	glClearColor(0.f, 0.f, .0f, 0.f);
+	glClearColor(0.f, 0.f, .4f, 0.f);
 
 	// enable face culling
     glEnable(GL_CULL_FACE);
