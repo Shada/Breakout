@@ -260,7 +260,7 @@ namespace Logic
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
-					if(rand() % 100 < 50)
+					//if(rand() % 100 < 50)
 					{
 						doubleBallEffect();
 						spawnEffect(collidingObject, i);
@@ -558,7 +558,7 @@ namespace Logic
 
 	void Gameplay::spawnEffect(int _brickID, int _i)
 	{
-		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), (int)objectCore->ball.at(_i)->getDirection().y));
+		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), objectCore->ball.at(_i)->getDirection().y));
 	}
 
 	Gameplay::~Gameplay()

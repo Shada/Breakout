@@ -100,10 +100,10 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -196,9 +196,6 @@
     <ClInclude Include="GraphicsOGL4.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
     <ClInclude Include="TechniqueHLSL.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -263,6 +260,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

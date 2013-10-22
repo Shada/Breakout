@@ -16,7 +16,7 @@ namespace Logic
 	{
 	private:
 		static Physics	*physics;
-		Physics(){ borderMaxX = 500; borderMaxY = 200; };
+		Physics(){ borderMaxX = 500; borderMaxY = 200; }
 
 		int borderMaxX;
 		int borderMaxY;
@@ -29,7 +29,7 @@ namespace Logic
 				physics = new Physics();
 			return physics;
 		}
-		~Physics(){};
+		~Physics(){}
 
 		void setBorderMaxX(int _x){ borderMaxX = _x;}
 		void setBorderMaxY(int _y){ borderMaxY = _y;}
@@ -51,18 +51,7 @@ namespace Logic
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
 
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true;
-
-		//If position will be withing bounds next frame, assuming same deltaTime
-		tBallPos = _ball->getPosition();
-		tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
-								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
-
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true; //Might need other type of return to clarify next frame will hit
-
-		if(tDistance <= tRadius + (float)_brick->getHeight()/2 && tDistance <= tRadius + (float)_brick->getWidth()/2)
+		if(fabs(tBallPos.y - tBrickPos.y) <= tRadius + _brick->getHeight() / 2 && fabs(tBallPos.x - tBrickPos.x) <= tRadius + _brick->getWidth() / 2)
 			return true;
 
 		return false;

@@ -10,7 +10,7 @@ namespace Logic
 	private:
 		float fallSpeed;
 	public:
-		Effect(Vec3 startPos, int ballDirY);
+		Effect(Vec3 startPos, float ballDirY);
 		~Effect();
 
 		void update(double dt);

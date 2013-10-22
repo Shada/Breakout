@@ -2,10 +2,10 @@
 
 namespace Logic
 {
-	Effect::Effect(Vec3 _startPos, int _ballDirY) : Object3D()
+	Effect::Effect(Vec3 _startPos, float _ballDirY) : Object3D()
 	{
 		position = _startPos;
-		fallSpeed = _ballDirY > 0 ? -1 : 1;
+		fallSpeed = _ballDirY < 0 ? -.5f : .5f;
 		modelID = 0;
 		textureID = 0;
 
@@ -15,7 +15,7 @@ namespace Logic
 	void Effect::update(double _dt)
 	{
 		if(fallSpeed < 200 * _dt)
-			fallSpeed += pow(9.82, _dt * .5) - 1;
+			fallSpeed += pow(9.82, _dt * .2) - 1;
 
 		position.y -= fallSpeed;
 		updateWorld();
