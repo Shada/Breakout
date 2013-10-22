@@ -22,6 +22,7 @@ namespace Logic
 
 	Ball::~Ball()
 	{
+		//SAFE_DELETE(physics);
 	}
 
 	void Ball::setPosition(Vec3 _pos)
@@ -70,9 +71,12 @@ namespace Logic
 		lastFrame = position;
 		position += direction * speed * (float)_dt;
 
-		if(position.x > Logic::borderMaxX || position.x < 0.0f)
+		
+		int borderMaxX = Physics::getInstance()->getBorderX();
+
+		if(position.x > borderMaxX || position.x < 0.0f)
 		{
-			position.x > Logic::borderMaxX ? position.x -= Logic::borderMaxX : position.x += Logic::borderMaxX;
+			position.x > borderMaxX ? position.x -= borderMaxX : position.x += borderMaxX;
 		}
 
 		transformToCyl();

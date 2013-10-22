@@ -9,8 +9,8 @@ namespace Logic
 	class Brick: public Object3D
 	{
 	public:
-		Brick(Vec3 _pos, bool _cylinder);
-		Brick(Vec3 _pos, bool _cylinder, double _width, double _height);
+		Brick(Vec3 _pos, bool _cylinder, int health);
+		Brick(Vec3 _pos, bool _cylinder, double _width, double _height, int health);
 		~Brick();
 		void update(double _dt);
 		void draw();

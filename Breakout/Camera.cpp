@@ -111,7 +111,6 @@ void Camera::update()
 	GraphicsOGL4::getInstance()->updateCBCameraMove(cb);
 #endif
 }
-
 Matrix Camera::getViewMatrix()
 {
 	return viewMatrix;

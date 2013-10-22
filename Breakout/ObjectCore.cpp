@@ -43,6 +43,8 @@ namespace Logic
 		SAFE_DELETE(skybox);
 		for(unsigned int i = 0; i < bricks.size(); i++)
 			SAFE_DELETE(bricks.at(i));
+		for(unsigned int i = 0; i < effects.size(); i++)
+			SAFE_DELETE(effects.at(i));
 		SAFE_DELETE(testFont);
 		SAFE_DELETE(testText);
 	}

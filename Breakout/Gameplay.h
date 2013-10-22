@@ -21,12 +21,12 @@ namespace Logic
 	class Gameplay
 	{
 	private:
-		int fps;
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
 		int currentMapIndex;
 		Map *mapLoading;
+		Physics *physics;
 		/* called after all models are initialized */
 		
 		ObjectCore *objectCore;
@@ -35,16 +35,10 @@ namespace Logic
 
 		//TODO:
 		//All logik för spelandet av en bana
-		void nextMap();
-
-		void setMaptype(int type);
-
-		void doubleBallEffect();
-
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
-		int playerLives;
+		int playerLives, fps, prevFps;
 		
 		Inputhandler *inputHandler;
 
@@ -53,14 +47,21 @@ namespace Logic
 		int effectTypeActive;
 		Vec3 effectDirection, effectOriginal;
 		float effectTimer, effectSpawnTimer;
+
 		std::vector<Vec3> effectFireballs;
 		std::vector<MinorEffect> minorEffects;
 
+		void nextMap();
+		void doubleBallEffect();
+		void setMaptype(int type);
+		void spawnEffect(int brickID, int i, int type);
+		void reset();
 
 	public:
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
 		~Gameplay();
 
+		void setFps(int _fps) { fps = _fps; }
 		void update(double dt);
 		
 		//You can not play the same effect twice in a row unless you
