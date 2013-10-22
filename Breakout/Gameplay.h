@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "Map.h"
+#include "Effect.h"
 //#include "Pad.h"
 #include "Inputhandler.h"
 #include "Camera.h"
@@ -27,6 +28,7 @@ namespace Logic
 
 		int currentMapIndex;
 		Map *mapLoading;
+		Physics *physics;
 		/* called after all models are initialized */
 		
 		ObjectCore *objectCore;
@@ -35,12 +37,6 @@ namespace Logic
 
 		//TODO:
 		//All logik för spelandet av en bana
-		void nextMap();
-
-		void setMaptype(int type);
-
-		void doubleBallEffect();
-		void reset();
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
@@ -53,9 +49,15 @@ namespace Logic
 		int effectTypeActive;
 		Vec3 effectDirection, effectOriginal;
 		float effectTimer, effectSpawnTimer;
+
 		std::vector<Vec3> effectFireballs;
 		std::vector<MinorEffect> minorEffects;
 
+		void nextMap();
+		void doubleBallEffect();
+		void setMaptype(int type);
+		void spawnEffect(int brickID, int i);
+		void reset();
 
 	public:
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);

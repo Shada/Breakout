@@ -14,6 +14,7 @@ namespace Logic
 		fps = 0;
 		mapLoading = new Map();
 		inputHandler = _handler;
+		physics = Logic::Physics::getInstance();
 		
 		objectCore = new ObjectCore();
 		play = ballPadCollided = createBall = false;
@@ -41,11 +42,11 @@ namespace Logic
 		Logic::cart2Sph(Vec3(39,0,0));*/
 
 		//camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
-		camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+		camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 		Vec3 lookAt = camera->getPosition();
 		lookAt.z = -lookAt.z;
 		camera->setLookAt(lookAt);
-		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+		physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
 		
 		//inputHandler = handler;
@@ -126,11 +127,10 @@ namespace Logic
 
 			Vec3 padPos = objectCore->pad->getPosition();
 			padPos.y += 50;
-			padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+			padPos = physics->from2DToCylinder(padPos, 100 + 150, Vec3(physics->getBorderX()/2, 0, 0));
 			
-
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			camera->setLookAt(Vec3 (150, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -147,7 +147,7 @@ namespace Logic
 					objectCore->ball.at(i)->update(_dt);
 			if(!ballPadCollided)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
-					ballPadCollided = Logic::ballCollision(objectCore->ball.at(i), objectCore->pad, objectCore->pad->getRotation().z);
+					ballPadCollided = physics->ballCollision(objectCore->ball.at(i), objectCore->pad, objectCore->pad->getRotation().z);
 			else
 				ballPadCollided = false;
 		}
@@ -231,7 +231,7 @@ namespace Logic
 			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
 			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z+10000));
 			camera->setWaterLevel(waterLevel);
-			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
+			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
@@ -251,18 +251,21 @@ namespace Logic
 
 		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
+			int collidingObject = physics->Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
 			if(collidingObject != -1)
 			{
 				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
+					if(rand() % 100 < 50)
+					{
+						doubleBallEffect();
+						spawnEffect(collidingObject, i);
+					}
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
-					if(rand() % 100 < 5)
-						doubleBallEffect();
 				}
 				//else
 					//std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
@@ -270,7 +273,9 @@ namespace Logic
 		}
 
 
-		
+		if(objectCore->effects.size() > 0)
+			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+				objectCore->effects.at(i)->update(_dt);
 
 
 		//Effects
@@ -525,7 +530,7 @@ namespace Logic
 	{
 		if(objectCore->mapType != objectCore->MapType::eFire)
 		{
-			camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+			camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 			Vec3 lookAt = camera->getPosition();
 			lookAt.z = -lookAt.z;
 			camera->setLookAt(lookAt);
@@ -558,10 +563,15 @@ namespace Logic
 				break;
 			objectCore->ball.push_back(new Ball());
 			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());
-			objectCore->ball.back()->setDirection((rand() % 100) - 200, (rand() % 100) - 200, 0);
+			objectCore->ball.back()->setDirection((rand() % 200) - 100, (rand() % 200) - 100, 0);
 			objectCore->ball.back()->setModelID(2);
 			objectCore->ball.back()->setTextureID(objectCore->ball.at(i)->getTextureID());
 		}
+	}
+
+	void Gameplay::spawnEffect(int _brickID, int _i)
+	{
+		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), (int)objectCore->ball.at(_i)->getDirection().y));
 	}
 
 	Gameplay::~Gameplay()
@@ -571,5 +581,6 @@ namespace Logic
 		SAFE_DELETE(objectCore);
 		//SAFE_DELETE(water);
 		SAFE_DELETE(mapLoading);
+		SAFE_DELETE(physics);
 	}
 }

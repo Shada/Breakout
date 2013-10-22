@@ -150,7 +150,7 @@ namespace Logic
 						//Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
 						Vec3 brickPos = Vec3((float)x*displacementX,(float)y*displacementY,0.0f);
 						//Brick *tBrick = new Brick(brickPos, 5, 5);
-						Brick *tBrick = new Brick(brickPos, mapType == 3, 17, 8); //Should be true/false depending on mapType
+						Brick *tBrick = new Brick(brickPos, mapType == 3, 15, 7.5); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
 

@@ -100,6 +100,12 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -243,7 +249,7 @@
     </ClInclude>
     <ClInclude Include="Object2D.h">
       <Filter>Header Files</Filter>
-	  </ClInclude>
+    </ClInclude>
     <ClInclude Include="EventSystem.h">
       <Filter>Logic</Filter>
     </ClInclude>
@@ -255,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="ObjectCore.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +291,8 @@
     <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
+    <CustomBuild Include="shaders\hlsl\vsSkybox.fx" />
+    <CustomBuild Include="shaders\hlsl\vsSkybox.fx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\glsl\fsSimple.glsl">
@@ -344,5 +355,9 @@
     <CustomBuild Include="shaders\hlsl\psWater.fx">
       <Filter>HLSL\ps</Filter>
     </CustomBuild>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="shaders\glsl\vsSkybox.glsl" />
+    <None Include="shaders\glsl\vsSkybox.glsl" />
   </ItemGroup>
 </Project>

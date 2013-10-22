@@ -22,8 +22,9 @@ namespace Logic
 		};
 		
 		Pad						*pad;
-		std::vector<Brick*>		bricks;
 		std::vector<Ball*>		ball;
+		std::vector<Brick*>		bricks;
+		std::vector<Object3D*>	effects;
 		
 		std::vector<BBUI>		uiBillboards;
 		std::vector<BBFont>		fontBillboards;

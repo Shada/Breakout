@@ -10,11 +10,33 @@
 
 namespace Logic
 {
-#pragma region Collission
-	static int borderMaxX = 300;
-	static int borderMaxY = 200;
 
+	
+	class Physics
+	{
+	private:
+		static Physics	*physics;
+		Physics(){ borderMaxX = 500; borderMaxY = 200; };
 
+		int borderMaxX;
+		int borderMaxY;
+
+	public:
+
+		static Physics	*getInstance()
+		{
+			if(!physics)
+				physics = new Physics();
+			return physics;
+		}
+		~Physics(){};
+
+		void setBorderMaxX(int _x){ borderMaxX = _x;}
+		void setBorderMaxY(int _y){ borderMaxY = _y;}
+		int getBorderX(){ return borderMaxX; }
+		int getBorderY(){ return borderMaxY; }
+
+#pragma region Collission		
 	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
@@ -182,8 +204,7 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-
-		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius >= borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -393,8 +414,8 @@ namespace Logic
 		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
 		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));
 
-		//borderMaxX = (int)topRight.x;
-		//borderMaxY = (int)topRight.y;
+		borderMaxX = (int)topRight.x;
+		borderMaxY = (int)topRight.y;
 	}
 
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
@@ -511,6 +532,11 @@ namespace Logic
 
 
 #pragma endregion
+
+
+	};
+
+
 }
 
 #endif // ! _PHYSICS_H_

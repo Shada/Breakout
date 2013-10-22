@@ -769,6 +769,25 @@ void GraphicsDX11::draw()
 	}
 
 	// -------------------------------------------------------------------------------
+	//                                  effects
+	//--------------------------------------------------------------------------------
+
+	for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+	{
+		cbWorld.world		= objectCore->effects.at(i)->getWorld();
+		cbWorld.worldInv	= objectCore->effects.at(i)->getWorldInv();
+		updateCBWorld(cbWorld);
+
+		immediateContext->PSSetShaderResources(0, 1, &textures.at(objectCore->effects.at(i)->getTextureID()));
+		modelID				= objectCore->effects.at(i)->getModelID();
+		vertexAmount		= lh->getModel(modelID)->getVertexAmount();
+		startIndex			= lh->getModel(modelID)->getStartIndex();
+
+		immediateContext->Draw(vertexAmount, startIndex);
+	}
+
+
+	// -------------------------------------------------------------------------------
 	//                                  water
 	//--------------------------------------------------------------------------------
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
