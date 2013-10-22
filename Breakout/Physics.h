@@ -393,8 +393,8 @@ namespace Logic
 		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
 		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));
 
-		borderMaxX = (int)topRight.x;
-		borderMaxY = (int)topRight.y;
+		//borderMaxX = (int)topRight.x;
+		//borderMaxY = (int)topRight.y;
 	}
 
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)

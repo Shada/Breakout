@@ -34,14 +34,7 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
-		Vec3 vec1 = Logic::from2DToCylinder(Vec3(0,0,0), 100);
-		Vec3 vec2 = Logic::from2DToCylinder(Vec3(75,0,0), 100);
-		Vec3 vec3 = Logic::from2DToCylinder(Vec3(150,0,0), 100);
-		int c = 0; c++;
-
-
 		this->setMaptype(objectCore->MapType::eWind);
-
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
 	/*	Logic::sph2Cart(Vec3(0,1.570796,39));
@@ -122,19 +115,22 @@ namespace Logic
 		objectCore->testText->setText( fpsText.c_str() );
 		objectCore->testText->updateTextData();
 
-		objectCore->pad->update(_dt);
-		
 		static bool isPressed = false;
 
 		if(objectCore->getMapType() == objectCore->MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
+			objectCore->water->update(_dt);
+			Vec3 oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 
 			Vec3 padPos = objectCore->pad->getPosition();
-			padPos.y += 100;
+			padPos.y += 50;
 			padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+			
 
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			camera->setLookAt(Vec3 (150, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -224,7 +220,7 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
+		if(objectCore->getMapType() == objectCore->MapType::eWater )
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -522,6 +518,19 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 		}
+		reset();
+	}
+
+	void Gameplay::reset()
+	{
+		if(objectCore->mapType != objectCore->MapType::eFire)
+		{
+			camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+			Vec3 lookAt = camera->getPosition();
+			lookAt.z = -lookAt.z;
+			camera->setLookAt(lookAt);
+			objectCore->pad->setRotation(Vec3(0,0,0));
+		}
 		playerLives = 3;
 
 		if(objectCore->ball.size() > 1)
@@ -533,8 +542,6 @@ namespace Logic
 
 		play = false;
 	}
-
-
 	void Gameplay::setMaptype(int _type)
 	{
 		

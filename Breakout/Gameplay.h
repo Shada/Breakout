@@ -40,7 +40,7 @@ namespace Logic
 		void setMaptype(int type);
 
 		void doubleBallEffect();
-
+		void reset();
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
