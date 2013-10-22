@@ -1,17 +1,17 @@
 #include "Camera.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
-#endif // BAJSAPA
+#endif // _WIN32
 Camera::Camera()
 {
 
 	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
 	lookAt = Vec3(position.x,0,100);
-	
+
     perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
-	
+
 	MatrixInversion(projectionInv, projectionMatrix);
 
 	CBOnce cbonce;
@@ -19,7 +19,7 @@ Camera::Camera()
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
 	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
-#ifdef BAJSAPA	
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #else
 	GraphicsOGL4::getInstance()->updateCBOnce(cbonce);
@@ -93,7 +93,7 @@ void Camera::update()
 	cb.viewRefl = viewRefl;
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;
-#ifdef BAJSAPA
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBCameraMove(cb);
 #else
 	GraphicsOGL4::getInstance()->updateCBCameraMove(cb);

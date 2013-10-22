@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifdef _WIN32
 
 #include "TechniqueHLSL.h"
 
@@ -52,7 +52,7 @@ int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderN
 			}
 		}
 	}
-	
+
 	HRESULT hr;
 	GraphicsDX11* g = GraphicsDX11::getInstance();
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"vs_5_0",&vertexBlob );
@@ -92,7 +92,7 @@ int TechniqueHLSL::insertVertexShader(std::string shaderDir, std::string shaderN
 	vs.vertexShader = shader;
 	vertexShaders->push_back(vs);
 	return vertexShaders->size()-1;
-	
+
 }
 int TechniqueHLSL::insertHullShader(std::string shaderDir, std::string shaderName)
 {
@@ -112,7 +112,7 @@ int TechniqueHLSL::insertHullShader(std::string shaderDir, std::string shaderNam
 		}
 	}
 	ID3DBlob* shaderBlob = NULL;
-	
+
 	HRESULT hr;
 	GraphicsDX11* g = GraphicsDX11::getInstance();
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"hs_5_0",&shaderBlob );
@@ -170,7 +170,7 @@ int TechniqueHLSL::insertDomainShader(std::string shaderDir, std::string shaderN
 		}
 	}
 	ID3DBlob* shaderBlob = NULL;
-	
+
 	HRESULT hr;
 	GraphicsDX11* g = GraphicsDX11::getInstance();
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"ds_5_0",&shaderBlob );
@@ -228,7 +228,7 @@ int TechniqueHLSL::insertGeometryShader(std::string shaderDir, std::string shade
 		}
 	}
 	ID3DBlob* shaderBlob = NULL;
-	
+
 	HRESULT hr;
 	GraphicsDX11* g = GraphicsDX11::getInstance();
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"gs_5_0",&shaderBlob );
@@ -267,7 +267,7 @@ int TechniqueHLSL::insertGeometryShader(std::string shaderDir, std::string shade
 	gs.geometryShader = shader;
 	geometryShaders->push_back(gs);
 	return geometryShaders->size()-1;
-	
+
 }
 
 int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderName)
@@ -291,7 +291,7 @@ int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderNa
 		}
 	}
 	ID3DBlob* shaderBlob = NULL;
-	
+
 	HRESULT hr;
 	GraphicsDX11* g = GraphicsDX11::getInstance();
 	hr = g->compileShader(shaderDir.c_str(),shaderName.c_str(),"ps_5_0",&shaderBlob );
@@ -330,7 +330,7 @@ int TechniqueHLSL::insertPixelShader(std::string shaderDir, std::string shaderNa
 	ps.pixelShader = shader;
 	pixelShaders->push_back(ps);
 	return pixelShaders->size()-1;
-	
+
 }
 
 void TechniqueHLSL::useTechnique()
@@ -373,10 +373,10 @@ void TechniqueHLSL::cleanUp()
 
 	for(unsigned int i = 0; i < domainShaders->size(); i++)
 		SAFE_RELEASE(domainShaders->at(i).domainShader);
-	
+
 	for(unsigned int i = 0; i < geometryShaders->size(); i++)
 		SAFE_RELEASE(geometryShaders->at(i).geometryShader);
-	
+
 	for(unsigned int i = 0; i < pixelShaders->size(); i++)
 		SAFE_RELEASE(pixelShaders->at(i).pixelShader);
 
@@ -393,4 +393,4 @@ TechniqueHLSL::~TechniqueHLSL()
 		vertexBlob->Release();
 }
 
-#endif // BAJSAPA
+#endif // _WIN32

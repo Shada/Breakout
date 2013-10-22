@@ -1,5 +1,5 @@
 #include "Font.h"
-
+#include <string.h>
 
 Font::Font()
 {

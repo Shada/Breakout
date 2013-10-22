@@ -6,7 +6,7 @@
 SoundSystem::SoundSystem()
 {
 /*
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
 	//linuxExtraDriverData = new FMOD_LINUX_EXTRADRIVERDATA
 #endif
@@ -16,7 +16,7 @@ SoundSystem::SoundSystem()
 SoundSystem::~SoundSystem()
 {
 	//for(int i = 0; i < 18; i++)
-	
+
 	//radera Sounds först
 	result = fmodSystem->close();
     result = fmodSystem->release();
@@ -26,13 +26,13 @@ void SoundSystem::Initialize()
 {
 	result = FMOD::System_Create(&fmodSystem);
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
 #else
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
 	//result = fmodSystem->init(32, FMOD_INIT_NORMAL, linuxExtraDriverData); //linuxExtraDriverData är tom för tillfället!
 #endif
-	
+
 	sound[0].Initialize(fmodSystem, 0.5f, "Sounds/destination.mp3");
 	sound[1].Initialize(fmodSystem, 0.5f, "Sounds/midnight-ride.mp3");
 	sound[2].Initialize(fmodSystem, 0.5f, "Sounds/urban-spy-2.mp3");

@@ -1,11 +1,14 @@
 #include "Text.h"
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
 #endif
 
+#include <iostream>       // std::cerr
+#include <typeinfo>       // operator typeid
+#include <exception>      // std::exception
 
 Text::Text(std::vector<BBFont> *fontBillboards, const char *text, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
 	:Object2D(pos,scale,rotation,tintAlpha)
@@ -25,7 +28,7 @@ void Text::updateTextData()
 {
 	if(!font)
 	{
-		throw std::exception("No font selected.");
+		///throw std::exception("No font selected.");
 		return;
 	}
 	textData->clear();
@@ -48,7 +51,7 @@ void Text::updateCB()
 	cb.imageSize	= Vec2(1420,250);
 	cb.tintAlpha	= tintAlpha;
 
-	#ifdef BAJSAPA
+	#ifdef _WIN32
 		GraphicsDX11::getInstance()->updateCBFont(cb);
 	#else
 		GraphicsOGL4::getInstance()->updateCBFont(cb);
@@ -57,5 +60,5 @@ void Text::updateCB()
 
 Text::~Text()
 {
-	
+
 }

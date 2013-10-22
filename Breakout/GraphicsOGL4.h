@@ -1,4 +1,4 @@
-#ifndef BAJSAPA
+#ifndef _WIN32
 
 #ifndef _GRAPHICSOGL4_H_
 #define _GRAPHICSOGL4_H_
@@ -80,7 +80,7 @@ private:
 	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	GraphicsOGL4();
-	
+
 	void initPrograms();
 	void initConstantBuffers();
 	void initUniforms();
@@ -92,7 +92,7 @@ public:
 	static GraphicsOGL4 *getInstance();
 
 	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
-	
+
 	int		getTechIDByName(const char *name);
 	std::vector<GLuint>* getTextures();
 
@@ -124,4 +124,4 @@ public:
 
 #endif // ! _GRAPHICSOGL4_H_
 
-#endif // ! BAJSAPA
+#endif // ! _WIN32

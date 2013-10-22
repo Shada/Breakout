@@ -1,4 +1,4 @@
-#ifdef BAJSAPA
+#ifdef _WIN32
 
 #pragma once
 #include <d3dcompiler.h>
@@ -40,7 +40,7 @@ private:
 	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
 	D3D_FEATURE_LEVEL			featureLevel;
-	
+
 	IDXGISwapChain				*swapChain;
 
 	/*---------------------------------------------------------------
@@ -124,7 +124,7 @@ public:
 	void	presentSwapChain();
 	/* create constant buffer */
 	bool	createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
-	
+
 	void initVertexBuffer();
 
 	/* creates the static vertex buffer with all the static vertices. [immutable] */
@@ -155,4 +155,4 @@ public:
 	~GraphicsDX11();
 };
 
-#endif // BAJSAPA
+#endif // _WIN32

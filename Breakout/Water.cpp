@@ -1,9 +1,9 @@
 #include "Water.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
-#endif // BAJSAPA
+#endif // _WIN32
 
 Water::Water(float _waterLevel, int _type)
 {
@@ -30,7 +30,7 @@ Water::Water(float _waterLevel, int _type)
 	cb.transparency			= 4.0f;
 	cb.refractionScale		= .0008f;
 	cb.waterType			= _type;
-	cb.normalModifier		= Vec4(1.0f,2.0f,4.0f,8.0f);	
+	cb.normalModifier		= Vec4(1.0f,2.0f,4.0f,8.0f);
 	cb.foamOptions			= Vec4(0.75f, 1.32f, 0.5f,1.0f);
 	if(_type == 0)
 	{
@@ -46,11 +46,11 @@ Water::Water(float _waterLevel, int _type)
 	}
 
 	cb.scale				= Vec2( 0.0005f, 0.0005f );
-#ifdef BAJSAPA
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBWaterOnce(cb);
 #else
 	GraphicsOGL4::getInstance()->updateCBWaterOnce(cb);
-#endif // BAJSAPA
+#endif // _WIN32
 
 }
 
@@ -89,11 +89,11 @@ void Water::update(double _dt)
 	cb.timer = (float)timer;
 	cb.waterLevel = waterLevel;
 	cb.windDirection = windDirection;
-#ifdef BAJSAPA
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBWater(cb);
 #else
 	GraphicsOGL4::getInstance()->updateCBWater(cb);
-#endif // BAJSAPA
+#endif // _WIN32
 }
 void Water::setSpeedModifier(float _modifier, double _duration)
 {

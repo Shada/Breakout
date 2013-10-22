@@ -1,5 +1,5 @@
 #include "Gameplay.h"
-#ifdef BAJSAPA
+#ifdef _WIN32
 #include "GraphicsDX11.h"
 #else
 #include "GraphicsOGL4.h"
@@ -14,7 +14,7 @@ namespace Logic
 		fps = 0;
 		mapLoading = new Map();
 		inputHandler = _handler;
-		
+
 		objectCore = new ObjectCore();
 		play = ballPadCollided = createBall = false;
 
@@ -28,7 +28,7 @@ namespace Logic
 		startEffectOld = 0;
 		effectTypeActive = 0;
 
-		#ifdef BAJSAPA
+		#ifdef _WIN32
 		GraphicsDX11::getInstance()->setObjectCore(objectCore);
 		#else
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
@@ -40,7 +40,7 @@ namespace Logic
 		int c = 0; c++;
 
 
-		this->setMaptype(objectCore->MapType::eWind);
+		this->setMaptype(ObjectCore::MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -54,7 +54,7 @@ namespace Logic
 		camera->setLookAt(lookAt);
 		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
-		
+
 		//inputHandler = handler;
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
@@ -74,26 +74,29 @@ namespace Logic
 		_handler->setPad(objectCore->pad, keys);
 
 		//inputHandler->setCamera(camera, keys);
-
+#ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
+#else
+		objectCore->testFont->loadFontSettings("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Fonts/blackwhite.txt");
+#endif
 		std::vector<BBFont> test = std::vector<BBFont>();
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);
 		objectCore->testText->setTextData(0, 10);
-		
-		currentMapIndex = 0;
-		
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
-		
-		objectCore->mapType = objectCore->MapType::eWater;// test
 
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		currentMapIndex = 0;
+
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
+
+		objectCore->mapType = ObjectCore::MapType::eWater;// test
+
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 
 		soundSystem->PlayLoop(5, -1000);
 
 
-		#ifndef BAJSAPA
+		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
 		GraphicsOGL4::getInstance()->feedUIBufferData();
 		GraphicsOGL4::getInstance()->feedTextBufferData();
@@ -102,7 +105,7 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
-	
+
 		Vec3 cameratem = camera->getLookAt();
 		fps = (int)(1.0 / _dt + 0.5);
 
@@ -114,10 +117,10 @@ namespace Logic
 		objectCore->testText->updateTextData();
 
 		objectCore->pad->update(_dt);
-		
+
 		static bool isPressed = false;
 
-		if(objectCore->getMapType() == objectCore->MapType::eFire)
+		if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
 
@@ -130,11 +133,11 @@ namespace Logic
 		else
 			objectCore->pad->update(_dt);
 
-			
+
 		if(play)
 		{
 
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);
 			else
@@ -165,7 +168,7 @@ namespace Logic
 					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
 				}
 		}
-		
+
 
 		if(!play)
 		{
@@ -173,19 +176,19 @@ namespace Logic
 			{
 				Vec3 dir = objectCore->pad->getDirection();
 				objectCore->ball.at(0)->setDirection(dir.x, dir.y, dir.z);
-				
+
 				play = true;
 				objectCore->pad->setReleaseBall(false);
 			}
 
 			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
 
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				objectCore->ball.at(0)->transformToCyl();
 			else
 				objectCore->ball.at(0)->updateWorld();
 		}
-#ifdef BAJSAPA
+#ifdef _WIN32
 		if(GetAsyncKeyState(VK_NUMPAD0) != 0 && !isPressed)
 		{
 			nextMap();
@@ -215,7 +218,7 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater)
+		if(objectCore->getMapType() == ObjectCore::MapType::eWater)
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -226,17 +229,17 @@ namespace Logic
 			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z + 10000));
 			camera->setWaterLevel(waterLevel);
 			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
-			
+
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
 			//Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.f / 3);
-			
+
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 		}
 
 		camera->update();
-		
+
 		// check collision between a ball and the bricks, will return the id of any brick the ball has
 		// collided with, if no collision then -1 is returned
 
@@ -245,7 +248,7 @@ namespace Logic
 
 		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
+			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == ObjectCore::MapType::eFire);
 			if(collidingObject != -1)
 			{
 				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
@@ -264,7 +267,7 @@ namespace Logic
 		}
 
 
-		
+
 
 
 		//Effects
@@ -275,8 +278,8 @@ namespace Logic
 		}
 
 		objectCore->testText->update( _dt );
-		
-		if (minorEffects.size() != 0) 
+
+		if (minorEffects.size() != 0)
 			for(int i = minorEffects.size(); i > 0; i--)
 			{
 				minorEffects[i-1].pos.y += -_dt * 20;
@@ -319,7 +322,7 @@ namespace Logic
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
 			#pragma region effects
-			
+
 			//effectStart = 14; //TEST
 			std::cout << "effect started: ";
 			if (effectStart == 1) //Zapper
@@ -388,7 +391,7 @@ namespace Logic
 				std::cout << "Stun" << std::endl;
 			}
 			effectStart = 0;
-			#pragma endregion 
+			#pragma endregion
 		}
 		if(effectTypeActive != 0)//Uppdatering av aktiv effekt
 		{
@@ -402,7 +405,7 @@ namespace Logic
 					effectTimer = 0;
 					effectTypeActive = 0;
 					effectOriginal -= objectCore->pad->getPosition();
-					
+
 					std::cout << effectOriginal.length();
 					if(effectOriginal.length() < 20)
 					{
@@ -438,13 +441,13 @@ namespace Logic
 
 				for(unsigned int i = 0; i < effectFireballs.size(); i++)
 					effectFireballs[i].y += -_dt * 60;
-				
+
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST
 
 				if (effectFireballs[0].y < 45)
 				{
 					effectOriginal = effectFireballs[0] - objectCore->pad->getPosition();
-						
+
 					effectFireballs.erase(effectFireballs.begin());
 					if (effectOriginal.length() < 20)
 					{
@@ -461,7 +464,7 @@ namespace Logic
 			{
 				Vec3 tempVec;
 				tempVec = camera->getPosition();
-				
+
 				if (effectTimer < 1)
 				{
 					tempVec = Vec3(tempVec.x * (1 -_dt*10) + _dt*10 * effectOriginal.x,
@@ -486,7 +489,7 @@ namespace Logic
 					camera->setPosition(effectOriginal);
 				}
 			}
-			#pragma endregion 
+			#pragma endregion
 		}
 
 
@@ -501,13 +504,13 @@ namespace Logic
 			currentMapIndex = 0;
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,objectCore->pad,&objectCore->mapType);
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, NULL, objectCore->pad, &objectCore->mapType);
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		
+
 		playerLives = 3;
 
 		if(objectCore->ball.size() > 1)
@@ -523,7 +526,7 @@ namespace Logic
 
 	void Gameplay::setMaptype(int _type)
 	{
-		
+
 		objectCore->setMapType(_type);
 	}
 

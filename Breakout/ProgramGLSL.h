@@ -1,4 +1,4 @@
-#ifndef BAJSAPA
+#ifndef _WIN32
 
 #ifndef _PROGRAMGLSL_H_
 #define _PROGRAMGLSL_H_
@@ -66,4 +66,4 @@ class ProgramGLSL
 
 #endif // ! _PROGRAMGLSL_H_
 
-#endif // ! BAJSAPA
+#endif // ! _WIN32

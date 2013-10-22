@@ -20,10 +20,10 @@ public:
 	void StopSound(int soundNr);
 
 	FMOD::System *fmodSystem;
-	
+
 private:
 	FMOD_RESULT  result;
-	Sound sound[20]; 
+	Sound sound[20];
 		//
 		//sound[0] = Meny background music
 		//sound[1] = Windlevel background music
@@ -47,7 +47,7 @@ private:
 		//sound[]FINNS EJ ÄN = namn
 		//sound[]FINNS EJ ÄN = namn
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 #else
 	//FMOD_LINUX_EXTRADRIVERDATA linuxExtraDriverData; //TODO Hitta rätt data till denna
 #endif

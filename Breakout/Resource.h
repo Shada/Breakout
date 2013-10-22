@@ -75,7 +75,7 @@ struct CBWater
 struct CBWaterOnce
 {
 	float waterFade; //how deep anything need to be to fade out in the water
-	float normalScaling; 
+	float normalScaling;
 	float maxAmplitude; //max wave amplitude
 	float shoreTransition; //how soft the water and ground fades
 
@@ -116,7 +116,7 @@ struct Action2D
     Action2D(){}
 };
 
-struct MinorEffect 
+struct MinorEffect
 {
 	Vec3 pos;
 	int type;
@@ -132,18 +132,18 @@ struct MinorEffect
 
 enum KeyCodes
 {
-	KC_A = 0x41,		KC_C = 0x43,		KC_B = 0x42,		KC_D = 0x44,		
-	KC_E = 0x45,		KC_F = 0x46,		KC_G = 0x47,		KC_H = 0x48,		
-	KC_I = 0x49,		KC_J = 0x4A,		KC_K = 0x4B,		KC_L = 0x4C,				
-	KC_M = 0x4D,		KC_N = 0x4E,		KC_O = 0x4F,		KC_P = 0x50,		
-	KC_Q = 0x51,		KC_R = 0x52,		KC_S = 0x53,		KC_T = 0x54,		
+	KC_A = 0x41,		KC_C = 0x43,		KC_B = 0x42,		KC_D = 0x44,
+	KC_E = 0x45,		KC_F = 0x46,		KC_G = 0x47,		KC_H = 0x48,
+	KC_I = 0x49,		KC_J = 0x4A,		KC_K = 0x4B,		KC_L = 0x4C,
+	KC_M = 0x4D,		KC_N = 0x4E,		KC_O = 0x4F,		KC_P = 0x50,
+	KC_Q = 0x51,		KC_R = 0x52,		KC_S = 0x53,		KC_T = 0x54,
 	KC_U = 0x55,		KC_V = 0x56,		KC_W = 0x57,		KC_X = 0x58,
 	KC_Y = 0x59,		KC_Z = 0x5A,		KC_0 = 0x30,		KC_1 = 0x31,
 	KC_2 = 0x32,		KC_3 = 0x33,		KC_4 = 0x34,		KC_5 = 0x35,
 	KC_6 = 0x36,		KC_7 = 0x37,		KC_8 = 0x38,		KC_9 = 0x39,
 	KC_SPACE = 0x20,
 
-#ifdef BAJSAPA
+#ifdef _WIN32
 	KC_PAGEUP		= 0x21,
 	KC_PAGEDOWN		= 0x22,
 	KC_END			= 0x23,

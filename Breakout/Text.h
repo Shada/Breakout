@@ -2,6 +2,8 @@
 #include "Resource.h"
 #include "Font.h"
 #include "Object2D.h"
+
+
 class Text : public Object2D
 {
 private:
