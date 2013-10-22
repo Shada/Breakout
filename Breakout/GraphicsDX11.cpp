@@ -79,7 +79,10 @@ void GraphicsDX11::init(HWND *hWnd)
     sd.OutputWindow = (*hWnd);
     sd.SampleDesc.Count = 1;
     sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
+	if(FULLSCR)
+		sd.Windowed = FALSE;
+	else
+		sd.Windowed = TRUE;
 
 	for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
@@ -629,62 +632,65 @@ void GraphicsDX11::draw()
 
 	//--------------------------------------------------------------------------------
 	//                                     skybox
-	//-------------------------------------------------------------------------------
-	immediateContext->PSSetSamplers(1, 1, &samplerSkybox);
-	techniques.at( getTechIDByName( "techSkyboxRefl" ) )->useTechnique();
-	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
-	modelID					= objectCore->skybox->getModelID();
-	vertexAmount		= lh->getModel( modelID )->getVertexAmount();
-	startIndex			= lh->getModel( modelID )->getStartIndex();
-
-	immediateContext->OMSetDepthStencilState(depthStencilStateDisable,0);
-	immediateContext->RSSetState(rasterizerFrontface);
-	immediateContext->Draw(vertexAmount, startIndex);
-
-	//--------------------------------------------------------------------------------------
-
-	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
-	immediateContext->RSSetState(rasterizerBackface);
-
-	techniques.at( getTechIDByName( "techRefl" ) )->useTechnique();
-	
 	//--------------------------------------------------------------------------------
-	//                                     Pad
-	//--------------------------------------------------------------------------------
-
-	cbWorld.world		= objectCore->pad->getWorld();
-	cbWorld.worldInv	= objectCore->pad->getWorldInv();
-	updateCBWorld(cbWorld);
-
-
-	modelID			= objectCore->pad->getModelID();
-	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
-	startIndex		= lh->getModel( modelID )->getStartIndex();
-
-	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
-	immediateContext->Draw(vertexAmount, startIndex);
-
-	//--------------------------------------------------------------------------------
-	//                                     bricks
-	//--------------------------------------------------------------------------------
-
-	for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+	if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
 	{
-		cbWorld.world		= objectCore->bricks.at(i)->getWorld();
-		cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
-		updateCBWorld(cbWorld);
-
-		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
-		modelID				= objectCore->bricks.at(i)->getModelID();
+		immediateContext->PSSetSamplers(1, 1, &samplerSkybox);
+		techniques.at( getTechIDByName( "techSkyboxRefl" ) )->useTechnique();
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->skybox->getTextureID()));
+		modelID					= objectCore->skybox->getModelID();
 		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
 		startIndex			= lh->getModel( modelID )->getStartIndex();
 
+		immediateContext->OMSetDepthStencilState(depthStencilStateDisable,0);
+		immediateContext->RSSetState(rasterizerFrontface);
 		immediateContext->Draw(vertexAmount, startIndex);
-	}
 
-	// clear depth stencil so that the normal drawing  wont get disturbed and have issues with an already
-	// filled depth stencil
-	immediateContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+		//--------------------------------------------------------------------------------------
+
+		immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
+		immediateContext->RSSetState(rasterizerBackface);
+
+		techniques.at( getTechIDByName( "techRefl" ) )->useTechnique();
+	
+		//--------------------------------------------------------------------------------
+		//                                     Pad
+		//--------------------------------------------------------------------------------
+
+		cbWorld.world		= objectCore->pad->getWorld();
+		cbWorld.worldInv	= objectCore->pad->getWorldInv();
+		updateCBWorld(cbWorld);
+
+
+		modelID			= objectCore->pad->getModelID();
+		vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+		startIndex		= lh->getModel( modelID )->getStartIndex();
+
+		immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
+		immediateContext->Draw(vertexAmount, startIndex);
+
+		//--------------------------------------------------------------------------------
+		//                                     bricks
+		//--------------------------------------------------------------------------------
+
+		for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+		{
+			cbWorld.world		= objectCore->bricks.at(i)->getWorld();
+			cbWorld.worldInv	= objectCore->bricks.at(i)->getWorldInv();
+			updateCBWorld(cbWorld);
+
+			immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->bricks.at(i)->getTextureID()));
+			modelID				= objectCore->bricks.at(i)->getModelID();
+			vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+			startIndex			= lh->getModel( modelID )->getStartIndex();
+
+			immediateContext->Draw(vertexAmount, startIndex);
+		}
+	
+		// clear depth stencil so that the normal drawing  wont get disturbed and have issues with an already
+		// filled depth stencil
+		immediateContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+	}
 	//------------- normal draw ---------------//
 	immediateContext->OMSetRenderTargets(1, &sceneRenderTargetView, depthStencilView);
 
@@ -787,10 +793,17 @@ void GraphicsDX11::draw()
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	immediateContext->OMSetRenderTargets(1, &renderTargetView, NULL);
 	immediateContext->PSSetShaderResources(0,1,&sceneShaderResource);
-	immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
-	immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
-	immediateContext->PSSetShaderResources(3,5,&textures[36]);
-	techniques.at(getTechIDByName("techWater"))->useTechnique();
+	if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
+	{
+		immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
+		immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
+		immediateContext->PSSetShaderResources(3,5,&textures[36]);
+		techniques.at(getTechIDByName("techWater"))->useTechnique();
+	}
+	else
+	{
+		techniques.at(getTechIDByName("techQuad"))->useTechnique();
+	}
 	immediateContext->Draw(1,0);
 
 	immediateContext->PSSetShaderResources(0,5,&nullSRV[0]);

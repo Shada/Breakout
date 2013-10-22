@@ -35,7 +35,6 @@ public:
 	Vec3 getRotation();
 	Vec3 getLookAt()					{ return lookAt; }
 	Matrix getViewMatrix();
-
 	void update();
 };
 

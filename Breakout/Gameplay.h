@@ -57,6 +57,7 @@ namespace Logic
 		void doubleBallEffect();
 		void setMaptype(int type);
 		void spawnEffect(int brickID, int i);
+		void reset();
 
 	public:
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);

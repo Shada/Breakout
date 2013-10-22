@@ -35,14 +35,7 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
-		Vec3 vec1 = physics->from2DToCylinder(Vec3(0,0,0), 100);
-		Vec3 vec2 = physics->from2DToCylinder(Vec3(75,0,0), 100);
-		Vec3 vec3 = physics->from2DToCylinder(Vec3(150,0,0), 100);
-		int c = 0; c++;
-
-
 		this->setMaptype(objectCore->MapType::eWind);
-
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
 	/*	Logic::sph2Cart(Vec3(0,1.570796,39));
@@ -62,6 +55,7 @@ namespace Logic
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
 		keys.push_back(KeyBind(KC_NUMPAD9, &StartEffectReset));
 		keys.push_back(KeyBind(KC_NUMPAD1, &StartEffectZapper));
 		keys.push_back(KeyBind(KC_NUMPAD2, &StartEffectWind));
@@ -95,6 +89,8 @@ namespace Logic
 		objectCore->mapType = objectCore->MapType::eWater;// test
 
 		if(objectCore->mapType == objectCore->MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
+		if(objectCore->mapType == objectCore->MapType::eFire)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		soundSystem->PlayLoop(5, -1000);
@@ -120,19 +116,21 @@ namespace Logic
 		objectCore->testText->setText( fpsText.c_str() );
 		objectCore->testText->updateTextData();
 
-		objectCore->pad->update(_dt);
-		
 		static bool isPressed = false;
 
 		if(objectCore->getMapType() == objectCore->MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
+			objectCore->water->update(_dt);
+			Vec3 oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 
 			Vec3 padPos = objectCore->pad->getPosition();
-			padPos.y += 100;
-			padPos = physics->from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
-
+			padPos.y += 50;
+			padPos = physics->from2DToCylinder(padPos, 100 + 150, Vec3(physics->getBorderX()/2, 0, 0));
+			
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -222,7 +220,7 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater)
+		if(objectCore->getMapType() == objectCore->MapType::eWater )
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -230,8 +228,8 @@ namespace Logic
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
 			
-			camera->setPosition(Vec3(oldPos.x, waterLevel+50,oldPos.z));
-			camera->setLookAt(Vec3(oldLookat.x, waterLevel,oldLookat.z));
+			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
+			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z+10000));
 			camera->setWaterLevel(waterLevel);
 			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			
@@ -277,7 +275,15 @@ namespace Logic
 
 		if(objectCore->effects.size() > 0)
 			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+			{
 				objectCore->effects.at(i)->update(_dt);
+				if(objectCore->effects.at(i)->getPosition().y < 0)
+				{
+					SAFE_DELETE(objectCore->effects.at(i));
+					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
+					i--;
+				}
+			}
 
 
 		//Effects
@@ -520,7 +526,24 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		
+		if(objectCore->mapType == objectCore->MapType::eFire)
+		{
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
+		}
+		reset();
+	}
+
+	void Gameplay::reset()
+	{
+		if(objectCore->mapType != objectCore->MapType::eFire)
+		{
+			camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+			Vec3 lookAt = camera->getPosition();
+			lookAt.z = -lookAt.z;
+			camera->setLookAt(lookAt);
+			objectCore->pad->setRotation(Vec3(0,0,0));
+		}
 		playerLives = 3;
 
 		if(objectCore->ball.size() > 1)
@@ -532,8 +555,6 @@ namespace Logic
 
 		play = false;
 	}
-
-
 	void Gameplay::setMaptype(int _type)
 	{
 		
