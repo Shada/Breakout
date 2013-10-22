@@ -8,30 +8,18 @@ Camera::Camera()
 
 	position = Vec3(150, 100, -112);
 	rotation = Vec3(0, 0, 0);
-	//lookAt = Vec3(75,75,1);
-	lookAt = Vec3 (150, 100 ,-50);
-
-#ifndef _WIN32
-	//TODO: REMOVE!!!
-
-    // Send pointers to camera matrices to graphic engine
-    GraphicsOGL4::getInstance()->updateProjectionMatrix(&projectionMatrix);
-    GraphicsOGL4::getInstance()->updateViewMatrix(&viewMatrix);
-    GraphicsOGL4::getInstance()->updateViewInverseMatrix(&viewInv);
-    GraphicsOGL4::getInstance()->updateProjectionInverseMatrix(&projectionInv);
-#endif
+	lookAt = Vec3(position.x,0,100);
 
     perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
-	
-	MatrixInversion(projectionInv, projectionMatrix);
 
+	MatrixInversion(projectionInv, projectionMatrix);
 
 	CBOnce cbonce;
 	cbonce.projection = projectionMatrix;
 	cbonce.projectionInv = projectionInv;
 	cbonce.lightPos = Vec4(500, 1000, -500, 1);
 	cbonce.resolution = Vec2(SCRWIDTH, SCRHEIGHT);
-#ifdef _WIN32	
+#ifdef _WIN32
 	GraphicsDX11::getInstance()->updateCBOnce(cbonce);
 #else
 	GraphicsOGL4::getInstance()->updateCBOnce(cbonce);

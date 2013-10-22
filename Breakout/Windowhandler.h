@@ -2,18 +2,18 @@
 #define _WINDOWHANDLER_H_
 
 
-// If compiled on win32 system, _WIN32 specific 
+// If compiled on win32 system, _WIN32 specific
 #ifdef _WIN32
 	#include <windows.h>
 	#include "GraphicsDX11.h"
 #else // _WIN32
 	#include "GraphicsOGL4.h"
 #endif // _WIN32
-	
+
 #include "Inputhandler.h"
 #include "GameLogic.h"
 #include "Timer.h"
-	
+
 class Windowhandler
 {
 protected:

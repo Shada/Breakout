@@ -2,6 +2,8 @@
 #include "Resource.h"
 #include "Font.h"
 #include "Object2D.h"
+
+
 class Text : public Object2D
 {
 private:
@@ -16,7 +18,7 @@ public:
 	void setText( const char *text );
 	unsigned int getVBStartIndex()		{ return vbStartIndex; }
 	const char	*getText()				{ return text; }
-	unsigned int getTextSize()			{ return strlen(text); }
+	unsigned int getTextSize()			{ return textData->size(); }
 	unsigned int getAllocatedSize()		{ return allocatedSize; }
 	void setFont( Font *font )			{ this->font = font; }
 	void updateCB();

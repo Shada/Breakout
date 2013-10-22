@@ -239,9 +239,6 @@ int Linuxhandler::run()
 
 		if(time > 1.f / 600)
 		{
-			//clear screen
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			//if(is active window
 			game->update(time);
 
@@ -271,15 +268,26 @@ bool Linuxhandler::initWindow()
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Old OpenGL? No thanks!
 
-
-	if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+	if(FULLSCR)
 	{
-		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+		if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_FULLSCREEN))
+		{
+			fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
 
-		glfwTerminate();
-		return false;
+			glfwTerminate();
+			return false;
+		}
 	}
+	else
+	{
+		if(!glfwOpenWindow(SCRWIDTH, SCRHEIGHT, 0, 0, 0, 0, 32, 0, GLFW_WINDOW))
+		{
+			fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
 
+			glfwTerminate();
+			return false;
+		}
+	}
 	// initialize GLEW
 	glewExperimental = true; // need this for core profile
 	if(glewInit() != GLEW_OK)

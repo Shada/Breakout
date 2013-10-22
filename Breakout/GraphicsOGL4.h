@@ -26,6 +26,7 @@ private:
 	std::vector<GLuint> *textures;
 
 	Logic::ObjectCore	*objectCore;
+
 	// static vertex buffer
 	GLuint vertexBufferStatic;
 	// dynamic buffer for UI elements
@@ -33,33 +34,45 @@ private:
 	// dynamic buffer for text
 	GLuint textBufferDynamic;
 
-	//matrixIDs
-	GLuint	modelMatID,
-			modelInvMatID,
-			projMatID,
-			viewMatID,
-			viewSkybox,
-			projSkybox;
-
 	//texture IDs
-	GLuint diffuseTexID,
-			skyboxTexID;
+	GLuint	diffuseTexID,
+			skyboxTexID,
+			texSceneID,
+			texDepthID,
+			reflMapID,
+			heightMapID,
+			normMapID,
+			foamMapID,
+			quadTextureID;
 
 	//ConstantBuffers
 	GLuint	cbCameraOnce,
 			cbCameraMove,
 			cbWorld,
 			cbFont,
-			cbCameraOnceFont;
+			cbCameraOnceFont,
+			cbWater,
+			cbWaterOnce;
 
+	//renderTargets and depthBuffers
+	GLuint	reflFrameBuffer,
+			sceneFrameBuffer,
+			reflRenderTarget,
+			sceneRenderTarget,
+			waterDepthBuffer;
+
+	// Programs
     ProgramGLSL *program,
 				*billboardProgram,
 				*skyboxProgram,
-				*fontProgram;
+				*fontProgram,
+				*waterProgram,
+				*skyboxReflProgram,
+				*quadProgram,
+				*reflProgram;
 
 	// VAO
-	GLuint  VertexArrayID,
-            modelMatrixBlockID; /// This will be used later, when known how it works..
+	GLuint  VertexArrayID;
 
 	Resources::LoadHandler *lh;
 
@@ -67,8 +80,11 @@ private:
 	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	GraphicsOGL4();
-	
+
+	void initPrograms();
 	void initConstantBuffers();
+	void initUniforms();
+	void initRenderTargetsAndDepthBuffers();
 
 public:
 	void draw();
@@ -76,29 +92,20 @@ public:
 	static GraphicsOGL4 *getInstance();
 
 	void	setObjectCore(Logic::ObjectCore *objectCore) { this->objectCore = objectCore; }
-	
+
 	int		getTechIDByName(const char *name);
 	std::vector<GLuint>* getTextures();
 
-	void	draw(unsigned int startIndex, unsigned int vertexAmount);
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
 	void	updateCBWorld(CBWorld cb);
 	void	updateCBFont(CBFont cb);
+	void	updateCBWater(CBWater cb);
+	void	updateCBWaterOnce(CBWaterOnce cb);
 
 	void initVertexBuffer();
 	void feedUIBufferData();
 	void feedTextBufferData();
-
-	void updateModelMatrix(Matrix *model);
-	void updateModelInvTransMatrix(Matrix *modelinvtrans);
-	void updateViewMatrix(Matrix *view);
-	void updateViewInverseMatrix(Matrix *viewInverse);
-	void updateProjectionMatrix(Matrix *projection);
-	void updateProjectionInverseMatrix(Matrix *projectionInverse);
-
-	// maybe a little different later, this is temporary
-	void useMatrices();
 
 	/** Using standard vertex layout with Position, normal and texCoord **/
 	void useStandardVertexAttribLayout();
@@ -107,8 +114,10 @@ public:
 	/** Using font vertex layout with Position and texvalues **/
 	void useFontVertexAttribLayout();
 
-	void useTechnique(unsigned int index);
-	void useTexture(int index);
+	/* use a texture in the existing texture list */
+	void useTexture(int textureIndex, GLuint samplerID);
+	/* use a texture outside the texture list. for example a render target */
+	void useTexture(GLuint textureIndex, GLuint _samplerID, GLint v0);
 
 	~GraphicsOGL4();
 };
