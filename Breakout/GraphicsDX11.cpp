@@ -633,7 +633,7 @@ void GraphicsDX11::draw()
 	//--------------------------------------------------------------------------------
 	//                                     skybox
 	//--------------------------------------------------------------------------------
-	if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
+	if(objectCore->getMapType() == Logic::ObjectCore::MapType::eWater || objectCore->getMapType() == Logic::ObjectCore::MapType::eFire)
 	{
 		immediateContext->PSSetSamplers(1, 1, &samplerSkybox);
 		techniques.at( getTechIDByName( "techSkyboxRefl" ) )->useTechnique();
@@ -793,7 +793,7 @@ void GraphicsDX11::draw()
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	immediateContext->OMSetRenderTargets(1, &renderTargetView, NULL);
 	immediateContext->PSSetShaderResources(0,1,&sceneShaderResource);
-	if(objectCore->getMapType() == objectCore->MapType::eWater || objectCore->getMapType() == objectCore->MapType::eFire)
+	if(objectCore->getMapType() == Logic::ObjectCore::MapType::eWater || objectCore->getMapType() == Logic::ObjectCore::MapType::eFire)
 	{
 		immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
 		immediateContext->PSSetShaderResources(2,1,&reflShaderResource);

@@ -154,6 +154,7 @@ namespace Logic
 						if		(color.rgbRed == 36) hp = 1;
 						else if (color.rgbRed == 48) hp = 2;
 						else if (color.rgbRed == 60) hp = 3;
+						else hp = 1;
 						Brick *tBrick = new Brick(brickPos, mapType == 3, 15, 7.5, hp); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);

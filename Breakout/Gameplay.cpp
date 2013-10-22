@@ -35,7 +35,7 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
-		this->setMaptype(objectCore->MapType::eWind);
+		this->setMaptype(ObjectCore::MapType::eWind);
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
 	/*	Logic::sph2Cart(Vec3(0,1.570796,39));
@@ -86,11 +86,11 @@ namespace Logic
 		
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
 		
-		objectCore->mapType = objectCore->MapType::eWater;// test
+		objectCore->mapType = ObjectCore::MapType::eWater;// test
 
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
-		if(objectCore->mapType == objectCore->MapType::eFire)
+		if(objectCore->mapType == ObjectCore::MapType::eFire)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		//soundSystem->PlayLoop(5);
@@ -123,7 +123,7 @@ namespace Logic
 
 		static bool isPressed = false;
 
-		if(objectCore->getMapType() == objectCore->MapType::eFire)
+		if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
 			objectCore->water->update(_dt);
@@ -144,7 +144,7 @@ namespace Logic
 		if(play)
 		{
 
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);
 			else
@@ -198,7 +198,7 @@ namespace Logic
 
 			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
 
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				objectCore->ball.at(0)->transformToCyl();
 			else
 				objectCore->ball.at(0)->updateWorld();
@@ -233,7 +233,7 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater )
+		if(objectCore->getMapType() == ObjectCore::MapType::eWater )
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
@@ -264,7 +264,7 @@ namespace Logic
 
 		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			int collidingObject = physics->Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
+			int collidingObject = physics->Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == ObjectCore::MapType::eFire);
 			if(collidingObject != -1)
 			{
 				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
@@ -522,13 +522,13 @@ namespace Logic
 			currentMapIndex = 0;
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,objectCore->pad,&objectCore->mapType);
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, NULL, objectCore->pad, &objectCore->mapType);
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		if(objectCore->mapType == objectCore->MapType::eFire)
+		if(objectCore->mapType == ObjectCore::MapType::eFire)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
@@ -538,7 +538,7 @@ namespace Logic
 
 	void Gameplay::reset()
 	{
-		if(objectCore->mapType != objectCore->MapType::eFire)
+		if(objectCore->mapType != ObjectCore::MapType::eFire)
 		{
 			camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 			Vec3 lookAt = camera->getPosition();
@@ -587,7 +587,7 @@ namespace Logic
 	void Gameplay::spawnEffect(int _brickID, int _i, int _type)
 	{
 		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), objectCore->ball.at(_i)->getDirection().y,
-			_type, objectCore->mapType == objectCore->eFire));
+			_type, objectCore->mapType == ObjectCore::MapType::eFire));
 	}
 
 	Gameplay::~Gameplay()
