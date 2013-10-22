@@ -127,3 +127,5 @@ void GSAdvanceParticlesMain(point VSParticleIn input[1], inout PointStream<VSPar
         GSShellHandler( input[0], ParticleOutputStream );
 
 }
+
+GeometryShader gsStreamOut = ConstructGSWithSO( CompileShader( gs_5_0, GSAdvanceParticlesMain() ), "POSITION.xyz; NORMAL.xyz; TIMER.x; TYPE.x;" );

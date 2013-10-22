@@ -80,7 +80,6 @@ void Particles::update(float dt)
 	g->updateCBParticles(effectVariables);
 
 
-	g->immediateContext->IASetInputLayout( ParticleVertexLayout );
 	// Set IA parameters
     ID3D11Buffer* pBuffers[1];
     if( First )
@@ -93,6 +92,7 @@ void Particles::update(float dt)
     UINT offset[1] = { 0 };
     g->immediateContext->IASetVertexBuffers( 0, 1, pBuffers, &stride[0], &offset[0] );
     g->immediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_POINTLIST );
+	g->immediateContext->IASetInputLayout( ParticleVertexLayout );
 
     // Point to the correct output buffer
     //pBuffers[0] = ParticleStreamTo;
@@ -147,7 +147,7 @@ void Particles::draw()
 
    
 	// Draw
-	g->immediateContext->GSSetShaderResources(0,1,g->getTextureByID(texID));
+	g->immediateContext->PSSetShaderResources(0,1,g->getTextureByID(texID));
 
 
     g->immediateContext->DrawAuto();
@@ -207,37 +207,48 @@ void Particles::createRandomTexture()
 
 void Particles::createBuffer( Vec3 pos)
 {
+	GraphicsDX11* g = GraphicsDX11::getInstance();
+
 	HRESULT hr;
 	D3D11_BUFFER_DESC vbdesc;
 	ZeroMemory( &vbdesc, sizeof(vbdesc) );
 	vbdesc.ByteWidth = 1 * sizeof( PARTICLE_VERTEX );
-	vbdesc.Usage = D3D11_USAGE_DEFAULT;
+	vbdesc.Usage = D3D11_USAGE_DYNAMIC;
 	vbdesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	vbdesc.MiscFlags = 0;
 	vbdesc.StructureByteStride = 0;
     
+	PARTICLE_VERTEX vertStart;
+	ZeroMemory(&vertStart,sizeof(PARTICLE_VERTEX));
+	
+    
+		vertStart.pos = Vec3(11,22,33);
+		vertStart.Timer = float( 555 );
+		vertStart.vel = Vec3( 55, 66, 77 );
+		vertStart.Type = UINT( 0 );
+    
 
+	//vbdesc.MiscFlags = D3D11_CPU_ACCESS_WRITE;
 
-	 //vbdesc.MiscFlags = D3D11_CPU_ACCESS_WRITE;
+    hr = device->CreateBuffer( &vbdesc, NULL, &ParticleStart );
 
+    D3D11_MAPPED_SUBRESOURCE vbInitData;
+	ZeroMemory( &vbInitData, sizeof( vbInitData ) );
 
-    D3D11_SUBRESOURCE_DATA vbInitData;
-    ZeroMemory( &vbInitData, sizeof( D3D11_SUBRESOURCE_DATA ) );
+	int vertSize = sizeof(PARTICLE_VERTEX) * 1;
 
-    PARTICLE_VERTEX vertStart =
-    {
-        Vec3(11,22,33),
-        Vec3( 55, 66, 77 ),
-        float( 555 ),
-        UINT( 0 ),
-    }; 
-    vbInitData.SysMemPitch = sizeof( PARTICLE_VERTEX );
-    vbInitData.pSysMem = &vertStart;
+	g->immediateContext->Map(ParticleStart, 0, D3D11_MAP_WRITE_DISCARD, 0, &vbInitData);
+	memcpy( vbInitData.pData, &vertStart, vertSize);
+    g->immediateContext->Unmap(ParticleStart, 0);
 
-    hr = device->CreateBuffer( &vbdesc, &vbInitData, &ParticleStart );
-
+	
     vbdesc.ByteWidth = MAX_PARTICLES * sizeof( PARTICLE_VERTEX );
     vbdesc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
+	vbdesc.CPUAccessFlags = 0;
+	vbdesc.Usage = D3D11_USAGE_DEFAULT;
+
+
     hr = device->CreateBuffer( &vbdesc, NULL, &ParticleDrawFrom );
     hr = device->CreateBuffer( &vbdesc, NULL, &ParticleStreamTo );
 }

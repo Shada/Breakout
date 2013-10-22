@@ -303,8 +303,8 @@ void GraphicsDX11::init(HWND *hWnd)
 	initVertexBuffer();
 	createVBufferUI(100);
 	getTextureArray(&textures);
-	//										   startpos,	startspeed,		radie,	radiedir,		texID,	gravity,		lifetime,	stages,	partperstage,	color,			fadecolor,		randdir
-	particle = new Particles(device,"Particle",Vec3(0,0,0),	Vec3(0,1,0),	100,	Vec3(1,0,1),	2,		Vec4(0,0,0,0),	5,			1,		10,				Vec4(1,1,0,1),	Vec4(0,0,1,1),	1);
+	//										   startpos,	startspeed,		radie,	radiedir,		texID,	  gravity,		lifetime,	stages,	partperstage,	color,			fadecolor,		randdir
+	particle = new Particles(device,"Particle",Vec3(0,45,0),	Vec3(0,1,0),	10,	Vec3(1,1,0),	1,		Vec4(0,0,0,0),	5,			2,		10,				Vec4(1,1,0,1),	Vec4(0,0,1,1),	1);
 }
 
 HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
@@ -525,6 +525,9 @@ void GraphicsDX11::draw(double _time)
 	cbWorld.worldInv	= objectCore->pad->getWorldInv();
 	updateCBWorld(cbWorld);
 
+	std::cout << "Brickpos: " << objectCore->pad->getPosition().x << ", " << objectCore->pad->getPosition().y << ", " << objectCore->pad->getPosition().z << std::endl;
+	std::cout << "BrickID: " << objectCore->pad->getModelID() << std::endl;
+
 
 	modelID			= objectCore->pad->getModelID();
 	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
@@ -554,7 +557,19 @@ void GraphicsDX11::draw(double _time)
 	//--------------------------------------------------------------------------------
 	//                                     particles
 	//--------------------------------------------------------------------------------
-	immediateContext->RSSetState(rasterizerFrontface);
+	immediateContext->RSSetState(rasterizerBackface);
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
+
+	cbWorld.world			= Matrix(	1,0,0,0,
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
+
+	cbWorld.worldInv		= Matrix(	1,0,0,0,
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
+	updateCBWorld( cbWorld );
 
 
 	immediateContext->GSSetSamplers(1, 1, &samplerPoint);
@@ -562,7 +577,6 @@ void GraphicsDX11::draw(double _time)
 
 	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
 	particle->update(_time);
-
 
 	immediateContext->GSSetSamplers(0, 1, &samplerLinear);
 	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);

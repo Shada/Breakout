@@ -29,8 +29,9 @@ VSParticleDrawOut VSScenemain(VSParticleIn input)
     //
     if( input.type == 0 )
     {
-        output.color = float4(0,0.1,0.1,0);
-        output.radius = 1.0;
+        output.color = float4(1,0.5,0.2,1);
+        output.radius = 10.0;
+		output.pos = float3(0,45,0);
     }
     else
     {
@@ -44,6 +45,5 @@ VSParticleDrawOut VSScenemain(VSParticleIn input)
 
     }
 
-    
     return output;
 }
