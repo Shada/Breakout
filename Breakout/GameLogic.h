@@ -7,6 +7,7 @@
 #include <functional>
 #include "Menu.h"
 
+
 namespace Logic
 {
 	class GameLogic
