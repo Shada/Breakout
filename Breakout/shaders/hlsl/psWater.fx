@@ -8,7 +8,7 @@ Texture2D normalMap			:register( t4 );
 Texture2D foamMap			:register( t5 );
 Texture2D texLava			:register( t6 );
 Texture2D lavaGlowMap		:register( t7 );
-
+Texture2D worldGlowMap		:register( t8 );
 
 float3x3 computeTangentMatrix(float3 normal, float3 position, float2 texCoord)
 {
@@ -60,8 +60,8 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 				float oldRange = 10.0f - 0.0f;
 				float newRange = 1.0f - 0.0f;
 				float glowFactor =waterLevel +10 - worldPos.y;
-				glowFactor = (((glowFactor-0) * newRange)/ oldRange) + 0.0f;
-				return saturate(originalColor + float4(1,0.3,0.15,1) * glowFactor );
+				glowFactor = ( (((glowFactor-0) * newRange)/ oldRange) + 0.0f)  *( 1- worldGlowMap.Sample( samLinear, input.tex));
+				return saturate(originalColor + float4(1,0.3,0.15,1) * glowFactor);
 			}
 		}
 		return originalColor;
