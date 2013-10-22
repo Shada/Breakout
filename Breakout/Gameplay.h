@@ -3,7 +3,6 @@
 
 #include "Model.h"
 #include "Map.h"
-#include "Effect.h"
 //#include "Pad.h"
 #include "Inputhandler.h"
 #include "Camera.h"
@@ -22,7 +21,6 @@ namespace Logic
 	class Gameplay
 	{
 	private:
-		int fps;
 		std::vector<Vertex>			verticesDynamic;
 		std::vector<PerInstance>	verticesPerInstance;
 
@@ -40,7 +38,7 @@ namespace Logic
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
-		int playerLives;
+		int playerLives, fps, prevFps;
 		
 		Inputhandler *inputHandler;
 
@@ -56,13 +54,14 @@ namespace Logic
 		void nextMap();
 		void doubleBallEffect();
 		void setMaptype(int type);
-		void spawnEffect(int brickID, int i);
+		void spawnEffect(int brickID, int i, int type);
 		void reset();
 
 	public:
 		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
 		~Gameplay();
 
+		void setFps(int _fps) { fps = _fps; }
 		void update(double dt);
 		
 		//You can not play the same effect twice in a row unless you

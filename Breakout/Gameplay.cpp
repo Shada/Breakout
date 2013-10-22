@@ -11,7 +11,7 @@ namespace Logic
 	int Gameplay::startEffect = 0;
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
 	{
-		fps = 0;
+		fps = 0, prevFps = -1;
 		mapLoading = new Map();
 		inputHandler = _handler;
 		physics = Logic::Physics::getInstance();
@@ -107,14 +107,19 @@ namespace Logic
 	{
 	
 		Vec3 cameratem = camera->getLookAt();
-		fps = (int)(1.0 / _dt + 0.5);
+		//fps = (int)(1.0 / _dt + 0.5);
 
 		//update label
-		std::ostringstream buffFps;
-		buffFps << fps;
-		std::string fpsText = "FPS: "+buffFps.str();
-		objectCore->testText->setText( fpsText.c_str() );
-		objectCore->testText->updateTextData();
+		if(prevFps != fps)
+		{
+			std::ostringstream buffFps;
+			buffFps << fps;
+			std::string fpsText = "FPS: " + buffFps.str();
+			objectCore->testText->setText( fpsText.c_str() );
+			objectCore->testText->updateTextData();
+
+			prevFps = fps;
+		}
 
 		static bool isPressed = false;
 
@@ -127,7 +132,7 @@ namespace Logic
 
 			Vec3 padPos = objectCore->pad->getPosition();
 			padPos.y += 50;
-			padPos = physics->from2DToCylinder(padPos, 100 + 150, Vec3(physics->getBorderX()/2, 0, 0));
+			padPos = physics->from2DToCylinder(padPos, physics->getCylRadius() + 150, Vec3(physics->getBorderX()/2, 0, 0));
 			
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
 			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
@@ -158,6 +163,11 @@ namespace Logic
 			objectCore->pad->setReleaseBall(false);
 			playerLives--;
 			std::cout << "Life lost! Nr of lives left: " << playerLives << std::endl;
+
+			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+				SAFE_DELETE(objectCore->effects.at(i));
+			objectCore->effects.clear();
+
 			if (playerLives <= 0)
 				nextMap(); //Replace with game over stuff
 		}
@@ -258,10 +268,18 @@ namespace Logic
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
-					//if(rand() % 100 < 50)
+					if(rand() % 100 < 50)
 					{
-						doubleBallEffect();
-						spawnEffect(collidingObject, i);
+						int type;
+						int effectType = rand() % 6;
+						if	   (effectType < 1) type = 0;
+						else if(effectType < 2) type = 1;
+						else if(effectType < 3) type = 2;
+						else if(effectType < 4) type = 3;
+						else if(effectType < 5) type = 4;
+						else					type = 5;
+						//doubleBallEffect();
+						spawnEffect(collidingObject, i, type);
 					}
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
@@ -282,6 +300,23 @@ namespace Logic
 					SAFE_DELETE(objectCore->effects.at(i));
 					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
 					i--;
+					continue;
+				}
+				if((objectCore->pad->getPosition() - objectCore->effects.at(i)->getPosition()).length() < 10)
+				{
+					int type = objectCore->effects.at(i)->getType();
+					switch(type)
+					{
+					case 0:		playerLives++;							break;
+					case 1:		objectCore->pad->startSpeed();			break;
+					case 2:		objectCore->pad->startSlow();			break;
+					case 3:		objectCore->pad->invertControls(2.f);	break;
+					case 4:		objectCore->pad->decreaseRotation(2.f);	break;
+					case 5:		doubleBallEffect();
+					}
+					SAFE_DELETE(objectCore->effects.at(i));
+					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
+					i--;
 				}
 			}
 
@@ -294,42 +329,6 @@ namespace Logic
 		}
 
 		objectCore->testText->update( _dt );
-		
-		if (minorEffects.size() != 0) 
-			for(int i = minorEffects.size(); i > 0; i--)
-			{
-				minorEffects[i-1].pos.y += -_dt * 20;
-				if ((objectCore->pad->getPosition() - minorEffects[i-1].pos).length() < 10)
-				{
-					if(minorEffects[i-1].type == 0) //Lifegain
-					{
-						playerLives++;
-						std::cout << "Life gained! Lives left :" << playerLives << std::endl;
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 1) //Speedbuff
-					{
-						std::cout << "Speedbuff caught" << playerLives << std::endl;
-						objectCore->pad->startSpeed();
-						soundSystem->Play(17);
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 2) //SpeedDebuff
-					{
-						std::cout << "Speed Debuff caught" << playerLives << std::endl;
-						objectCore->pad->startSlow();
-						soundSystem->Play(18);
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 3) //Inverted Controls
-					{}
-					else if(minorEffects[i-1].type == 4) //Rotation speed changed
-					{}
-				}
-				else if(minorEffects[i-1].pos.y < objectCore->pad->getPosition().y - 20)
-					minorEffects.erase(minorEffects.begin() + i -1);
-			}
-
 
 		//if(play)
 		if (effectStart == 0)
@@ -554,7 +553,12 @@ namespace Logic
 			}
 
 		play = false;
+		for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+			SAFE_DELETE(objectCore->effects.at(i));
+
+		objectCore->effects.clear();
 	}
+
 	void Gameplay::setMaptype(int _type)
 	{
 		
@@ -577,9 +581,10 @@ namespace Logic
 		}
 	}
 
-	void Gameplay::spawnEffect(int _brickID, int _i)
+	void Gameplay::spawnEffect(int _brickID, int _i, int _type)
 	{
-		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), objectCore->ball.at(_i)->getDirection().y));
+		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), objectCore->ball.at(_i)->getDirection().y,
+			_type, objectCore->mapType == objectCore->eFire));
 	}
 
 	Gameplay::~Gameplay()

@@ -12,7 +12,7 @@ namespace Logic
 
 		//Save away pad position and modify the real one for the matrix
 		Vec3 temp = position;
-		position = Logic::Physics::getInstance()->from2DToCylinder(position, 100, Vec3(borderMaxX/2, 0, 0)); //Cylcenter is right now (mapwidth/2, 0, 0);
+		position = Logic::Physics::getInstance()->from2DToCylinder(position, Physics::getInstance()->getCylRadius(), Vec3(borderMaxX/2, 0, 0)); //Cylcenter is right now (mapwidth/2, 0, 0);
 
 		//Update world matrix
 		updateWorld();

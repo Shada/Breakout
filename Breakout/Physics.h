@@ -16,10 +16,11 @@ namespace Logic
 	{
 	private:
 		static Physics	*physics;
-		Physics(){ borderMaxX = 500; borderMaxY = 200; }
+		Physics(){ borderMaxX = 500; borderMaxY = 200; cylRadius = 150; }
 
 		int borderMaxX;
 		int borderMaxY;
+		int cylRadius;
 
 	public:
 
@@ -35,6 +36,7 @@ namespace Logic
 		void setBorderMaxY(int _y){ borderMaxY = _y;}
 		int getBorderX(){ return borderMaxX; }
 		int getBorderY(){ return borderMaxY; }
+		int getCylRadius(){ return cylRadius; }
 
 #pragma region Collission		
 	inline bool Intersects(Ball* _ball, Brick* _brick)

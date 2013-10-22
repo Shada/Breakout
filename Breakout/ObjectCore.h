@@ -6,6 +6,7 @@
 #include "Skybox.h"
 #include "Resource.h"
 #include "Text.h"
+#include "Effect.h"
 #include "UIElement.h"
 namespace Logic
 {
@@ -24,7 +25,7 @@ namespace Logic
 		Pad						*pad;
 		std::vector<Ball*>		ball;
 		std::vector<Brick*>		bricks;
-		std::vector<Object3D*>	effects;
+		std::vector<Effect*>	effects;
 		
 		std::vector<BBUI>		uiBillboards;
 		std::vector<BBFont>		fontBillboards;

@@ -31,6 +31,7 @@ namespace Logic
 
 		void update(float dt);
 		void draw();
+		void setFpsCounter(int _fps) { gameplay->setFps(_fps); }
 	};
 
 }

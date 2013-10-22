@@ -9,11 +9,15 @@ namespace Logic
 	{
 	private:
 		float fallSpeed;
+		int effectType;
+		bool isCylinder;
 	public:
-		Effect(Vec3 startPos, float ballDirY);
+		Effect(Vec3 startPos, float ballDirY, int type, bool _isCylinder);
 		~Effect();
 
 		void update(double dt);
+
+		int getType() { return effectType; }
 	};
 }
 #endif
