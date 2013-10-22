@@ -20,14 +20,13 @@ namespace Logic
 			for example when changing from another map */
 
 		void loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad,ObjectCore::MapType *_mapType);
-
+		
+		int getLvlDifficulty() { return lvlDifficulty; }
 		int getMapType() { return mapType; }
 		//TODO:
 		//funktion för inladdning av bana
 	private:
-		//TODO:
-		//förvaring av bana.
-		//etc
+		int lvlDifficulty;
 		int mapType;
 	};
 }

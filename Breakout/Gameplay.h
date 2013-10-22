@@ -45,6 +45,7 @@ namespace Logic
 		EventSystem *eventSystem;
 		
 		int playerLives;
+		int playerScore;
 		
 		Inputhandler *inputHandler;
 

@@ -19,10 +19,10 @@ namespace Logic
 		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
-		eventSystem = new EventSystem(0,5); // testvärde
 		srand ((unsigned)time(NULL));
 
 		playerLives = 3;
+		playerScore = 0;
 
 		effectStart = 0;
 		startEffectOld = 0;
@@ -98,7 +98,8 @@ namespace Logic
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 
 		//soundSystem->PlayLoop(5);
-
+		
+		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -266,6 +267,8 @@ namespace Logic
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+					playerScore += 1;
+					std::cout << "Score: " << playerScore << std::endl;
 					if(rand() % 100 < 5)
 						doubleBallEffect();
 				}
@@ -305,7 +308,7 @@ namespace Logic
 						}
 						else if(minorEffects[i-1].type == 1) //Speedbuff
 						{
-							std::cout << "Speedbuff caught" << playerLives << std::endl;
+							std::cout << "Speedbuff caught" << std::endl;
 							objectCore->pad->startSpeed();
 							soundSystem->Play(17);
 							minorEffects.erase(minorEffects.begin() + i -1);
@@ -313,7 +316,7 @@ namespace Logic
 						}
 						else if(minorEffects[i-1].type == 2) //SpeedDebuff
 						{
-							std::cout << "Speed Debuff caught" << playerLives << std::endl;
+							std::cout << "Speed Debuff caught" << std::endl;
 							objectCore->pad->startSlow();
 							soundSystem->Play(18);
 							minorEffects.erase(minorEffects.begin() + i -1);
@@ -334,8 +337,8 @@ namespace Logic
 
 
 		//if(play)
-		/*if (effectStart == 0)
-			effectStart = eventSystem->Update(_dt);*/
+		if (effectStart == 0)
+			effectStart = eventSystem->Update(_dt);
 
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
@@ -516,6 +519,8 @@ namespace Logic
 
 	void Gameplay::nextMap()
 	{
+		
+		std::cout << "Final score: " << playerScore << std::endl;
 		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
 		currentMapIndex++;
 		if(currentMapIndex >= noMaps)
@@ -530,6 +535,7 @@ namespace Logic
 		}
 		
 		playerLives = 3;
+		playerScore = 0;
 
 		if(objectCore->ball.size() > 1)
 			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
