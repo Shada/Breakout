@@ -881,9 +881,8 @@ void GraphicsDX11::drawMenu()
 	UINT offset = 0;
 
 
-	immediateContext->OMSetBlendState(blendDisable, blendFactor, 0xffffffff);
 	immediateContext->PSSetShaderResources(0,1,&nullSRV[0]);
-	immediateContext->OMSetRenderTargets(1, &reflRenderTargetView, depthStencilView);
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
 	immediateContext->RSSetViewports(1, &viewPort);
 
@@ -916,9 +915,10 @@ void GraphicsDX11::drawMenu()
 									0,0,0,1	);
 	updateCBWorld( cbWorld );
 
-	immediateContext->PSSetShaderResources( 0,1,&textures.at( objectCore->SideBar->getTexIndex() ) );
-	vertexAmount	= objectCore->uiBillboards.size();
-	startIndex		= 0;
+	immediateContext->PSSetShaderResources( 0,4, &textures.at( 41 ) );
+	
+	vertexAmount	= objectCore->gui.size() + 1;
+	startIndex		= 1;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 
@@ -942,11 +942,12 @@ void GraphicsDX11::drawMenu()
 	techniques.at( getTechIDByName( "techFont" ) )->useTechnique();
 	immediateContext->IASetInputLayout(fontLayout);
 	immediateContext->PSSetShaderResources( 0,1,&textures.at( 4 ) );
-
+	objectCore->fontBillboards.clear();
 	for(unsigned int i = 0; i < objectCore->optionList.size(); i++)
 	{
-		vertexAmount		= objectCore->optionList.at(i).getTextSize();
-		startIndex			= objectCore->optionList.at(i).getVBStartIndex();
+		startIndex			= objectCore->fontBillboards.size();
+		objectCore->optionList.at(i).appendTextToData();
+		vertexAmount		= objectCore->fontBillboards.size() - startIndex;
 
 		objectCore->optionList.at(i).updateCB();
 

@@ -49,4 +49,7 @@ Water/foam.jpg
 Water/lava.png
 Water/lavaGlowMap.png
 
-Textures/uibrick.png
+Textures/circle.png
+Textures/diamond.png
+Textures/logo.png
+Textures/protagonist.png

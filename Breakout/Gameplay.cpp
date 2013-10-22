@@ -126,7 +126,6 @@ namespace Logic
 			
 		if(play)
 		{
-
 			if(objectCore->getMapType() == objectCore->MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);

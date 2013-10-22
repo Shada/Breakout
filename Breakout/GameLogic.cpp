@@ -12,6 +12,7 @@ namespace Logic
 
 		inputHandler	= handler;
 		objectCore		= new ObjectCore();
+
 		menu			= new Menu(objectCore);
 		menu->addOption("New Game");
 		menu->addOption("Highscore");
@@ -19,6 +20,8 @@ namespace Logic
 		menu->addOption("Credits");
 		menu->addOption("Exit");
 		menu->open();
+
+
 		gameplay		= new Gameplay(inputHandler, soundSystem, objectCore);
 		inputHandler	= handler;
 		
@@ -41,6 +44,20 @@ namespace Logic
 		}
 		case GAME_MENU:
 			inputHandler->updateMenu();
+			if(GetAsyncKeyState(VK_DOWN) != 0)
+			{
+				menu->moveDown();
+			}
+			else if(GetAsyncKeyState(VK_UP) != 0)
+			{
+				menu->moveUp();
+			}
+			else if(GetAsyncKeyState(VK_SPACE) != 0 || GetAsyncKeyState(VK_RETURN) != 0)
+			{
+				menu->confirm();
+				if(menu->getSelectedOptionInt() == 0)
+					menu->close();
+			}
 			menu->update(_dt);
 			break;
 		}

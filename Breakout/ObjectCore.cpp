@@ -22,7 +22,7 @@ namespace Logic
 		//especially textureID
 		skybox->setModelID(3); 
 		skybox->setTextureID(0);
-		testText = new Text(&fontBillboards, "FPS:", Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
+		testText = new Text(&fontBillboards, "FPS:", 0, Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
 		testText->setFont(testFont);
 		testText->setTextData(0, 10);
 

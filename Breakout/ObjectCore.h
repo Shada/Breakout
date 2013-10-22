@@ -45,6 +45,8 @@ namespace Logic
 		std::vector<Text>			optionList;
 		std::vector<UIElement>		gui;
 
+		UIElement					*selector;
+
 		ObjectCore();
 		~ObjectCore();
 

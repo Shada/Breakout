@@ -12,7 +12,6 @@ namespace Logic
 		ObjectCore					*objectCore;
 		unsigned int				selection;
 		unsigned int				optionAmount;
-
 		void						addActions();
 
 	public:
@@ -24,6 +23,7 @@ namespace Logic
 		void			update( double dt );
 		void			moveUp();
 		void			moveDown();
+		void			confirm();
 		void			open();
 		void			close();
 		~Menu();
