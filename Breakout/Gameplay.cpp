@@ -275,7 +275,15 @@ namespace Logic
 
 		if(objectCore->effects.size() > 0)
 			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+			{
 				objectCore->effects.at(i)->update(_dt);
+				if(objectCore->effects.at(i)->getPosition().y < 0)
+				{
+					SAFE_DELETE(objectCore->effects.at(i));
+					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
+					i--;
+				}
+			}
 
 
 		//Effects
