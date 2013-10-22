@@ -161,12 +161,15 @@ namespace Logic
 			playerLives--;
 			std::cout << "Life lost! Nr of lives left: " << playerLives << std::endl;
 			if (playerLives <= 0)
+			{
+				soundSystem->Play(6);
 				nextMap(); //Replace with game over stuff
+			}
 		}
 		else
 		{
 			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
-				if(objectCore->ball.at(i)->getPosition().y < 0)
+				if(objectCore->ball.at(i)->getPosition().y < objectCore->pad->getPosition().y - 20)
 				{
 					SAFE_DELETE(objectCore->ball.at(i));
 					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
