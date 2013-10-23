@@ -615,6 +615,23 @@ void GraphicsDX11::useTechnique( unsigned int id )
 
 void GraphicsDX11::draw()
 {
+	switch(Global::getInstance()->gameState)
+	{
+	case GameState::GAME_MENU:
+		{
+			drawMenu();
+			break;
+		}
+	case GameState::GAME_PLAY:
+		{
+			drawGame();
+			break;
+		}
+	}
+}
+
+void GraphicsDX11::drawGame()
+{
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 	CBWorld cbWorld;
 
@@ -881,7 +898,7 @@ void GraphicsDX11::draw()
 
 	immediateContext->Map(uiBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &updateData);
 	memcpy( updateData.pData, &objectCore->uiBillboards[0], sizeof(BBUI)* objectCore->uiBillboards.size() );
-    immediateContext->Unmap(uiBufferDynamic, 0);
+	immediateContext->Unmap(uiBufferDynamic, 0);
 
 	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
 	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
@@ -900,11 +917,11 @@ void GraphicsDX11::draw()
 									0,0,0,1	);
 	updateCBWorld( cbWorld );
 
-	immediateContext->PSSetShaderResources( 0,1,&textures.at( objectCore->SideBar->getTexIndex() ) );
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 8 ) );
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw( 1, startIndex );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text
@@ -919,7 +936,7 @@ void GraphicsDX11::draw()
 
 	immediateContext->Map(textBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &textData);
 	memcpy( textData.pData, &objectCore->fontBillboards[0], sizeof(BBFont)* objectCore->fontBillboards.size() );
-    immediateContext->Unmap(textBufferDynamic, 0);
+	immediateContext->Unmap(textBufferDynamic, 0);
 
 	immediateContext->IASetVertexBuffers( 0, 1, &textBufferDynamic, &stride, &offset );
 	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -933,6 +950,100 @@ void GraphicsDX11::draw()
 	objectCore->testText->updateCB();
 
 	immediateContext->Draw( vertexAmount, startIndex );
+}
+void GraphicsDX11::drawMenu()
+{
+	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
+	CBWorld cbWorld;
+
+	ID3D11ShaderResourceView *const nullSRV[5] = {NULL,NULL,NULL,NULL,NULL};
+
+	unsigned int vertexAmount, startIndex, modelID;
+
+	float blendFactor[4];
+	blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;
+
+	UINT stride = sizeof(BBUI);
+	UINT offset = 0;
+
+
+	immediateContext->PSSetShaderResources(0,1,&nullSRV[0]);
+	immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
+	immediateContext->RSSetViewports(1, &viewPort);
+
+
+	immediateContext->RSSetState(rasterizerBackface);
+
+	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
+	
+	D3D11_MAPPED_SUBRESOURCE updateData;
+	ZeroMemory( &updateData, sizeof( updateData ) );
+
+	immediateContext->Map(uiBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &updateData);
+	memcpy( updateData.pData, &objectCore->uiBillboards[0], sizeof(BBUI)* objectCore->uiBillboards.size() );
+	immediateContext->Unmap(uiBufferDynamic, 0);
+
+	immediateContext->OMSetBlendState(blendEnable, blendFactor, 0xffffffff);
+	immediateContext->IASetVertexBuffers( 0, 1, &uiBufferDynamic, &stride, &offset );
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	techniques.at( getTechIDByName( "techUI" ) )->useTechnique();
+	immediateContext->IASetInputLayout(uiLayout);
+
+	cbWorld.world			= Matrix(	1,0,0,0,
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
+
+	cbWorld.worldInv		= Matrix(	1,0,0,0,
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
+	updateCBWorld( cbWorld );
+
+	immediateContext->PSSetShaderResources( 0,5, &textures.at( 41 ) );
+	
+	vertexAmount	= objectCore->gui.size() + 3;
+	startIndex		= 2;
+
+	immediateContext->Draw( vertexAmount, startIndex );
+
+	immediateContext->Draw( 1, 1 );
+
+	//--------------------------------------------------------------------------------
+	//                                     Text
+	//--------------------------------------------------------------------------------
+	stride = sizeof( BBFont );
+	offset = 0;
+
+	immediateContext->RSSetState(rasterizerBackface);
+
+	D3D11_MAPPED_SUBRESOURCE textData;
+	ZeroMemory( &textData, sizeof( textData ) );
+
+	immediateContext->Map(textBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &textData);
+	memcpy( textData.pData, &objectCore->fontBillboards[0], sizeof(BBFont)* objectCore->fontBillboards.size() );
+	immediateContext->Unmap(textBufferDynamic, 0);
+
+	immediateContext->IASetVertexBuffers( 0, 1, &textBufferDynamic, &stride, &offset );
+	immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	techniques.at( getTechIDByName( "techFont" ) )->useTechnique();
+	immediateContext->IASetInputLayout(fontLayout);
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 4 ) );
+	objectCore->fontBillboards.clear();
+	for(unsigned int i = 0; i < objectCore->optionList.size(); i++)
+	{
+		startIndex			= objectCore->fontBillboards.size();
+		objectCore->optionList.at(i).appendTextToData();
+		vertexAmount		= objectCore->fontBillboards.size() - startIndex;
+
+		objectCore->optionList.at(i).updateCB();
+
+		immediateContext->Draw( vertexAmount, startIndex );
+	}
 }
 
 void GraphicsDX11::useShaderResourceViews(ID3D11ShaderResourceView **views, int startSlot, int numberofViews)

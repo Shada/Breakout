@@ -13,6 +13,9 @@ namespace Logic
 	class ObjectCore
 	{
 	public:
+		//----------------------------------
+		//gameplay
+		//----------------------------------
 		enum MapType
 		{
 			eTest = 0,
@@ -37,6 +40,17 @@ namespace Logic
 		Skybox					*skybox;
 
 		UIElement				*SideBar;
+
+		//----------------------------------
+		//menu
+		//----------------------------------
+		std::vector<Text>			optionList;
+		std::vector<UIElement>		gui;
+
+		UIElement					*selector;
+		UIElement					*logo;
+		UIElement					*loli;
+		UIElement					*circle;
 
 		ObjectCore();
 		~ObjectCore();

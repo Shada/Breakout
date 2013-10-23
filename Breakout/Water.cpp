@@ -10,8 +10,8 @@ Water::Water(float _waterLevel, int _type)
 	waterLevel = _waterLevel;
 	windDirection = Vec2(-0.1f, 0.4f);
 	paused = false;
-	maxSpeed = 10.f;
-	acceleration = 10.1f;
+	maxSpeed = 1.f;
+	acceleration = 0.1f;
 	timer = 0.0;
 	speed = 0.4f;
 	speedModifier = 1.0f;

@@ -10,16 +10,16 @@
 #include <typeinfo>       // operator typeid
 #include <exception>      // std::exception
 
-Text::Text(std::vector<BBFont> *fontBillboards, const char *text, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
+Text::Text(std::vector<BBFont> *fontBillboards, std::string text, unsigned int startIndex, Vec2 pos, Vec2 scale, float rotation, Vec4 tintAlpha)
 	:Object2D(pos,scale,rotation,tintAlpha)
 {
 	textData = fontBillboards;
 	this->text		= text;
 	font = NULL;
-	vbStartIndex = 0;
+	vbStartIndex = startIndex;
 }
 
-void Text::setText(const char *text)
+void Text::setText(std::string text)
 {
 	this->text = text;
 }
@@ -32,6 +32,16 @@ void Text::updateTextData()
 		return;
 	}
 	textData->clear();
+	font->loadText(textData, text);
+}
+
+void Text::appendTextToData()
+{
+	if(!font)
+	{
+		throw std::exception("No font selected.");
+		return;
+	}
 	font->loadText(textData, text);
 }
 

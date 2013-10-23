@@ -11,7 +11,8 @@ private:
 	int texIndex;
 public:
 	UIElement( std::vector<BBUI> *billboards, int texIndex, Vec2 pos = Vec2(0,0), Vec2 scale = Vec2(1,1), float rotation = 0, Vec4 tintAlpha = Vec4(1,1,1,1) );
-	int getTexIndex() { return texIndex; }
+	int getTexIndex()				{ return texIndex; }
+	unsigned int getBufferIndex()	{ return bufferIndex; }
 	void updateBufferData();
 	~UIElement();
 };

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string>
 #include "linearalgebra.h"
+#include "Global.h"
 
 static std::string linuxPath;
 
@@ -156,6 +157,7 @@ enum KeyCodes
 	KC_SPACE = 0x20,
 
 #ifdef _WIN32
+	KC_RETURN		= 0x0D,
 	KC_PAGEUP		= 0x21,
 	KC_PAGEDOWN		= 0x22,
 	KC_END			= 0x23,
@@ -177,6 +179,7 @@ enum KeyCodes
 	KC_NUMPAD8		= 0x68,
 	KC_NUMPAD9		= 0x69,
 #else
+	KC_RETURN		= 0x126;
 	KC_INSERT		= 0x128,
 	KC_DELETE		= 0x129,
 	KC_RIGHT		= 0x11E,
@@ -206,8 +209,5 @@ enum GameState
 	GAME_PLAY = 1,
 	GAME_PLAYING = 2,
 };
-
-//the game state (found in Resource.h)
-//static GameState gameState = GameState::GAME_PLAY;
 
 #endif // ! _RESOURCE_H_

@@ -9,14 +9,14 @@
 namespace Logic
 {
 	int Gameplay::startEffect = 0;
-	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
+	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys, ObjectCore *objectCore)
 	{
 		fps = 0, prevFps = -1;
 		mapLoading = new Map();
 		inputHandler = _handler;
 		physics = Logic::Physics::getInstance();
 		
-		objectCore = new ObjectCore();
+		this->objectCore = objectCore;
 		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
@@ -68,7 +68,6 @@ namespace Logic
 
 		_handler->setPad(objectCore->pad, keys);
 
-		//inputHandler->setCamera(camera, keys);
 #ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
 #else
@@ -139,7 +138,6 @@ namespace Logic
 
 		if(play)
 		{
-
 			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);

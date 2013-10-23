@@ -11,15 +11,23 @@ namespace Logic
 		ball.push_back(new Ball());
 		skybox	= new Skybox();
 
+		testFont = new Font();
+		testFont->loadFontSettings("Fonts/blackwhite.txt");
+		std::vector<BBFont> test = std::vector<BBFont>();
+		testFont->setImageIndex(7);
+
 		//temporary prob, should be done in loadMap() in map.cpp
 		//so that different skyboxes in different maps
 		//also these indeces are very likely to change
 		//especially textureID
 		skybox->setModelID(3); 
 		skybox->setTextureID(0);
-		testFont = new Font();
-		testText = new Text(&fontBillboards, "FPS:", Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
-		SideBar	= new UIElement( &uiBillboards, 8, Vec2(0,0), Vec2(400,1080), 0, Vec4(0,0,0,1) );
+		
+		testText = new Text(&fontBillboards, "FPS:", 0, Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
+		testText->setFont(testFont);
+		testText->setTextData(0, 10);
+
+		SideBar	= new UIElement( &uiBillboards, 0, Vec2(0,0), Vec2(400,1080), 0, Vec4(1,1,1,1) );
 
 	}
 

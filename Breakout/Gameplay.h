@@ -58,7 +58,7 @@ namespace Logic
 		void reset();
 
 	public:
-		Gameplay(Inputhandler *&handler,SoundSystem *soundSys);
+		Gameplay(Inputhandler *&handler,SoundSystem *soundSys, ObjectCore *objectCore);
 		~Gameplay();
 
 		void setFps(int _fps) { fps = _fps; }

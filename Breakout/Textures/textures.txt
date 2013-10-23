@@ -49,6 +49,12 @@ Water/foam.jpg
 Water/lava.png
 Water/lavaGlowMap.png
 
+Textures/circle.png
+Textures/diamond.png
+Textures/logo.png
+Textures/protagonist2.png
+Textures/bgElement.png
+
 Textures/balleffect.png
 Textures/balleffect2.png
 Textures/balleffect3.png
