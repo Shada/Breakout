@@ -19,6 +19,12 @@ void UIElement::updateBufferData()
 	bbData->at(bufferIndex).tintAlpha	= tintAlpha;
 }
 
+void UIElement::setTexIndex(unsigned int index)
+{
+	texIndex = index;
+	updateBufferData();
+}
+
 UIElement::~UIElement()
 {
 

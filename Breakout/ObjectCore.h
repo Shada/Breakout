@@ -39,7 +39,8 @@ namespace Logic
 		Water					*water;
 		Skybox					*skybox;
 
-		UIElement				*SideBar;
+		UIElement				*sideBar;
+		UIElement				*statusBar;
 
 		//----------------------------------
 		//menu

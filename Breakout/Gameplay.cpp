@@ -78,13 +78,6 @@ namespace Logic
 
 		leftUI.x = 400;
 
-		objectCore->uiBillboards.push_back(BBUI());
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(0,0);
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = leftUI;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = objectCore->getMapType() - 1;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(1, 1, 1, 1);
-
 #ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
 #else
@@ -115,6 +108,8 @@ namespace Logic
 		GraphicsOGL4::getInstance()->feedUIBufferData();
 		GraphicsOGL4::getInstance()->feedTextBufferData();
 		#endif
+
+		objectCore->sideBar->setTexIndex(objectCore->getMapType()-1);
 	}
 
 	void Gameplay::update(double _dt)
@@ -549,6 +544,7 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, NULL, objectCore->pad, &objectCore->mapType);
+
 		if(objectCore->mapType == ObjectCore::MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
@@ -560,7 +556,7 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 		}
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = objectCore->getMapType() - 1;
+		objectCore->sideBar->setTexIndex(objectCore->getMapType()-1);
 
 		reset();
 	}

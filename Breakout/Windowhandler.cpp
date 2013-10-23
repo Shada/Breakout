@@ -91,7 +91,7 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 	wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
 	wcex.lpszMenuName   = NULL;
-	wcex.lpszClassName  = "Huvudkrav";
+	wcex.lpszClassName  = "Breakout";
 	wcex.hIconSm        = 0;
 	if( !RegisterClassEx(&wcex) )
 		return false;
@@ -102,8 +102,8 @@ bool Winhandler::initWindow(HINSTANCE hInstance, int nCmdShow)
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 
-	if(!(hWnd = CreateWindow(	"Huvudkrav",
-							"Break yo face! ",
+	if(!(hWnd = CreateWindow(	"Breakout",
+							"Elements of Breakout",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
@@ -306,7 +306,7 @@ bool Linuxhandler::initWindow()
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		return false;
 	}
-	glfwSetWindowTitle("Breakout for dummies");
+	glfwSetWindowTitle("Elements of Breakout");
 
 
 	//TO CAPTURE THE ESCAPE KEY WHEN IT'S PRESSED
