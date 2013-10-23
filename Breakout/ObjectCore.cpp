@@ -27,7 +27,8 @@ namespace Logic
 		testText->setFont(testFont);
 		testText->setTextData(0, 10);
 
-		SideBar	= new UIElement( &uiBillboards, 0, Vec2(0,0), Vec2(400,1080), 0, Vec4(1,1,1,1) );
+		SideBar	= new UIElement( &uiBillboards, 0, Vec2(0,0), Vec2(400,SCRHEIGHT), 0, Vec4(1,1,1,1) );
+		statusBar = new UIElement( &uiBillboards, 4, Vec2(SCRWIDTH-300, 0), Vec2(300, SCRHEIGHT),0.0f, Vec4(1,1,1,1) );
 
 	}
 

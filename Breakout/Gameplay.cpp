@@ -97,6 +97,8 @@ namespace Logic
 		GraphicsOGL4::getInstance()->feedUIBufferData();
 		GraphicsOGL4::getInstance()->feedTextBufferData();
 		#endif
+
+		objectCore->SideBar->setTexIndex(objectCore->getMapType()-1);
 	}
 
 	void Gameplay::update(double _dt)
@@ -524,17 +526,20 @@ namespace Logic
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, NULL, objectCore->pad, &objectCore->mapType);
+
 		if(objectCore->mapType == ObjectCore::MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		
 		if(objectCore->mapType == ObjectCore::MapType::eFire)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 		}
+
+		objectCore->SideBar->setTexIndex(objectCore->getMapType()-1);
+
 		reset();
 	}
 

@@ -40,6 +40,7 @@ namespace Logic
 		Skybox					*skybox;
 
 		UIElement				*SideBar;
+		UIElement				*statusBar;
 
 		//----------------------------------
 		//menu
