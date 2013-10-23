@@ -9,9 +9,16 @@ namespace Logic
 		position = _startPos;
 		fallSpeed = _ballDirY < 0 ? -.25f : .25f;
 		modelID = 0;
-		textureID = 41;
-
-		scale = Vec3(2, 1.5f, 1);
+		textureID = 0;
+		switch(_type)
+		{
+		case 0: textureID = 43; break;
+		case 2: textureID = 44; break;
+		case 3: textureID = 42; break;
+			case 5:
+		textureID = 41; break;
+		}
+		scale = Vec3(2, 1.5f, .5f);
 	}
 
 	void Effect::update(double _dt)

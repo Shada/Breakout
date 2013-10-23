@@ -266,7 +266,7 @@ namespace Logic
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
-					if(rand() % 100 < 50)
+					//if(rand() % 100 < 50)
 					{
 						int type;
 						int effectType = rand() % 6;

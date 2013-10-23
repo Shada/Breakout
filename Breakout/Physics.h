@@ -283,33 +283,26 @@ namespace Logic
 
 		if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 		{
-			float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
-			float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
-			
-			if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
+			if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 			{
-				float collidePosY = yIntersect + radius;
-				float length = abs(collidePosY - ballPos.y) / cos(ballDir.x);
-				Vec3 lastBallPos = _ball->getLastFrame();
-				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
-
-				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
-				Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
-
-				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
+				float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
+				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			
+				if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
 				{
-					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
-					t *= ratio;
-					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
-					outPos.x += padPos.x - ballPos.x > 0 ? - newDir.x * t * speed : + newDir.x * t * speed;
-					outPos.y -= newDir.y * t * speed;
-				}
-				else
-					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					float collidePosY = yIntersect + radius;
+					float length = (collidePosY - ballPos.y) / cos(ballDir.x);
+					Vec3 lastBallPos = _ball->getLastFrame();
+					Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 
-				_ball->setPosition(outPos);
-				_ball->setDirection(newDir.x, newDir.y, 0);
-				return true;
+					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+					Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
+
+					//outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+					_ball->setPosition(outPos);
+					_ball->setDirection(newDir.x, newDir.y, 0);
+					return true;
+				}
 			}
 		}
 
@@ -352,37 +345,6 @@ namespace Logic
 				return true;
 			}
 		}
-		else
-		{
-			if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
-			{
-				float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
-				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
-			
-				if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
-				{
-					float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
-					float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
-   
-					if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
-					{
-						float collidePosY = yIntersect + radius;
-						float length = (collidePosY - ballPos.y) / cos(ballDir.x);
-						Vec3 lastBallPos = _ball->getLastFrame();
-						Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
-
-						Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
-						Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
-
-						outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
-						_ball->setPosition(outPos);
-						_ball->setDirection(newDir.x, newDir.y, 0);
-						return true;
-					}
-				}
-			}
-		}
-
 		// collision ball vs ball
 		return false;
 
