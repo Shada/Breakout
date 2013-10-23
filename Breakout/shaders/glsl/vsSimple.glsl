@@ -9,7 +9,6 @@ out vec3 normal_viewspace;
 out vec3 eyedirection_viewspace;
 out vec3 lightdir_viewspace;
 
-
 layout(std140, binding = 0) uniform CameraOnce
 {
 	mat4 projection;
@@ -22,6 +21,7 @@ layout(std140, binding = 1) uniform CameraMove
 {
 	mat4 view;
 	mat4 viewInv;
+	mat4 viewRefl;
 	vec3 cameraPos;
 	vec3 cameraDir;
 };

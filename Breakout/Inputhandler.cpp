@@ -197,6 +197,8 @@ void GLInputhandler::updateGame()
 	if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		pad.pad->ejectBall();
 
+	glfwSetMousePos(400, 400);
+	glfwDisable(GLFW_MOUSE_CURSOR);
 	pad.pad->updateWorld();
 	prevMouseZ = mouseZ;
 }

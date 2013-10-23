@@ -11,18 +11,19 @@ namespace Logic
 	int Gameplay::startEffect = 0;
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys, ObjectCore *objectCore)
 	{
-		fps = 0;
+		fps = 0, prevFps = -1;
 		mapLoading = new Map();
 		inputHandler = _handler;
+		physics = Logic::Physics::getInstance();
 		
 		this->objectCore = objectCore;
 		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
-		eventSystem = new EventSystem(0,5); // testvärde
 		srand ((unsigned)time(NULL));
 
 		playerLives = 3;
+		playerScore = 0;
 
 		effectStart = 0;
 		startEffectOld = 0;
@@ -34,13 +35,7 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
-		Vec3 vec1 = Logic::from2DToCylinder(Vec3(0,0,0), 100);
-		Vec3 vec2 = Logic::from2DToCylinder(Vec3(75,0,0), 100);
-		Vec3 vec3 = Logic::from2DToCylinder(Vec3(150,0,0), 100);
-		int c = 0; c++;
-
-
-		this->setMaptype(objectCore->MapType::eWind);
+		this->setMaptype(ObjectCore::MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -48,19 +43,20 @@ namespace Logic
 		Logic::cart2Sph(Vec3(39,0,0));*/
 
 		//camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
-		camera->setPosition(Logic::fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+		camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
 		Vec3 lookAt = camera->getPosition();
 		lookAt.z = -lookAt.z;
 		camera->setLookAt(lookAt);
-		Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+		physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
 
-		
+
 		//inputHandler = handler;
 		std::vector<KeyBind> keys;
 		keys.push_back(KeyBind(KC_UP, &objectCore->pad->rotateLeft));
 		keys.push_back(KeyBind(KC_DOWN, &objectCore->pad->rotateRight));
 		keys.push_back(KeyBind(KC_LEFT, &objectCore->pad->moveLeft));
 		keys.push_back(KeyBind(KC_RIGHT, &objectCore->pad->moveRight));
+		keys.push_back(KeyBind(KC_SPACE, &objectCore->pad->ejectBall));
 		keys.push_back(KeyBind(KC_NUMPAD9, &StartEffectReset));
 		keys.push_back(KeyBind(KC_NUMPAD1, &StartEffectZapper));
 		keys.push_back(KeyBind(KC_NUMPAD2, &StartEffectWind));
@@ -72,19 +68,29 @@ namespace Logic
 
 		_handler->setPad(objectCore->pad, keys);
 
-		//inputHandler->setCamera(camera, keys);
-		
+#ifdef _WIN32
+		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
+#else
+		objectCore->testFont->loadFontSettings(linuxPath + "/Fonts/blackwhite.txt");
+#endif
+		std::vector<BBFont> test = std::vector<BBFont>();
+		objectCore->testFont->setImageIndex(7);
+		objectCore->testText->setFont(objectCore->testFont);
+		objectCore->testText->setTextData(0, 10);
+
 		currentMapIndex = 0;
-		
+
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
 		
-		objectCore->mapType = objectCore->MapType::eWater;// test
-
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		objectCore->mapType = ObjectCore::MapType::eWater;// test
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
+			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
+		if(objectCore->mapType == ObjectCore::MapType::eFire)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
-		soundSystem->PlayLoop(5, -1000);
-
+		//soundSystem->PlayLoop(5);
+		
+		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -95,38 +101,48 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
-	
+		float dt = (float)_dt;
 		Vec3 cameratem = camera->getLookAt();
-		fps = (int)(1.0 / _dt + 0.5);
+		//fps = (int)(1.0 / _dt + 0.5);
 
 		//update label
-		std::ostringstream buffFps;
-		buffFps << fps;
-		std::string fpsText = "FPS: "+buffFps.str();
-		objectCore->testText->setText( fpsText.c_str() );
-		objectCore->testText->updateTextData();
+		if(prevFps != fps)
+		{
+			std::ostringstream buffFps;
+			buffFps << fps;
+			std::string fpsText = "FPS: " + buffFps.str();
+			objectCore->testText->setText( fpsText.c_str() );
+			objectCore->testText->updateTextData();
 
-		objectCore->pad->update(_dt);
-		
+			prevFps = fps;
+		}
+
 		static bool isPressed = false;
 
-		if(objectCore->getMapType() == objectCore->MapType::eFire)
+		if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 		{
 			objectCore->pad->updateCylinder(_dt);
+			objectCore->water->update(_dt);
+			Vec3 oldPos = objectCore->pad->getPosition();
+			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 
 			Vec3 padPos = objectCore->pad->getPosition();
-			padPos.y += 100;
-			padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+			padPos.y += 50;
 
-			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			padPos = physics->from2DToCylinder(padPos, (float)(physics->getCylRadius() + 150), Vec3((float)physics->getBorderX() / 2, 0, 0));
+			if(effectTypeActive == 5)
+				camera->setPosition(Vec3(padPos.x + effectOriginal.x, padPos.y + effectOriginal.y, padPos.z + effectOriginal.z));
+			else
+				camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
 
-			
+
 		if(play)
 		{
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->updateCylinder(_dt);
 			else
@@ -134,7 +150,7 @@ namespace Logic
 					objectCore->ball.at(i)->update(_dt);
 			if(!ballPadCollided)
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
-					ballPadCollided = Logic::ballCollision(objectCore->ball.at(i), objectCore->pad, objectCore->pad->getRotation().z);
+					ballPadCollided = physics->ballCollision(objectCore->ball.at(i), objectCore->pad, objectCore->pad->getRotation().z);
 			else
 				ballPadCollided = false;
 		}
@@ -145,19 +161,27 @@ namespace Logic
 			objectCore->pad->setReleaseBall(false);
 			playerLives--;
 			std::cout << "Life lost! Nr of lives left: " << playerLives << std::endl;
+
+			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+				SAFE_DELETE(objectCore->effects.at(i));
+			objectCore->effects.clear();
+
 			if (playerLives <= 0)
+			{
+				soundSystem->Play(6);
 				nextMap(); //Replace with game over stuff
+			}
 		}
 		else
 		{
 			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
-				if(objectCore->ball.at(i)->getPosition().y < 0)
+				if(objectCore->ball.at(i)->getPosition().y < objectCore->pad->getPosition().y - 20)
 				{
 					SAFE_DELETE(objectCore->ball.at(i));
 					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
 				}
 		}
-		
+
 
 		if(!play)
 		{
@@ -165,14 +189,14 @@ namespace Logic
 			{
 				Vec3 dir = objectCore->pad->getDirection();
 				objectCore->ball.at(0)->setDirection(dir.x, dir.y, dir.z);
-				
+
 				play = true;
 				objectCore->pad->setReleaseBall(false);
 			}
 
 			objectCore->ball.at(0)->setPosition(objectCore->pad->getBallPos());
 
-			if(objectCore->getMapType() == objectCore->MapType::eFire)
+			if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 				objectCore->ball.at(0)->transformToCyl();
 			else
 				objectCore->ball.at(0)->updateWorld();
@@ -207,29 +231,28 @@ namespace Logic
 		//padPos.y += 100;
 		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
 
-		if(objectCore->getMapType() == objectCore->MapType::eWater)
+		if(objectCore->getMapType() == ObjectCore::MapType::eWater)
 		{
 			objectCore->water->update(_dt);
 			Vec3 oldPos = camera->getPosition();
 			Vec3 oldLookat = camera->getLookAt();
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
-			
-			camera->setPosition(Vec3(oldPos.x, waterLevel+50,oldPos.z));
-			camera->setLookAt(Vec3(oldLookat.x, waterLevel,oldLookat.z));
+			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
+			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z + 10000));
 			camera->setWaterLevel(waterLevel);
-			Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			
+			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
 			//Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.f / 3);
-			
+
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 		}
 
 		camera->update();
-		
+
 		// check collision between a ball and the bricks, will return the id of any brick the ball has
 		// collided with, if no collision then -1 is returned
 
@@ -238,26 +261,67 @@ namespace Logic
 
 		for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 		{
-			int collidingObject = Logic::Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == objectCore->MapType::eFire);
+			int collidingObject = physics->Check2DCollissions(objectCore->ball.at(i), objectCore->bricks, objectCore->getMapType() == ObjectCore::MapType::eFire);
 			if(collidingObject != -1)
 			{
 				Brick *tempBrick = dynamic_cast<Brick *>(objectCore->bricks.at(collidingObject));
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
+					//if(rand() % 100 < 50)
+					{
+						int type;
+						int effectType = rand() % 6;
+						if	   (effectType < 1) type = 0;
+						else if(effectType < 2) type = 1;
+						else if(effectType < 3) type = 2;
+						else if(effectType < 4) type = 3;
+						else if(effectType < 5) type = 4;
+						else					type = 5;
+						//doubleBallEffect();
+						spawnEffect(collidingObject, i, type);
+					}
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
-					if(rand() % 100 < 5)
-						doubleBallEffect();
+					
+					playerScore += 1;
+					std::cout << "Score: " << playerScore << std::endl;
+						
 				}
 				//else
 					//std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
 			}
 		}
 
-
-		
+		if(objectCore->effects.size() > 0)
+			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+			{
+				objectCore->effects.at(i)->update(_dt);
+				if(objectCore->effects.at(i)->getPosition().y < 0)
+				{
+					SAFE_DELETE(objectCore->effects.at(i));
+					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
+					i--;
+					continue;
+				}
+				if((objectCore->pad->getPosition() - objectCore->effects.at(i)->getPosition()).length() < 10)
+				{
+					int type = objectCore->effects.at(i)->getType();
+					switch(type)
+					{
+					case 0:		playerLives++;							break;
+					case 1:		objectCore->pad->startSpeed();			break;
+					case 2:		objectCore->pad->startSlow();			break;
+					case 3:		objectCore->pad->invertControls(2.f);	break;
+					case 4:		objectCore->pad->decreaseRotation(2.f);	break;
+					case 5:		doubleBallEffect();
+					}
+					SAFE_DELETE(objectCore->effects.at(i));
+					objectCore->effects.erase(objectCore->effects.begin() + i, objectCore->effects.begin() + i + 1);
+					i--;
+				}
+			}
 
 
 		//Effects
@@ -268,52 +332,14 @@ namespace Logic
 		}
 
 		objectCore->testText->update( _dt );
-		
-		if (minorEffects.size() != 0) 
-			for(int i = minorEffects.size(); i > 0; i--)
-			{
-				minorEffects[i-1].pos.y += -_dt * 20;
-				if ((objectCore->pad->getPosition() - minorEffects[i-1].pos).length() < 10)
-				{
-					if(minorEffects[i-1].type == 0) //Lifegain
-					{
-						playerLives++;
-						std::cout << "Life gained! Lives left :" << playerLives << std::endl;
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 1) //Speedbuff
-					{
-						std::cout << "Speedbuff caught" << playerLives << std::endl;
-						objectCore->pad->startSpeed();
-						soundSystem->Play(17);
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 2) //SpeedDebuff
-					{
-						std::cout << "Speed Debuff caught" << playerLives << std::endl;
-						objectCore->pad->startSlow();
-						soundSystem->Play(18);
-						minorEffects.erase(minorEffects.begin() + i -1);
-					}
-					else if(minorEffects[i-1].type == 3) //Inverted Controls
-					{}
-					else if(minorEffects[i-1].type == 4) //Rotation speed changed
-					{}
-				}
-				else if(minorEffects[i-1].pos.y < objectCore->pad->getPosition().y - 20)
-					minorEffects.erase(minorEffects.begin() + i -1);
-			}
-
 
 		//if(play)
-		if (effectStart == 0)
+		if (effectStart == 0 && effectTypeActive == 0)
 			effectStart = eventSystem->Update(_dt);
 
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
 			#pragma region effects
-			
-			//effectStart = 14; //TEST
 			std::cout << "effect started: ";
 			if (effectStart == 1) //Zapper
 			{
@@ -347,10 +373,11 @@ namespace Logic
 			{
 				objectCore->pad->startSlow();
 				effectTypeActive = 5;
-				effectOriginal = camera->getPosition();
+				//effectOriginal = camera->getPosition();
+				effectOriginal = Vec3(0,0,0);
 				effectTimer = 3.5;
 				effectDirection = Vec3((float)(rand() % 100) - 50, (float)(rand() % 100) - 50, (float)(rand() % 100) - 50);
-				soundSystem->Play(19, 1);
+				soundSystem->Play(19, 1.5);
 				std::cout << "Earthquake" << std::endl;
 			}
 			else if (effectStart == 7)//Speed
@@ -381,12 +408,12 @@ namespace Logic
 				std::cout << "Stun" << std::endl;
 			}
 			effectStart = 0;
-			#pragma endregion 
+			#pragma endregion
 		}
 		if(effectTypeActive != 0)//Uppdatering av aktiv effekt
 		{
 			#pragma region activeEffects
-			effectTimer -= _dt;
+			effectTimer -= dt;
 			if (effectTypeActive == 1)//Zapper
 			{
 				if (effectTimer < 0)
@@ -395,7 +422,7 @@ namespace Logic
 					effectTimer = 0;
 					effectTypeActive = 0;
 					effectOriginal -= objectCore->pad->getPosition();
-					
+
 					std::cout << effectOriginal.length();
 					if(effectOriginal.length() < 20)
 					{
@@ -419,7 +446,7 @@ namespace Logic
 			{
 				if (effectTimer > 0)
 				{
-					effectSpawnTimer += _dt;
+					effectSpawnTimer += dt;
 					Vec3 tempVec3;
 					if (rand() % 300 - effectSpawnTimer * 10 <= 1 && effectFireballs.size() <= 5)
 					{
@@ -430,14 +457,14 @@ namespace Logic
 				}
 
 				for(unsigned int i = 0; i < effectFireballs.size(); i++)
-					effectFireballs[i].y += -_dt * 60;
-				
+					effectFireballs[i].y += -dt * 60;
+
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST
 
 				if (effectFireballs[0].y < 45)
 				{
 					effectOriginal = effectFireballs[0] - objectCore->pad->getPosition();
-						
+
 					effectFireballs.erase(effectFireballs.begin());
 					if (effectOriginal.length() < 20)
 					{
@@ -454,54 +481,78 @@ namespace Logic
 			{
 				Vec3 tempVec;
 				tempVec = camera->getPosition();
-				
+
 				if (effectTimer < 1)
 				{
-					tempVec = Vec3(tempVec.x * (1 -_dt*10) + _dt*10 * effectOriginal.x,
-									tempVec.y * (1 -_dt*10) + _dt*10 * effectOriginal.y,
-									tempVec.z * (1 -_dt*10) + _dt*10 * effectOriginal.z);
-					camera->setPosition(tempVec);
+					effectOriginal = Vec3(effectOriginal.x * (1 -_dt*10),
+										  effectOriginal.y * (1 -_dt*10),
+										  effectOriginal.z * (1 -_dt*10));
+					camera->setPosition(tempVec + effectOriginal);
 				}
 				else
 				{
 					if (rand()%100 <= 20)
 						effectDirection = Vec3((float)(rand() % 120) - 60, (float)(rand() % 120) - 60, (float)(rand() % 120) - 60);
-					tempVec = Vec3(tempVec.x + _dt * effectDirection.x,
-									tempVec.y + _dt * effectDirection.y,
-									tempVec.z + _dt * effectDirection.z);
-					camera->setPosition(tempVec);
+					effectOriginal = Vec3(effectOriginal.x + _dt * effectDirection.x,
+										effectOriginal.y + _dt * effectDirection.y,
+										effectOriginal.z + _dt * effectDirection.z);
+					camera->setPosition(tempVec + effectOriginal);
 				}
 
 				if (effectTimer < 0)
 				{
 					effectTimer = 0;
 					effectTypeActive = 0;
-					camera->setPosition(effectOriginal);
+					//camera->setPosition(effectOriginal);
 				}
 			}
-			#pragma endregion 
+			#pragma endregion
 		}
 
 
-		isPressed = GetAsyncKeyState(VK_NUMPAD0);
+		//isPressed = GetAsyncKeyState(VK_NUMPAD0);
 	}
 
 	void Gameplay::nextMap()
 	{
+		
+		std::cout << "Final score: " << playerScore << std::endl;
 		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
 		currentMapIndex++;
 		if(currentMapIndex >= noMaps)
 			currentMapIndex = 0;
 
 		std::cout << "switched to map with index: " << currentMapIndex << std::endl;
-		mapLoading->loadMap(currentMapIndex, &objectCore->bricks,NULL,objectCore->pad,&objectCore->mapType);
-		if(objectCore->mapType == objectCore->MapType::eWater)
+		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, NULL, objectCore->pad, &objectCore->mapType);
+		if(objectCore->mapType == ObjectCore::MapType::eWater)
 		{
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
 		
+		if(objectCore->mapType == ObjectCore::MapType::eFire)
+		{
+			SAFE_DELETE(objectCore->water);
+			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
+		}
+		reset();
+	}
+
+	void Gameplay::reset()
+	{
+		if(objectCore->mapType != ObjectCore::MapType::eFire)
+		{
+			camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+			Vec3 lookAt = camera->getPosition();
+			lookAt.z = -lookAt.z;
+			camera->setLookAt(lookAt);
+			objectCore->pad->setRotation(Vec3(0,0,0));
+		}
+		
 		playerLives = 3;
+		playerScore = 0;
+		eventSystem->setTypeOfMap(mapLoading->getMapType());
+		eventSystem->setDifficulty(mapLoading->getLvlDifficulty());
 
 		if(objectCore->ball.size() > 1)
 			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
@@ -511,12 +562,15 @@ namespace Logic
 			}
 
 		play = false;
-	}
+		for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+			SAFE_DELETE(objectCore->effects.at(i));
 
+		objectCore->effects.clear();
+	}
 
 	void Gameplay::setMaptype(int _type)
 	{
-		
+
 		objectCore->setMapType(_type);
 	}
 
@@ -530,10 +584,16 @@ namespace Logic
 				break;
 			objectCore->ball.push_back(new Ball());
 			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());
-			objectCore->ball.back()->setDirection((rand() % 100) - 200, (rand() % 100) - 200, 0);
+			objectCore->ball.back()->setDirection((float)((rand() % 200) - 100), (float)((rand() % 200) - 100), 0);
 			objectCore->ball.back()->setModelID(2);
 			objectCore->ball.back()->setTextureID(objectCore->ball.at(i)->getTextureID());
 		}
+	}
+
+	void Gameplay::spawnEffect(int _brickID, int _i, int _type)
+	{
+		objectCore->effects.push_back(new Effect(objectCore->bricks.at(_brickID)->getPosition(), objectCore->ball.at(_i)->getDirection().y,
+			_type, objectCore->mapType == ObjectCore::MapType::eFire));
 	}
 
 	Gameplay::~Gameplay()
@@ -543,5 +603,6 @@ namespace Logic
 		SAFE_DELETE(objectCore);
 		//SAFE_DELETE(water);
 		SAFE_DELETE(mapLoading);
+		SAFE_DELETE(physics);
 	}
 }

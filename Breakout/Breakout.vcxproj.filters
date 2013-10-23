@@ -100,6 +100,12 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+	  <Filter>Source Files</Filter>
+	</ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -151,9 +157,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="linearalgebra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -192,9 +195,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsOGL4.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Logic</Filter>
     </ClInclude>
     <ClInclude Include="TechniqueHLSL.h">
       <Filter>Graphics</Filter>
@@ -259,6 +259,12 @@
     <ClInclude Include="ObjectCore.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+	  <Filter>Header Files</Filter>
+	</ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -288,7 +294,6 @@
     <CustomBuild Include="shaders\hlsl\vsSkybox.fx">
       <Filter>HLSL\vs</Filter>
     </CustomBuild>
-    <CustomBuild Include="shaders\hlsl\vsSkybox.fx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\glsl\fsSimple.glsl">
@@ -351,8 +356,32 @@
     <CustomBuild Include="shaders\hlsl\psWater.fx">
       <Filter>HLSL\ps</Filter>
     </CustomBuild>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="shaders\glsl\vsSkybox.glsl" />
+    <None Include="shaders\glsl\vsSkybox.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsQuad.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsRefl.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsWater.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\gsQuad.glsl">
+      <Filter>GLSL\gs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsQuad.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsRefl.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSkyboxRefl.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSkybox.glsl">
+	  <Filter>GLSL\vs</Filter>
+    </None>
   </ItemGroup>
 </Project>

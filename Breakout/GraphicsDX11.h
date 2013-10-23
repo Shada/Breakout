@@ -41,7 +41,7 @@ private:
 	ID3D11Device				*device;
 	D3D_DRIVER_TYPE				driverType;
 	D3D_FEATURE_LEVEL			featureLevel;
-	
+
 	IDXGISwapChain				*swapChain;
 
 	/*---------------------------------------------------------------
@@ -69,6 +69,11 @@ private:
 	ID3D11Texture2D				*reflTex;
 	ID3D11RenderTargetView		*reflRenderTargetView;
 	ID3D11ShaderResourceView	*reflShaderResource;
+
+	//is used to make the pad not glow near lava
+	ID3D11Texture2D				*antiGlowTex;
+	ID3D11RenderTargetView		*antiGlowTargetView;
+	ID3D11ShaderResourceView	*antiGlowResource;
 
 	//depth stencil
 	ID3D11Texture2D				*depthStencilTex;
@@ -125,7 +130,7 @@ public:
 	void	presentSwapChain();
 	/* create constant buffer */
 	bool	createCBuffer(ID3D11Buffer **cb, UINT byteWidth, UINT registerIndex);
-	
+
 	void initVertexBuffer();
 
 	/* creates the static vertex buffer with all the static vertices. [immutable] */

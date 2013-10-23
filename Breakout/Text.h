@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Object2D.h"
 #include <iostream>
+
 class Text : public Object2D
 {
 private:

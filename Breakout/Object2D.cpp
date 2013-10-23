@@ -14,7 +14,7 @@ void Object2D::update(double dt)
 	if(actionList.size() > 0)
 	{
 		linProgress = 1;
-		actionList.front().timePassed += dt;
+		actionList.front().timePassed += (float)dt;
 		if(actionList.front().time > 0)
 		{
 			linProgress = actionList.front().timePassed / actionList.front().time;

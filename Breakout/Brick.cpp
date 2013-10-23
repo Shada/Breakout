@@ -3,14 +3,14 @@
 
 namespace Logic
 {
-	Brick::Brick(Vec3 _pos, bool _cylinder)
+	Brick::Brick(Vec3 _pos, bool _cylinder, int _health)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
-		health = 1;
+		health = _health;
 
 		width = 5;
 		height = 5;
@@ -22,17 +22,17 @@ namespace Logic
 		
 	}
 
-	Brick::Brick(Vec3 _pos, bool _cylinder, double _width, double _height)
+	Brick::Brick(Vec3 _pos, bool _cylinder, double _width, double _height, int _health)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
-		health = 1;
+		health = _health;
 
-		width = _width;
-		height = _height;
+		width = (float)_width;
+		height = (float)_height;
 
 		scale.x = (float)width / 5;
 		scale.y =  (float)height / 5;
@@ -89,13 +89,13 @@ namespace Logic
 
 	void Brick::setHeight( double _h)
 	{
-		height = _h; 
+		height = (float)_h; 
 		scale.y =  (float)height / 5;
 	}
 
 	void Brick::setWidth( double _w)
 	{
-		 width = _w; 
+		 width = (float)_w; 
 		 scale.x = (float)width / 5;
 	}
 }

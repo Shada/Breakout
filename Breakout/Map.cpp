@@ -37,11 +37,12 @@ namespace Logic
 			int difficulty = color.rgbBlue;
 			int c = lvlnum;
 			int r = difficulty;
+			lvlDifficulty = difficulty;
 
 
 
-			float radWJump = (2*PI)/hmWidth;
-			float radHJump = (2*PI)/hmHeight;
+			float radWJump = float(2 * PI) / hmWidth;
+			float radHJump = float(2 * PI) / hmHeight;
 
 
 			//Load the rest of the pixel items
@@ -60,32 +61,32 @@ namespace Logic
 
 					if(mapType == 0)//test
 					{
-						displace.x = x*displacementX;
-						displace.y = y*displacementY;
+						displace.x = (float)(x * displacementX);
+						displace.y = (float)(y * displacementY);
 						displace.z = 0;
 						*_mapType = ObjectCore::MapType::eTest;
 					}
 					else if(mapType == 1)//wind
 					{
-						displace.x = x*displacementX;
-						displace.y = y*displacementY;
+						displace.x = (float)(x * displacementX);
+						displace.y = (float)(y * displacementY);
 						displace.z = 0;
 						*_mapType = ObjectCore::MapType::eWind;
 
 					}
 					else if(mapType == 2)//water
 					{
-						displace.x = x*displacementX;
-						displace.y = y*displacementY;
+						displace.x = (float)(x * displacementX);
+						displace.y = (float)(y * displacementY);
 						displace.z = 0;
 						*_mapType = ObjectCore::MapType::eWater;
 
 					}
 					else if(mapType == 3)//fire
 					{
-						displace.x = sin(radWIt) * circleRadie;
-						displace.y = y * displacementY;
-						displace.z = cos(radWIt) * circleRadie;
+						displace.x = (float)sin(radWIt) * circleRadie;
+						displace.y = (float)(y * displacementY);
+						displace.z = (float)cos(radWIt) * circleRadie;
 						*_mapType = ObjectCore::MapType::eFire;
 
 					}
@@ -99,9 +100,9 @@ namespace Logic
 						displace.y = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt z
 						displace.z = circleRadie * cos(radWIt);
 */
-						displace.x = circleRadie * sin(radWIt) * cos(radHIt);
-						displace.z = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt y
-						displace.y = circleRadie * cos(radWIt);
+						displace.x = circleRadie * (float)sin(radWIt) * (float)cos(radHIt);
+						displace.z = circleRadie * (float)sin(radWIt) * (float)sin(radHIt);  //Orienterat runt y
+						displace.y = circleRadie * (float)cos(radWIt);
 
 						*_mapType = ObjectCore::MapType::eEarth;
 
@@ -150,7 +151,12 @@ namespace Logic
 						//Vec3 brickPos = Vec3((float)c*displacementX,(float)r*displacementY,0.0f);
 						Vec3 brickPos = Vec3((float)x*displacementX,(float)y*displacementY,0.0f);
 						//Brick *tBrick = new Brick(brickPos, 5, 5);
-						Brick *tBrick = new Brick(brickPos, mapType == 3, 5, 5); //Should be true/false depending on mapType
+						int hp;
+						if		(color.rgbRed == 36) hp = 1;
+						else if (color.rgbRed == 48) hp = 2;
+						else if (color.rgbRed == 60) hp = 3;
+						else hp = 1;
+						Brick *tBrick = new Brick(brickPos, mapType == 3, 15, 7.5, hp); //Should be true/false depending on mapType
 						tBrick->setTextureID(color.rgbGreen);
 						tBrick->setModelID(color.rgbBlue);
 
