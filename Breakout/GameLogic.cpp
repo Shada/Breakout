@@ -27,7 +27,7 @@ namespace Logic
 		
 		Resources::LoadHandler::getInstance();
 
-		Global::getInstance()->gameState = GameState::GAME_MENU;
+		Global::getInstance()->gameState = GameState::GAME_PLAY;
 	}
 
 	void GameLogic::update(float _dt)
