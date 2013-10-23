@@ -189,7 +189,7 @@ void GLInputhandler::updateGame()
 		pad.pad->ejectBall();
 
 	if(mouseX != prevMouseX)
-		pad.pad->move((mouseX - prevMouseX) / 4);
+		pad.pad->move(mouseX - prevMouseX);
 
 	if(mouseZ != prevMouseZ)
 		pad.pad->rotate(mouseZ - prevMouseZ > 0 ? -1 : 1);
@@ -201,6 +201,7 @@ void GLInputhandler::updateGame()
 	glfwDisable(GLFW_MOUSE_CURSOR);
 	pad.pad->updateWorld();
 	prevMouseZ = mouseZ;
+	mouseX = 400;
 }
 
 void GLInputhandler::updateMenu()

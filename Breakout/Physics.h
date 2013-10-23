@@ -11,7 +11,7 @@
 namespace Logic
 {
 
-	
+
 	class Physics
 	{
 	private:
@@ -26,7 +26,7 @@ namespace Logic
 
 		static Physics	*getInstance()
 		{
-			if(!physics)
+			if(physics == NULL)
 				physics = new Physics();
 			return physics;
 		}
@@ -38,7 +38,7 @@ namespace Logic
 		int getBorderY(){ return borderMaxY; }
 		int getCylRadius(){ return cylRadius; }
 
-#pragma region Collission		
+#pragma region Collission
 	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
@@ -65,7 +65,7 @@ namespace Logic
 		Vec3 lastBallPos = _ball->getLastFrame();
 		Vec3 objPos = _object->getPosition();
 		float radius = _ball->getRadius();
-		
+
 		float LENGTH = 15, HEIGHT = 7.5f;
 
 		float width = _object->getWidth();
@@ -107,7 +107,7 @@ namespace Logic
 
 		while(delta > t)
 			delta -= t;
-		
+
 		Vec3 collidePos = lastBallPos + dir * speed * delta;
 
 		Matrix mRot;
@@ -136,7 +136,7 @@ namespace Logic
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 objPos = _brick->getPosition();
 		float radius = _ball->getRadius();
-		
+
 		bool alreadyCollided = false;
 
 		float width = _brick->getWidth();
@@ -263,7 +263,7 @@ namespace Logic
 
 		float zrot = _pad->getOrientation();
 		Vec3 p1 = Vec3(-padScale.y, 0, 0), p2 = Vec3(padScale.y, 0, 0);
-		
+
 
 		if(_min(padPos.x, prevPadPos.x) < ballPos.x && _max(padPos.x, prevPadPos.x) > ballPos.x)
 			padPos.x = padPos.x > ballPos.x ? ballPos.x - radius / 10 : ballPos.x + radius / 10;
@@ -283,26 +283,23 @@ namespace Logic
 
 		if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 		{
-			if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
-			{
-				float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
-				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+			float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
+			float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
-				if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
-				{
-					float collidePosY = yIntersect + radius;
-					float length = (collidePosY - ballPos.y) / cos(ballDir.x);
-					Vec3 lastBallPos = _ball->getLastFrame();
-					Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
+			if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
+			{
+				float collidePosY = yIntersect + radius;
+				float length = (collidePosY - ballPos.y) / cos(ballDir.x);
+				Vec3 lastBallPos = _ball->getLastFrame();
+				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 
-					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
-					Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
+				Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+				Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
 
-					//outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
-					_ball->setPosition(outPos);
-					_ball->setDirection(newDir.x, newDir.y, 0);
-					return true;
-				}
+				//outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+				_ball->setPosition(outPos);
+				_ball->setDirection(newDir.x, newDir.y, 0);
+				return true;
 			}
 		}
 
@@ -311,7 +308,7 @@ namespace Logic
 			bool collide = false;
 			float dx = (_max(p1.x, p2.x) - _min(p1.x, p2.x)) / 10, x = _min(p1.x, p2.x);
 			float dy = (_max(p1.y, p2.y) - _min(p1.y, p2.y)) / 10, y = _min(p1.y, p2.y);
-			
+
 			for(int c = 0; c < 11 && !collide; c++)
 			{
 				collide = (x - ballPos.x) * (x - ballPos.x) + (y - ballPos.y) * (y - ballPos.y) <= radius * radius;
@@ -329,7 +326,7 @@ namespace Logic
 				Vec3 lastBallPos = _ball->getLastFrame();
 				Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
 				newDir.normalize();
-				
+
 				if(ballPos.y - lastBallPos. y > 0 && (padPos.x - prevPadPos.x < 0 && ballPos.x - lastBallPos.x < 0 || padPos.x - prevPadPos.x > 0 && ballPos.x - lastBallPos.x > 0))
 				{
 					newDir = planeReflection(_ball->getDirection(), Vec3((float)cos(zrot), (float)sin(zrot), 0));
@@ -339,7 +336,7 @@ namespace Logic
 				}
 				else
 					outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
-				
+
 				_ball->setPosition(outPos);
 				_ball->setDirection(newDir.x, newDir.y, 0);
 				return true;
@@ -387,7 +384,7 @@ namespace Logic
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
 	{
 		Vec3 center;
-		
+
 		center.x = (_topLeft.x + _topRight.x + _bottomLeft.x + _bottomRight.x) * 0.25f;
 		center.y = (_topLeft.y + _topRight.y + _bottomLeft.y + _bottomRight.y) * 0.25f;
 		center.z = (_topLeft.z + _topRight.z + _bottomLeft.z + _bottomRight.z) * 0.25f;
@@ -408,13 +405,13 @@ namespace Logic
 		planeNormal = normalize(planeNormal);
 
 		Vec3 pos = pCenter - (planeNormal * distance);
-		
+
 		return pos;
 	}
 
 #pragma region Coordinate Transforms
 
-	/* Converts a position from 2D to a fitting Cylinder position. 
+	/* Converts a position from 2D to a fitting Cylinder position.
 		Default assumes the Cylinder is centered at (0,0,0). */
 	inline Vec3 from2DToCylinder(Vec3 _pos , float _radius, Vec3 _cylCenter = Vec3(0,0,0))
 	{
@@ -424,7 +421,7 @@ namespace Logic
 		float par = diff * 2 * (float)PI;
 		float sin = sinf(par);
 		float cos = cosf(par);
-		
+
 		result.x = _cylCenter.x + _radius * cosf( diff * 2 * (float)PI);
 		result.y = _cylCenter.y + _pos.y;
 		result.z = _cylCenter.z + _radius * sinf( diff * 2 * (float)PI);
@@ -435,7 +432,7 @@ namespace Logic
 	inline Vec3 from2DToCylinder(float _angle , float _radius, Vec3 _cylCenter = Vec3(0,0,0))
 	{
 		Vec3 result;
-		
+
 		result.x = _cylCenter.x + _radius * sinf( _angle);
 		result.y = _cylCenter.y;
 		result.z = _cylCenter.z + _radius * cosf( _angle);
@@ -458,7 +455,7 @@ namespace Logic
 		return result;
 	}
 
-	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, y, Rho) 
+	/* Transform a cartesian (X,Y,Z) coordinate to a cylindrical (Theta, y, Rho)
 		x = Theta, z = Rho. */
 	inline Vec3 cart2Cyl(Vec3 _pos)
 	{
@@ -467,7 +464,7 @@ namespace Logic
 		result.x = atan2(_pos.y, _pos.x);						// Theta = atan2(y,x);
 		result.y = _pos.y;										// y = y
 		result.z = sqrt(_pos.x * _pos.x + _pos.y * _pos.y );	// Rho = sqrt(x^2 + y^2);
-																
+
 
 		return result;
 	}

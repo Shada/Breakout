@@ -71,7 +71,8 @@ namespace Logic
 #ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
 #else
-		objectCore->testFont->loadFontSettings(linuxPath + "/Fonts/blackwhite.txt");
+        std::string path = ExecPath::linuxPath + "Fonts/blackwhite.txt";
+		objectCore->testFont->loadFontSettings(path.c_str());
 #endif
 		std::vector<BBFont> test = std::vector<BBFont>();
 		objectCore->testFont->setImageIndex(7);
@@ -81,7 +82,7 @@ namespace Logic
 		currentMapIndex = 0;
 
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
-		
+
 		objectCore->mapType = ObjectCore::MapType::eWater;// test
 		if(objectCore->mapType == ObjectCore::MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
@@ -241,7 +242,7 @@ namespace Logic
 			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
 			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z + 10000));
 			camera->setWaterLevel(waterLevel);
-			
+
 			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
@@ -529,7 +530,7 @@ namespace Logic
 			SAFE_DELETE(objectCore->water);
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		}
-		
+
 		if(objectCore->mapType == ObjectCore::MapType::eFire)
 		{
 			SAFE_DELETE(objectCore->water);
@@ -548,7 +549,7 @@ namespace Logic
 			camera->setLookAt(lookAt);
 			objectCore->pad->setRotation(Vec3(0,0,0));
 		}
-		
+
 		playerLives = 3;
 		playerScore = 0;
 		eventSystem->setTypeOfMap(mapLoading->getMapType());
