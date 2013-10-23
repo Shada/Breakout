@@ -101,7 +101,7 @@ void Camera::update()
 	CBCameraMove cb;
 
 	cb.cameraPos = pos;
-	cb.cameraDir = lookAt - pos;
+	cb.cameraDir = normalize(lookAt - pos);
 	cb.viewRefl = viewRefl;
 	cb.View = viewMatrix;
 	cb.ViewInv = viewInv;

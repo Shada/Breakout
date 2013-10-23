@@ -51,16 +51,21 @@ float4 ps_water(PS_Input input) : SV_TARGET0
 	float4 viewPos = mul(projInv, clipPos);
 	float4 worldPos = mul(viewInv, float4( (viewPos / viewPos.w).xyz,1) );
 	
+	
 	if(worldPos.y > waterLevel)// + maxAmplitude)//if the pixel is above the water surface, then discard.
 	{
 		if(waterType ==1)
 		{
+			
 			if(worldPos.y < waterLevel + 10 && depth < 1)
 			{
 				float oldRange = 10.0f - 0.0f;
 				float newRange = 1.0f - 0.0f;
 				float glowFactor =waterLevel +10 - worldPos.y;
-				glowFactor = ( (((glowFactor-0) * newRange)/ oldRange) + 0.0f)  *( 1- worldGlowMap.Sample( samLinear, input.tex));
+				float antiworldGlow = worldGlowMap.Sample( samLinear, input.tex).g;
+				if(antiworldGlow != 1)
+					antiworldGlow = 0;
+				glowFactor = ( (((glowFactor-0) * newRange)/ oldRange) + 0.0f) * antiworldGlow;
 				return saturate(originalColor + float4(1,0.3,0.15,1) * glowFactor);
 			}
 		}

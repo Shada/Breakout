@@ -19,6 +19,9 @@ GraphicsDX11::GraphicsDX11()
 	depthStencilTex				= NULL;
 	depthStencilView			= NULL;
 	depthStencilResource		= NULL;
+	antiGlowTex					= NULL;
+	antiGlowTargetView			= NULL;
+	antiGlowResource			= NULL;
 	blendEnable					= NULL;
 	blendDisable				= NULL;
 	depthStencilStateEnable		= NULL;
@@ -135,7 +138,6 @@ void GraphicsDX11::init(HWND *hWnd)
 		MessageBox( NULL, "Error creating depth stencil texture","GraphicsDX11 Error", S_OK);
         return;
 	}
-
 	// Create the depth stencil view
     D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
     ZeroMemory( &descDSV, sizeof(descDSV) );
@@ -190,6 +192,12 @@ void GraphicsDX11::init(HWND *hWnd)
 		MessageBox( NULL, "Failed to create scene render target texture for reflections","GraphicsCore Error",MB_OK);
 		return;
 	}
+	hr = device->CreateTexture2D( &dsTex, NULL, &antiGlowTex );
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target texture for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
 	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc;
 	rtvDesc.Format				= dsTex.Format;
 	rtvDesc.ViewDimension		= D3D11_RTV_DIMENSION_TEXTURE2D;
@@ -201,6 +209,12 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}
 	hr = device->CreateRenderTargetView(reflTex,&rtvDesc, &reflRenderTargetView);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene render target view for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
+	hr = device->CreateRenderTargetView(antiGlowTex,&rtvDesc, &antiGlowTargetView);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create scene render target view for reflections","GraphicsCore Error",MB_OK);
@@ -220,6 +234,12 @@ void GraphicsDX11::init(HWND *hWnd)
 		return;
 	}
 	hr = device->CreateShaderResourceView(reflTex, &srvDesc, &reflShaderResource);
+	if(FAILED(hr))
+	{
+		MessageBox( NULL, "Failed to create scene shader resource view for reflections","GraphicsCore Error",MB_OK);
+		return;
+	}
+	hr = device->CreateShaderResourceView(antiGlowTex, &srvDesc, &antiGlowResource);
 	if(FAILED(hr))
 	{
 		MessageBox( NULL, "Failed to create scene shader resource view for reflections","GraphicsCore Error",MB_OK);
@@ -454,6 +474,8 @@ void GraphicsDX11::clearRenderTarget(float r, float g, float b)
 	immediateContext->ClearRenderTargetView(renderTargetView, clearColor);
 	immediateContext->ClearRenderTargetView(sceneRenderTargetView, clearColor);
 	immediateContext->ClearRenderTargetView(reflRenderTargetView, clearColor);
+	float clearColor2[4] = {1, 1, 1, 1};
+	immediateContext->ClearRenderTargetView(antiGlowTargetView, clearColor2);
 	immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
@@ -690,10 +712,33 @@ void GraphicsDX11::draw()
 		// clear depth stencil so that the normal drawing  wont get disturbed and have issues with an already
 		// filled depth stencil
 		immediateContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+
+		if(objectCore->getMapType() == Logic::ObjectCore::MapType::eFire)
+		{
+			//draw ze antiglow stencil which will only contain za pad zenze is ze only ones not to glowz.
+			immediateContext->OMSetRenderTargets(1,&antiGlowTargetView, NULL);
+			// a new technique should be made that draws one color to this rendertarget
+			// now the water effect just looks if the color is not the cleared color and if not 
+			// it will not add the glow
+			techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
+			cbWorld.world		= objectCore->pad->getWorld();
+			cbWorld.worldInv	= objectCore->pad->getWorldInv();
+			updateCBWorld(cbWorld);
+
+
+			modelID			= objectCore->pad->getModelID();
+			vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+			startIndex		= lh->getModel( modelID )->getStartIndex();
+
+			immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
+			immediateContext->Draw(vertexAmount, startIndex);
+		}
 	}
+	
+	
+
 	//------------- normal draw ---------------//
 	immediateContext->OMSetRenderTargets(1, &sceneRenderTargetView, depthStencilView);
-
 	//--------------------------------------------------------------------------------
 	//                                     skybox
 	//-------------------------------------------------------------------------------
@@ -714,6 +759,17 @@ void GraphicsDX11::draw()
 	immediateContext->RSSetState(rasterizerBackface);
 
 	techniques.at( getTechIDByName( "techSimple" ) )->useTechnique();
+	cbWorld.world		= objectCore->pad->getWorld();
+	cbWorld.worldInv	= objectCore->pad->getWorldInv();
+	updateCBWorld(cbWorld);
+
+
+	modelID			= objectCore->pad->getModelID();
+	vertexAmount	= lh->getModel( modelID )->getVertexAmount();
+	startIndex		= lh->getModel( modelID )->getStartIndex();
+
+	immediateContext->PSSetShaderResources(0,1,&textures.at(objectCore->pad->getTextureID()));
+	immediateContext->Draw(vertexAmount, startIndex);
 	//--------------------------------------------------------------------------------
 	//                                    Ball(s)
 	//--------------------------------------------------------------------------------
@@ -798,6 +854,7 @@ void GraphicsDX11::draw()
 		immediateContext->PSSetShaderResources(1,1,&depthStencilResource);
 		immediateContext->PSSetShaderResources(2,1,&reflShaderResource);
 		immediateContext->PSSetShaderResources(3,5,&textures[36]);
+		immediateContext->PSSetShaderResources(8,1,&antiGlowResource);
 		techniques.at(getTechIDByName("techWater"))->useTechnique();
 	}
 	else
@@ -902,6 +959,10 @@ GraphicsDX11::~GraphicsDX11()
 	SAFE_RELEASE(reflTex);
 	SAFE_RELEASE(reflRenderTargetView);
 	SAFE_RELEASE(reflShaderResource);
+
+	SAFE_RELEASE(antiGlowTex);
+	SAFE_RELEASE(antiGlowTargetView);
+	SAFE_RELEASE(antiGlowResource);  
 
 	SAFE_RELEASE(depthStencilTex);
 	SAFE_RELEASE(depthStencilView);

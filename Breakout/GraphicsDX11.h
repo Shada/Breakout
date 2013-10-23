@@ -69,6 +69,11 @@ private:
 	ID3D11RenderTargetView		*reflRenderTargetView;
 	ID3D11ShaderResourceView	*reflShaderResource;
 
+	//is used to make the pad not glow near lava
+	ID3D11Texture2D				*antiGlowTex;
+	ID3D11RenderTargetView		*antiGlowTargetView;
+	ID3D11ShaderResourceView	*antiGlowResource;
+
 	//depth stencil
 	ID3D11Texture2D				*depthStencilTex;
 	ID3D11DepthStencilView		*depthStencilView;

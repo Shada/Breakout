@@ -135,7 +135,7 @@ namespace Logic
 			padPos = physics->from2DToCylinder(padPos, physics->getCylRadius() + 150, Vec3(physics->getBorderX()/2, 0, 0));
 			
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel(), 0));
 		}
 		else
 			objectCore->pad->update(_dt);
