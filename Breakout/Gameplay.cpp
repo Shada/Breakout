@@ -9,8 +9,8 @@
 namespace Logic
 {
 
-	static float maxX = 800;
-	static float maxY = 500;
+	static float maxX = 960;
+	static float maxY = 600;
 	static Vec2 leftUI, rightUI;
 
 	int Gameplay::startEffect = 0;
@@ -77,6 +77,8 @@ namespace Logic
 		//inputHandler->setCamera(camera, keys);
 
 		leftUI.x = 400;
+
+		physics->setBorderMaxX(physics->getBorderX() - (300 * (maxX/SCRWIDTH)));
 
 #ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
@@ -571,6 +573,7 @@ namespace Logic
 			lookAt.z = -lookAt.z;
 			camera->setLookAt(lookAt);
 			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, maxX/maxY);
+			physics->setBorderMaxX(physics->getBorderX() - (300 * (maxX/SCRWIDTH)));
 			objectCore->pad->setRotation(Vec3(0,0,0));
 			leftUI = Vec2(400, SCRHEIGHT);
 		}

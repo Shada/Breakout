@@ -924,6 +924,13 @@ void GraphicsDX11::drawGame()
 
 	immediateContext->Draw( 2, startIndex );
 
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 51 ) );
+
+	startIndex	= objectCore->healthSymbol->getBufferIndex();
+	vertexAmount = 1;
+
+	immediateContext->Draw( vertexAmount, startIndex );
+
 	//--------------------------------------------------------------------------------
 	//                                     Text
 	//--------------------------------------------------------------------------------
@@ -1008,11 +1015,11 @@ void GraphicsDX11::drawMenu()
 	immediateContext->PSSetShaderResources( 0,5, &textures.at( 41 ) );
 	
 	vertexAmount	= objectCore->gui.size() + 3;
-	startIndex		= 3;
+	startIndex		= 5;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 
-	immediateContext->Draw( 1, 2 );
+	immediateContext->Draw( 1, 3 );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text

@@ -61,3 +61,4 @@ Textures/balleffect3.png
 Textures/balleffect4.png
 
 Textures/statusFrame.png
+Textures/Lives.png
