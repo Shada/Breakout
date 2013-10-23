@@ -3,13 +3,13 @@ Map standard
 filformat: bmp
 
 Antal pixlar:	bredd x höjd
-2D		150 x 100
-Scroll		150 x 300
-Cylinder	300 x 100
-Sfär		300 x 100
+2D		30x 30
+Scroll		30x 60
+Cylinder	60x 30
+Sfär		60x 60
 
 
-Första punkten innehåller info om banan:
+Punkten i nedre vänstra hörnet innehåller info om banan:
 R = 	lvlnr  (Ordningen de skall spelas i)
 G = 	Typ av bana (tema)
 		0 = testing
@@ -24,19 +24,58 @@ B = 	Svårighet (Hur ofta random event ska ske. 1=simpel, 10=svår)
 Resterande punkter innehåller vad som finns i området.
 R = 	Typ av object:
 		0 och 255 = Inget
-		1 = Pad startposition
-		2 = Bollens startposition
-		3 = Brick (1 liv)
-		4 = Brick (2 liv)
-		5 = Brick (3 liv)
-		6 = Brick (Oförstörbar)
-		7 = Speed increase
-		8 = Speed decrease
-		9 = Padsize increase
-		10 = Padsize decrease
-		11 = Inverted controlls
-		12 = Rotationspeed increase
-		12 = Rotationspeed decrease
-		14 = Extra liv
+		12 = Pad startposition
+		24 = Bollens startposition
+		36 = Brick (1 liv)
+		48 = Brick (2 liv)
+		60 = Brick (3 liv)
+		72 = Brick (Oförstörbar)
+		84 = Speed increase
+		96 = Speed decrease
+		108 = Padsize increase
+		120 = Padsize decrease
+		132 = Inverted controlls
+		144 = Rotationspeed increase
+		156 = Rotationspeed decrease
+		168 = Extra liv
 G =	Vilken texture objectet ska ha. (T.ex. viken typ en brick är)
-B =	Vilken model som objectet ska använda.	
+		0 	Skybox wind
+		1 	Skybox water
+		2 	Skybox fire
+		3 	Skybox earth
+		4 	Font blackwhite
+		5 	Font 
+		6 	Font 
+		7 	Font 
+		8 	Frame wind
+		9 	Frame water
+		10 	Frame fire
+		11	Frame earth
+		12	pad 1
+		13	pad 2
+		14	pad 3
+		15	pad 4
+		16	ball 1
+		17	ball 2
+		18	ball 3
+		19	ball 4
+		20	brick wind
+		21	brick wind
+		22	brick wind
+		23	brick wind
+		24	brick water
+		25	brick water
+		26	brick water
+		27	brick water
+		28	brick fire
+		29	brick fire
+		30	brick fire
+		31	brick fire
+		32	brick earth
+		33	brick earth
+		34	brick earth
+		35	brick earth
+B =	Vilken model som objectet ska använda.
+		0	brick
+		1	pad
+		2	ball

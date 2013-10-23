@@ -5,6 +5,8 @@
 #include "Gameplay.h"
 #include "SoundSystem.hpp"
 #include <functional>
+#include "Menu.h"
+
 
 namespace Logic
 {
@@ -20,7 +22,8 @@ namespace Logic
 		//Logik för att hantera växlandet mellan menyer och gameplay
 		//Logik för att kalla på interfaces
 		
-		Inputhandler *inputHandler;
+		Inputhandler	*inputHandler;
+		Menu			*menu;
 
 	public:
 		GameLogic(Inputhandler *handler);
@@ -28,6 +31,7 @@ namespace Logic
 
 		void update(float dt);
 		void draw();
+		void setFpsCounter(int _fps) { gameplay->setFps(_fps); }
 	};
 
 }

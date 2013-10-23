@@ -28,8 +28,8 @@ namespace Logic
 		width = radius * scale.y;
 
 		rotation = rotMouse;
-
-		rotationAxis(orientation, Vec3(0, 0, 1.f), rotation.z);
+		
+		rotationAxis(orientation, Vec3(0, 0, 1.0f), rotation.z);
 
 		activeEffect = 0;
 	}
@@ -123,7 +123,9 @@ namespace Logic
 	{
 		_update(_dt);
 
-		if(position.x > Logic::borderMaxX - width || position.x < width)
+		int borderMaxX = Logic::Physics::getInstance()->getBorderX();
+
+		if(position.x > borderMaxX - width || position.x < width)
 		{
 			position.x = position.x > borderMaxX - width ? borderMaxX - width : width;
 			posMouse.x = posKey.x = position.x;
@@ -149,9 +151,11 @@ namespace Logic
 			direction.normalize();
 		}
 
+		int borderMaxX = Logic::Physics::getInstance()->getBorderX();
+
 		if(position.x > borderMaxX || position.x < 0)
 		{
-			position.x += position.x > Logic::borderMaxX ? -Logic::borderMaxX : Logic::borderMaxX;
+			position.x += position.x > borderMaxX ? -borderMaxX : borderMaxX;
 			posMouse.x = posKey.x = position.x;
 		}
 
@@ -220,11 +224,11 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer			= 0.5f;
-			activeEffect		= 1;
-			movementSpeed		= 0.3f;
-			effectAcceleration	= 0.1f;
-			effectRotation		= 0.4f;
+			effectTimer = 0.8f;
+			activeEffect = 1;
+			movementSpeed = 0.3;
+			effectAcceleration = 0.1;
+			effectRotation = 0.4f;
 		}
 	}
 	

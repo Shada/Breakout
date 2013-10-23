@@ -10,12 +10,6 @@ void MenuElement::updateGraphicsArray(std::vector<BBUI> *bbData)
 		bbData->at(i) = billboards.at(i);
 }
 
-void MenuElement::draw(double dt)
-{
-	//TODO: call graphical interface's draw().
-	
-}
-
 MenuElement::~MenuElement()
 {
 }

@@ -22,7 +22,7 @@ namespace Logic
 	11 != Inverted controlls
 	12 != Rotationspeed increase
 	12 != Rotationspeed decrease
-	14 != Extra liv
+	14 = Extra liv
 	15 = Stun
 	*/
 	class EventSystem

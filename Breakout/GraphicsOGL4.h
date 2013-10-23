@@ -30,7 +30,10 @@ private:
 	GLuint vertexBufferStatic;
 	// dynamic buffer for UI elements
 	GLuint uiBufferDynamic;
+	// dynamic buffer for text
+	GLuint textBufferDynamic;
 
+	//matrixIDs
 	GLuint	modelMatID,
 			modelInvMatID,
 			projMatID,
@@ -38,12 +41,21 @@ private:
 			viewSkybox,
 			projSkybox;
 
+	//texture IDs
 	GLuint diffuseTexID,
 			skyboxTexID;
 
+	//ConstantBuffers
+	GLuint	cbCameraOnce,
+			cbCameraMove,
+			cbWorld,
+			cbFont,
+			cbCameraOnceFont;
+
     ProgramGLSL *program,
 				*billboardProgram,
-				*skyboxProgram;
+				*skyboxProgram,
+				*fontProgram;
 
 	// VAO
 	GLuint  VertexArrayID,
@@ -55,6 +67,8 @@ private:
 	int feedStaticBufferData(std::vector<Vertex> vertexpoints);
 
 	GraphicsOGL4();
+	
+	void initConstantBuffers();
 
 public:
 	void draw();
@@ -70,9 +84,11 @@ public:
 	void	updateCBOnce(CBOnce cb);
 	void	updateCBCameraMove(CBCameraMove cb);
 	void	updateCBWorld(CBWorld cb);
+	void	updateCBFont(CBFont cb);
 
 	void initVertexBuffer();
-	int feedUIBufferData(std::vector<tempBBUI> _points);
+	void feedUIBufferData();
+	void feedTextBufferData();
 
 	void updateModelMatrix(Matrix *model);
 	void updateModelInvTransMatrix(Matrix *modelinvtrans);
@@ -88,6 +104,8 @@ public:
 	void useStandardVertexAttribLayout();
 	/** Using billboard vertex layout with Position and size **/
 	void useBillboardVertexAttribLayout();
+	/** Using font vertex layout with Position and texvalues **/
+	void useFontVertexAttribLayout();
 
 	void useTechnique(unsigned int index);
 	void useTexture(int index);

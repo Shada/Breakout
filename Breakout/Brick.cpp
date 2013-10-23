@@ -3,14 +3,14 @@
 
 namespace Logic
 {
-	Brick::Brick(Vec3 _pos, bool _cylinder)
+	Brick::Brick(Vec3 _pos, bool _cylinder, int _health)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
-		health = 1;
+		health = _health;
 
 		width = 5;
 		height = 5;
@@ -22,14 +22,14 @@ namespace Logic
 		
 	}
 
-	Brick::Brick(Vec3 _pos, bool _cylinder, double _width, double _height)
+	Brick::Brick(Vec3 _pos, bool _cylinder, double _width, double _height, int _health)
 	{
 		position = _pos;
 		scale		= Vec3(1,1,1);
 		rotation	= Vec3(0,0,0);
 
 		alive = true;
-		health = 1;
+		health = _health;
 
 		width = _width;
 		height = _height;
@@ -55,7 +55,7 @@ namespace Logic
 
 	bool Brick::isDestroyed()
 	{
-		if (health == 0)
+		if (health <= 0)
 			return true;
 		return false;
 	}
@@ -74,6 +74,17 @@ namespace Logic
 	{
 		//remove hitbox;
 		alive = false;
+	}
+
+	void Brick::setType(int _Type)
+	{
+		health = 1;
+
+		if(_Type == 48)
+			health = 2;
+		else if(_Type == 60)
+			health = 3;
+
 	}
 
 	void Brick::setHeight( double _h)

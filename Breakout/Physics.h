@@ -1,14 +1,44 @@
 #ifndef _PHYSICS_H_
 #define _PHYSICS_H_
 
+//#include "linearalgebra.h"
+//#include "Object.h"
+#include "Ball.h"
+#include <vector>
+//#include "Timer.h"
 #include "ObjectCore.h"
 
 namespace Logic
 {
-#pragma region Collission
-	static int borderMaxX = 300;
-	static int borderMaxY = 200;
 
+	
+	class Physics
+	{
+	private:
+		static Physics	*physics;
+		Physics(){ borderMaxX = 500; borderMaxY = 200; cylRadius = 150; }
+
+		int borderMaxX;
+		int borderMaxY;
+		int cylRadius;
+
+	public:
+
+		static Physics	*getInstance()
+		{
+			if(!physics)
+				physics = new Physics();
+			return physics;
+		}
+		~Physics(){}
+
+		void setBorderMaxX(int _x){ borderMaxX = _x;}
+		void setBorderMaxY(int _y){ borderMaxY = _y;}
+		int getBorderX(){ return borderMaxX; }
+		int getBorderY(){ return borderMaxY; }
+		int getCylRadius(){ return cylRadius; }
+
+#pragma region Collission		
 	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
@@ -22,24 +52,14 @@ namespace Logic
 		//If distance is lower than:
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true;
 
-		//If position will be withing bounds next frame, assuming same deltaTime
-		tBallPos = _ball->getPosition();
-		tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
-								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
-
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true; //Might need other type of return to clarify next frame will hit
-
-		if(tDistance <= tRadius + (float)_brick->getHeight()/2 && tDistance <= tRadius + (float)_brick->getWidth()/2)
+		if(fabs(tBallPos.y - tBrickPos.y) <= tRadius + _brick->getHeight() / 2 && fabs(tBallPos.x - tBrickPos.x) <= tRadius + _brick->getWidth() / 2)
 			return true;
 
 		return false;
 	}
 
-	inline void edgeCollision(Ball *_ball, Object3D* _object)
+	inline void edgeCollision(Ball *_ball, Brick* _object)
 	{
 		Vec3 ballPos = _ball->getPosition();
 		Vec3 lastBallPos = _ball->getLastFrame();
@@ -48,15 +68,18 @@ namespace Logic
 		
 		float LENGTH = 15, HEIGHT = 7.5f;
 
-		if(abs(objPos.x + (float)LENGTH / 2 - ballPos.x) < abs(objPos.x - (float)LENGTH / 2 - ballPos.x))
-			objPos.x += (float)LENGTH / 2;
-		else
-			objPos.x -= (float)LENGTH / 2;
+		float width = _object->getWidth();
+		float height = _object->getHeight();
 
-		if(abs(objPos.y + (float)HEIGHT / 2 - ballPos.y) < abs(objPos.y - (float)HEIGHT / 2 - ballPos.y))
-			objPos.y -= (float)HEIGHT / 2;
+		if(abs(objPos.x + width / 2 - ballPos.x) < abs(objPos.x - width / 2 - ballPos.x))
+			objPos.x += width / 2;
 		else
-			objPos.y += (float)HEIGHT / 2;
+			objPos.x -= width / 2;
+
+		if(abs(objPos.y + height / 2 - ballPos.y) < abs(objPos.y - height / 2 - ballPos.y))
+			objPos.y -= height / 2;
+		else
+			objPos.y += height / 2;
 
 		Vec3 dir = _ball->getDirection();
 
@@ -105,6 +128,7 @@ namespace Logic
 		_ball->setPosition(Vec3(collidePos.x + (t - delta) * _newDir.x, collidePos.y + (t - delta) * _newDir.y, 0));
 	}
 
+
 	inline void CalculateCollission(Ball* _ball, Brick* _brick)
 	{
 
@@ -112,9 +136,11 @@ namespace Logic
 		Vec3 ballDir = _ball->getDirection();
 		Vec3 objPos = _brick->getPosition();
 		float radius = _ball->getRadius();
-		float width = (float)_brick->getWidth(), height = (float)_brick->getHeight();
-
+		
 		bool alreadyCollided = false;
+
+		float width = _brick->getWidth();
+		float height = _brick->getHeight();
 
 		//Compare X positions
 		if(ballPos.x + width/2 < objPos.x || ballPos.x - width/2 > objPos.x)
@@ -169,8 +195,7 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-
-		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius >= borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -498,6 +523,10 @@ namespace Logic
 
 
 #pragma endregion
+
+
+	};
+
 
 }
 

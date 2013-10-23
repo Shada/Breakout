@@ -4,6 +4,10 @@
 #include "Pad.h"
 #include "Water.h"
 #include "Skybox.h"
+#include "Resource.h"
+#include "Text.h"
+#include "Effect.h"
+#include "UIElement.h"
 namespace Logic
 {
 	class ObjectCore
@@ -19,10 +23,20 @@ namespace Logic
 		};
 		
 		Pad						*pad;
-		std::vector<Brick*>		 bricks;
 		std::vector<Ball*>		ball;
+		std::vector<Brick*>		bricks;
+		std::vector<Effect*>	effects;
+		
+		std::vector<BBUI>		uiBillboards;
+		std::vector<BBFont>		fontBillboards;
+
+		Font					*testFont;
+		Text					*testText;
+		
 		Water					*water;
 		Skybox					*skybox;
+
+		UIElement				*SideBar;
 
 		ObjectCore();
 		~ObjectCore();
@@ -30,7 +44,6 @@ namespace Logic
 		void setMapType(int type);
 		MapType getMapType() { return mapType; }
 
-	private:
 		MapType mapType;
 	};
 }
