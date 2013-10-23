@@ -27,12 +27,7 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
-		Vec3 vec1 = Logic::from2DToCylinder(Vec3(0,0,0), 100);
-		Vec3 vec2 = Logic::from2DToCylinder(Vec3(75,0,0), 100);
-		Vec3 vec3 = Logic::from2DToCylinder(Vec3(150,0,0), 100);
-		int c = 0; c++;
-
-
+		
 		this->setMaptype(objectCore->MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
