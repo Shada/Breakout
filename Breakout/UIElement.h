@@ -1,5 +1,7 @@
-#pragma once
-#include "object2d.h"
+#ifndef _OBJECT2D_H_
+#define _OBJECT2D_H_
+
+#include "Object2D.h"
 class UIElement :
 	public Object2D
 {
@@ -14,3 +16,4 @@ public:
 	~UIElement();
 };
 
+#endif

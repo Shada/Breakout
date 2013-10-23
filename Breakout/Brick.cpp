@@ -31,8 +31,8 @@ namespace Logic
 		alive = true;
 		health = _health;
 
-		width = _width;
-		height = _height;
+		width = (float)_width;
+		height = (float)_height;
 
 		scale.x = (float)width / 5;
 		scale.y =  (float)height / 5;
@@ -89,13 +89,13 @@ namespace Logic
 
 	void Brick::setHeight( double _h)
 	{
-		height = _h; 
+		height = (float)_h; 
 		scale.y =  (float)height / 5;
 	}
 
 	void Brick::setWidth( double _w)
 	{
-		 width = _w; 
+		 width = (float)_w; 
 		 scale.x = (float)width / 5;
 	}
 }

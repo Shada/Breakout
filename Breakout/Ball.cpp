@@ -94,12 +94,12 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectDirection = Vec3((rand()%10)-5, (rand()%10)-5, 0);
+			effectDirection = Vec3((float)((rand() % 10) - 5), (float)((rand() % 10) - 5), 0);
 			effectDirection.normalize();
-			effectSpeed = 0;
-			effectTimer = 1.6;
+			effectSpeed = 0.f;
+			effectTimer = 1.6f;
 			activeEffect = 1;
-			effectAcceleration = 30;
+			effectAcceleration = 30.f;
 		}
 	}
 

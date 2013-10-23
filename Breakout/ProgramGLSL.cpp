@@ -12,12 +12,15 @@ ProgramGLSL::ProgramGLSL(std::string _name, std::string _vsPath, std::string _gs
     name = _name;
 
     //1. insert VS
+    _vsPath = linuxPath + _vsPath;
     vertexShaderIndex = insertVertexShader(_vsPath);
 
     //2. insert GS
+    _gsPath = linuxPath + _gsPath;
     geometryShaderIndex = insertGeometryShader(_gsPath);
 
     //3. insert Fs
+    _fsPath = linuxPath + _fsPath;
     fragmentShaderIndex = insertFragmentShader(_fsPath);
 
     //4. create program
@@ -73,7 +76,7 @@ int ProgramGLSL::insertVertexShader(std::string _vsPath)
 {
     //TODO: Check if vertex shader is already compiled
 
-    if(_vsPath == "")
+    if(_vsPath == linuxPath)
         return -1;
     //create vertex shader
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
@@ -129,7 +132,7 @@ int ProgramGLSL::insertVertexShader(std::string _vsPath)
 
 int ProgramGLSL::insertGeometryShader(std::string _gsPath)
 {
-    if(_gsPath == "")
+    if(_gsPath == linuxPath)
         return -1;
     //TODO:  check if geometry is  already compiled
     //create geometry shader
@@ -187,7 +190,7 @@ int ProgramGLSL::insertGeometryShader(std::string _gsPath)
 
 int ProgramGLSL::insertFragmentShader(std::string _fsPath)
 {
-    if(_fsPath == "")
+    if(_fsPath == linuxPath)
         return -1;
     //TODO: Check if fragment shader is already compiled
     //create fragment shader

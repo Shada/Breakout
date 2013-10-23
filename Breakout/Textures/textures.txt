@@ -50,3 +50,6 @@ Water/lava.png
 Water/lavaGlowMap.png
 
 Textures/balleffect.png
+Textures/balleffect2.png
+Textures/balleffect3.png
+Textures/balleffect4.png

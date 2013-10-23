@@ -16,7 +16,7 @@ SoundSystem::SoundSystem()
 SoundSystem::~SoundSystem()
 {
 	//for(int i = 0; i < 18; i++)
-	
+
 	//radera Sounds först
 	result = fmodSystem->close();
     result = fmodSystem->release();
@@ -32,7 +32,7 @@ void SoundSystem::Initialize()
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
 	//result = fmodSystem->init(32, FMOD_INIT_NORMAL, linuxExtraDriverData); //linuxExtraDriverData är tom för tillfället!
 #endif
-	
+
 	sound[0].Initialize(fmodSystem, 0.5f, "Sounds/destination.mp3");
 	sound[1].Initialize(fmodSystem, 0.5f, "Sounds/midnight-ride.mp3");
 	sound[2].Initialize(fmodSystem, 0.5f, "Sounds/urban-spy-2.mp3");
@@ -53,7 +53,6 @@ void SoundSystem::Initialize()
 	sound[17].Initialize(fmodSystem, 1.0f, "Sounds/sound99.wav");
 	sound[18].Initialize(fmodSystem, 1.0f, "Sounds/sound95.wav");
 	sound[19].Initialize(fmodSystem, 1.0f, "Sounds/car-interior-1.mp3");
-
 }
 
 void SoundSystem::Play(int soundNr)

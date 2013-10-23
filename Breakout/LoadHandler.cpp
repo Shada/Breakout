@@ -12,11 +12,11 @@ namespace Resources
 		loader = 0;
 		loader = new Loader();
 		char file[256];
-        std::ifstream myfile ("Objects/object.txt");
 
 #ifdef _WIN32
+        std::ifstream myfile ("Objects/object.txt");
 #else
-        //std::ifstream myfile ("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Objects/object.txt");
+        std::ifstream myfile (linuxPath + "Objects/object.txt");
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -30,10 +30,10 @@ namespace Resources
 		}
 		myfile.close();
 
-		myfile.open("Maps/map.txt");
 #ifdef _WIN32
+		myfile.open("Maps/map.txt");
 #else
-        //myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Maps/map.txt");
+        myfile.open(linuxPath + "Maps/map.txt");
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -47,10 +47,10 @@ namespace Resources
 		}
 		myfile.close();
 
-		myfile.open("Textures/textures.txt");
 #ifdef _WIN32
+		myfile.open("Textures/textures.txt");
 #else
-       // myfile.open("/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Textures/textures.txt");
+        myfile.open(linuxPath + "Textures/textures.txt");
 #endif // _WIN32
 
 		if (myfile.is_open())

@@ -22,7 +22,7 @@ namespace Resources
 
         std::string filename = "";
 #ifndef _WIN32
-		//filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+		filename = linuxPath;
 #endif // !_WIN32
 		filename += file;
 
@@ -49,7 +49,7 @@ namespace Resources
 			{
 				last = false;
 				ObjFile >> x >> y >> z;
-			
+
 				Position.push_back(Vec3(x * invertX, y * invertY, z * invertZ));
 			}
 			else if(0==strcmp(buffer,"vt"))
@@ -210,7 +210,7 @@ namespace Resources
 	{
         std::string filename = "";
 #ifndef _WIN32
-        //filename = "/home/torrebjorne/Documents/GitHub/Breakout/Breakout/";
+        filename = linuxPath;
 #endif // ! _WIN32
 
 		filename += file;

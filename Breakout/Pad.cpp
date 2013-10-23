@@ -224,11 +224,11 @@ namespace Logic
 	{
 		if (activeEffect == 0)
 		{
-			effectTimer = 0.8f;
-			activeEffect = 1;
-			movementSpeed = 0.3;
-			effectAcceleration = 0.1;
-			effectRotation = 0.4f;
+			effectTimer			= 0.8f;
+			activeEffect		= 1;
+			movementSpeed		= 0.3f;
+			effectAcceleration	= 0.1f;
+			effectRotation		= 0.4f;
 		}
 	}
 	
@@ -273,7 +273,7 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rotMouse.z += (float)(12 * PI / 180) * _direction * (decreasedRotation ? 0.4 : 1);
+		rotMouse.z += (float)(12 * PI / 180) * _direction * (decreasedRotation ? 0.4f : 1.f);
 		if(rotMouse.z > 2 * PI)
 			rotMouse.z -= (float)(2 * PI);
 		else if(rotMouse.z < 0)
@@ -284,7 +284,7 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rotKey.z -= (float)(2 * PI / 180) * (decreasedRotation ? 0.4 : 1);
+		rotKey.z -= (float)(2 * PI / 180) * (decreasedRotation ? 0.4f : 1.f);
 		if(rotKey.z > 2 * PI)
 			rotKey.z -= (float)(2 * PI);
 	}
@@ -293,7 +293,7 @@ namespace Logic
 	{
 		// Theoretically, the mouse wheel cannot be rotated more than 1 tick during 1 frame
 		// This means that the input will always be 120 from delta z, which in our program will mean 12 degrees
-		rotKey.z += (float)(2 * PI / 180) * (decreasedRotation ? 0.4 : 1);
+		rotKey.z += (float)(2 * PI / 180) * (decreasedRotation ? 0.4f : 1.f);
 		if(rotKey.z > 2 * PI)
 			rotKey.z -= (float)(2 * PI);
 	}

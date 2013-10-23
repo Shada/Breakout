@@ -30,6 +30,6 @@ void Model::setStartIndex(int _index)
 
 void Model::lastFace()
 {
-	data.push_back(data.at(data.size() - 3));								
+	data.push_back(data.at(data.size() - 3));
 	data.push_back(data.at(data.size() - 2));
 }

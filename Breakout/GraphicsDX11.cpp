@@ -256,7 +256,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	immediateContext->RSSetViewports( 1, &viewPort );
 
 	techniques = std::vector<TechniqueHLSL*>();
-	
+
 	techniques.push_back( new TechniqueHLSL(device, "techSkybox", "shaders/hlsl/vsSkybox.fx", "vs_skybox","","","shaders/hlsl/psSkybox.fx","ps_skybox") );
 	techniques.push_back( new TechniqueHLSL(device, "techSimple",	"shaders/hlsl/vsSimple.fx",	"vs",	"",							"",		"shaders/hlsl/psSimple.fx",	"ps") );
 	techniques.push_back( new TechniqueHLSL(device, "techUI",		"shaders/hlsl/vsBBUI.fx",	"vs",	"shaders/hlsl/gsBBUI.fx",	"gs",	"shaders/hlsl/psBBUI.fx",	"ps") );
@@ -266,7 +266,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	techniques.push_back( new TechniqueHLSL(device, "techRefl", "shaders/hlsl/vsRefl.fx", "vs_refl","","","shaders/hlsl/psRefl.fx","ps_refl") );
 	techniques.push_back( new TechniqueHLSL(device, "techWater", "shaders/hlsl/vsQuad.fx", "vs_quad","shaders/hlsl/gsQuad.fx","gs_quad","shaders/hlsl/psWater.fx","ps_water") );
 
-	D3D11_INPUT_ELEMENT_DESC simpleLayoutDesc[] = 
+	D3D11_INPUT_ELEMENT_DESC simpleLayoutDesc[] =
 	{
 		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,					D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, sizeof(float) * 3,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -384,7 +384,7 @@ void GraphicsDX11::init(HWND *hWnd)
 	hr = device->CreateBlendState(&blendDesc,&blendDisable);
 	if(FAILED(hr))
 		return;
-	
+
 
 	//create depthstencil states
 	D3D11_DEPTH_STENCIL_DESC depthDesc;
@@ -447,14 +447,14 @@ HRESULT GraphicsDX11::compileShader( LPCSTR fileName, LPCSTR szEntryPoint, LPCST
     DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
     // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-    // Setting this flag improves the shader debugging experience, but still allows 
-    // the shaders to be optimized and to run exactly the way they will run in 
+    // Setting this flag improves the shader debugging experience, but still allows
+    // the shaders to be optimized and to run exactly the way they will run in
     // the release configuration of this program.
     dwShaderFlags |= D3DCOMPILE_DEBUG;
 #endif
 
     ID3DBlob* pErrorBlob;
-    hr = D3DX11CompileFromFile( fileName , NULL, NULL, szEntryPoint, szShaderModel, 
+    hr = D3DX11CompileFromFile( fileName , NULL, NULL, szEntryPoint, szShaderModel,
         dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL );
     if( FAILED(hr) )
     {
@@ -643,7 +643,7 @@ void GraphicsDX11::draw()
 
 	//rs
 	immediateContext->RSSetViewports(1, &viewPort);
-	
+
 	immediateContext->IASetInputLayout(simpleInputLayout);
 
 
@@ -674,7 +674,7 @@ void GraphicsDX11::draw()
 		immediateContext->RSSetState(rasterizerBackface);
 
 		techniques.at( getTechIDByName( "techRefl" ) )->useTechnique();
-	
+
 		//--------------------------------------------------------------------------------
 		//                                     Pad
 		//--------------------------------------------------------------------------------
@@ -708,7 +708,7 @@ void GraphicsDX11::draw()
 
 			immediateContext->Draw(vertexAmount, startIndex);
 		}
-	
+
 		// clear depth stencil so that the normal drawing  wont get disturbed and have issues with an already
 		// filled depth stencil
 		immediateContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
@@ -754,7 +754,7 @@ void GraphicsDX11::draw()
 	immediateContext->Draw(vertexAmount, startIndex);
 
 	//--------------------------------------------------------------------------------------
-	 
+
 	immediateContext->OMSetDepthStencilState(depthStencilStateEnable, 0);
 	immediateContext->RSSetState(rasterizerBackface);
 
@@ -864,7 +864,7 @@ void GraphicsDX11::draw()
 	immediateContext->Draw(1,0);
 
 	immediateContext->PSSetShaderResources(0,5,&nullSRV[0]);
-	
+
 	//--------------------------------------------------------------------------------
 	//                                     UI
 	//--------------------------------------------------------------------------------
@@ -875,7 +875,7 @@ void GraphicsDX11::draw()
 	immediateContext->RSSetState(rasterizerBackface);
 
 	immediateContext->OMSetDepthStencilState(depthStencilStateDisable, 0);
-	
+
 	D3D11_MAPPED_SUBRESOURCE updateData;
 	ZeroMemory( &updateData, sizeof( updateData ) );
 

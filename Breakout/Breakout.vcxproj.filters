@@ -355,9 +355,29 @@
     <CustomBuild Include="shaders\hlsl\psWater.fx">
       <Filter>HLSL\ps</Filter>
     </CustomBuild>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="shaders\glsl\vsSkybox.glsl" />
-    <None Include="shaders\glsl\vsSkybox.glsl" />
+    <None Include="shaders\glsl\vsSkybox.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsQuad.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsRefl.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\fsWater.glsl">
+      <Filter>GLSL\fs</Filter>
+    </None>
+    <None Include="shaders\glsl\gsQuad.glsl">
+      <Filter>GLSL\gs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsQuad.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsRefl.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
+    <None Include="shaders\glsl\vsSkyboxRefl.glsl">
+      <Filter>GLSL\vs</Filter>
+    </None>
   </ItemGroup>
 </Project>

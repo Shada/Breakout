@@ -19,7 +19,7 @@ namespace Logic
 		skybox->setTextureID(0);
 		testFont = new Font();
 		testText = new Text(&fontBillboards, "FPS:", Vec2(1,1),Vec2(0.3f,0.3f),0.1f,Vec4(1,1,1,1));
-		SideBar	= new UIElement( &uiBillboards, 8 );
+		SideBar	= new UIElement( &uiBillboards, 8, Vec2(0,0), Vec2(400,1080), 0, Vec4(0,0,0,1) );
 
 	}
 
