@@ -128,7 +128,8 @@ int Winhandler::run()
 	QueryPerformanceFrequency( ( LARGE_INTEGER* )&cntsPerSec);
 	double			dt = 0, time = 0;
 	double			secsPerCnt = 1.0 / (double)cntsPerSec;*/
-	float time = 0;
+	float time = 0, fpsUpdate = 0;
+	int fps = 0;
 
 	//QueryPerformanceCounter( ( LARGE_INTEGER* )&currTimeStamp);
 	//prevTimeStamp	= currTimeStamp;
@@ -150,11 +151,20 @@ int Winhandler::run()
 			DispatchMessage( &msg );
 		}
 
-		else if(time >= 0)
+		else if(time > 0.01f)
 		{
+			fpsUpdate += time;
+			fps++;
+
 			if(GetActiveWindow() == hWnd)
 			{
 				game->update(time);
+				if(fpsUpdate >= 1)
+				{
+					game->setFpsCounter(fps);
+					fpsUpdate = 0;
+					fps = 0;
+				}
 			}
 
 			g->clearRenderTarget(0.1f,0.05f,0.5f);

@@ -20,10 +20,10 @@ namespace Logic
 	int EventSystem::Update(double dt)
 	{
 		spawnTimer += dt;
-		if (spawnTimer * leveldifficulty >= nextSpawn)
+		if (spawnTimer + (spawnTimer * leveldifficulty * 0.1) >= nextSpawn)
 		{
 			spawnTimer = 0;
-			nextSpawn = rand() % 10 + 5;
+			nextSpawn = rand() % 20 + 10;
 			int tempType = rand() % 100;
 			switch (mapType)
 			{

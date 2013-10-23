@@ -123,7 +123,9 @@ namespace Logic
 	{
 		_update(_dt);
 
-		if(position.x > Logic::borderMaxX - width || position.x < width)
+		int borderMaxX = Logic::Physics::getInstance()->getBorderX();
+
+		if(position.x > borderMaxX - width || position.x < width)
 		{
 			position.x = position.x > borderMaxX - width ? borderMaxX - width : width;
 			posMouse.x = posKey.x = position.x;
@@ -149,9 +151,11 @@ namespace Logic
 			direction.normalize();
 		}
 
+		int borderMaxX = Logic::Physics::getInstance()->getBorderX();
+
 		if(position.x > borderMaxX || position.x < 0)
 		{
-			position.x += position.x > Logic::borderMaxX ? -Logic::borderMaxX : Logic::borderMaxX;
+			position.x += position.x > borderMaxX ? -borderMaxX : borderMaxX;
 			posMouse.x = posKey.x = position.x;
 		}
 

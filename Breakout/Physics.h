@@ -10,11 +10,35 @@
 
 namespace Logic
 {
-#pragma region Collission
-	static int borderMaxX = 300;
-	static int borderMaxY = 200;
 
+	
+	class Physics
+	{
+	private:
+		static Physics	*physics;
+		Physics(){ borderMaxX = 500; borderMaxY = 200; cylRadius = 150; }
 
+		int borderMaxX;
+		int borderMaxY;
+		int cylRadius;
+
+	public:
+
+		static Physics	*getInstance()
+		{
+			if(!physics)
+				physics = new Physics();
+			return physics;
+		}
+		~Physics(){}
+
+		void setBorderMaxX(int _x){ borderMaxX = _x;}
+		void setBorderMaxY(int _y){ borderMaxY = _y;}
+		int getBorderX(){ return borderMaxX; }
+		int getBorderY(){ return borderMaxY; }
+		int getCylRadius(){ return cylRadius; }
+
+#pragma region Collission		
 	inline bool Intersects(Ball* _ball, Brick* _brick)
 	{
 		Vec3 tBallPos = _ball->getPosition();
@@ -29,18 +53,7 @@ namespace Logic
 		//		ballradius + objectheight/2 AND ballradius + objectlength/2
 		// that means they intersect.
 
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true;
-
-		//If position will be withing bounds next frame, assuming same deltaTime
-		tBallPos = _ball->getPosition();
-		tDistance = sqrt( ((tBallPos.x - tBrickPos.x)*(tBallPos.x - tBrickPos.x))
-								+ ((tBallPos.y - tBrickPos.y)*(tBallPos.y - tBrickPos.y)) );
-
-		if(tDistance <= tRadius + _brick->getHeight()/2 && tDistance <= tRadius + _brick->getHeight()/2)
-			return true; //Might need other type of return to clarify next frame will hit
-
-		if(tDistance <= tRadius + (float)_brick->getHeight()/2 && tDistance <= tRadius + (float)_brick->getWidth()/2)
+		if(fabs(tBallPos.y - tBrickPos.y) <= tRadius + _brick->getHeight() / 2 && fabs(tBallPos.x - tBrickPos.x) <= tRadius + _brick->getWidth() / 2)
 			return true;
 
 		return false;
@@ -182,8 +195,7 @@ namespace Logic
 		bool collides = false;
 
 		//Compare X
-
-		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius > borderMaxX)
+		if(!_isCylinder && ballPos.x - tRadius < 0 || !_isCylinder && ballPos.x + tRadius >= borderMaxX)
 		{
 			if((ballPos.x - tRadius < 0 && tBallDir.x < 0) || (ballPos.x + tRadius > borderMaxX && tBallDir.x > 0))
 				tBallDir.x *= -1;
@@ -511,6 +523,11 @@ namespace Logic
 
 
 #pragma endregion
+
+
+	};
+
+
 }
 
 #endif // ! _PHYSICS_H_
