@@ -4,7 +4,7 @@
 #include <vector>
 #include <functional>
 #include "Pad.h"
-#include "Camera.h"
+#include "Menu.h"
 
 struct KeyBind
 {
@@ -15,8 +15,8 @@ struct KeyBind
 struct KeyBind2
 {
 	int keyCode;
-	std::function<void(int, int)> func;
-	KeyBind2(int _key, std::function<void(int, int)> _func) : keyCode(_key), func(_func) {}
+	std::function<void(Logic::Menu*)> func;
+	KeyBind2(int _key, std::function<void(Logic::Menu*)> _func) : keyCode(_key), func(_func) {}
 };
 
 class Inputhandler
@@ -24,7 +24,7 @@ class Inputhandler
 protected:
 	struct MenuControls
 	{
-		Camera *cam;
+		Logic::Menu *menu;
 		std::vector<KeyBind2> keyBindings;
 	};
 	struct PadControls
@@ -33,7 +33,7 @@ protected:
 		std::vector<KeyBind> keyBindings;
 	};
 
-	MenuControls cam;
+	MenuControls men;
 	PadControls pad;
 
 public:
@@ -43,7 +43,7 @@ public:
 	virtual void updateMenu() = 0;
 	virtual void updateGame() = 0;
 	virtual void setPad(Logic::Pad *_pad, std::vector<KeyBind> _keys);
-	virtual void setCamera(Camera *cam, std::vector<KeyBind2> keys);
+	virtual void setMenu(Logic::Menu *men, std::vector<KeyBind2> keys);
 };
 
 #ifdef _WIN32
@@ -60,6 +60,7 @@ private:
 	LPDIRECTINPUTDEVICE8	keyboardInput;
 	LPDIRECTINPUTDEVICE8	mouseInput;
 
+	std::vector<bool>		prevKeyPressed;
 	char					keyState[256], prevKeyState[256];
 	DIMOUSESTATE			mouseState, prevMouseState;
 
@@ -70,6 +71,8 @@ private:
 public:
 	DInputhandler(HWND *hWnd);
 	~DInputhandler();
+
+	void setMenu(Logic::Menu *men, std::vector<KeyBind2> keys);
 
 	void updateMenu();
 	void updateGame();

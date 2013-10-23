@@ -828,11 +828,11 @@ void GraphicsDX11::drawGame()
 									0,0,0,1	);
 	updateCBWorld( cbWorld );
 
-	immediateContext->PSSetShaderResources( 0,1,&textures.at( objectCore->SideBar->getTexIndex() ) );
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 8 ) );
 	vertexAmount	= objectCore->uiBillboards.size();
 	startIndex		= 0;
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw( 1, startIndex );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text

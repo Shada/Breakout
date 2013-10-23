@@ -12,7 +12,12 @@ namespace Logic
 		ObjectCore					*objectCore;
 		unsigned int				selection;
 		unsigned int				optionAmount;
+		bool						menuIsActive;
+
 		void						addActions();
+		void			_moveUp();
+		void			_moveDown();
+		void			_confirm();
 
 	public:
 		
@@ -21,11 +26,15 @@ namespace Logic
 		unsigned int	getSelectedOptionInt()		{ return selection; }
 		std::string		getSelectedOptionString()	{ return objectCore->optionList.at(selection).getText(); }
 		void			update( double dt );
-		void			moveUp();
-		void			moveDown();
-		void			confirm();
 		void			open();
 		void			close();
+
+		bool			isOpen() { return menuIsActive; }
+
+		static void		moveUp(Menu* menu);
+		static void		moveDown(Menu* menu);
+		static void		confirm(Menu* menu);
+
 		~Menu();
 	};
 }
