@@ -7,7 +7,7 @@ namespace Logic
 		isCylinder = _isCylinder;
 		effectType = _type;
 		position = _startPos;
-		fallSpeed = _ballDirY < 0 ? -.5f : .5f;
+		fallSpeed = _ballDirY < 0 ? -.25f : .25f;
 		modelID = 0;
 		textureID = 41;
 
@@ -17,7 +17,7 @@ namespace Logic
 	void Effect::update(double _dt)
 	{
 		if(fallSpeed < 200 * _dt)
-			fallSpeed += pow(9.82, _dt * .2) - 1;
+			fallSpeed += (float)pow(9.82, _dt * .2) - 1;
 
 		position.y -= fallSpeed;
 

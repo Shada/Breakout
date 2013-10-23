@@ -151,7 +151,7 @@ int Winhandler::run()
 			DispatchMessage( &msg );
 		}
 
-		else if(time > 0.01f)
+		else// if(time > 0.01f)
 		{
 			fpsUpdate += time;
 			fps++;
@@ -228,7 +228,9 @@ Linuxhandler::Linuxhandler() : Windowhandler()
 
 int Linuxhandler::run()
 {
-	float time = 0;
+	float time = 0, fpsUpdate = 0;
+	int fps = 0;
+
 	timer->Tick();
 
 	do
@@ -236,9 +238,18 @@ int Linuxhandler::run()
 		//drawing (shall be in render class)
 		timer->Tick();
 		time += (float)timer->getDelta();
+		fpsUpdate += time;
+		fps++;
 
 		if(time > 1.f / 600)
 		{
+			if(fpsUpdate >= 1)
+			{
+				game->setFpsCounter(fps);
+				fpsUpdate = 0;
+				fps = 0;
+			}
+
 			//if(is active window
 			game->update(time);
 

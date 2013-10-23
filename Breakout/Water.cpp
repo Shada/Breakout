@@ -29,7 +29,7 @@ Water::Water(float _waterLevel, int _type)
 	cb.specularIntensity	= .32f;
 	cb.transparency			= 4.0f;
 	cb.refractionScale		= .0008f;
-	cb.waterType			= _type;
+	cb.waterType			= 0;
 	cb.normalModifier		= Vec4(1.0f,2.0f,4.0f,8.0f);
 	cb.foamOptions			= Vec4(0.75f, 1.32f, 0.5f,1.0f);
 	if(_type == 0)

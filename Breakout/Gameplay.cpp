@@ -101,7 +101,7 @@ namespace Logic
 
 	void Gameplay::update(double _dt)
 	{
-
+		float dt = (float)_dt;
 		Vec3 cameratem = camera->getLookAt();
 		//fps = (int)(1.0 / _dt + 0.5);
 
@@ -128,10 +128,10 @@ namespace Logic
 
 			Vec3 padPos = objectCore->pad->getPosition();
 			padPos.y += 50;
-			padPos = physics->from2DToCylinder(padPos, physics->getCylRadius() + 150, Vec3(physics->getBorderX()/2, 0, 0));
+			padPos = physics->from2DToCylinder(padPos, (float)(physics->getCylRadius() + 150), Vec3((float)physics->getBorderX() / 2, 0, 0));
 			
 			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
+			camera->setLookAt(Vec3((float)physics->getBorderX() / 2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -408,7 +408,7 @@ namespace Logic
 		if(effectTypeActive != 0)//Uppdatering av aktiv effekt
 		{
 			#pragma region activeEffects
-			effectTimer -= _dt;
+			effectTimer -= dt;
 			if (effectTypeActive == 1)//Zapper
 			{
 				if (effectTimer < 0)
@@ -441,7 +441,7 @@ namespace Logic
 			{
 				if (effectTimer > 0)
 				{
-					effectSpawnTimer += _dt;
+					effectSpawnTimer += dt;
 					Vec3 tempVec3;
 					if (rand() % 300 - effectSpawnTimer * 10 <= 1 && effectFireballs.size() <= 5)
 					{
@@ -452,7 +452,7 @@ namespace Logic
 				}
 
 				for(unsigned int i = 0; i < effectFireballs.size(); i++)
-					effectFireballs[i].y += -_dt * 60;
+					effectFireballs[i].y += -dt * 60;
 
 				//objectCore->pad->setPosition(effectFireballs[0]);//TEST
 
@@ -479,18 +479,18 @@ namespace Logic
 
 				if (effectTimer < 1)
 				{
-					tempVec = Vec3(tempVec.x * (1 -_dt*10) + _dt*10 * effectOriginal.x,
-									tempVec.y * (1 -_dt*10) + _dt*10 * effectOriginal.y,
-									tempVec.z * (1 -_dt*10) + _dt*10 * effectOriginal.z);
+					tempVec = Vec3( tempVec.x * (1 - dt*10) + dt*10 * effectOriginal.x,
+									tempVec.y * (1 - dt*10) + dt*10 * effectOriginal.y,
+									tempVec.z * (1 - dt*10) + dt*10 * effectOriginal.z);
 					camera->setPosition(tempVec);
 				}
 				else
 				{
 					if (rand()%100 <= 20)
 						effectDirection = Vec3((float)(rand() % 120) - 60, (float)(rand() % 120) - 60, (float)(rand() % 120) - 60);
-					tempVec = Vec3(tempVec.x + _dt * effectDirection.x,
-									tempVec.y + _dt * effectDirection.y,
-									tempVec.z + _dt * effectDirection.z);
+					tempVec = Vec3( tempVec.x + dt * effectDirection.x,
+									tempVec.y + dt * effectDirection.y,
+									tempVec.z + dt * effectDirection.z);
 					camera->setPosition(tempVec);
 				}
 
@@ -574,7 +574,7 @@ namespace Logic
 				break;
 			objectCore->ball.push_back(new Ball());
 			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());
-			objectCore->ball.back()->setDirection((rand() % 200) - 100, (rand() % 200) - 100, 0);
+			objectCore->ball.back()->setDirection((float)((rand() % 200) - 100), (float)((rand() % 200) - 100), 0);
 			objectCore->ball.back()->setModelID(2);
 			objectCore->ball.back()->setTextureID(objectCore->ball.at(i)->getTextureID());
 		}

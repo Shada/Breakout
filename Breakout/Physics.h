@@ -84,12 +84,12 @@ namespace Logic
 		Vec3 dir = _ball->getDirection();
 
 		float speed = _ball->getSpeed();
-		/*float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
+		//float a = speed * dir.x * speed * dir.x + speed * dir.y * speed * dir.y;
 		float b = 2 * (dir.x * speed * (lastBallPos.x - objPos.x));
-		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y);
+		//float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y);
 
-		float d = 4 * a * (c - radius * radius);
-		float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));*/
+		//float d = 4 * a * (c - radius * radius);
+		//float delta = abs(_min(-b + sqrt(abs(2 * b * b - d)), -b - sqrt(abs(2 * b * b - d))) / (2 * a));
 		float bx = (ballPos.x - lastBallPos.x) / (dir.x * speed);
 		float by = (ballPos.y - lastBallPos.y) / (dir.y * speed);
 		float t = sqrt(bx * bx + by * by);
@@ -98,7 +98,7 @@ namespace Logic
 		float dy = speed * dir.y;
 
 		float a = dx * dx + dy * dy;
-		float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
+		//float b = 2 * (lastBallPos.x - objPos.x) * dx + 2 * (lastBallPos.y - objPos.y) * dy;
 		float c = (lastBallPos.x - objPos.x) * (lastBallPos.x - objPos.x) + (lastBallPos.y - objPos.y) * (lastBallPos.y - objPos.y) - radius * radius;
 		float d = b * b - 4 * a * c;
 
@@ -359,13 +359,26 @@ namespace Logic
 				float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
 				float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
 			
-				if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
+				if(ballPos.x + radius * ballDir.x > _min(p1.x, p2.x) && ballPos.x - radius * ballDir.x < _max(p1.x, p2.x))
 				{
-					Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
-					Vec3 newDir = planeReflection(_ball->getDirection(), padRot);
-					newDir.normalize();
-					_ball->setDirection(newDir.x, newDir.y, 0);
-					return true;
+					float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
+					float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
+   
+					if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
+					{
+						float collidePosY = yIntersect + radius;
+						float length = (collidePosY - ballPos.y) / cos(ballDir.x);
+						Vec3 lastBallPos = _ball->getLastFrame();
+						Vec3 outPos = Vec3(lastBallPos.x + ballDir.x * ((lastBallPos - ballPos).length() - length), collidePosY, 0);
+
+						Vec3 padRot = Vec3(cos(zrot + (float)(PI / 2)), sin(zrot + (float)(PI / 2)), 0);
+						Vec3 newDir = normalize(planeReflection(_ball->getDirection(), padRot));
+
+						outPos = Vec3(outPos.x + length * newDir.x, outPos.y - length * newDir.y, 0);
+						_ball->setPosition(outPos);
+						_ball->setDirection(newDir.x, newDir.y, 0);
+						return true;
+					}
 				}
 			}
 		}
@@ -446,7 +459,7 @@ namespace Logic
 		Vec3 result;
 
 		float diff = _pos.x/(float)borderMaxX;
-		float par = diff * 2 * PI;
+		float par = diff * 2 * (float)PI;
 		float sin = sinf(par);
 		float cos = cosf(par);
 		
