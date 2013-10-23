@@ -125,7 +125,7 @@ struct MinorEffect
 
 #define PI 3.14159265359
 #define SCRWIDTH 1920
-#define SCRHEIGHT 1080
+#define SCRHEIGHT 1200
 #define FULLSCR 0
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x)	if(x){ delete(x);		(x) = NULL; }

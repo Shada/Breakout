@@ -16,7 +16,7 @@ namespace Logic
 	{
 	private:
 		static Physics	*physics;
-		Physics(){ borderMaxX = 500; borderMaxY = 200; cylRadius = 150; }
+		Physics(){ borderMaxX = 500; borderMaxY = 700; cylRadius = 150; }
 
 		int borderMaxX;
 		int borderMaxY;
@@ -32,7 +32,7 @@ namespace Logic
 		}
 		~Physics(){}
 
-		void setBorderMaxX(int _x){ borderMaxX = _x;}
+		void setBorderMaxX(int _x){	borderMaxX = _x;}
 		void setBorderMaxY(int _y){ borderMaxY = _y;}
 		int getBorderX(){ return borderMaxX; }
 		int getBorderY(){ return borderMaxY; }
@@ -405,8 +405,8 @@ namespace Logic
 		Vec3 bottomLeft		= center - (up * (height/2)) - (right * (width/2));
 		Vec3 bottomRight	= center - (up * (height/2)) + (right * (width/2));
 
-		borderMaxX = (int)topRight.x;
-		borderMaxY = (int)topRight.y;
+		setBorderMaxX((int)topRight.x);
+		setBorderMaxY((int)topRight.y);
 	}
 
 	inline Vec3 calculateCenter(Vec3 _topLeft, Vec3 _topRight, Vec3 _bottomLeft, Vec3 _bottomRight)
@@ -421,7 +421,7 @@ namespace Logic
 	}
 
 	/* This assumes you get a flat, rectangular plane. */
-	inline Vec3 fitToScreen(Vec3 _targetTopLeft, Vec3 _targetTopRight, Vec3 _targetBottomLeft, Vec3 _targetBottomRight, float _aspectRatio = (4.f/3.f))
+	inline Vec3 fitToScreen(Vec3 _targetTopLeft, Vec3 _targetTopRight, Vec3 _targetBottomLeft, Vec3 _targetBottomRight, float _aspectRatio)
 	{
 		Vec3 pCenter = calculateCenter(_targetTopLeft, _targetTopRight, _targetBottomLeft, _targetBottomRight);
 

@@ -8,6 +8,11 @@
 
 namespace Logic
 {
+
+	static float maxX = 800;
+	static float maxY = 500;
+	static Vec2 leftUI, rightUI;
+
 	int Gameplay::startEffect = 0;
 	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys)
 	{
@@ -35,6 +40,8 @@ namespace Logic
 		GraphicsOGL4::getInstance()->setObjectCore(objectCore);
 		#endif
 
+		leftUI = Vec2(400 * (maxX/SCRWIDTH), SCRHEIGHT);
+
 		this->setMaptype(objectCore->MapType::eWind);
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -42,11 +49,11 @@ namespace Logic
 		Logic::cart2Sph(Vec3(39,0,0));*/
 
 		//camera->setPosition(Logic::fitToScreen(Vec3(0,360,0), Vec3(660,360,0), Vec3(0,0,0), Vec3(660,0,0)));
-		camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+		camera->setPosition(physics->fitToScreen(Vec3(0 - leftUI.x, maxY, 0), Vec3(maxX - leftUI.x, maxY, 0), Vec3(0 - leftUI.x, 0, 0), Vec3(maxX - leftUI.x, 0, 0), maxX/maxY));
 		Vec3 lookAt = camera->getPosition();
 		lookAt.z = -lookAt.z;
 		camera->setLookAt(lookAt);
-		physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, (float)(4.f / 3));
+		physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, maxX/maxY);
 
 		
 		//inputHandler = handler;
@@ -69,10 +76,12 @@ namespace Logic
 
 		//inputHandler->setCamera(camera, keys);
 
+		leftUI.x = 400;
+
 		objectCore->uiBillboards.push_back(BBUI());
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).pos = Vec2(0,0);
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).rotation = 0;
-		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = Vec2(400,1080);
+		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).size = leftUI;
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).texIndex = 0;
 		objectCore->uiBillboards.at(objectCore->uiBillboards.size() - 1).tintAlpha = Vec4(0,0,0,1);
 
@@ -173,11 +182,12 @@ namespace Logic
 		}
 		else
 		{
-			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)
+			for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 				if(objectCore->ball.at(i)->getPosition().y < 0)
 				{
 					SAFE_DELETE(objectCore->ball.at(i));
 					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
+					i--;
 				}
 		}
 		
@@ -217,6 +227,12 @@ namespace Logic
 
 		if(GetAsyncKeyState(VK_NUMPAD7) != 0)
 			objectCore->pad->decreaseRotation(2);
+
+		if(GetAsyncKeyState(VK_NUMPAD1) != 0)
+			std::cout<<"X: "<<objectCore->pad->getPosition().x<<". Y: "<<objectCore->pad->getPosition().y<<std::endl;
+
+		if(GetAsyncKeyState(VK_NUMPAD2) != 0)
+			std::cout<<"X: "<<objectCore->ball.at(0)->getPosition().x<<". Y: "<<objectCore->ball.at(0)->getPosition().y<<std::endl;
 #endif
 		if(objectCore->bricks.size() == 0)
 		{
@@ -238,11 +254,10 @@ namespace Logic
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
 			
-			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
-			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z+10000));
+			//camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
+			//camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z+10000));
 			camera->setWaterLevel(waterLevel);
-			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z,(4.f / 3));
-			
+		
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
 			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
 			//Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.f / 3);
@@ -537,11 +552,18 @@ namespace Logic
 	{
 		if(objectCore->mapType != objectCore->MapType::eFire)
 		{
-			camera->setPosition(physics->fitToScreen(Vec3(0,768,0), Vec3(1024,768,0), Vec3(0,0,0), Vec3(1024,0,0)));
+			leftUI = Vec2(400 * (maxX/SCRWIDTH), SCRHEIGHT);
+			camera->setPosition(physics->fitToScreen(Vec3(0 - leftUI.x, maxY, 0), Vec3(maxX - leftUI.x, maxY, 0), Vec3(0 - leftUI.x, 0, 0), Vec3(maxX - leftUI.x, 0, 0), maxX/maxY));
 			Vec3 lookAt = camera->getPosition();
 			lookAt.z = -lookAt.z;
 			camera->setLookAt(lookAt);
+			physics->calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, maxX/maxY);
 			objectCore->pad->setRotation(Vec3(0,0,0));
+			leftUI = Vec2(400, SCRHEIGHT);
+		}
+		else
+		{
+			physics->setBorderMaxX(1300);
 		}
 		playerLives = 3;
 
