@@ -905,22 +905,24 @@ void GraphicsDX11::drawMenu()
 	immediateContext->IASetInputLayout(uiLayout);
 
 	cbWorld.world			= Matrix(	1,0,0,0,
-									0,1,0,0,
-									0,0,1,0,
-									0,0,0,1	);
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
 
 	cbWorld.worldInv		= Matrix(	1,0,0,0,
-									0,1,0,0,
-									0,0,1,0,
-									0,0,0,1	);
+										0,1,0,0,
+										0,0,1,0,
+										0,0,0,1	);
 	updateCBWorld( cbWorld );
 
-	immediateContext->PSSetShaderResources( 0,4, &textures.at( 41 ) );
+	immediateContext->PSSetShaderResources( 0,5, &textures.at( 41 ) );
 	
-	vertexAmount	= objectCore->gui.size() + 1;
-	startIndex		= 1;
+	vertexAmount	= objectCore->gui.size() + 3;
+	startIndex		= 2;
 
 	immediateContext->Draw( vertexAmount, startIndex );
+
+	immediateContext->Draw( 1, 1 );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text

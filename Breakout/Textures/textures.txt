@@ -52,4 +52,5 @@ Water/lavaGlowMap.png
 Textures/circle.png
 Textures/diamond.png
 Textures/logo.png
-Textures/protagonist.png
+Textures/protagonist2.png
+Textures/bgElement.png

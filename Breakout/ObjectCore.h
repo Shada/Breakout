@@ -46,6 +46,9 @@ namespace Logic
 		std::vector<UIElement>		gui;
 
 		UIElement					*selector;
+		UIElement					*logo;
+		UIElement					*loli;
+		UIElement					*circle;
 
 		ObjectCore();
 		~ObjectCore();

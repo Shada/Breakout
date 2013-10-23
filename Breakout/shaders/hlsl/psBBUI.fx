@@ -1,5 +1,5 @@
 #include "resource.fx"
-Texture2D texArray[4]		: register( t0 );
+Texture2D texArray[5]		: register( t0 );
 
 struct PS_Input
 {
@@ -12,11 +12,12 @@ struct PS_Input
 float4 ps(PS_Input input) :SV_TARGET0
 {
 	//stupid hlsl wont let me access the arrays directly with the input
-	float4 texColor[4];
+	float4 texColor[5];
 	texColor[0] = texArray[0].Sample(samLinear, input.texCoords );
 	texColor[1] = texArray[1].Sample(samLinear, input.texCoords );
 	texColor[2] = texArray[2].Sample(samLinear, input.texCoords );
 	texColor[3] = texArray[3].Sample(samLinear, input.texCoords );
+	texColor[4] = texArray[4].Sample(samLinear, input.texCoords );
 
-	return texColor[input.texIndex];// * input.tintAlpha;
+	return texColor[input.texIndex] * input.tintAlpha;// * input.tintAlpha;
 }
