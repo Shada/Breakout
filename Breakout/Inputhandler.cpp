@@ -12,10 +12,10 @@ void Inputhandler::setPad(Logic::Pad *_pad, std::vector<KeyBind> _keys)
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
 
-void Inputhandler::setCamera(Camera *_cam, std::vector<KeyBind2> _keys)
+void Inputhandler::setMenu(Logic::Menu *_men, std::vector<KeyBind2> _keys)
 {
-	cam.cam = _cam;
-	cam.keyBindings = _keys;
+	men.menu = _men;
+	men.keyBindings = _keys;
 
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
@@ -47,6 +47,7 @@ DInputhandler::DInputhandler(HWND *hWnd)
 	ShowCursor(true);
 	//SetCursorPos(setMouse.x, setMouse.y);
 	initMouse(hWnd);
+	initKeyboard(hWnd);
 
 	this->hWnd = *hWnd;
 
@@ -95,10 +96,18 @@ HRESULT DInputhandler::initMouse(HWND* hWnd)
 	return result;
 }
 
+void DInputhandler::setMenu(Logic::Menu *_men, std::vector<KeyBind2> _keys)
+{
+	men.menu = _men;
+	men.keyBindings = _keys;
+
+	prevKeyPressed = std::vector<bool>(_keys.size(), false);
+}
+
 void DInputhandler::update()
 {
-	//for(int i = 0; i < 256; i++)
-	//	prevKeyState[i] = keyState[i];
+	for(int i = 0; i < 256; i++)
+		prevKeyState[i] = keyState[i];
 
 	prevMouseState = mouseState;
 
@@ -107,10 +116,10 @@ void DInputhandler::update()
 		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 			mouseInput->Acquire();
 
-	//result = keyboardInput->GetDeviceState(256, (LPVOID)&keyState);
-	//if(FAILED(result))
-	//	if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
-	//		keyboardInput->Acquire();
+	result = keyboardInput->GetDeviceState(256, (LPVOID)&keyState);
+	if(FAILED(result))
+		if((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+			keyboardInput->Acquire();
 }
 
 void DInputhandler::updateGame()
@@ -144,9 +153,16 @@ void DInputhandler::updateMenu()
 {
 	update();
 
-	for(unsigned int i = 0; i < cam.keyBindings.size(); i++)
-		if((keyState[cam.keyBindings.at(i).keyCode] & 0x80) && !(prevKeyState[cam.keyBindings.at(i).keyCode] & 0x80))
-			cam.keyBindings.at(i).func(mouseState.lX, mouseState.lY);
+	for(unsigned int i = 0; i < men.keyBindings.size(); i++)
+	{
+		if(GetAsyncKeyState(men.keyBindings.at(i).keyCode) != 0 && !prevKeyPressed.at(i))
+		{
+			men.keyBindings.at(i).func(men.menu);
+			prevKeyPressed.at(i) = true;
+		}
+		else if(GetAsyncKeyState(men.keyBindings.at(i).keyCode) == 0 && prevKeyPressed.at(i))
+			prevKeyPressed.at(i) = false;
+	}
 }
 
 DInputhandler::~DInputhandler()

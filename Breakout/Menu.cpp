@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "ObjectCore.h"
+#include <iostream>
 
 namespace Logic
 {
@@ -48,6 +49,7 @@ namespace Logic
 	
 	void Menu::open()
 	{
+		if(!menuIsActive) menuIsActive = true;
 		if(optionAmount > 0)
 		{
 			Action2D action;
@@ -103,6 +105,7 @@ namespace Logic
 
 	void Menu::close()
 	{
+		menuIsActive = false;
 		if(optionAmount > 0)
 		{
 			Vec2 desu = Vec2(0, ( SCRHEIGHT - 200 ) / optionAmount);
@@ -145,7 +148,22 @@ namespace Logic
 		objectCore->circle->updateBufferData();
 	}
 
-	void Menu::moveUp()
+	void Menu::moveUp(Menu *_menu)
+	{
+		_menu->_moveUp();
+	}
+
+	void Menu::moveDown(Menu *_menu)
+	{
+		_menu->_moveDown();
+	}
+
+	void Menu::confirm(Menu *_menu)
+	{
+		_menu->_confirm();
+	}
+
+	void Menu::_moveUp()
 	{
 		if(selection <= 0)
 			selection = optionAmount - 1;
@@ -154,7 +172,7 @@ namespace Logic
 		open();
 	}
 
-	void Menu::moveDown()
+	void Menu::_moveDown()
 	{
 		if(selection >= optionAmount - 1)
 			selection = 0;
@@ -164,30 +182,38 @@ namespace Logic
 		open();
 	}
 
-	void Menu::confirm()
+	void Menu::_confirm()
 	{
-		Vec2 desu = Vec2(0, ( SCRHEIGHT - 200 ) / optionAmount);
-		Action2D action(	Vec2( 200, 100 ) + desu * selection,
+		Vec2 moveDistance = Vec2(0, ( SCRHEIGHT - 200 ) / optionAmount);
+		Action2D action(	Vec2( 200, 100 ) + moveDistance * selection,
 									Vec2(1.3f,1.3f),
 									1.0f,
 									Vec4(1,1,1,1),
 									0.1f,
 									3 );
 		objectCore->optionList.at(selection).addAction(action);
-		action = Action2D(	Vec2( 200, 100 ) + desu * selection,
+		action = Action2D(	Vec2( 200, 100 ) + moveDistance * selection,
 									Vec2(1.1f,1.1f),
 									1.0f,
 									Vec4(1,1,0,0.5),
 									0.05f,
 									3 );
 		objectCore->optionList.at(selection).addAction(action);
-		action = Action2D(	Vec2( 200, 100 ) + desu * selection,
+		action = Action2D(	Vec2( 200, 100 ) + moveDistance * selection,
 									Vec2(1.3f,1.3f),
 									1.0f,
 									Vec4(1,1,1,1),
 									0.05f,
 									3 );
 		objectCore->optionList.at(selection).addAction(action);
+
+		if(selection == 0)
+		{
+			close();
+			Global::getInstance()->gameState = GAME_PLAY;
+		}
+		if(selection == objectCore->optionList.size() - 1)
+			exit(0);
 
 		open();
 	}

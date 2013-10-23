@@ -21,9 +21,14 @@ namespace Logic
 		menu->addOption("Exit");
 		menu->open();
 
+		std::vector<KeyBind2> keys;
+		keys.push_back(KeyBind2(KC_UP, &menu->moveUp));
+		keys.push_back(KeyBind2(KC_DOWN, &menu->moveDown));
+		keys.push_back(KeyBind2(KC_RETURN, &menu->confirm));
 
 		gameplay		= new Gameplay(inputHandler, soundSystem, objectCore);
 		inputHandler	= handler;
+		inputHandler->setMenu(menu, keys);
 		
 		Resources::LoadHandler::getInstance();
 
@@ -44,7 +49,7 @@ namespace Logic
 		}
 		case GAME_MENU:
 			inputHandler->updateMenu();
-			if(GetAsyncKeyState(VK_DOWN) != 0)
+			/*if(GetAsyncKeyState(VK_DOWN) != 0)
 			{
 				menu->moveDown();
 			}
@@ -54,11 +59,13 @@ namespace Logic
 			}
 			else if(GetAsyncKeyState(VK_SPACE) != 0 || GetAsyncKeyState(VK_RETURN) != 0)
 			{
-				menu->confirm();
-				if(menu->getSelectedOptionInt() == 0)
-					menu->close();
-			}
+				menu->confirm();*/
+				//if(menu->getSelectedOptionInt() == 0)
+				//	menu->close();
+			//}
 			menu->update(_dt);
+			if(!menu->isOpen())
+				Global::getInstance()->gameState = GAME_PLAY;
 			break;
 		}
 	}
