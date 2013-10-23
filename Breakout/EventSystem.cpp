@@ -20,7 +20,7 @@ namespace Logic
 	int EventSystem::Update(double dt)
 	{
 		spawnTimer += dt;
-		if (spawnTimer * leveldifficulty * 0.5 >= nextSpawn)
+		if (spawnTimer + (spawnTimer * leveldifficulty * 0.1) >= nextSpawn)
 		{
 			spawnTimer = 0;
 			nextSpawn = rand() % 20 + 10;
@@ -42,36 +42,34 @@ namespace Logic
 					return 2;
 
 			case 1: //1 = Wind
-				if(tempType <= 10)
-					return 1;
-				else if(tempType <= 30)
+				if(tempType <= 40)
 					return 1;
 				else
-					return 1;
+					return 2;
 
 			case 2: //2 = Water
-				if(tempType <= 10)
+				if(tempType <= 20)
 					return 1;
-				else if(tempType <= 45)
-					return 1;
+				else if(tempType <= 65)
+					return 2;
 				else
-					return 1;
+					return 0;
 
 			case 3: //3 = Fire
-				if(tempType <= 15)
-					return 1;
-				else if(tempType <= 35)
-					return 1;
+				if(tempType <= 35)
+					return 4;
+				else if(tempType <= 85)
+					return 5;
 				else
-					return 1;
+					return 0;
 
 			case 4: //4= Earth
-				if(tempType <= 10)
-					return 1;
-				else if(tempType <= 45)
-					return 1;
+				if(tempType <= 50)
+					return 5;
+				else if(tempType <= 55)
+					return 5;
 				else
-					return 1;
+					return 0;
 			}
 		}
 		return 0;

@@ -31,13 +31,15 @@ namespace Logic
 		EventSystem(int typeOfMap, int difficulty);
 		~EventSystem();
 		int Update(double dt);
+		
+		void setTypeOfMap(int typeOfMap){mapType = typeOfMap;}
+		void setDifficulty(int difficulty){leveldifficulty = difficulty;}
 
 	private:
 		int mapType;
 		int leveldifficulty;
 		int nextSpawn;
 		double spawnTimer;
-
 	};
 
 

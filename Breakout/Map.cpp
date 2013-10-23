@@ -37,6 +37,7 @@ namespace Logic
 			int difficulty = color.rgbBlue;
 			int c = lvlnum;
 			int r = difficulty;
+			lvlDifficulty = difficulty;
 
 
 

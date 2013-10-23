@@ -20,10 +20,10 @@ namespace Logic
 		play = ballPadCollided = createBall = false;
 
 		soundSystem = soundSys;
-		eventSystem = new EventSystem(0,5); // testvärde
 		srand ((unsigned)time(NULL));
 
 		playerLives = 3;
+		playerScore = 0;
 
 		effectStart = 0;
 		startEffectOld = 0;
@@ -89,7 +89,8 @@ namespace Logic
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		//soundSystem->PlayLoop(5);
-
+		
+		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
 		#ifndef _WIN32
 		GraphicsOGL4::getInstance()->initVertexBuffer();
@@ -127,10 +128,13 @@ namespace Logic
 
 			Vec3 padPos = objectCore->pad->getPosition();
 			padPos.y += 50;
+
 			padPos = physics->from2DToCylinder(padPos, (float)(physics->getCylRadius() + 150), Vec3((float)physics->getBorderX() / 2, 0, 0));
-			
-			camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel(), 0));
+			if(effectTypeActive == 5)
+				camera->setPosition(Vec3(padPos.x + effectOriginal.x, padPos.y + effectOriginal.y, padPos.z + effectOriginal.z));
+			else
+				camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -280,6 +284,10 @@ namespace Logic
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
+					
+					playerScore += 1;
+					std::cout << "Score: " << playerScore << std::endl;
+						
 				}
 				//else
 					//std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
@@ -326,14 +334,12 @@ namespace Logic
 		objectCore->testText->update( _dt );
 
 		//if(play)
-		/*if (effectStart == 0)
-			effectStart = eventSystem->Update(_dt);*/
+		if (effectStart == 0 && effectTypeActive == 0)
+			effectStart = eventSystem->Update(_dt);
 
 		if (effectStart != 0 && effectTypeActive == 0)//Start av effekter
 		{
 			#pragma region effects
-
-			//effectStart = 14; //TEST
 			std::cout << "effect started: ";
 			if (effectStart == 1) //Zapper
 			{
@@ -367,7 +373,8 @@ namespace Logic
 			{
 				objectCore->pad->startSlow();
 				effectTypeActive = 5;
-				effectOriginal = camera->getPosition();
+				//effectOriginal = camera->getPosition();
+				effectOriginal = Vec3(0,0,0);
 				effectTimer = 3.5;
 				effectDirection = Vec3((float)(rand() % 100) - 50, (float)(rand() % 100) - 50, (float)(rand() % 100) - 50);
 				soundSystem->Play(19, 1.5);
@@ -477,26 +484,26 @@ namespace Logic
 
 				if (effectTimer < 1)
 				{
-					tempVec = Vec3( tempVec.x * (1 - dt*10) + dt*10 * effectOriginal.x,
-									tempVec.y * (1 - dt*10) + dt*10 * effectOriginal.y,
-									tempVec.z * (1 - dt*10) + dt*10 * effectOriginal.z);
-					camera->setPosition(tempVec);
+					effectOriginal = Vec3(effectOriginal.x * (1 -_dt*10),
+										  effectOriginal.y * (1 -_dt*10),
+										  effectOriginal.z * (1 -_dt*10));
+					camera->setPosition(tempVec + effectOriginal);
 				}
 				else
 				{
 					if (rand()%100 <= 20)
 						effectDirection = Vec3((float)(rand() % 120) - 60, (float)(rand() % 120) - 60, (float)(rand() % 120) - 60);
-					tempVec = Vec3( tempVec.x + dt * effectDirection.x,
-									tempVec.y + dt * effectDirection.y,
-									tempVec.z + dt * effectDirection.z);
-					camera->setPosition(tempVec);
+					effectOriginal = Vec3(effectOriginal.x + _dt * effectDirection.x,
+										effectOriginal.y + _dt * effectDirection.y,
+										effectOriginal.z + _dt * effectDirection.z);
+					camera->setPosition(tempVec + effectOriginal);
 				}
 
 				if (effectTimer < 0)
 				{
 					effectTimer = 0;
 					effectTypeActive = 0;
-					camera->setPosition(effectOriginal);
+					//camera->setPosition(effectOriginal);
 				}
 			}
 			#pragma endregion
@@ -508,6 +515,8 @@ namespace Logic
 
 	void Gameplay::nextMap()
 	{
+		
+		std::cout << "Final score: " << playerScore << std::endl;
 		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
 		currentMapIndex++;
 		if(currentMapIndex >= noMaps)
@@ -541,6 +550,9 @@ namespace Logic
 		}
 		
 		playerLives = 3;
+		playerScore = 0;
+		eventSystem->setTypeOfMap(mapLoading->getMapType());
+		eventSystem->setDifficulty(mapLoading->getLvlDifficulty());
 
 		if(objectCore->ball.size() > 1)
 			for(unsigned int i = objectCore->ball.size() - 1; i > 0; i--)

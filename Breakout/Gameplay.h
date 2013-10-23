@@ -38,6 +38,7 @@ namespace Logic
 		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
 		
+		int playerScore;
 		int playerLives, fps, prevFps;
 		
 		Inputhandler *inputHandler;
