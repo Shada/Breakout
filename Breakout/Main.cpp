@@ -14,14 +14,14 @@ int main(int argc, char* argv[])
 #ifdef _WIN32
 	wh = new Winhandler();
 #else
-	printf("running: %s\n\n", argv[0]);
 	std::string path = argv[0];
 #ifdef _DEBUG
 	path = path.substr(0, path.length() - 18);
 #else
 	path = path.substr(0, path.length() - 20);
 #endif
-	linuxPath = path;
+	printf("path: %s\n\n", path.c_str());
+	ExecPath::linuxPath = path;
 	wh = new Linuxhandler();
 #endif
 

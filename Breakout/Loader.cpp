@@ -22,7 +22,7 @@ namespace Resources
 
         std::string filename = "";
 #ifndef _WIN32
-		filename = linuxPath;
+		filename = ExecPath::linuxPath;
 #endif // !_WIN32
 		filename += file;
 
@@ -210,7 +210,7 @@ namespace Resources
 	{
         std::string filename = "";
 #ifndef _WIN32
-        filename = linuxPath;
+        filename = ExecPath::linuxPath;
 #endif // ! _WIN32
 
 		filename += file;

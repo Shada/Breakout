@@ -6,8 +6,14 @@
 #include <string>
 #include "linearalgebra.h"
 
-static std::string linuxPath;
+#ifndef _WIN32
 
+struct ExecPath
+{
+    static std::string linuxPath;
+};
+
+#endif
 struct Vertex
 {
     Vec3 pos;

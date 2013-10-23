@@ -12,11 +12,13 @@ namespace Resources
 		loader = 0;
 		loader = new Loader();
 		char file[256];
+        std::string path;
 
 #ifdef _WIN32
         std::ifstream myfile ("Objects/object.txt");
 #else
-        std::ifstream myfile (linuxPath + "Objects/object.txt");
+        path = ExecPath::linuxPath + "Objects/object.txt";
+        std::ifstream myfile (path);
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -33,7 +35,7 @@ namespace Resources
 #ifdef _WIN32
 		myfile.open("Maps/map.txt");
 #else
-        myfile.open(linuxPath + "Maps/map.txt");
+        myfile.open(ExecPath::linuxPath + "Maps/map.txt");
 #endif // _WIN32
 		if (myfile.is_open())
 		{
@@ -50,7 +52,7 @@ namespace Resources
 #ifdef _WIN32
 		myfile.open("Textures/textures.txt");
 #else
-        myfile.open(linuxPath + "Textures/textures.txt");
+        myfile.open(ExecPath::linuxPath + "Textures/textures.txt");
 #endif // _WIN32
 
 		if (myfile.is_open())
