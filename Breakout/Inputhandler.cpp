@@ -42,10 +42,10 @@ DInputhandler::DInputhandler(HWND *hWnd)
 
 	RECT lp;
 	GetWindowRect(*hWnd, &lp);
-	//setMouse.x = lp.left + 400;
-	//setMouse.y = lp.top + 400;
-	ShowCursor(true);
-	//SetCursorPos(setMouse.x, setMouse.y);
+	setMouse.x = lp.left + 400;
+	setMouse.y = lp.top + 400;
+	ShowCursor(false);
+	SetCursorPos(setMouse.x, setMouse.y);
 	initMouse(hWnd);
 	initKeyboard(hWnd);
 
@@ -142,9 +142,9 @@ void DInputhandler::updateGame()
 
 	RECT r;
 	GetWindowRect(hWnd, &r);
-	//setMouse.x = r.left + 400;
-	//setMouse.y = r.top + 400;
-	//SetCursorPos(setMouse.x, setMouse.y);
+	setMouse.x = r.left + 400;
+	setMouse.y = r.top + 400;
+	SetCursorPos(setMouse.x, setMouse.y);
 
 	pad.pad->updateWorld();
 }

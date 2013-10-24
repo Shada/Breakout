@@ -106,7 +106,7 @@ namespace Logic
 		if(objectCore->mapType == ObjectCore::MapType::eFire)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
-		//soundSystem->PlayLoop(5);
+		soundSystem->PlayLoop(5);
 		
 		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
