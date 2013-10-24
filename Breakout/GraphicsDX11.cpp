@@ -917,9 +917,17 @@ void GraphicsDX11::drawGame()
 									0,0,0,1	);
 	updateCBWorld( cbWorld );
 
-	immediateContext->PSSetShaderResources( 0,5,&textures.at( 8 ) );
-	vertexAmount	= 1;
-	startIndex		= objectCore->uiBillboards.size() - 1;
+	immediateContext->PSSetShaderResources( 0,4,&textures.at( 8 ) );
+	immediateContext->PSSetShaderResources( 4,1,&textures.at( 50 ) );
+	vertexAmount	= objectCore->uiBillboards.size();
+	startIndex		= 0;
+
+	immediateContext->Draw( 2, startIndex );
+
+	immediateContext->PSSetShaderResources( 0,1,&textures.at( 51 ) );
+
+	startIndex	= objectCore->healthSymbol->getBufferIndex();
+	vertexAmount = 1;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 
@@ -1007,11 +1015,11 @@ void GraphicsDX11::drawMenu()
 	immediateContext->PSSetShaderResources( 0,5, &textures.at( 41 ) );
 	
 	vertexAmount	= objectCore->gui.size() + 3;
-	startIndex		= 2;
+	startIndex		= 5;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 
-	immediateContext->Draw( 1, 1 );
+	immediateContext->Draw( 1, 3 );
 
 	//--------------------------------------------------------------------------------
 	//                                     Text

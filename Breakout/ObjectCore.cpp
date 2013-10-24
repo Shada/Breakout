@@ -27,7 +27,11 @@ namespace Logic
 		testText->setFont(testFont);
 		testText->setTextData(0, 10);
 
-		SideBar	= new UIElement( &uiBillboards, 0, Vec2(0,0), Vec2(400,1080), 0, Vec4(1,1,1,1) );
+		lives	= new Text(&fontBillboards, "x", fontBillboards.size(), Vec2(SCRWIDTH-150, 100) );
+
+		sideBar	= new UIElement( &uiBillboards, 0, Vec2(0,0), Vec2(400,SCRHEIGHT), 0, Vec4(1,1,1,1) );
+		statusBar = new UIElement( &uiBillboards, 4, Vec2(SCRWIDTH-300, 0), Vec2(300, SCRHEIGHT),0.0f, Vec4(1,1,1,1) );
+		healthSymbol = new UIElement( &uiBillboards, 0, Vec2(SCRWIDTH-280, 100), Vec2(115, 55), 0, Vec4(1,1,1,1) );
 
 	}
 
@@ -55,5 +59,13 @@ namespace Logic
 			SAFE_DELETE(effects.at(i));
 		SAFE_DELETE(testFont);
 		SAFE_DELETE(testText);
+		SAFE_DELETE(sideBar);
+		SAFE_DELETE(statusBar);
+		SAFE_DELETE(selector);
+		SAFE_DELETE(logo);
+		SAFE_DELETE(loli);
+		SAFE_DELETE(circle);
+		SAFE_DELETE(healthSymbol);
+		//SAFE_DELETE(highscore);
 	}
 }

@@ -35,11 +35,16 @@ namespace Logic
 
 		Font					*testFont;
 		Text					*testText;
+
+		Text					*lives;
+		Text					*highscore;
 		
 		Water					*water;
 		Skybox					*skybox;
 
-		UIElement				*SideBar;
+		UIElement				*sideBar;
+		UIElement				*statusBar;
+		UIElement				*healthSymbol;
 
 		//----------------------------------
 		//menu
