@@ -282,6 +282,11 @@ namespace Logic
 
 		// check collision between a ball and the bricks, will return the id of any brick the ball has
 		// collided with, if no collision then -1 is returned
+		for(unsigned int i = 0; i <objectCore->bricks.size(); i++)
+		{
+			if(physics->padBrickCollision(objectCore->pad, objectCore->bricks.at(i)))
+				break;
+		}
 
 		if(!play)
 			return;
@@ -535,8 +540,9 @@ namespace Logic
 			}
 			#pragma endregion
 		}
+		
 
-			if(objectCore->bricks.size() == 0)
+		if(objectCore->bricks.size() == 0)
 		{
 			nextMap();
 			this->setMaptype(mapLoading->getMapType());

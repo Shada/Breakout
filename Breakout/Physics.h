@@ -347,6 +347,54 @@ namespace Logic
 
 	}
 
+	inline bool padBrickCollision(Pad* _pad, Brick* _brick)
+	{
+		Vec3 padPos = _pad->getPosition();
+		Vec3 prevPadPos = _pad->getPrevPos();
+		Vec3 brickPos = _brick->getPosition();
+		float width = _brick->getWidth();
+		float height  = _brick->getHeight();
+		float radius = _pad->getRadius();
+		Vec3 padScale = _pad->getScale();
+
+		float zrot = _pad->getOrientation();
+		Vec3 p1 = Vec3(-padScale.y * radius, 0, 0), p2 = Vec3(padScale.y * radius, 0, 0), p3 = Vec3(0, -padScale.x * radius * 0.5f, 0), p4 = Vec3(0, padScale.x * radius * 0.5f, 0);
+
+
+		//if(_min(padPos.x, prevPadPos.x) < brickPos.x && _max(padPos.x, prevPadPos.x) > brickPos.x)
+		//	padPos.x = padPos.x > brickPos.x ? brickPos.x - width / 2 : brickPos.x + width / 2;
+
+		//rotate p1 and p2
+		Matrix rot; rotationAxis(rot, Vec3(0, 0, 1), zrot);
+		p1 = rot * p1;
+		p2 = rot * p2;
+		p3 = rot * p3;
+		p4 = rot * p4;
+
+
+		p1 += padPos; p2 += padPos;
+		p3 += padPos; p4 += padPos;
+		p1.y += padScale.x * radius; p2.y += padScale.x * radius;
+		p3.x -= padScale.y * radius; p4.x -= padScale.y * radius;
+
+		Vec3 b[4] = { brickPos, brickPos, brickPos, brickPos};
+		b[0].x -= width / 2; b[0].y += height / 2;
+		b[1].x += width / 2; b[1].y += height / 2;
+		b[2].x -= width / 2; b[2].y -= height / 2;
+		b[3].x += width / 2; b[3].y -= height / 2;
+
+		for(int c = 0; c < 4; c++)
+		{
+			if(b[c].x > _min(_min(p1.x, p3.x), _min(p2.x, p4.x)) && b[c].x < _max(_max(p1.x, p3.x), _max(p2.x, p4.x)))
+				if(b[c].y > _min(_min(p1.y, p2.y), _min(p3.y, p4.y)) && b[c].y < _max(_max(p1.y, p2.y), _max(p3.y, p4.y)))
+				{
+					_pad->setPosition(prevPadPos);
+					return true;
+				}
+		}
+		return false;
+	}
+
 #pragma endregion
 
 #pragma region Gravitation
