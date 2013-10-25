@@ -134,22 +134,39 @@ namespace Logic
 
 		static bool isPressed = false;
 
+		if(objectCore->getMapType() == ObjectCore::MapType::eWind)
+		{
+			Vec3 oldPos = camera->getPosition();
+			camera->setPosition(Vec3(oldPos.x, 150, oldPos.z));
+			camera->setLookAt(Vec3(oldPos.x, 100, 10000));
+			physics->setBorderMaxY(maxY / 2 + 150);
+		}
+
 		if(objectCore->getMapType() == ObjectCore::MapType::eFire)
 		{
+			float h = objectCore->bricks.at(0)->getHeight();
+			for(unsigned int i = 0; i < objectCore->bricks.size(); i++)
+				if(objectCore->bricks.at(i)->getPosition().y + h < objectCore->water->getWaterLevel())
+				{
+					SAFE_DELETE(objectCore->bricks.at(i));
+					objectCore->bricks.erase(objectCore->bricks.begin() + i, objectCore->bricks.begin() + i + 1);
+					i--;
+				}
+
 			objectCore->pad->updateCylinder(_dt);
 			objectCore->water->update(_dt);
 			Vec3 oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
 
 			Vec3 padPos = objectCore->pad->getPosition();
-			padPos.y += 50;
+			padPos.y += 200;
 
-			padPos = physics->from2DToCylinder(padPos, (float)(physics->getCylRadius() + 150), Vec3((float)physics->getBorderX() / 2, 0, 0));
+			padPos = physics->from2DToCylinder(padPos, (float)(physics->getCylRadius() + 200), Vec3((float)physics->getBorderX() / 2, 0, 0));
 			if(effectTypeActive == 5)
 				camera->setPosition(Vec3(padPos.x + effectOriginal.x, padPos.y + effectOriginal.y, padPos.z + effectOriginal.z));
 			else
 				camera->setPosition(Vec3(padPos.x, padPos.y, padPos.z));
-			camera->setLookAt(Vec3 (physics->getBorderX()/2, 50 + objectCore->water->getWaterLevel() * 0.4f, 0));
+			camera->setLookAt(Vec3 (physics->getBorderX()/2, 75 + objectCore->water->getWaterLevel() * 0.4f, 0));
 		}
 		else
 			objectCore->pad->update(_dt);
@@ -170,7 +187,8 @@ namespace Logic
 				ballPadCollided = false;
 		}
 
-		if(objectCore->ball.size() == 1 && objectCore->ball.at(0)->getPosition().y < 0)
+		float padPosY = objectCore->pad->getPosition().y - 50;
+		if(objectCore->ball.size() == 1 && objectCore->ball.at(0)->getPosition().y < padPosY)
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
@@ -190,7 +208,7 @@ namespace Logic
 		else
 		{
 			for(unsigned int i = 0; i < objectCore->ball.size(); i++)
-				if(objectCore->ball.at(i)->getPosition().y < 0)
+				if(objectCore->ball.at(i)->getPosition().y < padPosY)
 				{
 					SAFE_DELETE(objectCore->ball.at(i));
 					objectCore->ball.erase(objectCore->ball.begin() + i, objectCore->ball.begin() + i + 1);
@@ -241,17 +259,7 @@ namespace Logic
 		if(GetAsyncKeyState(VK_NUMPAD2) != 0)
 			std::cout<<"X: "<<objectCore->ball.at(0)->getPosition().x<<". Y: "<<objectCore->ball.at(0)->getPosition().y<<std::endl;
 #endif
-		if(objectCore->bricks.size() == 0)
-		{
-			nextMap();
-			this->setMaptype(mapLoading->getMapType());
-		}
-
-		//Vec3 padPos = objectCore->pad->getPosition();
-
-		///////
-		//padPos.y += 100;
-		//padPos = Logic::from2DToCylinder(padPos, 100 + 150, Vec3(150, 0, 0));
+	
 
 		if(objectCore->getMapType() == ObjectCore::MapType::eWater)
 		{
@@ -265,9 +273,6 @@ namespace Logic
 			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z + 10000));
 			camera->setWaterLevel(waterLevel);
 			physics->setBorderMaxY(maxY / 2 + waterLevel + 75);
-			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));
-			//camera->setLookAt(Vec3(oldLookat.x,objectCore->water->getWaterLevel(),oldLookat.z));
-			//Logic::calculateCameraBorders(camera->getPosition(), -camera->getPosition().z, 4.f / 3);
 
 			oldPos = objectCore->pad->getPosition();
 			objectCore->pad->setPosition(Vec3(oldPos.x,objectCore->water->getWaterLevel(),oldPos.z));
@@ -531,6 +536,25 @@ namespace Logic
 			#pragma endregion
 		}
 
+			if(objectCore->bricks.size() == 0)
+		{
+			nextMap();
+			this->setMaptype(mapLoading->getMapType());
+		}
+		else
+		{
+			bool noneOverWater = true;
+			float h = objectCore->bricks.at(0)->getHeight();
+			for(unsigned int i = 0; i < objectCore->bricks.size() && noneOverWater; i++)
+				if(objectCore->bricks.at(i)->getPosition().y + h > objectCore->water->getWaterLevel())
+					noneOverWater = false;
+
+			if(noneOverWater)
+			{
+				nextMap();
+				this->setMaptype(mapLoading->getMapType());
+			}
+		}
 
 		//isPressed = GetAsyncKeyState(VK_NUMPAD0);
 	}
@@ -580,6 +604,7 @@ namespace Logic
 		else
 		{
 			physics->setBorderMaxX(1300);
+			physics->setBorderMaxY(350);
 		}
 
 		playerLives = 3;
@@ -613,7 +638,7 @@ namespace Logic
 		int ballSize = objectCore->ball.size();
 		for(int i = 0; i < ballSize; i++)
 		{
-			if(objectCore->ball.size() == 8)
+			if(objectCore->ball.size() == 32)
 				break;
 			objectCore->ball.push_back(new Ball());
 			objectCore->ball.back()->setPosition(objectCore->ball.at(i)->getPosition());

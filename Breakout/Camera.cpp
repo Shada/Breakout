@@ -10,7 +10,7 @@ Camera::Camera()
 	rotation = Vec3(0, 0, 0);
 	lookAt = Vec3(position.x,0,100);
 
-    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 600.f);
+    perspectiveFovLH(projectionMatrix, (float)PI * 0.5, (float)SCRWIDTH / SCRHEIGHT, 0.01f, 3000.f);
 
 	MatrixInversion(projectionInv, projectionMatrix);
 

@@ -151,7 +151,7 @@ int Winhandler::run()
 			DispatchMessage( &msg );
 		}
 
-		else// if(time > 0.01f)
+		else if(time > 0.014f)
 		{
 			fpsUpdate += time;
 			fps++;
@@ -241,7 +241,7 @@ int Linuxhandler::run()
 		fpsUpdate += time;
 		fps++;
 
-		if(time > 1.f / 600)
+		if(time > 0.0166666666f)
 		{
 			if(fpsUpdate >= 1)
 			{

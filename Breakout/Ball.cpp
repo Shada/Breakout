@@ -16,7 +16,7 @@ namespace Logic
 		radius = 3.09543991f;
 		activeEffect = 0;
 		direction.normalize();
-		speed = 100;
+		speed = 200;
 		srand((unsigned)time(NULL));
 	}
 
@@ -88,6 +88,9 @@ namespace Logic
 		if(_y != NULL) direction.y = _y;
 		if(_z != NULL) direction.z = _z;
 		direction.normalize();
+
+		if(direction.length() < 0.9 || direction.length() > 1.1)
+			int a = 0;
 	}
 
 	void Ball::startWind()

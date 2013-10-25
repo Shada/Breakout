@@ -18,7 +18,7 @@ namespace Logic
 		rotation	= Vec3(0, 0, 0);
 		scale		= Vec3(2.0f, 5.0f, 2.0f);
 
-		movementSpeed = 1.0f;
+		movementSpeed = 2.5f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
 		radius = 3.09544396f;
