@@ -334,7 +334,27 @@ void GraphicsOGL4::drawGame()
 	}
 	// disable vertex attributes
 	// (maybe should be in function, so that not to many of few attributes are disabled...)
-	glDisableVertexAttribArray(0);
+
+
+	// -------------------------------------------------------------------------------
+	//                                  effects
+	//--------------------------------------------------------------------------------
+
+	for(unsigned int i = 0; i < objectCore->effects.size(); i++)
+	{
+		cb.world = objectCore->effects.at(i)->getWorld();
+		cb.worldInv = objectCore->effects.at(i)->getWorldInv();
+		updateCBWorld(cb);
+
+		useTexture(objectCore->effects.at(i)->getTextureID(), diffuseTexID);
+
+		modelID				= objectCore->bricks.at(i)->getModelID();
+		vertexAmount		= lh->getModel( modelID )->getVertexAmount();
+		startIndex			= lh->getModel( modelID )->getStartIndex();
+
+		glDrawArrays(GL_TRIANGLES, startIndex, vertexAmount);
+	}
+    glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 

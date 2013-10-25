@@ -28,10 +28,10 @@ Textures/wind2.png
 Textures/wind3.png
 Textures/wind4.png
 
-Textures/water1.jpg
-Textures/water2.jpg
-Textures/water3.jpg
-Textures/water4.jpg
+Textures/water1.png
+Textures/water2.png
+Textures/water3.png
+Textures/water4.png
 
 Textures/fire1.png
 Textures/fire2.png
