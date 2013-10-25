@@ -42,11 +42,11 @@ namespace Logic
 	{
 		objectCore->optionList.push_back( Text( &objectCore->fontBillboards, text.c_str() ) );
 		objectCore->optionList.back().setFont(objectCore->testFont);
-		
+
 		objectCore->gui.push_back( UIElement( &objectCore->uiBillboards, 0 ) );
 		optionAmount++;
 	}
-	
+
 	void Menu::open()
 	{
 		if(!menuIsActive) menuIsActive = true;

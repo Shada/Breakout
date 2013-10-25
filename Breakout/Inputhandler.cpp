@@ -17,6 +17,8 @@ void Inputhandler::setMenu(Logic::Menu *_men, std::vector<KeyBind2> _keys)
 	men.menu = _men;
 	men.keyBindings = _keys;
 
+	prevKeyPressed = std::vector<bool>(_keys.size(), false);
+
 	//if size of listenerkeys != functions -> do something (like resize the big one to fit the small one and then warn the user)
 }
 
@@ -94,14 +96,6 @@ HRESULT DInputhandler::initMouse(HWND* hWnd)
 		return result;
 
 	return result;
-}
-
-void DInputhandler::setMenu(Logic::Menu *_men, std::vector<KeyBind2> _keys)
-{
-	men.menu = _men;
-	men.keyBindings = _keys;
-
-	prevKeyPressed = std::vector<bool>(_keys.size(), false);
 }
 
 void DInputhandler::update()
@@ -206,12 +200,16 @@ void GLInputhandler::updateGame()
 
 void GLInputhandler::updateMenu()
 {
-	int prevMouseX = mouseX;
-	glfwGetMousePos(&mouseX, &mouseY);
-
-	for(unsigned int i = 0; i < cam.keyBindings.size(); i++)
-		if(glfwGetKey(cam.keyBindings.at(i).keyCode) == GLFW_PRESS)
-			cam.keyBindings.at(i).func(mouseX, mouseY);
+	for(unsigned int i = 0; i < men.keyBindings.size(); i++)
+	{
+		if(glfwGetKey(men.keyBindings.at(i).keyCode) == GLFW_PRESS != 0 && !prevKeyPressed.at(i))
+		{
+			men.keyBindings.at(i).func(men.menu);
+			prevKeyPressed.at(i) = true;
+		}
+		else if(glfwGetKey(men.keyBindings.at(i).keyCode) != GLFW_PRESS)
+			prevKeyPressed.at(i) = false;
+    }
 }
 
 GLInputhandler::~GLInputhandler()

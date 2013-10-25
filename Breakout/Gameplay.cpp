@@ -20,7 +20,7 @@ namespace Logic
 		mapLoading = new Map();
 		inputHandler = _handler;
 		physics = Logic::Physics::getInstance();
-		
+
 		this->objectCore = objectCore;
 		play = ballPadCollided = createBall = false;
 
@@ -42,7 +42,7 @@ namespace Logic
 
 		leftUI = Vec2(400 * (maxX/SCRWIDTH), SCRHEIGHT);
 
-		this->setMaptype(objectCore->MapType::eWind);
+		this->setMaptype(ObjectCore::MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -102,7 +102,7 @@ namespace Logic
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
 		//soundSystem->PlayLoop(5);
-		
+
 		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
 		#ifndef _WIN32
@@ -306,10 +306,10 @@ namespace Logic
 					SAFE_DELETE(objectCore->bricks.at(collidingObject));
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
-					
+
 					playerScore += 1;
 					std::cout << "Score: " << playerScore << std::endl;
-						
+
 				}
 				//else
 					//std::cout << "Collided with a brick yo! But it is still alive!" << std::endl;
@@ -537,7 +537,7 @@ namespace Logic
 
 	void Gameplay::nextMap()
 	{
-		
+
 		std::cout << "Final score: " << playerScore << std::endl;
 		int noMaps = Resources::LoadHandler::getInstance()->getMapSize();
 		currentMapIndex++;

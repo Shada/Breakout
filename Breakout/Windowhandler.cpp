@@ -313,7 +313,7 @@ bool Linuxhandler::initWindow()
 	glfwEnable(GLFW_STICKY_KEYS);
 
 	// dark blue background color
-	glClearColor(0.f, 0.f, .4f, 0.f);
+	glClearColor(1.f, 0.5f, .0f, 0.f);
 
 	// enable face culling
     glEnable(GL_CULL_FACE);

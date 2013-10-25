@@ -39,7 +39,7 @@ void Text::appendTextToData()
 {
 	if(!font)
 	{
-		throw std::exception("No font selected.");
+		///throw std::exception("No font selected.");
 		return;
 	}
 	font->loadText(textData, text);

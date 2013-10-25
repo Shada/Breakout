@@ -1,11 +1,11 @@
 #version 430 core
 in vec2 UV;
-
+in vec4 tintAlpha;
 out vec4 color;
 
 uniform sampler2D textureSampler;
 
 void main()
 {
-	color = texture2D(textureSampler, UV);
+	color = texture2D(textureSampler, UV) * tintAlpha;
 }

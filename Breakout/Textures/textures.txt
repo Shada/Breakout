@@ -8,10 +8,10 @@ Fonts/blackwhite2.png
 Fonts/blackwhite3.png
 Fonts/blackwhite4.png
 
-Textures/windFrame.png
-Textures/waterFrame.png
-Textures/fireFrame.png
-Textures/earthFrame.png
+Textures/windFrame1.png
+Textures/waterFrame1.png
+Textures/fireFrame1.png
+Textures/earthFrame1.png
 
 Textures/pad1.png
 Textures/pad2.png
@@ -60,5 +60,5 @@ Textures/balleffect2.png
 Textures/balleffect3.png
 Textures/balleffect4.png
 
-Textures/statusFrame.png
+Textures/statusFrame1.png
 Textures/Lives.png

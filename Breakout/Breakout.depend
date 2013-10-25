@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Ball.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Ball.cpp
 	"Ball.h"
 	"Physics.h"
 
@@ -37,14 +37,14 @@
 1366286875 /usr/include/stdc-predef.h
 	<bits/predefs.h>
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Brick.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Brick.cpp
 	"Brick.h"
 	"Physics.h"
 
 1382515266 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Brick.h
 	"Object3D.h"
 
-1382518126 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Camera.cpp
 	"Camera.h"
 	"GraphicsDX11.h"
 
@@ -53,20 +53,20 @@
 	"linearalgebra.h"
 	"GraphicsOGL4.h"
 
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.cpp
 	"GameLogic.h"
 	"LoadHandler.h"
 	<iostream>
 	"Resource.h"
 
-1382515266 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.h
 	"Resource.h"
 	"Gameplay.h"
 	"SoundSystem.hpp"
 	<functional>
 	"Menu.h"
 
-1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Map.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Map.h
 	<vector>
 	"Ball.h"
 	"Pad.h"
@@ -77,11 +77,11 @@
 	"Object3D.h"
 	"Resource.h"
 
-1382442921 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Inputhandler.h
+1382699454 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Inputhandler.h
 	<vector>
 	<functional>
 	"Pad.h"
-	"Camera.h"
+	"Menu.h"
 	<dinput.h>
 	<GL/glew.h>
 	<GL/glfw.h>
@@ -144,16 +144,17 @@
 
 1347952914 /usr/include/GL/glu_mangle.h
 
-1382515700 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Physics.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Physics.h
 	"Ball.h"
 	<vector>
 	"ObjectCore.h"
 
-1382517383 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Resource.h
+1382690038 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Resource.h
 	<stdio.h>
 	<stdlib.h>
 	<string>
 	"linearalgebra.h"
+	"Global.h"
 
 1366286899 /usr/include/stdio.h
 	<features.h>
@@ -222,13 +223,13 @@
 	<endian.h>
 	<xlocale.h>
 
-1382517602 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.cpp
+1382690088 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.cpp
 	"Gameplay.h"
 	"GraphicsDX11.h"
 	"GraphicsOGL4.h"
 	<iostream>
 
-1382515266 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.h
 	"Model.h"
 	"Map.h"
 	"Inputhandler.h"
@@ -241,7 +242,7 @@
 	<cstdlib>
 	<time.h>
 
-1382442922 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsDX11.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsDX11.h
 	<d3dcompiler.h>
 	<d3d11.h>
 	<D3DX11.h>
@@ -249,6 +250,7 @@
 	"TechniqueHLSL.h"
 	"LoadHandler.h"
 	"ObjectCore.h"
+	"Menu.h"
 
 1382442922 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/TechniqueHLSL.h
 	"Resource.h"
@@ -257,16 +259,16 @@
 	<string>
 	<vector>
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsDX11.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsDX11.cpp
 	"GraphicsDX11.h"
 	<sstream>
 
-1382443443 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
+1382704397 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
 	"GraphicsOGL4.h"
 	"Resource.h"
 	<string>
 
-1382442921 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
+1382691472 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.h
 	<stdio.h>
 	<stdlib.h>
 	<GL/glew.h>
@@ -285,10 +287,10 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1382518035 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Inputhandler.cpp
+1382699454 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Inputhandler.cpp
 	"Inputhandler.h"
 
-1382517049 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Loader.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Loader.cpp
 	"Loader.h"
 	<string.h>
 
@@ -303,7 +305,7 @@
 	"Resource.h"
 	<vector>
 
-1382441215 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Texture.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Texture.h
 	"FreeImage.h"
 	<string>
 
@@ -319,7 +321,7 @@
 	<bits/string2.h>
 	<bits/string3.h>
 
-1382517073 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/LoadHandler.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/LoadHandler.cpp
 	"LoadHandler.h"
 	<iostream>
 	<fstream>
@@ -328,7 +330,7 @@
 1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/LoadHandler.h
 	"Loader.h"
 
-1382516990 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Main.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Main.cpp
 	<crtdbg.h>
 	"Windowhandler.h"
 	"Resource.h"
@@ -356,30 +358,30 @@
 	<bits/types.h>
 	<xlocale.h>
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Map.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Map.cpp
 	"Map.h"
 	"LoadHandler.h"
 
-1382442921 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Model.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Model.cpp
 	"Model.h"
 	"GraphicsDX11.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Pad.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Pad.cpp
 	"Pad.h"
 	"Physics.h"
 
-1382442922 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/TechniqueHLSL.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/TechniqueHLSL.cpp
 	"TechniqueHLSL.h"
 	"GraphicsDX11.h"
 
-1382441215 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Texture.cpp
+1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Texture.cpp
 	"Texture.h"
 	"Resource.h"
 
-1382441014 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Timer.cpp
+1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Timer.cpp
 	"Timer.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
+1382702709 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Windowhandler.cpp
 	"Windowhandler.h"
 	<iostream>
 	<fcntl.h>
@@ -396,7 +398,7 @@
 	<bits/stat.h>
 	<bits/fcntl2.h>
 
-1382515266 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/ObjectCore.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/ObjectCore.h
 	"Brick.h"
 	"Ball.h"
 	"Pad.h"
@@ -413,12 +415,13 @@
 1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Skybox.h
 	"Resource.h"
 
-1382442824 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Text.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Text.h
 	"Resource.h"
 	"Font.h"
 	"Object2D.h"
+	<iostream>
 
-1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Font.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Font.h
 	"Resource.h"
 	<iostream>
 	<fstream>
@@ -427,7 +430,7 @@
 	"Resource.h"
 	<list>
 
-1382441706 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/UIElement.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/UIElement.h
 	"Object2D.h"
 
 1382442922 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.h
@@ -437,16 +440,16 @@
 	<GL/glfw.h>
 	"Resource.h"
 
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/EventSystem.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/EventSystem.cpp
 	"EventSystem.h"
 	<cstdlib>
 	<time.h>
 
-1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/EventSystem.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/EventSystem.h
 	<cstdlib>
 	<time.h>
 
-1382442026 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Font.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Font.cpp
 	"Font.h"
 	<string.h>
 
@@ -471,44 +474,47 @@
 
 1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/inc/fmod_memoryinfo.h
 
-1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Menu.h
+1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Menu.h
 	"Resource.h"
 	"Text.h"
-
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Menu.cpp
-	"Menu.h"
+	"UIElement.h"
 	"ObjectCore.h"
 
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/MenuElement.cpp
+1382696343 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Menu.cpp
+	"Menu.h"
+	"ObjectCore.h"
+	<iostream>
+
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/MenuElement.cpp
 	"MenuElement.h"
 
 1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/MenuElement.h
 	"Resource.h"
 
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Object2D.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Object2D.cpp
 	"Object2D.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Object3D.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Object3D.cpp
 	"Physics.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ObjectCore.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ObjectCore.cpp
 	"ObjectCore.h"
 	"Resource.h"
 
-1382517106 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/ProgramGLSL.cpp
 	"ProgramGLSL.h"
 	<fstream>
 
-1382441214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Skybox.cpp
+1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Skybox.cpp
 	"Skybox.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Sound.cpp
+1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Sound.cpp
 	"Sound.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/SoundSystem.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/SoundSystem.cpp
 	"SoundSystem.hpp"
 
-1382442921 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Text.cpp
+1382690214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Text.cpp
 	"Text.h"
 	"GraphicsDX11.h"
 	"GraphicsOGL4.h"
@@ -516,10 +522,10 @@
 	<typeinfo>
 	<exception>
 
-1382441215 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/UIElement.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/UIElement.cpp
 	"UIElement.h"
 
-1382518226 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Water.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Water.cpp
 	"Water.h"
 	"GraphicsDX11.h"
 	"GraphicsOGL4.h"
@@ -527,12 +533,18 @@
 1382515266 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Effect.h
 	"Object3D.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Physics.cpp
+1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Physics.cpp
 	"Physics.h"
 
-1382515266 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Effect.cpp
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Effect.cpp
 	"Effect.h"
 
-1382517479 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Resource.cpp
+1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Resource.cpp
+	"Resource.h"
+
+1382690073 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Global.h
+
+1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Global.cpp
+	"Global.h"
 	"Resource.h"
 

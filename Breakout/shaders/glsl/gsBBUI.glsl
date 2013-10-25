@@ -10,8 +10,8 @@ in vec4		gtintAlpha[];
 in int		gtexIndex[];
 
 out vec2 UV;
-out vec4 tintAlpha;
-out int texIndex;
+out int ftexIndex;
+out vec4 ftintAlpha;
 
 layout(std140, binding = 0) uniform CameraOnce
 {
@@ -23,32 +23,35 @@ layout(std140, binding = 0) uniform CameraOnce
 
 void main()
 {
-	gl_Position	= vec4( gpos[0].x / resolution.x * 2 - 1, (gpos[0].y) / resolution.y * 2 - 1, 0, 1 );
-	//gl_Position = vec4(0,0,0,1);
-	tintAlpha = gtintAlpha[0];
-	UV	= vec2( 0, 0 );
-	texIndex = gtexIndex[0];
+    vec2 pos =  vec2( gpos[0].x, gpos[0].y );
+	vec2 size = vec2( gsize[0].x, gsize[0].y );
+
+	gl_Position = vec4( pos.x / resolution.x * 2 - 1,
+                (resolution.y - pos.y) / resolution.y * 2 - 1, 0, 1 );
+	ftintAlpha = gtintAlpha[0];
+	UV	= vec2( 0, 1 );
+	ftexIndex = gtexIndex[0];
 	EmitVertex();
 
-	gl_Position = vec4( gpos[0].x / resolution.x * 2 - 1, (gpos[0].y + gsize[0].y) / resolution.y * 2 - 1, 0, 1 );
-	//gl_Position = vec4(0,1,0,1);
-	tintAlpha = gtintAlpha[0];
-	UV = vec2( 0, 1 );
-	texIndex = gtexIndex[0];
+	gl_Position = vec4( pos.x / resolution.x * 2 - 1,
+                (resolution.y - pos.y - size.y) / resolution.y * 2 - 1, 0, 1 );
+	ftintAlpha = gtintAlpha[0];
+	UV = vec2( 0, 0 );
+	ftexIndex = gtexIndex[0];
 	EmitVertex();
 
-	gl_Position = vec4( (gpos[0].x + gsize[0].x) / resolution.x * 2 - 1, (gpos[0].y) / resolution.y * 2 - 1, 0, 1);
-	//gl_Position = vec4(1,0,0,1);
-	tintAlpha = gtintAlpha[0];
-	UV = vec2( 1, 0 );
-	texIndex = gtexIndex[0];
-	EmitVertex();
-
-	gl_Position = vec4( (gpos[0].x + gsize[0].x) / resolution.x * 2 - 1, (gpos[0].y + gsize[0].y) / resolution.y * 2 - 1, 0, 1 );
-	//gl_Position = vec4(1,1,0,1);
-	tintAlpha = gtintAlpha[0];
+	gl_Position = vec4( (pos.x + size.x) / resolution.x * 2 - 1,
+                (resolution.y-pos.y) / resolution.y * 2 - 1, 0, 1 );
+	ftintAlpha = gtintAlpha[0];
 	UV = vec2( 1, 1 );
-	texIndex = gtexIndex[0];
+	ftexIndex = gtexIndex[0];
+	EmitVertex();
+
+	gl_Position = vec4( (pos.x + size.x) / resolution.x * 2 - 1,
+                (resolution.y - pos.y - size.y ) / resolution.y * 2 - 1, 0, 1);
+	ftintAlpha = gtintAlpha[0];
+	UV = vec2( 1, 0 );
+	ftexIndex = gtexIndex[0];
 	EmitVertex();
 
 	EndPrimitive();

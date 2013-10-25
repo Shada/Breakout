@@ -1,7 +1,16 @@
-#pragma once
+#ifndef _GLOBAL_H_
+#define _GLOBAL_H_
+
+enum GameState
+{
+	GAME_MENU = 0,
+	GAME_PLAY = 1,
+	GAME_PLAYING = 2,
+};
 
 class Global
 {
+
 private:
 	static Global			*instance;
 	Global();
@@ -12,7 +21,8 @@ public:
 			instance = new Global();
 		return instance;
 	}
-	enum GameState	gameState;
 	~Global();
+	GameState	gameState;
 };
 
+#endif // ! _GLOBAL_H_

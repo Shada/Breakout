@@ -35,6 +35,7 @@ protected:
 
 	MenuControls men;
 	PadControls pad;
+	std::vector<bool>		prevKeyPressed;
 
 public:
 	Inputhandler();
@@ -60,7 +61,6 @@ private:
 	LPDIRECTINPUTDEVICE8	keyboardInput;
 	LPDIRECTINPUTDEVICE8	mouseInput;
 
-	std::vector<bool>		prevKeyPressed;
 	char					keyState[256], prevKeyState[256];
 	DIMOUSESTATE			mouseState, prevMouseState;
 

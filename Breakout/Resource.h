@@ -185,7 +185,7 @@ enum KeyCodes
 	KC_NUMPAD8		= 0x68,
 	KC_NUMPAD9		= 0x69,
 #else
-	KC_RETURN		= 0x126;
+	KC_RETURN		= 0x126,
 	KC_INSERT		= 0x128,
 	KC_DELETE		= 0x129,
 	KC_RIGHT		= 0x11E,
@@ -209,11 +209,5 @@ enum KeyCodes
 #endif
 };
 
-enum GameState
-{
-	GAME_MENU = 0,
-	GAME_PLAY = 1,
-	GAME_PLAYING = 2,
-};
 
 #endif // ! _RESOURCE_H_

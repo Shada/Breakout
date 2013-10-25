@@ -70,6 +70,8 @@
 		<Unit filename="GameLogic.h" />
 		<Unit filename="Gameplay.cpp" />
 		<Unit filename="Gameplay.h" />
+		<Unit filename="Global.cpp" />
+		<Unit filename="Global.h" />
 		<Unit filename="GraphicsDX11.cpp" />
 		<Unit filename="GraphicsDX11.h" />
 		<Unit filename="GraphicsOGL4.cpp" />

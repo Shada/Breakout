@@ -43,7 +43,12 @@ private:
 			heightMapID,
 			normMapID,
 			foamMapID,
-			quadTextureID;
+			quadTextureID,
+			UItex1ID,
+			UItex2ID,
+			UItex3ID,
+			UItex4ID,
+			UItex5ID;
 
 	//ConstantBuffers
 	GLuint	cbCameraOnce,
@@ -88,6 +93,8 @@ private:
 
 public:
 	void draw();
+	void drawGame();
+	void drawMenu();
 
 	static GraphicsOGL4 *getInstance();
 
