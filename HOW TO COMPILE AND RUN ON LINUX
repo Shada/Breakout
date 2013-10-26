@@ -1,0 +1,11 @@
+COMPILING
+From the top directory of the product, run the command
+
+$ make
+
+
+RUNNING
+The executable release version is located in Breakout/bin/Release.
+from Terminal run the following command:
+
+$ ./bin/Release/Breakout

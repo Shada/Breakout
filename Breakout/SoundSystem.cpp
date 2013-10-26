@@ -1,5 +1,6 @@
 #pragma once
 #include "SoundSystem.hpp"
+#include "Resource.h"
 //#include "DSPfilters.h"
 
 
@@ -28,11 +29,6 @@ void SoundSystem::Initialize()
 
 #ifdef _WIN32
 	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
-#else
-	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
-	//result = fmodSystem->init(32, FMOD_INIT_NORMAL, linuxExtraDriverData); //linuxExtraDriverData är tom för tillfället!
-#endif
-
 	sound[0].Initialize(fmodSystem, 0.5f, "Sounds/destination.mp3");
 	sound[1].Initialize(fmodSystem, 0.5f, "Sounds/midnight-ride.mp3");
 	sound[2].Initialize(fmodSystem, 0.5f, "Sounds/urban-spy-2.mp3");
@@ -53,6 +49,51 @@ void SoundSystem::Initialize()
 	sound[17].Initialize(fmodSystem, 1.0f, "Sounds/sound99.wav");
 	sound[18].Initialize(fmodSystem, 1.0f, "Sounds/sound95.wav");
 	sound[19].Initialize(fmodSystem, 1.0f, "Sounds/car-interior-1.mp3");
+#else
+	result = fmodSystem->init(32, FMOD_INIT_NORMAL, 0);
+	std::string songpath = ExecPath::linuxPath + "Sounds/destination.mp3"; char *filename = (char*)songpath.c_str();
+	sound[0].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/midnight-ride.mp3";filename = (char*)songpath.c_str();
+	sound[1].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/urban-spy-2.mp3";filename = (char*)songpath.c_str();
+	sound[2].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/barn-beat.mp3";filename = (char*)songpath.c_str();
+	sound[3].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/power-juice.mp3";filename = (char*)songpath.c_str();
+	sound[4].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/toko2.mp3";filename = (char*)songpath.c_str();
+	sound[5].Initialize(fmodSystem, 0.5f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/fail-trombone-01.mp3";filename = (char*)songpath.c_str();
+	sound[6].Initialize(fmodSystem, 0.9f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/Explosion large_BLASTWAVEFX_31097.mp3";filename = (char*)songpath.c_str();
+	sound[7].Initialize(fmodSystem, 0.9f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/switch-7.mp3";filename = (char*)songpath.c_str();
+	sound[8].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/switch-5.mp3";filename = (char*)songpath.c_str();
+	sound[9].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/sound4.mp3";filename = (char*)songpath.c_str();
+	sound[10].Initialize(fmodSystem, 0.8f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/Plink_06.mp3";filename = (char*)songpath.c_str();
+	sound[11].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/lake-waves-01.mp3";filename = (char*)songpath.c_str();
+	sound[12].Initialize(fmodSystem, 0.7f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/wind-howl-01.mp3";filename = (char*)songpath.c_str();
+	sound[13].Initialize(fmodSystem, 0.8f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/fire-1.mp3";filename = (char*)songpath.c_str();
+	sound[14].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/explosion-03.mp3";filename = (char*)songpath.c_str();
+	sound[15].Initialize(fmodSystem, 0.7f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/sound97.wav";filename = (char*)songpath.c_str();
+	sound[16].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/sound99.wav";filename = (char*)songpath.c_str();
+	sound[17].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/sound95.wav";filename = (char*)songpath.c_str();
+	sound[18].Initialize(fmodSystem, 1.0f, filename);
+	songpath = ExecPath::linuxPath + "Sounds/car-interior-1.mp3";filename = (char*)songpath.c_str();
+	sound[19].Initialize(fmodSystem, 1.0f, filename);
+	//result = fmodSystem->init(32, FMOD_INIT_NORMAL, linuxExtraDriverData); //linuxExtraDriverData är tom för tillfället!
+#endif
+
 }
 
 void SoundSystem::Play(int soundNr)

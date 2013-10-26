@@ -53,13 +53,13 @@
 	"linearalgebra.h"
 	"GraphicsOGL4.h"
 
-1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.cpp
+1382782794 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.cpp
 	"GameLogic.h"
 	"LoadHandler.h"
 	<iostream>
 	"Resource.h"
 
-1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.h
+1382782775 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/GameLogic.h
 	"Resource.h"
 	"Gameplay.h"
 	"SoundSystem.hpp"
@@ -223,13 +223,13 @@
 	<endian.h>
 	<xlocale.h>
 
-1382690088 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.cpp
+1382782833 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.cpp
 	"Gameplay.h"
 	"GraphicsDX11.h"
 	"GraphicsOGL4.h"
 	<iostream>
 
-1382689121 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.h
+1382782789 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Gameplay.h
 	"Model.h"
 	"Map.h"
 	"Inputhandler.h"
@@ -238,7 +238,6 @@
 	"Resource.h"
 	"ObjectCore.h"
 	"EventSystem.h"
-	"SoundSystem.hpp"
 	<cstdlib>
 	<time.h>
 
@@ -263,7 +262,7 @@
 	"GraphicsDX11.h"
 	<sstream>
 
-1382705820 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
+1382776219 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/GraphicsOGL4.cpp
 	"GraphicsOGL4.h"
 	"Resource.h"
 	<string>
@@ -457,7 +456,7 @@
 	<string>
 	"Sound.h"
 
-1382442922 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Sound.h
+1382777012 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/Sound.h
 	<fmod.hpp>
 
 1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/inc/fmod.hpp
@@ -511,8 +510,9 @@
 1382535008 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Sound.cpp
 	"Sound.h"
 
-1382534925 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/SoundSystem.cpp
+1382782481 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/SoundSystem.cpp
 	"SoundSystem.hpp"
+	"Resource.h"
 
 1382690214 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Text.cpp
 	"Text.h"
@@ -547,4 +547,34 @@
 1382689121 source:/home/torrebjorne/Documents/GitHub/Breakout/Breakout/Global.cpp
 	"Global.h"
 	"Resource.h"
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/OpenGL/include/GL/glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/OpenGL/include/GL/glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/include/fmod.hpp
+	"fmod.h"
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/include/fmod.h
+	"fmod_codec.h"
+	"fmod_dsp.h"
+	"fmod_memoryinfo.h"
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/include/fmod_codec.h
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/include/fmod_dsp.h
+
+1382441214 /home/torrebjorne/Documents/GitHub/Breakout/Breakout/FMOD/include/fmod_memoryinfo.h
 

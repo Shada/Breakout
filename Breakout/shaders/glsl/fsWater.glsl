@@ -57,112 +57,19 @@ layout(std140, binding = 6) uniform cbWaterOnce
 
 	vec4 extinction;
 };
-float saturate(float infloat)
-{
-	if(infloat > 1)
-	{
-		infloat = 1;
-	}
-	else if(infloat < 0)
-	{
-		infloat = 0;
-	}
-	return infloat;
-}
 
-vec3 saturate(vec3 invector)
-{
-	vec3 outvector = invector;
-	if(invector.x > 1)
-	{
-		outvector.x = 1;
-	}
-	else if(invector.x < 0)
-	{
-		outvector.x = 0;
-	}
-	if(invector.y > 1)
-	{
-		outvector.y = 1;
-	}
-	else if(invector.y < 0)
-	{
-		outvector.y = 0;
-	}
-	if(invector.z > 1)
-	{
-		outvector.z = 1;
-	}
-	else if(invector.z < 0)
-	{
-		outvector.z = 0;
-	}
-	return outvector;
-}
-
-vec4 saturate(vec4 invector)
-{
-	vec4 outvector = invector;
-	if(invector.x > 1)
-	{
-		outvector.x = 1;
-	}
-	else if(invector.x < 0)
-	{
-		outvector.x = 0;
-	}
-	if(invector.y > 1)
-	{
-		outvector.y = 1;
-	}
-	else if(invector.y < 0)
-	{
-		outvector.y = 0;
-	}
-	if(invector.z > 1)
-	{
-		outvector.z = 1;
-	}
-	else if(invector.z < 0)
-	{
-		outvector.z = 0;
-	}
-	if(invector.w > 1)
-	{
-		outvector.w = 1;
-	}
-	else if(invector.w < 0)
-	{
-		outvector.w = 0;
-	}
-	return outvector;
-}
-mat3 computeTangentMatrix(vec3 normal, vec3 position, vec2 texCoord)
-{
-	vec3 dp1	= dFdx(position);
-	vec3 dp2	= dFdy(position);
-	vec2 duv1	= dFdx(texCoord);
-	vec2 duv2	= dFdy(texCoord);
-	
-	mat3 m			= mat3( dp1, dp2, cross( dp1, dp2 ) );
-	mat2x3 inverseM	= mat2x3( cross( m[1], m[2] ), cross( m[2], m[0] ) );
-	vec3 tangent	= inverseM * vec2( duv1.x, duv2.x );
-	vec3 biTangent	= inverseM * vec2( duv1.y, duv2.y );
-	
-	return mat3(normalize(tangent), normalize(biTangent), normal);
-}
-float fresnelTerm(vec3 normal, vec3 eyeDir)
-{
-		float angle		= 1.0f - saturate(dot( normal, eyeDir ));
-		float fresnel	= angle * angle;
-		fresnel			= fresnel * fresnel;
-		fresnel			= fresnel * angle;
-		return saturate(fresnel * ( 1.0f - .5f ) + .5f - refractionStrength);
-}
 
 
 in vec2 UV;
 out vec4 color;
+
+float saturate(float _a);
+vec2 saturate(vec2 _v);
+vec3 saturate(vec3 _v);
+vec4 saturate(vec4 _v);
+
+float fresnelTerm(vec3 normal, vec3 eyeDir);
+mat3 computeTangentMatrix(vec3 normal, vec3 position, vec2 texCoord);
 
 void main()
 {
@@ -306,4 +213,107 @@ void main()
 	vec3 specular = vec3(spec, spec, spec);
 	
 	color = saturate(mix(originalColor, mix(vec4(refraction,1.0f), vec4(reflection,1.0f),  0.7*fresnel) + vec4(specular,1) + foam, saturate(depth2 * shoreTransition)));
+}
+
+float saturate(float infloat)
+{
+	if(infloat > 1)
+	{
+		infloat = 1;
+	}
+	else if(infloat < 0)
+	{
+		infloat = 0;
+	}
+	return infloat;
+}
+
+vec3 saturate(vec3 invector)
+{
+	vec3 outvector = invector;
+	if(invector.x > 1)
+	{
+		outvector.x = 1;
+	}
+	else if(invector.x < 0)
+	{
+		outvector.x = 0;
+	}
+	if(invector.y > 1)
+	{
+		outvector.y = 1;
+	}
+	else if(invector.y < 0)
+	{
+		outvector.y = 0;
+	}
+	if(invector.z > 1)
+	{
+		outvector.z = 1;
+	}
+	else if(invector.z < 0)
+	{
+		outvector.z = 0;
+	}
+	return outvector;
+}
+
+vec4 saturate(vec4 invector)
+{
+	vec4 outvector = invector;
+	if(invector.x > 1)
+	{
+		outvector.x = 1;
+	}
+	else if(invector.x < 0)
+	{
+		outvector.x = 0;
+	}
+	if(invector.y > 1)
+	{
+		outvector.y = 1;
+	}
+	else if(invector.y < 0)
+	{
+		outvector.y = 0;
+	}
+	if(invector.z > 1)
+	{
+		outvector.z = 1;
+	}
+	else if(invector.z < 0)
+	{
+		outvector.z = 0;
+	}
+	if(invector.w > 1)
+	{
+		outvector.w = 1;
+	}
+	else if(invector.w < 0)
+	{
+		outvector.w = 0;
+	}
+	return outvector;
+}
+mat3 computeTangentMatrix(vec3 normal, vec3 position, vec2 texCoord)
+{
+	vec3 dp1	= dFdx(position);
+	vec3 dp2	= dFdy(position);
+	vec2 duv1	= dFdx(texCoord);
+	vec2 duv2	= dFdy(texCoord);
+	
+	mat3 m			= mat3( dp1, dp2, cross( dp1, dp2 ) );
+	mat2x3 inverseM	= mat2x3( cross( m[1], m[2] ), cross( m[2], m[0] ) );
+	vec3 tangent	= inverseM * vec2( duv1.x, duv2.x );
+	vec3 biTangent	= inverseM * vec2( duv1.y, duv2.y );
+	
+	return mat3(normalize(tangent), normalize(biTangent), normal);
+}
+float fresnelTerm(vec3 normal, vec3 eyeDir)
+{
+		float angle		= 1.0f - saturate(dot( normal, eyeDir ));
+		float fresnel	= angle * angle;
+		fresnel			= fresnel * fresnel;
+		fresnel			= fresnel * angle;
+		return saturate(fresnel * ( 1.0f - .5f ) + .5f - refractionStrength);
 }

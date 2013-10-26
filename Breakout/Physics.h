@@ -285,7 +285,7 @@ namespace Logic
 		{
 			float ratio = (p1.x - ballPos.x) / (p1.x - p2.x);
 			float yIntersect = _min(p1.y, p2.y) + (_max(p1.y, p2.y) - _min(p1.y, p2.y)) * (p2.y < p1.y ? 1 - ratio : ratio);
-			
+
 			if(ballPos.y - radius <= yIntersect && ballPos.y - radius >= yIntersect - 5)
 			{
 				float collidePosY = yIntersect + radius;

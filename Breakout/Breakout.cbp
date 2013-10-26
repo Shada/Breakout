@@ -35,10 +35,9 @@
 		<Compiler>
 			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
-			<Add directory="/usr/include" />
-			<Add directory="FMOD/inc" />
 			<Add directory="Freeimage/include" />
 			<Add directory="OpenGL/include" />
+			<Add directory="FMOD/include" />
 		</Compiler>
 		<Linker>
 			<Add library="glfw" />
@@ -49,10 +48,9 @@
 			<Add library="GLEW" />
 			<Add library="freeimage" />
 			<Add library="fmodex" />
-			<Add directory="/usr/lib" />
-			<Add directory="FMOD/lib" />
 			<Add directory="Freeimage/lib" />
 			<Add directory="OpenGL/lib" />
+			<Add directory="FMOD/lib" />
 		</Linker>
 		<Unit filename="Ball.cpp" />
 		<Unit filename="Ball.h" />

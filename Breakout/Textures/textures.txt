@@ -44,8 +44,8 @@ Textures/earth3.png
 Textures/earth4.png
 
 Water/heightmap.png
-Water/normalmap.jpg
-Water/foam.jpg
+Water/normalmap.png
+Water/foam.png
 Water/lava.png
 Water/lavaGlowMap.png
 

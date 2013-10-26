@@ -14,7 +14,7 @@ namespace Logic
 	static Vec2 leftUI, rightUI;
 
 	int Gameplay::startEffect = 0;
-	Gameplay::Gameplay(Inputhandler *&_handler, SoundSystem *soundSys, ObjectCore *objectCore)
+	Gameplay::Gameplay(Inputhandler *&_handler/**, SoundSystem *soundSys*/, ObjectCore *objectCore)
 	{
 		fps = 0, prevFps = -1;
 		mapLoading = new Map();
@@ -24,7 +24,7 @@ namespace Logic
 		this->objectCore = objectCore;
 		play = ballPadCollided = createBall = false;
 
-		soundSystem = soundSys;
+		///soundSystem = soundSys;
 		srand ((unsigned)time(NULL));
 
 		playerLives = 3;
@@ -101,7 +101,7 @@ namespace Logic
 		if(objectCore->mapType == ObjectCore::MapType::eFire)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,1);
 
-		//soundSystem->PlayLoop(5);
+///		soundSystem->PlayLoop(5);
 
 		eventSystem = new EventSystem(mapLoading->getMapType(),mapLoading->getLvlDifficulty()); // testvärde
 
@@ -183,7 +183,7 @@ namespace Logic
 
 			if (playerLives <= 0)
 			{
-				soundSystem->Play(6);
+///				soundSystem->Play(6);
 				nextMap(); //Replace with game over stuff
 			}
 		}
@@ -375,7 +375,7 @@ namespace Logic
 			{
 				effectTypeActive = 2;
 				effectTimer = 1;
-				soundSystem->Play(13, 0);
+///				soundSystem->Play(13, 0);
 				for(unsigned int i = 0; i < objectCore->ball.size(); i++)
 					objectCore->ball.at(i)->startWind();
 				std::cout << "Wind" << std::endl;
@@ -388,7 +388,7 @@ namespace Logic
 				Vec3 tempVec3;
 				tempVec3 = Vec3((float)(rand() % 50), 200, 0);
 				effectFireballs.push_back(tempVec3);
-				soundSystem->Play(14, 3);
+///				soundSystem->Play(14, 3);
 				std::cout << "Fireballs" << std::endl;
 			}
 			else if (effectStart == 5)//Earthquake
@@ -399,19 +399,19 @@ namespace Logic
 				effectOriginal = Vec3(0,0,0);
 				effectTimer = 3.5;
 				effectDirection = Vec3((float)(rand() % 100) - 50, (float)(rand() % 100) - 50, (float)(rand() % 100) - 50);
-				soundSystem->Play(19, 1.5);
+	///			soundSystem->Play(19, 1.5);
 				std::cout << "Earthquake" << std::endl;
 			}
 			else if (effectStart == 7)//Speed
 			{
 				objectCore->pad->startSpeed();
-				soundSystem->Play(17);
+	///			soundSystem->Play(17);
 				std::cout << "Speed" << std::endl;
 			}
 			else if (effectStart == 8)//Slow
 			{
 				objectCore->pad->startSlow();
-				soundSystem->Play(19);
+	///			soundSystem->Play(19);
 				std::cout << "Slow" << std::endl;
 			}
 			else if (effectStart == 14)//Extra Life
@@ -426,7 +426,7 @@ namespace Logic
 			else if (effectStart == 15)//Stun
 			{
 				objectCore->pad->startStun();
-				soundSystem->Play(7);
+		///		soundSystem->Play(7);
 				std::cout << "Stun" << std::endl;
 			}
 			effectStart = 0;
@@ -440,7 +440,7 @@ namespace Logic
 			{
 				if (effectTimer < 0)
 				{
-					soundSystem->Play(7);
+		///			soundSystem->Play(7);
 					effectTimer = 0;
 					effectTypeActive = 0;
 					effectOriginal -= objectCore->pad->getPosition();

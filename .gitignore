@@ -15,6 +15,12 @@ Breakout/Release/*.*
 Breakout/bin/Debug/*
 Release/*.*
 
+Breakout.cbp
+Breakout.depend
+Breakout.layout
+Breakout.rc
+
+
 # Compiled Dynamic libraries
 *.dylib
 

@@ -5,7 +5,7 @@ in vec3 normal_viewspace;
 in vec3 eyedirection_viewspace;
 in vec3 lightdir_viewspace;
 
-out vec3 color;
+out vec4 color;
 
 uniform sampler2D textureSampler;
 
@@ -41,5 +41,5 @@ void main()
     // cosine of angle between eyedir and reflection dir, clamped above 0
     float cosalpha = clamp(dot(e, r), 0, 1);
 
-    color = ka + kd * diffuseCol * lightCol * costheta;// * 50 / (dist);// + specularCol * lightCol * pow(cosalpha, 5)/ (dist * dist);
+    color = vec4(ka + kd * diffuseCol * lightCol * costheta, 1);// * 50 / (dist);// + specularCol * lightCol * pow(cosalpha, 5)/ (dist * dist);
 }

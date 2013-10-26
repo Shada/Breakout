@@ -6,9 +6,9 @@ namespace Logic
 {
 	GameLogic::GameLogic(Inputhandler *handler)
 	{
-		soundSystem = new SoundSystem();
-		soundSystem->Initialize();
-		//soundSystem->Play(1);
+		///soundSystem = new SoundSystem();
+		///soundSystem->Initialize();
+		///soundSystem->Play(1);
 
 		inputHandler	= handler;
 		objectCore		= new ObjectCore();
@@ -26,10 +26,10 @@ namespace Logic
 		keys.push_back(KeyBind2(KC_DOWN, &menu->moveDown));
 		keys.push_back(KeyBind2(KC_RETURN, &menu->confirm));
 
-		gameplay		= new Gameplay(inputHandler, soundSystem, objectCore);
+		gameplay		= new Gameplay(inputHandler/**, soundSystem*/, objectCore);
 		inputHandler	= handler;
 		inputHandler->setMenu(menu, keys);
-		
+
 		Resources::LoadHandler::getInstance();
 
 		Global::getInstance()->gameState = GameState::GAME_MENU;
@@ -37,7 +37,7 @@ namespace Logic
 
 	void GameLogic::update(float _dt)
 	{
-		soundSystem->Update(_dt);
+///		soundSystem->Update(_dt);
 
 		switch(Global::getInstance()->gameState)
 		{
@@ -81,7 +81,7 @@ namespace Logic
 		SAFE_DELETE(gameplay);
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
-		SAFE_DELETE(soundSystem);
+		///SAFE_DELETE(soundSystem);
 		SAFE_DELETE(menu);
 	}
 }

@@ -10,13 +10,13 @@
 #include "Resource.h"
 #include "ObjectCore.h"
 #include "EventSystem.h"
-#include "SoundSystem.hpp"
+///#include "SoundSystem.hpp"
 #include <cstdlib>
 #include <time.h>
 
 namespace Logic
 {
-	
+
 	//GameState gameState;
 	class Gameplay
 	{
@@ -28,19 +28,19 @@ namespace Logic
 		Map *mapLoading;
 		Physics *physics;
 		/* called after all models are initialized */
-		
+
 		ObjectCore *objectCore;
 		bool play, ballPadCollided, createBall;
 		Camera *camera;
 
 		//TODO:
 		//All logik för spelandet av en bana
-		SoundSystem *soundSystem;
+///		SoundSystem *soundSystem;
 		EventSystem *eventSystem;
-		
+
 		int playerScore;
 		int playerLives, fps, prevFps;
-		
+
 		Inputhandler *inputHandler;
 
 		static int startEffect;
@@ -59,12 +59,12 @@ namespace Logic
 		void reset();
 
 	public:
-		Gameplay(Inputhandler *&handler,SoundSystem *soundSys, ObjectCore *objectCore);
+		Gameplay(Inputhandler *&handler/**,SoundSystem *soundSys*/, ObjectCore *objectCore);
 		~Gameplay();
 
 		void setFps(int _fps) { fps = _fps; }
 		void update(double dt);
-		
+
 		//You can not play the same effect twice in a row unless you
 		//call StartEffectReset() by pressing key 9
 		static void StartEffectReset()			{startEffect = 0;}
@@ -75,7 +75,7 @@ namespace Logic
 		static void StartEffectSpeed()			{startEffect = 7;}
 		static void StartEffectSlow()			{startEffect = 8;}
 		static void StartEffectStun()			{startEffect = 15;}
-		
+
 	};
 
 }

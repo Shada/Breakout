@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 	path = path.substr(0, path.length() - 20);
 #endif
 	printf("path: %s\n\n", path.c_str());
-	ExecPath::linuxPath = path;
+	ExecPath::linuxPath = path + "Breakout/";
 	wh = new Linuxhandler();
 #endif
 
