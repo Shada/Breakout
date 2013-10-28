@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "LoadHandler.h"
+#include "Physics.h"
 
 
 
@@ -9,8 +10,6 @@ namespace Logic
 	void Map::loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad,ObjectCore::MapType *_mapType)
 	{
 
-		
-		
 		//clear the brick vector, not sure if this should be done here
 		for(unsigned int i = 0; i < _bricks->size(); i++)
 			SAFE_DELETE(_bricks->at(i) );
@@ -23,21 +22,31 @@ namespace Logic
 			//get height and width & allocate memory
 			unsigned int hmHeight = FreeImage_GetHeight(pHeightMap);
 			unsigned int hmWidth = FreeImage_GetWidth(pHeightMap);
-		
+
 			unsigned int displacementX = 22;
 			unsigned int displacementY = 12;
 
 			float circleRadie = 100;
 
-			RGBQUAD color;	
+			RGBQUAD color;
 			//save map info
 			FreeImage_GetPixelColor(pHeightMap,0,0,&color);
 			int lvlnum = color.rgbRed;
-			mapType = color.rgbGreen; 
+			mapType = color.rgbGreen;
 			int difficulty = color.rgbBlue;
 			int c = lvlnum;
 			int r = difficulty;
 			lvlDifficulty = difficulty;
+
+			if(mapType == 3)
+			{
+				Physics::getInstance()->setBorderMaxX(1300);
+				Physics::getInstance()->setBorderMaxY(350);
+			}
+			else
+				Physics::getInstance()->setBorderMaxX(Physics::getInstance()->getBorderX() - (300 * (960/SCRWIDTH)));
+
+
 
 
 
@@ -94,8 +103,8 @@ namespace Logic
 					{
 						// x = r * sin(theta) * cos(phi)
 						// y = r * sin(theta) * sin(phi)
-						// z = r * cos(theta) * 
-						
+						// z = r * cos(theta) *
+
 					/*	displace.x = circleRadie * sin(radWIt) * cos(radHIt);
 						displace.y = circleRadie * sin(radWIt) * sin(radHIt);  //Orienterat runt z
 						displace.z = circleRadie * cos(radWIt);
@@ -106,11 +115,11 @@ namespace Logic
 
 						*_mapType = ObjectCore::MapType::eEarth;
 
-						
+
 					}
 
 
-				
+
 					//Creating objects
 					if(x == 0 && y == 0)
 					{

@@ -43,6 +43,8 @@ private:
 			heightMapID,
 			normMapID,
 			foamMapID,
+			lavaMapID,
+			lavaGlowMapID,
 			quadTextureID,
 			UItex1ID,
 			UItex2ID,

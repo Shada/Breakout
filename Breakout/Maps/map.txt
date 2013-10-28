@@ -13,8 +13,3 @@ Maps/Level12.png
 Maps/Level13.png
 Maps/Level14.png
 Maps/Level15.png
-Maps/Level16.png
-Maps/Level17.png
-Maps/Level18.png
-Maps/Level19.png
-Maps/Level20.png

@@ -109,10 +109,16 @@ namespace Logic
 
 		objectCore->sideBar->setTexIndex(objectCore->getMapType()-1);
 	}
-
+float _time = 1;
 	void Gameplay::update(double _dt)
 	{
 		float dt = (float)_dt;
+		_time += dt;
+		if(_time > 20) /// && objectCore->mapType != ObjectCore::MapType::eFire) // switching map every 30 seconds
+		{
+            nextMap();
+            _time = 0;
+		}
 		Vec3 cameratem = camera->getLookAt();
 		//fps = (int)(1.0 / _dt + 0.5);
 
@@ -257,8 +263,8 @@ namespace Logic
 			float waterLevel = objectCore->water->getWaterLevel();
 			// should be the pad that follows water level and then camera follows pad?
 
-			camera->setPosition(Vec3(oldPos.x, waterLevel+75,oldPos.z));
-			camera->setLookAt(Vec3(oldPos.x, waterLevel+25,oldPos.z + 10000));
+			camera->setPosition(Vec3(oldPos.x, waterLevel + 75,oldPos.z));
+			camera->setLookAt(Vec3(oldPos.x, waterLevel + 25, oldPos.z + 10000));
 			camera->setWaterLevel(waterLevel);
 			physics->setBorderMaxY(maxY / 2 + waterLevel + 75);
 			//camera->setPosition(Vec3(oldPos.x, objectCore->water->getWaterLevel(),oldPos.z));

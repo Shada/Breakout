@@ -358,29 +358,52 @@ void GraphicsOGL4::drawGame()
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
+    if(objectCore->getMapType() == Logic::ObjectCore::MapType::eWater || objectCore->getMapType() == Logic::ObjectCore::MapType::eFire)
+	{
 	//---------------------------------------------------------------------------------
 	//                              water
 	//---------------------------------------------------------------------------------
+        // change back to screen framebuffer
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, SCRWIDTH, SCRHEIGHT);
+        //clear screen
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// change back to screen framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, SCRWIDTH, SCRHEIGHT);
-	//clear screen
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        waterProgram->useProgram();
 
-	waterProgram->useProgram();
+        useTexture(sceneRenderTarget, texSceneID, 0); // I have to find this shit..
+        useTexture(waterDepthBuffer, texDepthID, 1);
+        useTexture(reflRenderTarget, reflMapID, 2);
+        useTexture(textures->at(36), heightMapID, 3);
+        useTexture(textures->at(37), normMapID, 4);
+        useTexture(textures->at(38), foamMapID, 5);
+        useTexture(textures->at(39), lavaMapID, 6);
+        useTexture(textures->at(40), lavaGlowMapID, 7);
 
-	useTexture(sceneRenderTarget, texSceneID, 0); // I have to find this shit..
-	useTexture(waterDepthBuffer, texDepthID, 1);
-	useTexture(reflRenderTarget, reflMapID, 2);
-	useTexture(textures->at(36), heightMapID, 3);
-	useTexture(textures->at(37), normMapID, 4);
-	useTexture(textures->at(38), foamMapID, 5);
 
-	glDrawArrays(GL_POINTS, 0, 1);
+        glDrawArrays(GL_POINTS, 0, 1);
 
-	// clear the depth
-	glClear(GL_DEPTH_BUFFER_BIT);
+	}
+	else
+	{
+        //----------------------------------------------------------------------------------
+        //                                quad
+        //----------------------------------------------------------------------------------
+
+        // draw to screen
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, SCRWIDTH, SCRHEIGHT);
+        //clear screen
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        quadProgram->useProgram();
+
+        useTexture(sceneRenderTarget, quadTextureID, 0);
+
+        glDrawArrays(GL_POINTS, 0, 1);
+	}
+    // clear the depth
+    glClear(GL_DEPTH_BUFFER_BIT);
 	//---------------------------------------------------------------------------------
 	//                            billboard
 	//---------------------------------------------------------------------------------
@@ -749,6 +772,16 @@ void GraphicsOGL4::useTexture(GLuint _index, GLuint _samplerID, GLint _v0 )
 			glActiveTexture(GL_TEXTURE5);
 			break;
 		}
+		case 6:
+		{
+			glActiveTexture(GL_TEXTURE6);
+			break;
+		}
+		case 7:
+		{
+			glActiveTexture(GL_TEXTURE7);
+			break;
+		}
 	}
 	glBindTexture(GL_TEXTURE_2D, _index);
 
@@ -856,6 +889,8 @@ void GraphicsOGL4::initUniforms()
 	heightMapID = glGetUniformLocation(waterProgram->getProgramID(), "heightMap");
 	normMapID = glGetUniformLocation(waterProgram->getProgramID(), "normalMap");
 	foamMapID = glGetUniformLocation(waterProgram->getProgramID(), "foamMap");
+	lavaMapID = glGetUniformLocation(waterProgram->getProgramID(), "texLava");
+	lavaGlowMapID = glGetUniformLocation(waterProgram->getProgramID(), "lavaGlowMap");
 
 	quadTextureID = glGetUniformLocation(quadProgram->getProgramID(), "textureSampler");
 
@@ -881,7 +916,7 @@ void GraphicsOGL4::initRenderTargetsAndDepthBuffers()
 	glBindTexture(GL_TEXTURE_2D, reflRenderTarget);
 
 	// empty image
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
 	// linear filter
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -906,7 +941,7 @@ void GraphicsOGL4::initRenderTargetsAndDepthBuffers()
 	glBindTexture(GL_TEXTURE_2D, sceneRenderTarget);
 
 	// empty image
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
 	// linear filter
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
