@@ -32,6 +32,8 @@ private:
 	/*the dynamic buffer for text*/
 	ID3D11Buffer				*textBufferDynamic;
 
+	std::vector<BBFont>			textBufferData;
+
 	/*---------------------------------------------------------------
 								textures
 	--------------------------------------------------------------*/

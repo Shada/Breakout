@@ -29,15 +29,16 @@ void Font::loadFontSettings(std::string filePath)
 	myfile.close();
 }
 
-void Font::loadText(std::vector<BBFont> *outData, std::string text)
+unsigned int Font::loadText(std::vector<BBFont> *outData, std::string text)
 {
+	unsigned int usedBufferAmount = 0;
 	unsigned int size = text.size();
 	BBFont current;
 	int posx = 0;
 	if(characters.size() == 0)
 	{
 		std::cout << "Error: No font loaded for text ( " << text.c_str() << " )";
-		return;
+		return 0;
 	}
 	for(unsigned int i = 0; i < size; i++)
 	{
@@ -52,6 +53,7 @@ void Font::loadText(std::vector<BBFont> *outData, std::string text)
 			outData->push_back(current);
 
 			posx += characters.at(text[i] - 33).width + 5;
+			usedBufferAmount++;
 		}
 		else if(text[i] == 32) //space
 		{
@@ -62,6 +64,7 @@ void Font::loadText(std::vector<BBFont> *outData, std::string text)
 			std::cout << "Error: unrecognizable character ( " << text[i] << " )";
 		}
 	}
+	return usedBufferAmount;
 }
 
 Font::~Font()
