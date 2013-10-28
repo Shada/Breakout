@@ -399,6 +399,13 @@ void GraphicsOGL4::drawGame()
     useTexture(50, UItex1ID);
     glDrawArrays(GL_POINTS, 1, 1);
 
+	// lives
+    useTexture(51, UItex1ID);
+
+	startIndex	= objectCore->healthSymbol->getBufferIndex();
+	vertexAmount = 1;
+    glDrawArrays(GL_POINTS, startIndex, vertexAmount);
+
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

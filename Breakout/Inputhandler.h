@@ -72,8 +72,6 @@ public:
 	DInputhandler(HWND *hWnd);
 	~DInputhandler();
 
-	void setMenu(Logic::Menu *men, std::vector<KeyBind2> keys);
-
 	void updateMenu();
 	void updateGame();
 };
