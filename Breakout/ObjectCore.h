@@ -32,6 +32,8 @@ namespace Logic
 		
 		std::vector<BBUI>		uiBillboards;
 		std::vector<BBFont>		fontBillboards;
+		std::vector<BBFont>		livesData;
+		std::vector<BBFont>		scoreData;
 
 		Font					*testFont;
 		Text					*testText;

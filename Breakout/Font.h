@@ -20,7 +20,7 @@ public:
 	Font();
 	void setImageIndex(unsigned int index) { imageIndex = index; }
 	void loadFontSettings(std::string filePath);
-	void loadText(std::vector<BBFont> *outData, std::string text);
+	unsigned int loadText(std::vector<BBFont> *outData, std::string text);
 
 	unsigned int getImageIndex() { return imageIndex; }
 	~Font();

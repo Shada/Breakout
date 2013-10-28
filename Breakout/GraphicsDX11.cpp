@@ -934,7 +934,7 @@ void GraphicsDX11::drawGame()
 	//--------------------------------------------------------------------------------
 	//                                     Text
 	//--------------------------------------------------------------------------------
-	/*stride = sizeof( BBFont );
+	stride = sizeof( BBFont );
 	offset = 0;
 
 	immediateContext->RSSetState(rasterizerBackface);
@@ -942,8 +942,13 @@ void GraphicsDX11::drawGame()
 	D3D11_MAPPED_SUBRESOURCE textData;
 	ZeroMemory( &textData, sizeof( textData ) );
 
+	textBufferData.clear();
+	textBufferData.insert( textBufferData.end(), objectCore->fontBillboards.begin(), objectCore->fontBillboards.end() );
+	textBufferData.insert( textBufferData.end(), objectCore->livesData.begin(), objectCore->livesData.end() );
+	textBufferData.insert( textBufferData.end(), objectCore->scoreData.begin(), objectCore->scoreData.end() );
+
 	immediateContext->Map(textBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &textData);
-	memcpy( textData.pData, &objectCore->fontBillboards[0], sizeof(BBFont)* objectCore->fontBillboards.size() );
+	memcpy( textData.pData, &textBufferData[0], sizeof(BBFont)* textBufferData.size() );
 	immediateContext->Unmap(textBufferDynamic, 0);
 
 	immediateContext->IASetVertexBuffers( 0, 1, &textBufferDynamic, &stride, &offset );
@@ -952,12 +957,30 @@ void GraphicsDX11::drawGame()
 	immediateContext->IASetInputLayout(fontLayout);
 	immediateContext->PSSetShaderResources( 0,1,&textures.at( 4 ) );
 
-	vertexAmount		= objectCore->testText->getTextSize();
+	vertexAmount		= objectCore->testText->getActualSize();
 	startIndex			= objectCore->testText->getVBStartIndex();
 
 	objectCore->testText->updateCB();
 
-	immediateContext->Draw( vertexAmount, startIndex );*/
+	immediateContext->Draw( vertexAmount, startIndex );
+
+	//lives
+
+	startIndex			= objectCore->lives->getVBStartIndex() + objectCore->fontBillboards.size();
+	vertexAmount		= objectCore->lives->getActualSize();
+
+	objectCore->lives->updateCB();
+
+	immediateContext->Draw( vertexAmount, startIndex );
+
+	//score
+
+	startIndex			= objectCore->highscore->getVBStartIndex() + objectCore->fontBillboards.size() + objectCore->livesData.size();
+	vertexAmount		= objectCore->highscore->getActualSize();
+
+	objectCore->highscore->updateCB();
+
+	immediateContext->Draw( vertexAmount, startIndex );
 }
 
 void GraphicsDX11::drawMenu()
@@ -1033,8 +1056,11 @@ void GraphicsDX11::drawMenu()
 	D3D11_MAPPED_SUBRESOURCE textData;
 	ZeroMemory( &textData, sizeof( textData ) );
 
+	textBufferData.clear();
+	textBufferData.insert( textBufferData.end(), objectCore->fontBillboards.begin(), objectCore->fontBillboards.end() );
+
 	immediateContext->Map(textBufferDynamic, 0, D3D11_MAP_WRITE_DISCARD, 0, &textData);
-	memcpy( textData.pData, &objectCore->fontBillboards[0], sizeof(BBFont)* objectCore->fontBillboards.size() );
+	memcpy( textData.pData, &textBufferData[0], sizeof(BBFont)* textBufferData.size() );
 	immediateContext->Unmap(textBufferDynamic, 0);
 
 	immediateContext->IASetVertexBuffers( 0, 1, &textBufferDynamic, &stride, &offset );

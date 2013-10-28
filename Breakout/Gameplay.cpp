@@ -27,8 +27,8 @@ namespace Logic
 		soundSystem = soundSys;
 		srand ((unsigned)time(NULL));
 
-		playerLives = 3;
-		playerScore = 0;
+		setPlayerLives(3);
+		setPlayerScore(0);
 
 		effectStart = 0;
 		startEffectOld = 0;
@@ -114,6 +114,26 @@ namespace Logic
 		objectCore->sideBar->setTexIndex(objectCore->getMapType()-1);
 	}
 
+	void Gameplay::setPlayerLives( int newValue )
+	{
+		playerLives = newValue;
+		std::ostringstream buffHealth;
+		buffHealth << playerLives;
+		std::string healthText = "x" + buffHealth.str();
+		objectCore->lives->setText( healthText.c_str() );
+		objectCore->lives->updateTextData();
+	}
+
+	void Gameplay::setPlayerScore( int newValue )
+	{
+		playerScore = newValue;
+		std::ostringstream buffScore;
+		buffScore << playerScore;
+		std::string healthText = buffScore.str();
+		objectCore->highscore->setText( healthText.c_str() );
+		objectCore->highscore->updateTextData();
+	}
+
 	void Gameplay::update(double _dt)
 	{
 		float dt = (float)_dt;
@@ -192,14 +212,14 @@ namespace Logic
 		{
 			play = false;
 			objectCore->pad->setReleaseBall(false);
-			playerLives--;
+			setPlayerLives(playerLives - 1);
 			std::cout << "Life lost! Nr of lives left: " << playerLives << std::endl;
 
 			for(unsigned int i = 0; i < objectCore->effects.size(); i++)
 				SAFE_DELETE(objectCore->effects.at(i));
 			objectCore->effects.clear();
 
-			if (playerLives <= 0)
+			if (playerLives < 0)
 			{
 				soundSystem->Play(6);
 				//nextMap(); //Replace with game over stuff
@@ -318,7 +338,7 @@ namespace Logic
 					objectCore->bricks.erase(objectCore->bricks.begin() + collidingObject, objectCore->bricks.begin() + collidingObject + 1);
 					std::cout << "Collided with a brick yo! Only " << objectCore->bricks.size() << " left!!!!" << std::endl;
 					
-					playerScore += 1;
+					setPlayerScore( playerScore + 1 );
 					std::cout << "Score: " << playerScore << std::endl;
 						
 				}
@@ -343,7 +363,7 @@ namespace Logic
 					int type = objectCore->effects.at(i)->getType();
 					switch(type)
 					{
-					case 0:		playerLives++;							break;
+					case 0:		setPlayerLives(playerLives + 1);		break;
 					case 1:		objectCore->pad->startSpeed();			break;
 					case 2:		objectCore->pad->startSlow();			break;
 					case 3:		objectCore->pad->invertControls(2.f);	break;
@@ -501,7 +521,7 @@ namespace Logic
 					effectFireballs.erase(effectFireballs.begin());
 					if (effectOriginal.length() < 20)
 					{
-						playerLives--;
+						setPlayerLives(playerLives - 1);
 						std::cout << "Fireball hit! Life left: " << playerLives << std::endl;
 					}
 					else
@@ -614,8 +634,8 @@ namespace Logic
 			physics->setBorderMaxY(350);
 		}
 
-		playerLives = 3;
-		playerScore = 0;
+		setPlayerLives(3);
+		setPlayerScore(0);
 		eventSystem->setTypeOfMap(mapLoading->getMapType());
 		eventSystem->setDifficulty(mapLoading->getLvlDifficulty());
 

@@ -63,6 +63,8 @@ namespace Logic
 		~Gameplay();
 
 		void setFps(int _fps) { fps = _fps; }
+		void setPlayerLives( int newValue );
+		void setPlayerScore( int newValue );
 		void update(double dt);
 		
 		//You can not play the same effect twice in a row unless you

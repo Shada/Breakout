@@ -17,6 +17,7 @@ Text::Text(std::vector<BBFont> *fontBillboards, std::string text, unsigned int s
 	this->text		= text;
 	font = NULL;
 	vbStartIndex = startIndex;
+	actualSize = 0;
 }
 
 void Text::setText(std::string text)
@@ -32,7 +33,7 @@ void Text::updateTextData()
 		return;
 	}
 	textData->clear();
-	font->loadText(textData, text);
+	actualSize = font->loadText(textData, text);
 }
 
 void Text::appendTextToData()
@@ -42,7 +43,7 @@ void Text::appendTextToData()
 		throw std::exception("No font selected.");
 		return;
 	}
-	font->loadText(textData, text);
+	actualSize = font->loadText(textData, text);
 }
 
 void Text::setTextData(unsigned int bufferStartIndex, unsigned int allocatedSize)

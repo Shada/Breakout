@@ -22,6 +22,7 @@ public:
 	Vec2	getScale()		{ return scale; }
 	float	getRotation()	{ return rotation; }
 	Vec4	getTintAlpha()	{ return tintAlpha; }
+	int		getActionsLeft(){ return actionList.size(); }
 
 	void	addAction(Action2D action)	{ actionList.push_back(action); }
 

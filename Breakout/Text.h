@@ -12,6 +12,7 @@ private:
 	std::vector<BBFont> *textData;
 	unsigned int vbStartIndex;
 	unsigned int allocatedSize;
+	unsigned int actualSize;
 
 public:
 	Text(std::vector<BBFont> *fontBillboards, std::string text, unsigned int startIndex = 0, Vec2 pos = Vec2(0,0), Vec2 scale = Vec2(1,1), float rotation = 0, Vec4 tintAlpha = Vec4(1,1,1,1));
@@ -21,6 +22,7 @@ public:
 	unsigned int getTextSize()			{ return text.size(); }
 	Vec2 getTextDimensions()			{ return Vec2( textData->back().x + textData->back().texCoords.z , 75); }
 	unsigned int getAllocatedSize()		{ return allocatedSize; }
+	unsigned int getActualSize()		{ return actualSize; }
 	void setFont( Font *font )			{ this->font = font; }
 	void updateCB();
 	void updateTextData();

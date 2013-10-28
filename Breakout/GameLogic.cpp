@@ -50,8 +50,6 @@ namespace Logic
 		case GAME_MENU:
 			inputHandler->updateMenu();
 			menu->update(_dt);
-			if(!menu->isOpen())
-				Global::getInstance()->gameState = GAME_PLAY;
 			break;
 		}
 	}

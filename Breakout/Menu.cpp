@@ -9,6 +9,7 @@ namespace Logic
 		this->objectCore = objectCore;
 		selection				= 0;
 		optionAmount			= 0;
+		menuIsActive			= true;
 		objectCore->selector = new UIElement( &objectCore->uiBillboards, 1 );
 		objectCore->circle = new UIElement( &objectCore->uiBillboards, 4, Vec2(SCRWIDTH*0.5f - 300, SCRHEIGHT*0.5f - 300),Vec2(600,600),0.0f, Vec4(1,1,1,0) );
 		objectCore->logo = new UIElement( &objectCore->uiBillboards, 2, Vec2(SCRWIDTH-700, 0),Vec2(547, 181), 0.0f, Vec4(1,1,1,0) );
@@ -49,7 +50,6 @@ namespace Logic
 	
 	void Menu::open()
 	{
-		if(!menuIsActive) menuIsActive = true;
 		if(optionAmount > 0)
 		{
 			Action2D action;
@@ -105,7 +105,6 @@ namespace Logic
 
 	void Menu::close()
 	{
-		menuIsActive = false;
 		if(optionAmount > 0)
 		{
 			Vec2 desu = Vec2(0, ( SCRHEIGHT - 200 ) / optionAmount);
@@ -146,6 +145,9 @@ namespace Logic
 
 		objectCore->circle->update(dt);
 		objectCore->circle->updateBufferData();
+
+		if(!menuIsActive && objectCore->selector->getActionsLeft() == 0 && objectCore->optionList.at(0).getActionsLeft() == 0)
+			Global::getInstance()->gameState = GAME_PLAY;
 	}
 
 	void Menu::moveUp(Menu *_menu)
@@ -210,12 +212,12 @@ namespace Logic
 		if(selection == 0)
 		{
 			close();
-			Global::getInstance()->gameState = GAME_PLAY;
+			menuIsActive = false;
 		}
 		if(selection == objectCore->optionList.size() - 1)
+		{
 			exit(0);
-
-		open();
+		}
 	}
 
 	Menu::~Menu()

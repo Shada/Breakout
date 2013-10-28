@@ -38,7 +38,7 @@ void SoundSystem::Initialize()
 	sound[2].Initialize(fmodSystem, 0.5f, "Sounds/urban-spy-2.mp3");
 	sound[3].Initialize(fmodSystem, 0.5f, "Sounds/barn-beat.mp3");
 	sound[4].Initialize(fmodSystem, 0.5f, "Sounds/power-juice.mp3");
-	sound[5].Initialize(fmodSystem, 0.5f, "Sounds/toko2.mp3");
+	sound[5].Initialize(fmodSystem, 0.5f, "Sounds/taisen2.mp3");
 	sound[6].Initialize(fmodSystem, 0.9f, "Sounds/fail-trombone-01.mp3");
 	sound[7].Initialize(fmodSystem, 0.9f, "Sounds/Explosion large_BLASTWAVEFX_31097.mp3");
 	sound[8].Initialize(fmodSystem, 1.0f, "Sounds/switch-7.mp3");
