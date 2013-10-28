@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "LoadHandler.h"
+#include "Physics.h"
 
 
 
@@ -9,7 +10,8 @@ namespace Logic
 	void Map::loadMap(unsigned int _mapID,std::vector<Brick*> *_bricks,Ball *_ball,Pad *_pad,ObjectCore::MapType *_mapType)
 	{
 
-		
+		if(_mapID == 10)
+			int penk = 0;
 		
 		//clear the brick vector, not sure if this should be done here
 		for(unsigned int i = 0; i < _bricks->size(); i++)
@@ -38,6 +40,16 @@ namespace Logic
 			int c = lvlnum;
 			int r = difficulty;
 			lvlDifficulty = difficulty;
+
+			if(mapType == 3)
+			{
+				Physics::getInstance()->setBorderMaxX(1300);
+				Physics::getInstance()->setBorderMaxY(350);
+			}
+			else
+				Physics::getInstance()->setBorderMaxX(Physics::getInstance()->getBorderX() - (300 * (960/SCRWIDTH)));
+
+			
 
 
 

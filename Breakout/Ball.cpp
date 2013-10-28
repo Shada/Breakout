@@ -16,7 +16,7 @@ namespace Logic
 		radius = 3.09543991f;
 		activeEffect = 0;
 		direction.normalize();
-		speed = 200;
+		speed = 100;
 		srand((unsigned)time(NULL));
 	}
 

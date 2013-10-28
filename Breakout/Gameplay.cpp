@@ -42,7 +42,7 @@ namespace Logic
 
 		leftUI = Vec2(400 * (maxX/SCRWIDTH), SCRHEIGHT);
 
-		this->setMaptype(objectCore->MapType::eWind);
+		setMaptype(objectCore->MapType::eWind);
 
 		objectCore->ball.at(0)->setModelID(0);
 		camera = new Camera();
@@ -95,7 +95,7 @@ namespace Logic
 
 		mapLoading->loadMap(currentMapIndex, &objectCore->bricks, objectCore->ball.at(0), objectCore->pad, &objectCore->mapType);
 
-		objectCore->mapType = ObjectCore::MapType::eWater;// test
+		//objectCore->mapType = ObjectCore::MapType::eWater;// test
 		if(objectCore->mapType == ObjectCore::MapType::eWater)
 			objectCore->water = new Water(objectCore->pad->getPosition().y,0);
 		if(objectCore->mapType == ObjectCore::MapType::eFire)
@@ -202,7 +202,8 @@ namespace Logic
 			if (playerLives <= 0)
 			{
 				soundSystem->Play(6);
-				nextMap(); //Replace with game over stuff
+				//nextMap(); //Replace with game over stuff
+				Global::getInstance()->gameState = GameState::GAME_MENU;
 			}
 		}
 		else
@@ -300,9 +301,9 @@ namespace Logic
 				tempBrick->damage();
 				if(tempBrick->isDestroyed() == true)
 				{
-					//if(rand() % 100 < 50)
+					if(rand() % 100 < 10)
 					{
-						int type;
+						int type = 2;
 						int effectType = rand() % 6;
 						if	   (effectType < 1) type = 0;
 						else if(effectType < 2) type = 1;
@@ -547,7 +548,7 @@ namespace Logic
 			nextMap();
 			this->setMaptype(mapLoading->getMapType());
 		}
-		else
+		else if(objectCore->getMapType() != ObjectCore::eWind)
 		{
 			bool noneOverWater = true;
 			float h = objectCore->bricks.at(0)->getHeight();

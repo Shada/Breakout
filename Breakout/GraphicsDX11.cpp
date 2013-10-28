@@ -934,7 +934,7 @@ void GraphicsDX11::drawGame()
 	//--------------------------------------------------------------------------------
 	//                                     Text
 	//--------------------------------------------------------------------------------
-	stride = sizeof( BBFont );
+	/*stride = sizeof( BBFont );
 	offset = 0;
 
 	immediateContext->RSSetState(rasterizerBackface);
@@ -957,8 +957,9 @@ void GraphicsDX11::drawGame()
 
 	objectCore->testText->updateCB();
 
-	immediateContext->Draw( vertexAmount, startIndex );
+	immediateContext->Draw( vertexAmount, startIndex );*/
 }
+
 void GraphicsDX11::drawMenu()
 {
 	Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
@@ -1015,7 +1016,7 @@ void GraphicsDX11::drawMenu()
 	immediateContext->PSSetShaderResources( 0,5, &textures.at( 41 ) );
 	
 	vertexAmount	= objectCore->gui.size() + 3;
-	startIndex		= 5;
+	startIndex		= 4;
 
 	immediateContext->Draw( vertexAmount, startIndex );
 

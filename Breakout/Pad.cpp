@@ -18,7 +18,7 @@ namespace Logic
 		rotation	= Vec3(0, 0, 0);
 		scale		= Vec3(2.0f, 5.0f, 2.0f);
 
-		movementSpeed = 2.5f;
+		movementSpeed = 2.f;
 		angle2D = 0.0f;
 		angle3D = 0.0f;
 		radius = 3.09544396f;
@@ -196,9 +196,9 @@ namespace Logic
 			if (effectTimer < 0)
 				effectAcceleration = 0.005f;
 
-			if(movementSpeed > 1.f)
+			if(movementSpeed > 2.f)
 			{
-				movementSpeed = 1.f;
+				movementSpeed = 2.f;
 				activeEffect = 0;
 			}
 		} 

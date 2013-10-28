@@ -49,20 +49,6 @@ namespace Logic
 		}
 		case GAME_MENU:
 			inputHandler->updateMenu();
-			/*if(GetAsyncKeyState(VK_DOWN) != 0)
-			{
-				menu->moveDown();
-			}
-			else if(GetAsyncKeyState(VK_UP) != 0)
-			{
-				menu->moveUp();
-			}
-			else if(GetAsyncKeyState(VK_SPACE) != 0 || GetAsyncKeyState(VK_RETURN) != 0)
-			{
-				menu->confirm();*/
-				//if(menu->getSelectedOptionInt() == 0)
-				//	menu->close();
-			//}
 			menu->update(_dt);
 			if(!menu->isOpen())
 				Global::getInstance()->gameState = GAME_PLAY;
@@ -72,12 +58,7 @@ namespace Logic
 
 	GameLogic::~GameLogic()
 	{
-		/*SAFE_DELETE(camera);
-		SAFE_DELETE(pad);*/
 		SAFE_DELETE(inputHandler);
-		/*SAFE_DELETE(ball);
-		for(unsigned int i = 0; i < bricks.size(); i++)
-			SAFE_DELETE(bricks.at(i));*/
 		SAFE_DELETE(gameplay);
 		Resources::LoadHandler *lh = Resources::LoadHandler::getInstance();
 		SAFE_DELETE(lh);
