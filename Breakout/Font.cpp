@@ -9,6 +9,9 @@ Font::Font()
 
 void Font::loadFontSettings(std::string filePath)
 {
+#ifndef _WIN32
+    filePath = ExecPath::linuxPath + filePath.c_str();
+#endif
 	std::ifstream myfile (filePath);
 	if (myfile.is_open())
 	{

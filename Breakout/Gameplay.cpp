@@ -80,12 +80,8 @@ namespace Logic
 
 		physics->setBorderMaxX(physics->getBorderX() - (300 * (maxX/SCRWIDTH)));
 
-#ifdef _WIN32
 		objectCore->testFont->loadFontSettings("Fonts/blackwhite.txt");
-#else
-        std::string path = ExecPath::linuxPath + "Fonts/blackwhite.txt";
-		objectCore->testFont->loadFontSettings(path.c_str());
-#endif
+
 		std::vector<BBFont> test = std::vector<BBFont>();
 		objectCore->testFont->setImageIndex(7);
 		objectCore->testText->setFont(objectCore->testFont);

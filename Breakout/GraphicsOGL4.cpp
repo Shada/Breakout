@@ -400,6 +400,10 @@ void GraphicsOGL4::drawGame()
     glDrawArrays(GL_POINTS, 1, 1);
 
 	// lives
+
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     useTexture(51, UItex1ID);
 
 	startIndex	= objectCore->healthSymbol->getBufferIndex();
@@ -417,8 +421,6 @@ void GraphicsOGL4::drawGame()
 	//-----------------------------------------------------------------------------------
 	fontProgram->useProgram();
 	glDisable(GL_DEPTH_TEST);
-	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	feedTextBufferData();
 	glBindBuffer(GL_ARRAY_BUFFER, textBufferDynamic);
@@ -529,6 +531,9 @@ void GraphicsOGL4::drawMenu()
 
 		glDrawArrays(GL_POINTS, startIndex, vertexAmount);
 	}
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
@@ -876,7 +881,7 @@ void GraphicsOGL4::initRenderTargetsAndDepthBuffers()
 	glBindTexture(GL_TEXTURE_2D, reflRenderTarget);
 
 	// empty image
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCRWIDTH, SCRHEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
 
 	// linear filter
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -901,7 +906,7 @@ void GraphicsOGL4::initRenderTargetsAndDepthBuffers()
 	glBindTexture(GL_TEXTURE_2D, sceneRenderTarget);
 
 	// empty image
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCRWIDTH, SCRHEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCRWIDTH, SCRHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
 
 	// linear filter
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
